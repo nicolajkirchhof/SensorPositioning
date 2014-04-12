@@ -1,0 +1,54 @@
+function pc = directional(pc)
+%% DIRECTIONAL adds the q_sin quality values as separate constraints
+% 
+if pc.progress.model.directional
+    error('directional constraints can olny be added once');
+end
+
+if ~(pc.progress.model.coverage || pc.progress.model.distance)
+    error('no model has been created yet');
+end
+if ~pc.progress.sensorspace.quality.directional
+    pc = sensorspace.quality.directional(pc);
+end
+
+%%
+%%% For every workspace point a quality variable is created for every sensorcombination tha
+%       d12       d23         d34     qw1
+% 0 <=  .1         .2          .3      -1 <= inf
+
+% qw1_obj = -1
+
+qa_row_ids = cell2mat(pc.problem.sc_wp_idx(sub2ind(size(pc.problem.sc_wp_idx), pc.problem.sc_idx(:,1), pc.problem.sc_idx(:,2))));
+
+% pc.cplex = Cplex('sensorpositioning');
+pc.model.cplex.A = [pc.model.cplex.A; 
+                      pc.problem.sp_ij];
+pc.model.cplex.num_columns = size(pc.model.cplex.A, 2);
+pc.model.cplex.num_rows = size(pc.model.cplex.A, 1);
+pc.model.cplex.rhs = [pc.model.cplex.rhs;
+                        ones(size(pc.problem.sp_ij, 1),1)];
+pc.model.cplex.lhs = [pc.model.cplex.lhs;
+                        zeros(size(pc.problem.sp_ij, 1),1)];
+                    pc.progress.model.sameplace = true;
+
+for idr = 1:size(pc.problem.sp_ij, 1)
+    pc.model.cplex.rowname{end+1} = sprintf('sprow%d', idr);
+end
+
+pc.model.cplex.filename = [pc.model.cplex.filename '_sp'];
+
+
+% pc.cplex = Cplex('sensorpositioning');
+pc.model.coverage.A = double(pc.problem.xt_ij');
+pc.model.coverage.num_columns = size(pc.model.coverage.A, 2);
+pc.model.coverage.num_rows = size(pc.model.coverage.A, 1);
+pc.model.coverage.rhs = inf(pc.model.coverage.num_rows,1);
+pc.model.coverage.lhs = double(pc.problem.W(5,:)');
+pc.model.coverage.ctype = repmat('B', 1, pc.problem.num_sensors);
+pc.model.coverage.obj = ones(pc.problem.num_sensors, 1);
+pc.model.coverage.lb = zeros(pc.problem.num_sensors, 1);
+pc.model.coverage.ub = ones(pc.problem.num_sensors, 1);
+pc.model.sense = 'minimize';
+
+pc.model.cplex.filename = [pc.model.cplex.filename '_dir'];

@@ -1,0 +1,56 @@
+{
+	"wc": {
+		"name": null,
+		"environment_file": null,
+		"workspace": {
+			"number_of_positions": 100,
+			"min_position_distance": 0.1,
+			"max_position_distance": 0.1,
+			"seed": 0,
+			"grid_position_distance": 0.2,
+			"sampling_technique": "random",
+			"sampling_techniques": [
+						"random",
+						"grid",
+						"uniform"
+			],
+			"x_axis_grid_distance": 0.1,
+			"y_axis_grid_distance": 0.1
+		},
+		"sensorspace": {
+			"number_of_positions": 100,
+			"number_of_angles_per_position": 10,
+			"angles_sampling_technique": "uniform",
+			"angles_sampling_occurence": "within",
+			"min_position_distance": 0.1,
+			"max_position_distance": 0.5,
+			"uniform_position_distance": 0.2,
+			"uniform_angle_distance": 0.1745329252,
+			"use_overhead_positions": 0,
+			"position_sampling_technique": "uniform",
+			"seed": 0
+		},
+		"sensors": {
+			"fov": 45,
+			"distance": 10,
+			"cost": 1
+		},
+		"epsilon": 1e-009,
+		"snap_distance": 0.05,
+		"polyline_verticies": 100,
+		"poly": null,
+		"polycontour": null,
+		"polymatlab": null,
+		"cplex": null,
+		"k": 2,
+		"W": null,
+		"S": null,
+		"xt_ij": null,
+		"ct": null,
+		"t_sum": null,
+		"st_i": null,
+		"p_j": null,
+		"r_j": null,
+		"V": null
+	}
+}
