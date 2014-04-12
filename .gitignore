@@ -214,3 +214,6 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 *.mat
+*.gz
+*.aux
+*.pdf

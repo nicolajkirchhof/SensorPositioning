@@ -1,0 +1,45 @@
+
+% This file was created by matlab2tikz v0.4.0.
+% Copyright (c) 2008--2013, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+% 
+% 
+\documentclass[10pt,a4paper]{article}
+\usepackage[nomessages]{fp}% http://ctan.org/pkg/fp
+\usepackage[cmex10]{amsmath}
+\FPeval{\scale}{13/14}
+% \FPeval{\scale}{0.633333333}
+
+\setlength{\pdfpagewidth}{87mm}
+% \setlength{\pdfpageheight}{70mm}
+\setlength{\pdfpageheight}{\scale\pdfpagewidth}
+
+% width=\pdfpagewidth,
+% height=\pdfpageheight,
+
+\usepackage[text={\pdfpagewidth,\pdfpageheight},papersize={\pdfpagewidth,\pdfpageheight}]{geometry}
+\pagestyle{empty}
+% \usepackage[paperwidth=86mm,paperheight=32mm]{geometry}
+% \usepackage[paperwidth=5in,paperheight=3in]{geometry}
+% \setlength\parindent{0pt}
+% \pagestyle{empty}
+\usepackage{pgfplots}
+% 
+% and optionally (as of Pgfplots 1.3):
+\pgfplotsset{compat=newest}
+% \pgfplotsset{plot coordinates/math parser=false}
+% \newlength\figureheight
+% \newlength\figurewidth
+% \usepackage{tikz}
+\begin{document}
+\parindent0pt
+% \vfill
+\begin{center}
+\input{sensoroverlap.tex}
+\end{center}
+\end{document}
