@@ -1,0 +1,98 @@
+# NEVER USE TABS!
+--- #CornerBeacons, with pos: [x,y]
+Sensors:
+    - sensor:
+        pos: [-3.535, 0.185, 1.4]
+        id: 1
+    - sensor:
+        pos: [-0.245, 0.850, 1.4]
+        id: 2
+    - sensor:
+        pos: [-0.195, 3.754, 1.4]
+        id: 3
+    - sensor:
+        pos: [-3.435, 3.771, 1.4]
+        id: 4
+
+ReferencePoints:
+    - referencepoint:
+        pos: [-1.750 1.738]
+        id: 1
+    - referencepoint:
+        pos: [-1.150 1.738]
+        id: 2
+    - referencepoint:
+        pos: [-1.150 2.338]
+        id: 3
+    - referencepoint:
+        pos: [-1.750 2.338]
+        id: 4
+    - referencepoint:
+        pos: [-2.350 2.338]
+        id: 5
+    - referencepoint:
+        pos: [-2.350 1.738]
+        id: 6
+    - referencepoint:
+        pos: [-2.350 1.138]
+        id: 7
+    - referencepoint:
+        pos: [-1.750 1.138]
+        id: 8
+    - referencepoint:
+        pos: [-1.150 1.138]
+        id: 9
+    - referencepoint:
+        pos: [-0.550 1.138]
+        id: 10
+    - referencepoint:
+        pos: [-0.550 1.738]
+        id: 11
+    - referencepoint:
+        pos: [-0.550 2.338]
+        id: 12
+    - referencepoint:
+        pos: [-0.550 2.938]
+        id: 13    
+    - referencepoint:
+        pos: [-1.150 2.938]
+        id: 14
+    - referencepoint:
+        pos: [-1.750 2.938]
+        id: 15
+    - referencepoint:
+        pos: [-2.350 2.938]
+        id: 16
+    - referencepoint:
+        pos: [-2.950 2.938]
+        id: 17
+    - referencepoint:
+        pos: [-2.950 2.338]
+        id: 18
+    - referencepoint:
+        pos: [-2.950 1.738]
+        id: 19
+    - referencepoint:
+        pos: [-2.950 1.138]
+        id: 20
+    - referencepoint:
+        pos: [-2.950 0.538]
+        id: 21
+    - referencepoint:
+        pos: [-2.350 0.538]
+        id: 22    
+    - referencepoint:
+        pos: [-1.750 0.538]
+        id: 23    
+    - referencepoint:
+        pos: [-1.150 0.538]
+        id: 24    
+    - referencepoint:
+        pos: [-0.550 0.538]
+        id: 25
+    - referencepoint:
+        pos: [-3.550 2.938]
+        id: 26
+    - referencepoint:
+        pos: [-3.550 2.338]
+        id: 27

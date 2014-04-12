@@ -1,0 +1,234 @@
+Configuration:    
+    area: &area
+        Minimum: [-4; 0.000] 
+        Maximum: [0; 4] 
+    sensors:
+        thilo: &thilo_sensor_poses #sorted alphabetically
+            - &thilo_pose1 
+                Position:   &thilo_pose1_position
+                    [-3.535; 0.185; 1.4 ]
+                Orientation: &thilo_pose1_orientation
+                    [ 0;0;1.1781 ]
+                PositionVariance: &firstPositionVariance 
+                    #[0.1; 0.1; 0]
+                    [0.001; 0.001; 0]
+                OrientationVariance: &defaultOrientationVariance
+                    [0; 0; 0.15]
+                    #[0; 0; 0.15]    
+                Id :    e90a95d9-9874-4784-b04d-f2794b44897c
+            - &thilo_pose2 
+                Position:    &thilo_pose2_position
+                    [-3.535; 0.185; 1.4 ]
+                Orientation: &thilo_pose2_orientation
+                    [ 0;0;0.3927 ]
+                PositionVariance: *firstPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+                Id :    784e6961-b5f4-4db8-a16d-bb72d7d44297
+            - &thilo_pose3 
+                Position:    &thilo_pose3_position
+                    [ -0.245; 0.850; 1.4 ]
+                Orientation: &thilo_pose3_orientation
+                    [ 0;0;2.748893571891069 ]
+                PositionVariance: &defaultPositionVariance 
+                    #[0.1; 0.1; 0]
+                    [0.25; 0.25; 0]
+                OrientationVariance: *defaultOrientationVariance            
+                Id :    e4ed3b06-c233-4109-b6af-31f10b85c82d
+            - &thilo_pose4 
+                Position:    &thilo_pose4_position
+                     [ -0.245; 0.850; 1.4 ]
+                Orientation: &thilo_pose4_orientation
+                    [ 0;0;1.963495408493621 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance                
+                Id :    0b397e2b-bb67-4872-a490-4827ffa05466
+            - &thilo_pose5 
+                Position:    &thilo_pose5_position
+                    [ -0.195; 3.754; 1.4 ]
+                Orientation: &thilo_pose5_orientation
+                    [ 0;0;  -1.9635 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+                Id :    4eefbe00-4850-406b-b616-42d2bf0ad3cb
+            - &thilo_pose6 
+                Position:    &thilo_pose6_position
+                    [ -0.195; 3.754; 1.4 ]
+                Orientation: &thilo_pose6_orientation
+                     [ 0;0;   -2.7489 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance    
+                Id :    306717f0-0d51-4404-95d5-b0e1a8e96197
+            - &thilo_pose7 
+                Position:    &thilo_pose7_position
+                    [ -3.435; 3.771; 1.4]
+                Orientation: &thilo_pose7_orientation
+                    [ 0;0;  -0.3927 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+                Id :    9d7b0225-07de-494a-92b2-232c801d4fc8
+            - &thilo_pose8 
+                Position:    &thilo_pose8_position
+                   [ -3.435; 3.771; 1.4]
+                Orientation: &thilo_pose8_orientation
+                     [ 0; 0; -1.1781 ]  
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance 
+                Id :    02612c4c-b7ba-4231-987b-7385f4e49917                
+        
+    thilo:
+        variance: &thilo_variance 
+            [0.50 0.00 0.00 0.00 0.00 0.00 0.00 0.00;
+             0.00 0.50 0.00 0.00 0.00 0.00 0.00 0.00;
+             0.00 0.00 0.50 0.00 0.00 0.00 0.00 0.00;
+             0.00 0.00 0.00 0.50 0.00 0.00 0.00 0.00;
+             0.00 0.00 0.00 0.00 0.50 0.00 0.00 0.00;
+             0.00 0.00 0.00 0.00 0.00 0.50 0.00 0.00;
+             0.00 0.00 0.00 0.00 0.00 0.00 0.50 0.00;
+             0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.50]
+
+        preprocessor: &thilo_default_preprocessor 
+            !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Sequential
+            Items:
+            # - !ThILo.Detail.PreProcessor.RawToVoltage
+                # #Conversion: 0.004882812500000
+                # Conversion: 1
+            # - !ThILo.Detail.PreProcessor.PeakExtractor
+            #- !ThILo.Detail.PreProcessor.SignalValidation
+            #    InvalidMarker: nan
+            - !ThILo.Detail.PreProcessor.SignalSplitter
+            - !ThILo.Detail.PreProcessor.Calibration
+                Bias: [0;0;0;0;0;0;0;0]
+                PixelScale: [1.303216479942175; 1.152076677316294; 1.069553611152306; 1.014345991561181; 1.006419201786212;1.000000000000000;1.133605784344546;1.172492277678427]
+            
+        preprocessors: &thilo_preprocessor_list
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor 
+        
+            
+        sensorModel: &thiloModels
+            - &thiloModel1 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose1_position
+                Orientation: *thilo_pose1_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel2 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose2_position
+                Orientation: *thilo_pose2_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel3 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose3_position
+                Orientation: *thilo_pose3_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel4 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose4_position
+                Orientation: *thilo_pose4_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel5 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose5_position
+                Orientation: *thilo_pose5_orientation
+                Mean: [0;0]                                
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel6 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose6_position
+                Orientation: *thilo_pose6_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel7 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose7_position
+                Orientation: *thilo_pose7_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel8 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    *thilo_pose8_position
+                Orientation: *thilo_pose8_orientation
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+                
+        aoaextractors: &aoaextractors
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel1
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel2
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel3
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel4
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel5
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel6
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel7
+            - !Syscal.Detail.Preprocessor.LikelihoodAoaExtractor
+                sensor_object: *thiloModel8
+
+    optimization:
+        syscal_config:
+            !Syscal.Parameters.SyscalConfig
+            sensor_pose: &sensor_config
+                !Syscal.Parameters.Pose.SensorPose
+                sensor_config: *thilo_sensor_poses
+            measure_pose: &measure_config
+                !Syscal.Parameters.Pose.MeasurementPose
+                room: *area
+                #reference: *reference_points
+                PositionVariance: "room"  
+                # PositionVariance: [1 1 0 0 0 0]  
+            sensor_objects: *thiloModels
+            preprocessors: *thilo_preprocessor_list
+            physical_representation: "double"
+            # Bounded: false
+            Bounded: true
+        preprocessor:
+            !Syscal.Detail.Preprocessor.PixvalNormalizer
+                preprocessors: *thilo_preprocessor_list
+                aoaextractors: *aoaextractors
+        filter:
+            !Filter.Optimization.LsqNonlin
+            solver: "lsqnonlin"
+            objective_opt: "@Syscal.Detail.OptFcn.aoaATanDoubleSensors"
+            Display: true
+            options: &optimset
+                # Display: "none"
+                Display: "iter"
+                MaxFunEvals: 200000
+                MaxIter: 200000
+                PlotFcns: "@optimplotfval"
+                TolFun: 1e-12    
+                TolX: 1e-12
+                #Algorithm: 'levenberg-marquardt'
+                Algorithm: "trust-region-reflective"
+                Jacobian: "off"
+                JacobMult: []
+                DiffMaxChange: 0.7000
+                DiffMinChange: 1.0000e-004
+                #ScaleProblem: 'Jacobian'
+                #Default
+                # DiffMaxChange: 0.1000
+                # DiffMinChange: 1.0000e-008
+                # ScaleProblem: 'none'
+                    # Display:

@@ -1,0 +1,156 @@
+function  liveLocalization(sceneFile, configFile)
+    zmq_input_adr_list = {'tcp://127.0.0.1:44440'}
+    zmq_output_adr_list = {'tcp://*:50000'}
+    zmq_output_id =  'ThILo/Position/Estimate'
+    
+    % Just get the current path
+    dir = mfilename('fullpath');
+    pos = (dir == filesep);
+    lastPos = find(pos, 1, 'last');
+    baseDir = dir(1:lastPos);
+    paramDir = [baseDir, '+Parameters/'];
+   
+  
+    if nargin < 1
+        sceneFile  = [paramDir ,'P1-01-R106.scene.auto.yml'];
+        %sceneFile  = [paramDir ,'P1-01-R106.scene.auto.cal.yml'];
+    end
+    if nargin < 2
+        configFile = [paramDir ,'ThILo.config.yml'];
+    end
+    
+    config = Tools.Parser.parseYaml( {sceneFile, configFile} );
+    
+    Filtername =  'Cartesian2D_SMC_ThILo_Live';
+    
+    filter =  config.Filter.(Filtername).reset();
+    %%hack
+    sensors = config.Configuration.thilo.sensorModel;
+%     
+    
+    %recordList = Tools.List;
+    wb = Tools.Waitbar;
+    wb.UpdateInterval =eps;
+
+    
+    %% collect sensor ids
+    uuid_sensors = {};
+    for sensor_ = sensors
+        sensor = sensor_{1};
+        uuid = sensor.Id;
+        uuid_sensors{end+1} = uuid;
+    end
+    
+    %% init sockets
+    
+    
+    zmq.ctx = ZMQ.Context();
+    zmq.socket_num = 0;
+    for zmq_input_adr = zmq_input_adr_list
+        zmq.socket_num = zmq.socket_num+1;
+        zmq.socket{ zmq.socket_num } = zmq.ctx.socket(ZMQ.Defs.ZMQ_REQ);
+        zmq.socket{ zmq.socket_num }.connect( zmq_input_adr )
+        zmq.uuid{ zmq.socket_num }  = uuid_sensors; % potential all sensors
+    end
+    
+    zmq_publisher = zmq.ctx.socket(ZMQ.Defs.ZMQ_PUB);
+    for zmq_output_adr = zmq_output_adr_list
+        zmq_publisher.bind( zmq_output_adr );
+    end
+        
+    
+    it_progress = 0;
+    step_progress = 0.01;
+    while(true)
+        it_progress = it_progress + step_progress;
+        if it_progress >1  || it_progress<0
+            step_progress = -1 *step_progress;
+        end
+        
+        if wb.update(it_progress,'Running')
+            break;
+        end
+        tic
+        %update data
+        no_sensors = numel(sensors);
+        measurements = cell(1,no_sensors);
+        for it_sensor = 1:no_sensors
+            sensor = sensors{it_sensor};
+            req.uuid = sensor.Id;
+            req.key  = 'data';
+            measurements{it_sensor} = [];
+            for it_sock=1:zmq.socket_num
+                socket = zmq.socket{ it_sock };
+                uuids  = zmq.uuid{ it_sock };
+                
+                data_idx  = strcmp(req.uuid, uuids);
+                has_data = any(data_idx);
+                if ~has_data
+                    continue;
+                end
+                %request
+               
+                
+                socket.send(req.uuid,ZMQ.Defs.ZMQ_SNDMORE);
+                socket.send(req.key);
+                
+                [recv.uuid, has_more] = socket.recv();
+                [recv.key, has_more] = socket.recv();
+                [recv.timestamp, has_more] = socket.recv();
+                [recv.data, has_more] = socket.recv();
+                
+                recv.uuid  = char(recv.uuid);
+                recv.key   = char(recv.key);
+                if (strcmp(recv.key, '__exception__'))
+                    %disp(  Tools.Parser.parseJson( char(recv.data) ));
+                    zmq.uuid{it_sock}( data_idx ) = [];
+                    continue;
+                end
+                 temp_data= Tools.Parser.parseJson(char(recv.data));
+                 fields_ = fields(temp_data);
+                 no_fields = numel(fields_);
+                 for it_field=1:no_fields
+                     key = fields_{it_field};
+                     if iscell( temp_data.(key)) && all(cellfun(@isnumeric, temp_data.(key)))
+                         temp_data.(key) = cell2mat( temp_data.(key) );
+                     end
+                 end
+                 measurements{it_sensor} = temp_data;
+            end
+            
+        end
+        
+        %sanity check
+        no_connected_sensors = 0;
+        for it_sock = 1:zmq.socket_num
+            no_connected_sensors = no_connected_sensors + numel(zmq.uuid{it_sock});
+        end
+        assert( no_connected_sensors == no_sensors, 'Number of sensors mismatch');
+        %disp(measurements{1}.vp)
+        filter.step(measurements);
+        
+        %Send data
+        timestamp = sprintf('%f', now*100000);
+        %uuid = 'ThILo/Position';
+        %if ~isempty( filter.State.estimate.State )
+        %    filter.State.estimate.State(:,2) = [-1; 1];
+        %end
+        for it_state=1:size(filter.State.estimate.State,2)
+            uuid = [zmq_output_id,'/', int2str(it_state)];
+            key = 'data';%data_info %location, location_info
+            tmp_data.pose = filter.State.estimate.State(:,it_state);
+            
+            tmp_data.pose(3:6) = 0;
+            data = Tools.Parser.dumpJson(tmp_data);
+            % disp(data);
+            disp(data)
+            zmq_publisher.send(uuid, ZMQ.Defs.ZMQ_SNDMORE);
+            zmq_publisher.send(key, ZMQ.Defs.ZMQ_SNDMORE);
+            zmq_publisher.send(timestamp, ZMQ.Defs.ZMQ_SNDMORE);
+            zmq_publisher.send(data);
+        end
+        disp(filter.State.estimate.State);
+        toc
+    end
+    
+end

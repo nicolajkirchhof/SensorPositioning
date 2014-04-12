@@ -1,0 +1,46 @@
+    optimization:
+        syscal_config:
+            !Syscal.Parameters.SyscalConfig
+            sensor_pose: &sensor_config
+                !Syscal.Parameters.Pose.SensorPose
+                sensor_config: *thilo_sensor_poses
+            measure_pose: &measure_config
+                !Syscal.Parameters.Pose.MeasurementPose
+                room: *area
+                # reference: *reference_points
+                PositionVariance: "room"  
+                # PositionVariance: [1 1 0 0 0 0]  
+            sensor_objects: *thiloModels
+            preprocessors: *thilo_preprocessor_list
+            physical_representation: "double"
+            # Bounded: false
+            Bounded: true
+        preprocessor:
+            !Syscal.Detail.Preprocessor.PixvalNormalizer
+                preprocessors: *thilo_preprocessor_list
+                aoaextractors: *aoaextractors
+        filter:
+            !Filter.Optimization.LsqNonlin
+            solver: "lsqnonlin"
+            objective_opt: "@Syscal.Detail.OptFcn.aoaAtanDoubleSensorsDrop"
+            Display: true
+            options: &optimset
+                # Display: "none"
+                Display: "iter"
+                MaxFunEvals: 200000
+                MaxIter: 35
+                PlotFcns: "@optimplotfval"
+                TolFun: 1e-12    
+                TolX: 1e-12
+                #Algorithm: 'levenberg-marquardt'
+                Algorithm: "trust-region-reflective"
+                Jacobian: "off"
+                JacobMult: []
+                DiffMaxChange: 0.7000
+                DiffMinChange: 1.0000e-004
+                #ScaleProblem: 'Jacobian'
+                #Default
+                # DiffMaxChange: 0.1000
+                # DiffMinChange: 1.0000e-008
+                # ScaleProblem: 'none'
+                    # Display:
