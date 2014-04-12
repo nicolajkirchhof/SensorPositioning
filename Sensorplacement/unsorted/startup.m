@@ -1,0 +1,23 @@
+%% init
+p = fileparts(mfilename('fullpath'));
+dbstop if error
+
+%% load libs
+run extensions.matlab/lib/ext_all.m
+addpath([p filesep 'src']);
+% addpath example/matlab/
+
+%% fix for zeus
+% set(0, 'DefaultFigurePosition', get(0, 'FactoryFigurePosition'))
+cplxdir1 = [getenv('home') '\PortableApps\cplex\cplex\matlab\x64_win64'];
+% cplxdir2 = '~/opt/ibm/ILOG/CPLEX_Studio124/cplex/matlab/';
+
+if exist(cplxdir1, 'dir')
+    addpath(cplxdir1);
+    addpath([getenv('home') '\PortableApps\Cplex\cplex\examples\src\matlab']);
+    addpath([getenv('home') '\PortableApps\cplex\cplex\matlab\x64_win64\help']);
+% elseif exist(cplxdir2, 'dir')
+    % addpath(cplxdir2);
+end
+
+clear cplxdir1 cplxdir2 p
