@@ -1,0 +1,86 @@
+﻿<Window x:Class="Irf.It.Thilo.Ipsim.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ht="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+        xmlns:t="clr-namespace:_3DTools;assembly=3DTools"
+        xmlns:local="clr-namespace:Irf.It.Thilo.Ipsim.View"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="MainWindow" Height="600" Width="800">
+    <Window.Resources>
+        <ht:LinearConverter x:Key="Multiplier" M="0.5"/>
+        <DataTemplate x:Key="childTemplate">
+            <!--ItemsSource="{Binding Subordinates}">-->
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=Name}" />
+                <!--<TextBlock Text="{Binding Path=Age}" />-->
+            </StackPanel>
+        </DataTemplate>
+        <!--<local:IpObjectConverter x:Key="IpObjectConverter1" />-->
+    </Window.Resources>
+    <DockPanel >
+        <DockPanel DockPanel.Dock="Top" >
+            <Button x:Name="buttonAddSensor" MinHeight="20" Content="Add Sensor" Click="buttonAddSensor_Click" />
+            <Button x:Name="buttonAddWall" MinHeight="20" Content="Add Wall" Click="buttonAddWall_Click" />
+            <Button x:Name="buttonAddLocPoint" MinHeight="20" Content="Add Loc. Point" Click="buttonAddLocPoint_Click" />
+            <Label Content="Visible Modifier:"/>
+            <Button x:Name="testing" Content="Hide" Background="Green" Click="testing_Click" />
+            <TextBox />
+        </DockPanel>
+        <!--SelectedObject="{Binding ElementName=contentTree, Path=SelectedItem.Object, Converter={StaticResource IpObjectConverter1}}"-->
+        <xctk:PropertyGrid x:Name="proptertyGrid"  SelectedObject="{Binding ElementName=contentTree, Path=SelectedItem.Object.BaseObject}" DockPanel.Dock="Right" ShowAdvancedOptions="True" IsCategorized="True" DisplaySummary="True" GotFocus="proptertyGrid_GotFocus"/>
+        <TreeView x:Name="contentTree" MinWidth="70" DockPanel.Dock="Right">
+            <TreeViewItem Header="Sensors" x:Name="sensorTree" ItemTemplate="{StaticResource childTemplate}"/>
+            <TreeViewItem Header="Objects" x:Name="objectsTree" ItemTemplate="{StaticResource childTemplate}"/>
+            <TreeViewItem Header="Walls" x:Name="wallsTree" ItemTemplate="{StaticResource childTemplate}"/>
+        </TreeView>
+        <DockPanel DockPanel.Dock="Bottom">
+            <Button x:Name="buttonBack">
+                <Grid Width="24" Height="24" Visibility="Visible">
+                    <Rectangle Fill="#FF000000" Visibility="Visible" />
+                    <Path Data="F1M820.557,535.025L838.189,535.024 817.857,555.36 857.82,555.36 857.82,568.301 817.998,568.301 838.226,588.531 820.557,588.499 793.82,561.765 820.557,535.025z" Stretch="Uniform" Fill="#FFFFFFFF" Width="26" Height="26" Margin="0,0,0,0" />
+                </Grid>
+            </Button>
+            <Button x:Name="buttonPlay" >
+                <Grid Width="24" Height="24" Visibility="Visible">
+                    <Rectangle Fill="#FF000000" Visibility="Visible" />
+                    <Path Data="F1M-1787.63,-519.435C-1784.91,-521.546,-1784.91,-524.996,-1787.63,-527.107L-1799.83,-536.568C-1802.55,-538.676,-1807,-542.128,-1809.72,-544.24L-1821.91,-553.698C-1824.63,-555.809,-1826.86,-554.106,-1826.86,-549.92L-1826.86,-530.883 -1826.86,-515.658 -1826.86,-496.625C-1826.86,-492.437,-1824.63,-490.735,-1821.91,-492.844L-1809.72,-502.302C-1807,-504.416,-1802.55,-507.866,-1799.83,-509.978L-1787.63,-519.435z" Stretch="Uniform" Fill="#FFFFFFFF" Width="18" Height="18" Margin="0,0,0,0" />
+                </Grid>
+            </Button>
+            <Button x:Name="buttonForward">
+                <Grid Width="24" Height="24" Visibility="Visible">
+                    <Rectangle Fill="#FF000000" Visibility="Visible" />
+                    <Path Data="F1M916.417,587.643L898.784,587.644 919.117,567.308 879.154,567.308 879.154,554.367 918.976,554.367 898.748,534.137 916.417,534.169 943.154,560.903 916.417,587.643z" Stretch="Uniform" Fill="#FFFFFFFF" Width="26" Height="26" Margin="0,0,0,0" />
+                </Grid>
+            </Button>
+            <TextBox />
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom">
+            <Slider />
+        </DockPanel>
+        <ht:HelixViewport3D x:Name="viewSimulation" ShowFrameRate="True" InfiniteSpin="True" ModelUpDirection="0,0,1" ShowCoordinateSystem="True" ShowCameraInfo="True" Orthographic="True">
+            <ht:DefaultLights/>
+            <!--<t:ScreenSpaceLines3D Points="{Binding Points}" Color="Black" Thickness="1"/>-->
+            <ht:GridLinesVisual3D Normal="0,0,1" LengthDirection="1,0,0"/>
+
+            <!--<ht:CoordinateSystemVisual3D ArrowLengths="2" />-->
+
+            <!--<local:SensorVisual3D x:Name="sensor1" />-->
+            <!--<ht:CombinedManipulator TargetTransform="{Binding Transform, ElementName=sensor1}"/>-->
+
+            <!--<local:SensorElement3D />-->
+            <!--<local:SensorContainer3D />-->
+
+            <!--ht:SphereVisual3D x:Name="sphere1" Center="-8,0,0" Fill="Orange"/>
+                <ht:TranslateManipulator Color="Black" Position="-8,0,0" Offset="0,0,0.5" Length="1" Value="{Binding Height, ElementName=sphere1, Converter={StaticResource Multiplier}}" Direction="0,0,1"/>
+                <ht:TranslateManipulator Color="Black" Position="-8,0,0" Offset="0,0.5,0" Length="1" Value="{Binding Width, ElementName=sphere1, Converter={StaticResource Multiplier}}" Direction="0,1,0"/>
+                <ht:TranslateManipulator Color="Black" Position="-8,0,0" Offset="0.5,0,0" Length="1" Value="{Binding Length, ElementName=sphere1, Converter={StaticResource Multiplier}}" Direction="1,0,0"/> -->
+
+            <!--<ht:PointsVisual3D Points="{Binding Points}"  Size="10" Color="CadetBlue"/>-->
+            <!--<local:DemoElement3D>-->
+            <!--<local:DemoElement3D.Transform>
+                    <TranslateTransform3D OffsetX="-5" OffsetY="0" OffsetZ="0"/>
+                </local:DemoElement3D.Transform>-->
+            <!--</local:DemoElement3D>-->
+        </ht:HelixViewport3D>
+    </DockPanel>
+</Window>

@@ -1,0 +1,503 @@
+Configuration:    
+    area: &area
+        Minimum: [0.000; 0.000] 
+        Maximum: [5.000; 5.000] 
+    sensors:
+        thilo: #sorted alphabetically
+            - &thilo_pose1 
+                Position:    [ 0; 0; 1.5 ]
+                Orientation: [ 0; 0; 1.204277183876087 ] 
+                PositionVariance: &defaultPositionVariance 
+                    [0.1; 0.1; 0]
+                OrientationVariance: &defaultOrientationVariance
+                    [0; 0; 0.2]
+            - &thilo_pose2 
+                Position:    [ 0; 0; 1.5 ]
+                Orientation: [ 0;0;0.392699081698724 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+            - &thilo_pose3 
+                Position:    [ 5.0; 0; 1.5]
+                Orientation: [ 0;0;2.748893571891069 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+            - &thilo_pose4 
+                Position:    [ 5.0; 0; 1.5]
+                Orientation: [ 0;0;1.963495408493621 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+            - &thilo_pose5 
+                Position:    [ 5.0; 5.0; 1.5 ]
+                Orientation: [ 0;0; -1.823869068334074 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+            - &thilo_pose6 
+                Position:    [ 5.0; 5.0; 1.5 ]
+                Orientation: [ 0;0;  -2.617993877991494 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance
+            - &thilo_pose7 
+                Position:    [ 0.0; 5.000; 1.2]
+                Orientation: [ 0;0;  -0.532325421858270 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance                
+            - &thilo_pose8 
+                Position:    [ 0.0; 5.000; 1.2]
+                Orientation: [ 0; 0; -1.317723585255719 ]
+                PositionVariance: *defaultPositionVariance
+                OrientationVariance: *defaultOrientationVariance                
+    
+    problem:
+        solver: "lsqnonlin"
+        objective: "@Syscal.Detail.OptFcn.likelihood"
+        optimset: &optimset
+            Display: "iter"
+            MaxFunEvals: 200000
+            MaxIter: 200000
+            PlotFcns: "@optimplotfval"
+            TolFun: 1e-8    
+            TolX: 1e-8
+            Algorithm: "active-set"
+        
+    thilo:
+        variance: &thilo_variance 
+            [0.50 0.00 0.00 0.00 0.00 0.00 0.00 0.00;
+             0.00 0.50 0.00 0.00 0.00 0.00 0.00 0.00;
+             0.00 0.00 0.50 0.00 0.00 0.00 0.00 0.00;
+             0.00 0.00 0.00 0.50 0.00 0.00 0.00 0.00;
+             0.00 0.00 0.00 0.00 0.50 0.00 0.00 0.00;
+             0.00 0.00 0.00 0.00 0.00 0.50 0.00 0.00;
+             0.00 0.00 0.00 0.00 0.00 0.00 0.50 0.00;
+             0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.50]
+
+        preprocessor: &thilo_default_preprocessor 
+            !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Sequential
+            Items:
+            - !ThILo.Detail.PreProcessor.Proxy.SavitzkyGolay
+            - !ThILo.Detail.PreProcessor.Calibration
+                Bias: [0;0;0;0;0;0;0;0]
+                PixelScale: [1.303216479942175; 1.152076677316294; 1.069553611152306; 1.014345991561181; 1.006419201786212;1.000000000000000;1.133605784344546;1.172492277678427]
+            - !ThILo.Detail.PreProcessor.RawToVoltage
+                Conversion: 0.004882812500000
+            - !ThILo.Detail.PreProcessor.PeakExtractor
+            
+        preprocessors: &thilo_preprocessor_list
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor      
+            - *thilo_default_preprocessor 
+    
+        sensorModel: &thiloModels
+            - &thiloModel1 !ThILo.Detail.Model.Sensor.StCartesian
+                Position: [ 0.928; 0; 1.2 ]
+                Orientation: [ 0;0;1.204277183876087 ]
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel2 !ThILo.Detail.Model.Sensor.StCartesian
+                Position: [ 0.928; 0; 1.2 ]
+                Orientation: [ 0;0;0.392699081698724 ]
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel3 !ThILo.Detail.Model.Sensor.StCartesian
+                Position: [ 5.883; 0; 1.2]
+                Orientation: [ 0;0;2.748893571891069 ]
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel4 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    [ 5.883; 0; 1.2]
+                Orientation: [ 0;0;1.963495408493621 ]
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel5 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    [ 5.830; 6.378; 1.2 ]
+                Orientation: [ 0;0; -1.823869068334074 ]
+                Mean: [0;0]                                
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel6 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    [ 5.830; 6.378; 1.2 ]
+                Orientation: [ 0;0;  -2.617993877991494 ]
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel7 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    [ 1.018; 6.350; 1.2]
+                Orientation: [ 0;0;  -0.532325421858270 ]
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+
+            - &thiloModel8 !ThILo.Detail.Model.Sensor.StCartesian
+                Position:    [ 1.018; 6.350; 1.2]
+                Orientation: [ 0; 0; -1.317723585255719 ]   
+                Mean: [0;0]
+                Variance: *thilo_variance
+                StateIdx: [1 2]
+                           
+        # correctors: &thilo_smc_corrector_list
+            # # ThILo nodes
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode1
+                    # SensorModel: *thiloModel1
+                    # SensorNoiseModel: *thiloModel1
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel1
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel1
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode2
+                    # SensorModel: *thiloModel2
+                    # SensorNoiseModel: *thiloModel2
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel2
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel2
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode3
+                    # SensorModel: *thiloModel3
+                    # SensorNoiseModel: *thiloModel3
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel3
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel3
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode4
+                    # SensorModel: *thiloModel4
+                    # SensorNoiseModel: *thiloModel4
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel4
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel4
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5                            
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode5
+                    # SensorModel: *thiloModel5
+                    # SensorNoiseModel: *thiloModel5
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel5
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel5
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode6
+                    # SensorModel: *thiloModel6
+                    # SensorNoiseModel: *thiloModel6
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel6
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel6
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode7
+                    # SensorModel: *thiloModel7
+                    # SensorNoiseModel: *thiloModel7
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel7
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel7
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5
+            # -   !Filter.PHD.SMC.Corrector
+                    # Id: AbxNode8
+                    # SensorModel: *thiloModel8
+                    # SensorNoiseModel: *thiloModel8
+                    # DetectionModel: !ThILo.Detail.Model.Detection.Meta.Product
+                        # Items:
+                            # - !ThILo.Detail.Model.Detection.Irradiance
+                                # Sensor: *thiloModel1
+                            # #- !ThILo.Detail.Model.Detection.Constant
+                            # #    Value:  &thiloDetectionTreshold
+                            # #        0.85 
+                            # - !ThILo.Detail.Model.Detection.FieldOfView
+                                # Sensor:  *thiloModel1
+                    # ClutterDistribution: !Distribution.RFS.IIDClusterProcess                            
+                        # Intensity: !Distribution.Continuous.Constant
+                           # Value:  0
+                        # Cardinality: !Distribution.Discrete.Poisson
+                           # ExpectedNoOccurrences: 0
+                    # #MaxNoTargets: 5           
+              
+# ##############################
+    # General:
+        # common:
+            # numSamplesPerTarget: &numSamplesPerTarget
+                # 500
+            # predictor: &common_smc_predictor !Filter.PHD.SMC.Predictor
+                # TimeStep: 0.0667 # 15 Hz
+                # ProcessModel: !Model.Process.Cartesian
+                    # StateIdx: [1 2]
+
+                # ProcessNoiseModel: !Distribution.Continuous.Gaussian
+                    # Mean: [0;0]
+                    # Variance: [0.015 0.00;0.00 0.015] # make 0.1 meter stddeviatio per frame 1.5 M per second?!?!
+
+                # SpawnDistribution: []
+                # NumParticlesByBirth: 100
+                # NumParticlesBySpawning: 0
+                # SurvivalModel: !ThILo.Detail.Model.Survival.Extend
+                    # <<: *area
+                    # Value: 0.99
+                    
+            # thilo_predictor: &thilo_smc_predictor 
+                # <<: *common_smc_predictor
+                # BirthDistribution: !Distribution.RFS.IIDClusterProcess
+                    # Intensity:  !ThILo.Detail.Model.Birth.BestCrossings
+                        # <<: *area
+                        # SensorModel:
+                            # <<: *thiloModels
+                        # MeasurementIdx: [1 2 3 4 5 6 7 8]
+                    # Cardinality: !Distribution.Discrete.Poisson
+                       # ExpectedNoOccurrences: 0.0005  # Makes 0.25 per second 
+                                   
+            # smc_hypotheses_smooter: &smc_hypotheses_smoother !Filter.Meta.Smoother.Hypotheses.PHD.SMC.FIR
+                # Cardinality: #This needs a change
+                    # # Hypotheses:
+                    # Filter: !Filter.Digital.FIR.Filter
+                        # NumTabs: 45
+                    # #Extractor: !Filter.Digital.FIR.Extractor.MovingAverage.Spencer15
+                    # Extractor: !Filter.Digital.FIR.Extractor.MovingAverage.EqualWeight
+                # Intensity: []        
+                
+            # extractor: &smc_extractor !Filter.PHD.SMC.Extractor
+                # ClusteringMethod: !Math.Clustering.kmedoid
+                # #ClusteringMethod: !Math.Clustering.kmeans
+                # #ClusteringMethod: !Math.Clustering.DBScan #this should be divided into cluster association and point extraction
+# ##################################################################
+# Filter:
+    # Cartesian2D_SMC_ThILo_JL_1_1: !Example 
+            # # Preprocessing
+            # preprocessor: !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Parallel
+                # Items: *thilo_preprocessor_list
+            
+            # # Filtering
+            # filter: !Filter.Meta.Sequential.Passthrough
+                # Items :
+                    # - *thilo_smc_predictor
+                    # - !Filter.Meta.Parallel.Parallel 
+                        # Items : *thilo_smc_corrector_list
+                    # - !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Splitter                        
+                        # Intensity:   !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Intensity.JointLikelihood
+                            # MinOrder: 1
+                            # MaxOrder: 1
+                        # Cardinality: !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Cardinality.Average
+                    # - !Filter.Meta.Resampler.Hypotheses.PHD.SMC.LowVariance
+                         # NumSamplesPerTarget: *numSamplesPerTarget
+                    # - *smc_hypotheses_smoother
+
+            # # Extract Data 
+            # extractor: *smc_extractor        
+            # # Track labeling
+            # #tracker: 
+            # #    Filter: !Filter.TrackAssignment.NearestNeighbour
+            # #        MaxDistance: 1
+            # #        TimeToLive: 60
+            # #    Extractor: !Filter.TrackAssignment.Extractor   
+
+# ##################################################################
+    # Cartesian2D_SMC_ThILo_JL_2_2: !Example 
+            # # Preprocessing
+            # preprocessor: !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Parallel
+                # Items: *thilo_preprocessor_list
+            
+            # # Filtering
+            # filter: !Filter.Meta.Sequential.Passthrough
+                # Items :
+                    # - *thilo_smc_predictor
+                    # - !Filter.Meta.Parallel.Parallel 
+                        # Items : *thilo_smc_corrector_list
+                    # - !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Splitter                        
+                        # Intensity:   !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Intensity.JointLikelihood
+                            # MinOrder: 2
+                            # MaxOrder: 2
+                        # Cardinality: !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Cardinality.Average
+                    # - !Filter.Meta.Resampler.Hypotheses.PHD.SMC.LowVariance
+                         # NumSamplesPerTarget: *numSamplesPerTarget
+                    # - *smc_hypotheses_smoother
+
+            # # Extract Data 
+            # extractor: *smc_extractor        
+            # # Track labeling
+            # #tracker: 
+            # #    Filter: !Filter.TrackAssignment.NearestNeighbour
+            # #        MaxDistance: 1
+            # #        TimeToLive: 60
+            # #    Extractor: !Filter.TrackAssignment.Extractor   
+
+
+# ##################################################################
+    # Cartesian2D_SMC_ThILo_JL_1_2: !Example 
+            # # Preprocessing
+            # preprocessor: !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Parallel
+                # Items: *thilo_preprocessor_list
+            
+            # # Filtering
+            # filter: !Filter.Meta.Sequential.Passthrough
+                # Items :
+                    # - *thilo_smc_predictor
+                    # - !Filter.Meta.Parallel.Parallel 
+                        # Items : *thilo_smc_corrector_list
+                    # - !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Splitter                        
+                        # Intensity:   !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Intensity.JointLikelihood
+                            # MinOrder: 1
+                            # MaxOrder: 2
+                        # Cardinality: !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Cardinality.Average
+                    # - !Filter.Meta.Resampler.Hypotheses.PHD.SMC.LowVariance
+                         # NumSamplesPerTarget: *numSamplesPerTarget
+                    # - *smc_hypotheses_smoother
+
+            # # Extract Data 
+            # extractor: *smc_extractor        
+            # # Track labeling
+            # #tracker: 
+            # #    Filter: !Filter.TrackAssignment.NearestNeighbour
+            # #        MaxDistance: 1
+            # #        TimeToLive: 60
+            # #    Extractor: !Filter.TrackAssignment.Extractor   
+
+          
+# ##################################################################                    
+
+    # Cartesian2D_SMC_ThILo_JL_1_inf: !Example 
+            # # Preprocessing
+            # preprocessor: !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Parallel
+                # Items: *thilo_preprocessor_list
+            
+            # # Filtering
+            # filter: !Filter.Meta.Sequential.Passthrough
+                # Items :
+                    # - *thilo_smc_predictor
+                    # - !Filter.Meta.Parallel.Parallel 
+                        # Items : *thilo_smc_corrector_list
+                    # - !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Splitter                        
+                        # Intensity:   !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Intensity.JointLikelihood
+                            # MinOrder: 1
+                            # MaxOrder: inf
+                        # Cardinality: !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Cardinality.Average
+                    # - !Filter.Meta.Resampler.Hypotheses.PHD.SMC.LowVariance
+                         # NumSamplesPerTarget: *numSamplesPerTarget
+                    # - *smc_hypotheses_smoother
+
+            # # Extract Data 
+            # extractor: *smc_extractor        
+            # # Track labeling
+            # #tracker: 
+            # #    Filter: !Filter.TrackAssignment.NearestNeighbour
+            # #        MaxDistance: 1
+            # #        TimeToLive: 60
+            # #    Extractor: !Filter.TrackAssignment.Extractor   
+
+# ##################################################################
+    # Cartesian2D_SMC_ThILo_JL_2_inf: !Example 
+            # # Preprocessing
+            # preprocessor: !WPNC_Dresden_2011.Detail.PreProcessor.Meta.Parallel
+                # Items: *thilo_preprocessor_list
+            
+            # # Filtering
+            # filter: !Filter.Meta.Sequential.Passthrough
+                # Items :
+                    # - *thilo_smc_predictor
+                    # - !Filter.Meta.Parallel.Parallel 
+                        # Items : *thilo_smc_corrector_list
+                    # - !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Splitter                        
+                        # Intensity:   !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Intensity.JointLikelihood
+                            # MinOrder: 2
+                            # MaxOrder: inf
+                        # Cardinality: !Filter.Meta.Reducer.Hypotheses.PHD.SMC.Cardinality.Average
+                    # - !Filter.Meta.Resampler.Hypotheses.PHD.SMC.LowVariance
+                         # NumSamplesPerTarget: *numSamplesPerTarget
+                    # - *smc_hypotheses_smoother
+
+            # # Extract Data 
+            # extractor: *smc_extractor        
+            # # Track labeling
+            # #tracker: 
+            # #    Filter: !Filter.TrackAssignment.NearestNeighbour
+            # #        MaxDistance: 1
+            # #        TimeToLive: 60
+            # #    Extractor: !Filter.TrackAssignment.Extractor   

@@ -1,0 +1,49 @@
+---    
+scene: 
+    area: &area
+        Minimum: [-4; 0.000] 
+        Maximum: [0; 4] 
+    sensors:
+        thilo: 
+            - &thilo_pose1 
+                Position:    [-3.535; 0.185; 1.4 ]
+                Orientation: [ 0;0;1.1781 ]
+                Id : Physic01/Floor01/Room106/becbe368-a324-4969-8490-154889605671
+            - &thilo_pose2 
+                Position:    [-3.535; 0.185; 1.4 ]
+                Orientation: [ 0;0;0.3927 ]
+                Id : Physic01/Floor01/Room106/18849a0e-da59-4a4c-9543-2da2a3cdb997
+
+            - &thilo_pose3 
+                Position:    [ -0.245; 0.850; 1.4 ]
+                Orientation: [ 0;0;2.748893571891069 ]
+                Id : Physic01/Floor01/Room106/87eca6e4-49df-4255-bc21-034bc99fd4a2
+
+            - &thilo_pose4 
+                Position:    [ -0.245; 0.850; 1.4 ]
+                Orientation: [ 0;0;1.963495408493621 ]
+                Id : Physic01/Floor01/Room106/70e93013-9d94-496b-bdf4-e49d6f9cf0e2
+
+            - &thilo_pose5 
+                Position:    [ -0.195; 3.754; 1.4 ]
+                Orientation: [ 0;0;  -1.9635 ]
+                Id : Physic01/Floor01/Room106/17da093d-205c-416a-8142-7cf3fc7ea32a
+
+            - &thilo_pose6 
+                Position:    [ -0.195; 3.754; 1.4 ]
+                Orientation: [ 0;0;   -2.7489 ]
+                Id : Physic01/Floor01/Room106/a7f1d92a-82c8-48fe-834d-98558ce2b347
+
+            - &thilo_pose7 
+                Position:    [ -3.435; 3.771; 1.4]
+                Orientation: [ 0;0;  -0.3927 ]
+                Id : Physic01/Floor01/Room106/23b10d8e-5300-4250-8a59-64a1fc27a0c1
+
+            - &thilo_pose8 
+                Position:    [ -3.435; 3.771; 1.4]
+                Orientation: [ 0; 0; -1.1781 ]   
+                Id : Physic01/Floor01/Room106/0181243c-2f0d-4162-9716-0ff449cad5d7
+
+   
+
+                       
