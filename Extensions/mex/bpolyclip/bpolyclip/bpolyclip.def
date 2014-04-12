@@ -1,0 +1,4 @@
+LIBRARY "bpolyclip.mexw64"
+
+EXPORTS
+mexFunction

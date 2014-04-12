@@ -1,0 +1,1 @@
+mex -v binpolygon.cpp -I/home/nico/libs/boost-trunk

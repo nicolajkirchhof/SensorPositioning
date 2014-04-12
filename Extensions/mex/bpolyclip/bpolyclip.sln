@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bpolyclip_batch", "bpolyclip_batch\bpolyclip_batch.vcxproj", "{FCF716D4-3D35-4C8E-B8F9-48988760B9CA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6} = {05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bpolyclip", "bpolyclip\bpolyclip.vcxproj", "{05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bpolyclip_test", "bpolyclip_test\bpolyclip_test.vcxproj", "{E0271761-EE1D-44C0-A17E-3D914B752F9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCF716D4-3D35-4C8E-B8F9-48988760B9CA}.Debug|x64.ActiveCfg = Debug|x64
+		{FCF716D4-3D35-4C8E-B8F9-48988760B9CA}.Debug|x64.Build.0 = Debug|x64
+		{FCF716D4-3D35-4C8E-B8F9-48988760B9CA}.Release|x64.ActiveCfg = Release|x64
+		{FCF716D4-3D35-4C8E-B8F9-48988760B9CA}.Release|x64.Build.0 = Release|x64
+		{05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6}.Debug|x64.ActiveCfg = Debug|x64
+		{05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6}.Debug|x64.Build.0 = Debug|x64
+		{05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6}.Release|x64.ActiveCfg = Release|x64
+		{05ED5FA4-6998-4C9A-9CA1-7A3CECAC76E6}.Release|x64.Build.0 = Release|x64
+		{E0271761-EE1D-44C0-A17E-3D914B752F9F}.Debug|x64.ActiveCfg = Debug|x64
+		{E0271761-EE1D-44C0-A17E-3D914B752F9F}.Debug|x64.Build.0 = Debug|x64
+		{E0271761-EE1D-44C0-A17E-3D914B752F9F}.Release|x64.ActiveCfg = Release|x64
+		{E0271761-EE1D-44C0-A17E-3D914B752F9F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
