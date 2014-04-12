@@ -1,0 +1,20 @@
+//Environment Model
+//Outer Boundary x-y coordinates listed counterclockwise
+0500  0000
+8187  0000
+8187  4937
+0500  4937
+//Hole x-y coordinates listed clockwise
+1375  1687
+1375  4187
+4312  4187
+4312  3476
+2873  3476
+2873  1687
+//Hole x-y coordinates listed clockwise
+3750  1000
+3750  2437
+6000  2437
+6000  4187
+7125  4187
+7125  1000

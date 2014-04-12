@@ -1,0 +1,10 @@
+// 4 sided regular polygon 
+0 0
+6000 0
+6000 6000
+0 6000
+//Hole x-y coordinates listed clockwise
+3000 3000
+3000 4000
+4000 4000
+3000 0

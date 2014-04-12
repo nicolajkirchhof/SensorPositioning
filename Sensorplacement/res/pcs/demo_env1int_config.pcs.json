@@ -1,0 +1,45 @@
+{
+	"pc" : {
+		"name" : null,
+		"environment_file" : "C:\\Users\\Nico/workspace/sensorplacement.thilo/src/matlab/../../res/example1_int.environment",
+		"workspace" : {
+			"number_of_positions" : 100,
+			"min_position_distance" : 300,
+			"max_position_distance" : 300,
+			"seed" : 0,
+			"grid_position_distance" : 200,
+			"sampling_technique" : "random",
+			"x_axis_grid_distance" : 100,
+			"y_axis_grid_distance" : 100,
+			"wall_distance" : 100,
+			"quality" : 800,
+			"quality_technique" : "uniform",
+			"priority" : 1,
+			"priority_technique" : 1,
+			"coverage" : 2,
+			"coverage_technique" : 2
+		},
+		"sensorspace" : {
+			"number_of_positions" : 100,
+			"number_of_angles_per_position" : 10,
+			"angles_sampling_technique" : "uniform",
+			"angles_sampling_occurence" : "within",
+			"min_position_distance" : 100,
+			"max_position_distance" : 500,
+			"uniform_position_distance" : 400,
+			"uniform_angle_distance" : 0.1745329252,
+			"use_overhead_positions" : 0,
+			"position_sampling_technique" : "uniform",
+			"seed" : 0
+		},
+		"sensors" : {
+			"fov" : 45,
+			"distance" : 10,
+			"cost" : 1
+		},
+		"epsilon" : 1,
+		"snap_distance" : 50,
+		"valid_poly_area" : 10,
+		"polyline_verticies" : 100,
+	}
+}
