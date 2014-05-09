@@ -9,13 +9,13 @@ addpath([p filesep 'src']);
 
 %% fix for zeus
 % set(0, 'DefaultFigurePosition', get(0, 'FactoryFigurePosition'))
-cplxdir1 = [getenv('home') '\PortableApps\cplex\cplex\matlab\x64_win64'];
+cplxdir1 = [getenv('home') '\App\cplex\cplex\matlab\x64_win64'];
 % cplxdir2 = '~/opt/ibm/ILOG/CPLEX_Studio124/cplex/matlab/';
 
 if exist(cplxdir1, 'dir')
     addpath(cplxdir1);
-    addpath([getenv('home') '\PortableApps\Cplex\cplex\examples\src\matlab']);
-    addpath([getenv('home') '\PortableApps\cplex\cplex\matlab\x64_win64\help']);
+    addpath([getenv('home') '\App\Cplex\cplex\examples\src\matlab']);
+    addpath([getenv('home') '\App\cplex\cplex\matlab\x64_win64\help']);
 % elseif exist(cplxdir2, 'dir')
     % addpath(cplxdir2);
 end
