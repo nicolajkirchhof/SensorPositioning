@@ -7,11 +7,11 @@ inner_poly = circleToPolygon(inner,3600);
 
 uc_poly = bpolyclip(int64(outer_poly'),int64(inner_poly'), 0);
 
-%%
+%%%
 % cla
 % mb.drawPolygon(uc_poly)
 
-%%
+%%%
 % figure;
 s1 = uc_poly;
 steps = 0:100:19999;
