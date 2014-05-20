@@ -39,18 +39,30 @@ for dist = distances
         cnt = cnt + 1;
     end
 end
-%%
+%%%
 psize = arrayfun(@mb.polygonArea, pcuts)./(1000^2);
-%%
-[v, i] = findtwocrossings(psize, 1);
+%%%
+pszline = 0.92;
+[v, i] = findtwocrossings(psize, pszline);
+myind = sub2ind(size(psize), i, [1:10;1:10]);
+myind = myind(~isnan(myind));
 
-%%
+pinterpoint = arrayfun(@mb.polygonInterpointDistances, pcuts, 'uniformoutput', false);
+pinterpointmax = arrayfun(@(x) max(x{1}), pinterpoint)/1000;
+pimxline = 1.5;
+[vpi, ipi] = findtwocrossings(pinterpointmax, pimxline);
+myind = sub2ind(size(psize), ipi, [1:10;1:10]);
+myind = myind(~isnan(myind));
+
+
+%%%
 plength = arrayfun(@mb.polygonLength, pcuts)./1000;
 % [vpl, ipl] = findtwocrossings(plength);
 
-qkelly = bsxfun(@rdivide, distances.^2, sin(deg2rad(angs)))./(1000^2);
-qkelly(qkelly > 2.5e2) = nan;
-[vqk, iqk] = findtwocrossings(qkelly, 90);
+qkelly = bsxfun(@rdivide, distances.^2, sin(deg2rad(angs)))./(10000^2);
+qkelly(qkelly > 1e2) = 1e2;
+qkline = 0.84;
+[vqk, iqk] = findtwocrossings(qkelly, qkline);
 % %%
 % figure, mesh(psize)
 % 
@@ -61,11 +73,16 @@ qcust = repmat(((distances/dmax)+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)));
 
 qcust_1 = 1-(qcust/4);
 [vqc1, iqc1] = findtwocrossings(qcust_1, 0.523);
-
+%%%
 % qcustmov = 1-(repmat((((distances-2000)/(dmax-2000))+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)))/4);
 qcust2 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs)))/2);
-qcust2(qcust2 < 0) = nan;
-[vqc2, iqc2] = findtwocrossings(qcust2, 0.55);
+qcust2(qcust2 < 0) = -1;
+qcline = 0.58;
+[vqc2, iqc2] = findtwocrossings(qcust2, qcline);
+%%
+% qcust3 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs))));
+% qcust3(qcust3 < -10) = nan;
+% [vqc2, iqc2] = findtwocrossings(qcust3, 0.2);
 
 %%
 markercolor = [0 0 0];
@@ -76,17 +93,25 @@ subplot(sz{:}, plt)
 % mesh(ds1, ds2, psize);
 % imagesc(psize);
 plot(angs(:,1), psize); hold on;
-line([0, 180], [1 1], 'color', markercolor);
+line([0, 180], [pszline pszline], 'color', markercolor);
 ylim([0 2]);
 title('polygon size for different angs and distances');
 % axis off;
+% % 
+% plt = plt+1;
+% subplot(sz{:}, plt)
+% % mesh(ds1, ds2, qd1d2);
+% plot(angs(:,1), plength); 
+% title('polygon length for different angles and distances');
+
 % 
 plt = plt+1;
 subplot(sz{:}, plt)
 % mesh(ds1, ds2, qd1d2);
-plot(angs(:,1), plength); 
-title('polygon length for different angles and distances');
-
+plot(angs(:,1), pinterpointmax);
+ylim([0 5]);
+line([0, 180], [pimxline pimxline], 'color', markercolor);
+title('max polygon interpoint distance for different angles and distances');
 
 % axis off;
 % plt = plt+1;
@@ -112,18 +137,25 @@ plt = plt+1;
 subplot(sz{:}, plt)
 % mesh(ds1, ds2, plength);
 plot(angs(:,1), qkelly);
-% ylim([0 5e8]);
-line([0 180], [91 91], 'color', markercolor);
+ylim([0 2]);
+line([0 180], [qkline qkline], 'color', markercolor);
 title('kelly quality for different angles and distances');
 
 plt = plt+1;
 subplot(sz{:}, plt)
 % mesh(ds1, ds2, qd1d2);
 plot(angs(:,1), qcust2); 
-line([0 180], [0.55 0.55], 'color', markercolor);
+line([0 180], [qcline qcline], 'color', markercolor);
 ylim([0 1]);
 title('custom gdop func for different angles and distances');
-
+% 
+% plt = plt+1;
+% subplot(sz{:}, plt)
+% % mesh(ds1, ds2, qd1d2);
+% plot(angs(:,1), qcust3); 
+% line([0 180], [0.22 0.22], 'color', markercolor);
+% ylim([0 1]);
+% title('custom gdop func for different angles and distances');
 
 % plt = plt+1;
 % subplot(sz{:}, plt)
