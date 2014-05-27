@@ -5,7 +5,9 @@ dbstop if error
 %% load libs
 % run extensions.matlab/lib/ext_all.m
 addpath([p filesep 'src']);
-addpath example/matlab/
+addpath([p filesep 'experiments']);
+% addpath example/matlab/
+% addpath 
 
 %% fix for zeus
 % set(0, 'DefaultFigurePosition', get(0, 'FactoryFigurePosition'))
