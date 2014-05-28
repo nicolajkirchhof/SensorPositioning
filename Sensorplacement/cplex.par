@@ -1,0 +1,8 @@
+mip limits treememory 50000
+mip strategy file 3
+output clonelog 1
+threads 3
+timelimit 600
+workdir d:\tmp
+workmem 1000
+output writelevel 1
