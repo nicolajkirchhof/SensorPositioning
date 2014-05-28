@@ -20,7 +20,7 @@ pc.common.valid_poly_area = 10000; % min area for which polygon intersections ar
 pc.common.polyline_verticies = 10;
 pc.common.grid_limit = 1; % 1 mm
 pc.common.spike_distance = 10; % 1 cm
-pc.common.is_logging = true; 
+pc.common.is_logging = true;
 pc.common.verbose = true; % should additional output like progress bars be displayed
 pc.common.is_display = true; % should calculated properties be displayed on screen
 pc.common.debug = false; % additional debug infos, plots and more
@@ -109,10 +109,10 @@ for mt = model_types
         pc.model.(modname).quality.min = 0;
         pc.model.(modname).quality.max = 1;
         pc.model.(modname).quality.reject = 0;
-        for mtq = model_types            
+        for mtq = model_types
         pc.model.(modname).quality.(mtq{1}).name = [];
         pc.model.(modname).quality.(mtq{1}).param = 1;
-        end          
+        end
         pc.model.(modname).file.open = false;
         for modft = pc.model.filetypes
         modft = modft{1};
@@ -127,10 +127,7 @@ end
 pc.problem.W = []; % [5,n] matrix where every point is defined by [x;y;q;w;k] q=min quality, w=weight
 pc.problem.wp_sc_idx = []; % {num_positions} with max [num_comb, 1] arrays with indices of sensor combinations that sees the workspace points
 pc.problem.wp_s_idx = []; % {num_positions} with max [num_sensors, 1] arrays with indices of sensor combinations that sees the workspace points
-% pc.problem.wp_q_sin = {}; % {num_positions} cell array with qualities of sc that are in wp_sc_idx
-% pc.problem.wp_q_dist = []; % [num_positions num_sensor] array with distances between sensors and workspace points
-% pc.problem.wp_q_d1d2sin = []; % [num_positions num_sensor] array with distances between sensors and workspace points
-% pc.problem.wp_q_sum = []; % [num_positions 1] array with sum of qualities for every point
+
 % [4,n] matrix where every point is defined by [x;y;phi;k] k=sensor type
 % the sensor fov ranges from phi to phi+pc.sensors.fov
 pc.problem.S = [];
@@ -202,7 +199,7 @@ pc.sensorspace.position_sampling_technique = pc.common.sampling_techniques.unifo
 pc.sensorspace.seed = 0;
 % min positions that have to be visible from each sensor in order to keep it in the visibility
 % matrix
-pc.sensorspace.min_visible_positions = 1; 
+pc.sensorspace.min_visible_positions = 1;
 % sensor has to see at least an area of 1m2
 pc.sensorspace.min_visible_area = 100000;
 % diameter below polygon parts are considered to be spikes

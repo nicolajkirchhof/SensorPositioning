@@ -1,5 +1,5 @@
-function [ pc ] = qclip( pc )
-%DIRECTIONAL_2COMB Uses the sensorcombinations to state the optimization problem
+function [ pc ] = mspqm( pc )
+%MSPQM The minimum sensor pairwise quality model
 
 [model_path, model_name] = fileparts(mfilename('fullpath'));
 model_prefix = model_path(max(strfind(model_path, '+'))+1:end);
@@ -125,7 +125,7 @@ if ~isempty(cpx)
 %     draw.ws_solution(pc, cpx.Solution);
 %     draw.wss_wp_solution(pc, cpx.Solution);
 %     draw.ws_wp_solstats(pc, cpx.Solution);
-    
+
 end
 %%%
 %%%

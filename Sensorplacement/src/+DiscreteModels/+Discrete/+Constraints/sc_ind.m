@@ -1,4 +1,4 @@
-function [ pc ] = sc_backward( pc )
+function [ pc ] = sc_ind( pc )
 %ADD_COMBINATIONS Summary of this function goes here
 %   Detailed explanation goes here
 
