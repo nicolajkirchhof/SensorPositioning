@@ -1,4 +1,4 @@
-function angles = generate_sensorspace_angles(pc)
+function angles = angles(pc)
 
 switch pc.sensorspace.angles_sampling_technique
     case pc.common.sampling_techniques.random
