@@ -7,22 +7,74 @@ p1 = min(placeable_ring{1}, [], 2);
 p2 = max(placeable_ring{1}, [], 2);
 region = [p1 p2];
 
-x_ticks = p1(1):options.cell.length(2):p2(1);
-y_ticks = p1(2):options.cell.length(2):p2(2);
+celllength = options.cell.length(2);
+x_ticks = region(1,1):celllength:region(1,2);
+y_ticks = region(2,1):celllength:region(2,2);
 [grid_x, grid_y] = meshgrid(x_ticks, y_ticks);
-grid = [grid_x(:)'; grid_y(:)'];
+initial_positions = [grid_x(:)'; grid_y(:)'];
+
+if options.positions.additional == 0
+    workspace_positions = initial_positions;
+    return
+end
+
+%% refine grid
+refined_grid = [];
+additional_positions = [];
+celllength = celllength/2;
+
+while options.positions.additional >= size(refined_grid, 2)
+    additional_positions = [additional_positions, refined_grid];
+    x_ticks_num = length(x_ticks);
+    y_ticks_num = length(y_ticks);
+    x_ticks_ref = region(1,1):celllength:region(1,2);
+    y_ticks_ref = region(2,1):celllength:region(2,2);
+    x_ticks_ref(1:2:x_ticks_num*2-1) = x_ticks;
+    y_ticks_ref(1:2:y_ticks_num*2-1) = y_ticks;
+    
+    [grid_x_ref, grid_y_ref] = meshgrid(x_ticks_ref, y_ticks_ref);
+    refined_grid = setdiff([grid_x_ref(:), grid_y_ref(:)], [grid_x(:), grid_y(:)], 'rows')';
+    
+    x_ticks = x_ticks_ref;
+    y_ticks = y_ticks_ref;
+    grid_x = grid_x_ref;
+    grid_y = grid_y_ref;
+end
+
 %%
-x_ticks = p1(1):options.cell.length(2)/2:p2(1);
-y_ticks = p1(2):options.cell.length(2)/2:p2(2);
-[grid_x, grid_y] = meshgrid(x_ticks, y_ticks);
-grid_2 = [grid_x(:)'; grid_y(:)'];
+additional_positions = options.positions.additional;
+index_range = {[1:size(refined_grid, 2)]};
+selected_indexes = nan(1, additional_positions);
+cnt = 1;
+%%
+while additional_position > 0
+    %%
+    mid_indices = cellfun(@(array) ceil(numel(array)/2), index_range, 'uniformoutput', false);
+    selected_indexes(cnt:cnt+numel(mid_indices)-1) = cell2mat(mid_indices);
+    remaining_indexes = cellfun(@(array, idx){index_range{1}(1:mid_indices{1}-1), index_range{1}(mid_indices{1}+1:end)}, index_range, mid_indices,'uniformoutput', false);
+    remaining_indexes = [remaining_indexes{:}];
+%     selected_indexes = cellfun(@(array, idx)split_array_wo_index(index_range{1}, mid_indices{1}), index_range, mid_indices, 'uniformoutput', false);
+end
+
+
+return;
+%% TEST
+close all; 
+clear all;
+format long;
+filename = 'res\floorplans\P1-Seminarraum.dxf';
+config = Configurations.Discretization.iterative;
+environment = Environment.load(filename);
+options = config.workspace;
+
+
 %%
 grid = create_grid(region, options.cell.length(2));
 %% additional grid points
 
 grid_2 = create_grid(region, options.cell.length(2)/2);
 points_left = options.positions.additional;
-midpoint = 
+% midpoint = 
 
 while points_left > 0
     

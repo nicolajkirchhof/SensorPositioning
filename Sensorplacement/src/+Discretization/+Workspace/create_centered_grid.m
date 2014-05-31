@@ -1,5 +1,6 @@
-function grid = create_grid(region, celllength)
-%% CREATE_GRID creates a grid that is defined by [min, max] point and cell length
+function grid = create_centered_grid(region, celllength)
+%% CREATE_GRID creates a grid that is centered between [min, max] point and 
+%   defined by cell length
 % region : the 2d region where the grid is placed
 % celllength : the grid cell length
 range = diff(region, 1, 2); %p2-p1;
