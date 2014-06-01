@@ -4,9 +4,35 @@ function sensor_poses = iterative(environment, workspace_positions, options)
 % options.resolution.angular : angular resolution per vertex
 % options.poses.additional : number of additional poses to the vertex poses
 
-options = Configurations.Sensorspace.iterative;
+boundary_edges = mb.ring2edges(environment.boundary.ring);
+boundary_edges_selection = boundary_edges(:, environment.boundary.isplaceable);
+id_tmp = 1:size(boundary_edges,2);
+indices_boundary_edges = id_tmp(environment.boundary.isplaceable);
 
-mountable = mb.flattenPolygon({environment.boundary.ring, environment.mountable{:}});
+mountable_edges = cellfun(@mb.ring2edges, environment.mountable, 'uniformoutput', false);
+
+boundary_corners = mb.ring2corners(environment.boundary.ring);
+boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
+
+mb.angle2points(edges)
+
+        num_angles_per_position = size(sensor_angles_ring_edges, 2);
+        replicate_positions_for_angles_function = @(x) repmat(x, num_angles_per_position, 1);
+
+sensor_angles_ring_edges = mod(bsxfun(@plus, sensor_poses.sensorspace.angles, mb.angle2points(edges)), 2*pi);
+
+%% TEST
+% close all; 
+clear variables;
+format long;
+filename = 'res\floorplans\P1-Seminarraum.dxf';
+config = Configurations.Discretization.iterative;
+
+environment = Environment.load(filename);
+options = config.workspace;
+base_workspace_positions = Discretization.Workspace.iterative( environment, options );
+
+options = Configurations.Sensorspace.iterative;
 
 
 

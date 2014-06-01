@@ -71,7 +71,8 @@ else
     error('file extension unknown');
 end
 
-environment.boundary.isplaceable = true(1, size(environment.boundary.ring, 2));
+environment.boundary.ring = mb.closeRing(environment.boundary.ring);
+environment.boundary.isplaceable = true(1, size(environment.boundary.ring, 2)-1);
 % save progress
 % progress.environment.load = true;
 return;
