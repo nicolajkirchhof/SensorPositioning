@@ -46,18 +46,17 @@ while options.positions.additional >= size(refined_grid, 2)
 end
 
 num_additional_positions = options.positions.additional - size(fullgrid_positions,2);
-%%
-% cla; mb.drawPolygon(placeable_ring); hold on; 
-% mb.drawPoint(initial_positions, 'color', 'g');
-% mb.drawPoint(refined_grid);
-%%
 
 %% additional positions by two splitting
 % for nap = 1:50
 % num_additional_positions = nap;
 %%% Test for sorted positions
 sorted_positions = meshgrid_spiral_sort(grid_x, grid_y);
-sorted_cleaned_positions = setdiff(sorted_positions', fullgrid_positions', 'rows', 'stable')'; 
+if ~isempty(fullgrid_positions)
+    sorted_cleaned_positions = setdiff(sorted_positions', fullgrid_positions', 'rows', 'stable')';
+else
+    sorted_cleaned_positions = sorted_positions;
+end
 %     cla; mb.drawPolygon(placeable_ring); hold on; 
 %     mb.drawPoint(initial_positions, 'color', 'g');
 %     mb.drawPoint(refined_grid);
@@ -68,8 +67,7 @@ sorted_cleaned_positions = setdiff(sorted_positions', fullgrid_positions', 'rows
 %%%
 positions_lists = {sorted_cleaned_positions};
 additional_partgrid_positions = nan(2, num_additional_positions);
-% matrix_index_splits = {index_range};
-% index_ranges = {1:size(refined_grid,2)};
+
 cnt = 1;
 
 while num_additional_positions > 0
@@ -101,7 +99,9 @@ workspace_positions = [initial_positions, fullgrid_positions, additional_partgri
 
 cla; mb.drawPolygon(placeable_ring); hold on; 
 mb.drawPoint(initial_positions, 'color', 'g');
-mb.drawPoint(fullgrid_positions);
+if ~isempty(fullgrid_positions)
+    mb.drawPoint(fullgrid_positions);
+end
 mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', 'o');
 return;
 
@@ -113,8 +113,24 @@ filename = 'res\floorplans\P1-Seminarraum.dxf';
 config = Configurations.Discretization.iterative;
 environment = Environment.load(filename);
 options = config.workspace;
-options.positions.additional = 60;
-[ workspace_positions ] = Discretization.Workspace.iterative( environment, options );
+
+opain = sort(randi(200, 1, 10));
+%%
+base_workspace_positions = Discretization.Workspace.iterative( environment, options );
+cla; mb.drawPolygon(environment.boundary.ring); hold on; axis equal;
+mb.drawPoint(base_workspace_positions, 'color', 'g');
+%%%
+for opa = opain
+    %%
+%     opa = opain(1);
+options.positions.additional = opa;
+workspace_positions_test = Discretization.Workspace.iterative( environment, options );
+intersect_positions = intersect(workspace_positions_test', base_workspace_positions', 'rows')';
+log_test(isempty(setdiff(intersect_positions', base_workspace_positions', 'rows')),... 
+    sprintf('%d to %d positions test', size(base_workspace_positions, 2), size(workspace_positions_test,2)));
+base_workspace_positions = workspace_positions_test;
+pause
+end
         
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

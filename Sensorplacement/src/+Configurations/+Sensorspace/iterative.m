@@ -4,6 +4,7 @@ function sensorspace = iterative()
 sensorspace = Configurations.Sensorspace.generic();
 sensorspace.poses.additional = 0; 
 sensorspace.resolution.angular = deg2rad(10);
+sensorspace.type = Configurations.Sensorspace.get_types().iterative;
 
 % 
 % %% generates the envelope to store the sensorspace data
