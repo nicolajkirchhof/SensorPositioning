@@ -18,7 +18,7 @@ if options.positions.additional == 0
     return
 end
 
-%% refine grid
+%% refine grid 
 refined_grid = [];
 additional_positions = [];
 celllength = celllength/2;
@@ -40,24 +40,48 @@ while options.positions.additional >= size(refined_grid, 2)
     grid_x = grid_x_ref;
     grid_y = grid_y_ref;
 end
-
 %%
-additional_positions = options.positions.additional;
-index_range = {[1:size(refined_grid, 2)]};
-selected_indexes = nan(1, additional_positions);
+% cla; mb.drawPolygon(placeable_ring); hold on; 
+% mb.drawPoint(initial_positions, 'color', 'g');
+% mb.drawPoint(refined_grid);
+%%
+num_additional_positions = options.positions.additional;
+
+%% additional positions by two splitting
+% for nap = 1:50
+% num_additional_positions = nap;
+selected_indexes = nan(1, num_additional_positions);
+% selected_positions = nan(2, additional_positions);
+% matrix_index_splits = {index_range};
+index_ranges = {1:size(refined_grid,2)};
 cnt = 1;
-%%
-while additional_position > 0
+
+while num_additional_positions > 0
     %%
-    mid_indices = cellfun(@(array) ceil(numel(array)/2), index_range, 'uniformoutput', false);
-    selected_indexes(cnt:cnt+numel(mid_indices)-1) = cell2mat(mid_indices);
-    remaining_indexes = cellfun(@(array, idx){index_range{1}(1:mid_indices{1}-1), index_range{1}(mid_indices{1}+1:end)}, index_range, mid_indices,'uniformoutput', false);
-    remaining_indexes = [remaining_indexes{:}];
-%     selected_indexes = cellfun(@(array, idx)split_array_wo_index(index_range{1}, mid_indices{1}), index_range, mid_indices, 'uniformoutput', false);
+    index_range = index_ranges{1};
+    index_ranges = index_ranges(2:end);
+    
+    mid_index = ceil(numel(index_range)/2);
+    selected_indexes(1, cnt) = index_range(mid_index);
+    index_range_1 = index_range(1:mid_index-1);
+    if ~isempty(index_range_1)
+        index_ranges = [index_ranges, {index_range_1}];
+    end
+    index_range_2 = index_range(mid_index+1:end);
+    if ~isempty(index_range_2)
+        index_ranges = [index_ranges, {index_range_2}];
+    end
+    num_additional_positions = num_additional_positions -1;
+    cnt = cnt +1;
 end
-
-
-return;
+%
+% cla; mb.drawPolygon(placeable_ring); hold on; 
+% mb.drawPoint(initial_positions, 'color', 'g');
+% mb.drawPoint(refined_grid);
+% mb.drawPoint(refined_grid(:,selected_indexes), 'color', 'k', 'marker', '.');
+% pause
+% end
+% return;
 %% TEST
 close all; 
 clear all;
@@ -68,73 +92,54 @@ environment = Environment.load(filename);
 options = config.workspace;
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Grid discretization DOES NOT WORK!!!
 %%
-grid = create_grid(region, options.cell.length(2));
-%% additional grid points
-
-grid_2 = create_grid(region, options.cell.length(2)/2);
-points_left = options.positions.additional;
-% midpoint = 
-
-while points_left > 0
+for nap = 1:50
+num_additional_positions = nap;
+index_range = [[1;1], size(grid_x)'];
+% selected_indexes = nan(2, additional_positions);
+selected_positions = nan(2, num_additional_positions);
+matrix_index_splits = {index_range};
+cnt = 1;
+%%%
+%   -------  ye
+%  |   |   |
+%  |-------| -
+%  |   |   | ym
+%   -------  ys
+% xs xm|   xe 
+while num_additional_positions > 0
+    %%
+    index_range = matrix_index_splits{1};
+    matrix_index_splits = matrix_index_splits(2:end);
+    index_range_mid = floor(diff(index_range,1,2)/2);
+    x_start = index_range(1,1);
+    x_mid = index_range(1,1)+index_range_mid(1,1);
+    x_end = index_range(1,2);
+    y_start = index_range(2,1);
+    y_mid = index_range(2,1)+index_range_mid(2,1);
+    y_end = index_range(2,2);
+    southwest = [[x_start;y_start], [x_mid; y_mid]];
+    southeast = [[x_mid+1;y_start], [x_end; y_mid]];   
+    northwest = [[x_start;y_mid+1], [x_mid; y_end]];
+    northeast = [[x_mid+1;y_mid+1], [x_end; y_end]];
+    matrix_index_splits = {matrix_index_splits{:}, southwest, northwest, northeast, southeast};
     
-
-
-end 
-
-%%
-
-%%
-switch workspace.sampling_technique
-    case common.sampling_techniques.grid
-        num_pts_x = ceil(dp(1)/workspace.grid_position_distance);
-        num_pts_y = ceil(dp(2)/workspace.grid_position_distance);
-    case common.sampling_techniques.uniform
-        num_pts_x = ceil(dp(1)/workspace.x_axis_grid_distance);
-        num_pts_y = ceil(dp(2)/workspace.y_axis_grid_distance);
-    otherwise
-        error('not implemented');
+    new_position = [grid_x(x_mid, y_mid); grid_y(x_mid, y_mid)];
+    
+    if any(refined_grid(1,:)==new_position(1,1)&refined_grid(2,:)==new_position(2,1))
+%     selected_indexes(:,cnt) = [x_mid; y_mid];
+        selected_positions(:,cnt) = new_position;
+        cnt = cnt + 1;
+        num_additional_positions = num_additional_positions-1;
+    end
 end
-xlnsp = linspace(p1(1), p2(1), num_pts_x);
-ylnsp = linspace(p1(2), p2(2), num_pts_y);
-[x_grd, y_grd] = meshgrid(xlnsp, ylnsp);
-fun_combine = @(x,y) [x,y]';
-pts = arrayfun(fun_combine, x_grd, y_grd, 'uniformoutput', false);
-pts = int64(cell2mat(pts(:)'));
-
-
-% yxgrd = repmat(ylnsp, 1, numel(xlnsp));
-% xygrd = repmat(xlnsp, numel(ylnsp), 1);
-%
-% pts = int64(bsxfun(@plus, p1, [xygrd(:) yxgrd(:)])');
-
-% remove everything that is not in polygon or in holes and on the walls
-% for idp = 1:numel(environment.wall.ring)
-workspace.environment.walls = mb.expandPolygon(environment.walls.ring, -workspace.wall_distance);
-
-[in_poly, on_walls] = binpolygon(pts, workspace.environment.walls);
-pts = pts(:, in_poly&~on_walls);
-
-if ~isempty(environment.occupied.poly)
-%     occupied = mb.expandPolygon(environment.occupied.poly, workspace.wall_distance);
-%     occupied_merged = bpolyclip_batch(workspace.environment.occupied, 3, 1:numel(occupied), common.bpolyclip_batch_options);
-%     workspace.environment.occupied = occupied_merged{1};
-%     [in_occupied, ~] = binpolygon(pts, workspace.environment.occupied);
-    [in_occupied, ~] = binpolygon(pts, environment.occupied.poly);
-    pts = pts(:, ~in_occupied);
+cla; mb.drawPolygon(placeable_ring); hold on; 
+mb.drawPoint(initial_positions, 'color', 'g');
+mb.drawPoint(refined_grid);
+mb.drawPoint(selected_positions, 'color', 'k', 'marker', '.');
+pause;
 end
-
-if ~isempty(environment.obstacles.poly)
-%     workspace.environment.obstacles = mb.expandPolygon(environment.obstacles.poly, workspace.wall_distance);
-    [in_obstacle, ~] = binpolygon(pts, environment.obstacles.poly);
-    pts = pts(:, ~in_obstacle);
-end
-%%
-if ~isempty(environment.mountable.poly)
-    workspace.environment.mountable = mb.expandPolygon(environment.mountable.poly, workspace.wall_distance);
-    [in_mountable] = cell2mat(cellfun(@(poly) binpolygon(pts, poly), workspace.environment.mountable, 'uniformoutput', false)');
-    pts = pts(:,~any(in_mountable,1));
-end
-%
-problem.W = double(pts);
-workspace.number_of_positions = size(pts,2);
