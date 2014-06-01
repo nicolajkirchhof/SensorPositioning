@@ -20,17 +20,20 @@ end
 
 %% refine grid 
 refined_grid = [];
-additional_positions = [];
-celllength = celllength/2;
+fullgrid_positions = [];
+celllength = floor(celllength/2);
 
 while options.positions.additional >= size(refined_grid, 2)
-    additional_positions = [additional_positions, refined_grid];
+    fullgrid_positions = [fullgrid_positions, refined_grid];
+    
+    % replace to avoid rounding errors
     x_ticks_num = length(x_ticks);
     y_ticks_num = length(y_ticks);
     x_ticks_ref = region(1,1):celllength:region(1,2);
     y_ticks_ref = region(2,1):celllength:region(2,2);
     x_ticks_ref(1:2:x_ticks_num*2-1) = x_ticks;
     y_ticks_ref(1:2:y_ticks_num*2-1) = y_ticks;
+    
     
     [grid_x_ref, grid_y_ref] = meshgrid(x_ticks_ref, y_ticks_ref);
     refined_grid = setdiff([grid_x_ref(:), grid_y_ref(:)], [grid_x(:), grid_y(:)], 'rows')';
@@ -39,37 +42,105 @@ while options.positions.additional >= size(refined_grid, 2)
     y_ticks = y_ticks_ref;
     grid_x = grid_x_ref;
     grid_y = grid_y_ref;
+    celllength = floor(celllength/2);
 end
+
+num_additional_positions = options.positions.additional - size(fullgrid_positions,2);
 %%
 % cla; mb.drawPolygon(placeable_ring); hold on; 
 % mb.drawPoint(initial_positions, 'color', 'g');
 % mb.drawPoint(refined_grid);
 %%
-num_additional_positions = options.positions.additional;
 
 %% additional positions by two splitting
+% for nap = 1:50
+% num_additional_positions = nap;
+%%% Test for sorted positions
+sorted_positions = meshgrid_spiral_sort(grid_x, grid_y);
+sorted_cleaned_positions = setdiff(sorted_positions', fullgrid_positions', 'rows', 'stable')'; 
+%     cla; mb.drawPolygon(placeable_ring); hold on; 
+%     mb.drawPoint(initial_positions, 'color', 'g');
+%     mb.drawPoint(refined_grid);
+% for i=1:size(sorted_cleaned_positions,2)
+%     mb.drawPoint(sorted_cleaned_positions(:,i), 'color', 'm');
+%     pause
+% end
+%%%
+positions_lists = {sorted_cleaned_positions};
+additional_partgrid_positions = nan(2, num_additional_positions);
+% matrix_index_splits = {index_range};
+% index_ranges = {1:size(refined_grid,2)};
+cnt = 1;
+
+while num_additional_positions > 0
+    %%  
+    first_position_list = positions_lists{1};
+    positions_lists = positions_lists(2:end);
+    index_mid = ceil(size(first_position_list, 2)/2);
+    additional_partgrid_positions(:,cnt) = first_position_list(:,index_mid);
+        
+    list_split_1 = first_position_list(:, 1:index_mid-1);
+    if ~isempty(list_split_1)
+        positions_lists = [positions_lists, {list_split_1}];
+    end
+    list_split_2 = first_position_list(:, index_mid+1:end);
+    if ~isempty(list_split_2)
+        positions_lists = [positions_lists, {list_split_2}];
+    end
+    num_additional_positions = num_additional_positions - 1;
+    cnt = cnt + 1;
+end
+%
+% cla; mb.drawPolygon(placeable_ring); hold on; 
+% mb.drawPoint(initial_positions, 'color', 'g');
+% mb.drawPoint(refined_grid);
+% mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', '.');
+% pause
+% end
+workspace_positions = [initial_positions, fullgrid_positions, additional_partgrid_positions];
+
+cla; mb.drawPolygon(placeable_ring); hold on; 
+mb.drawPoint(initial_positions, 'color', 'g');
+mb.drawPoint(fullgrid_positions);
+mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', 'o');
+return;
+
+%% TEST
+close all; 
+clear variables;
+format long;
+filename = 'res\floorplans\P1-Seminarraum.dxf';
+config = Configurations.Discretization.iterative;
+environment = Environment.load(filename);
+options = config.workspace;
+options.positions.additional = 60;
+[ workspace_positions ] = Discretization.Workspace.iterative( environment, options );
+        
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% additional positions by two splitting with column based sorting
 % for nap = 1:50
 % num_additional_positions = nap;
 selected_indexes = nan(1, num_additional_positions);
 % selected_positions = nan(2, additional_positions);
 % matrix_index_splits = {index_range};
-index_ranges = {1:size(refined_grid,2)};
+first_position_list = {1:size(refined_grid,2)};
 cnt = 1;
 
 while num_additional_positions > 0
     %%
-    index_range = index_ranges{1};
-    index_ranges = index_ranges(2:end);
+    index_range = first_position_list{1};
+    first_position_list = first_position_list(2:end);
     
     mid_index = ceil(numel(index_range)/2);
     selected_indexes(1, cnt) = index_range(mid_index);
-    index_range_1 = index_range(1:mid_index-1);
-    if ~isempty(index_range_1)
-        index_ranges = [index_ranges, {index_range_1}];
+    list_split_1 = index_range(1:mid_index-1);
+    if ~isempty(list_split_1)
+        first_position_list = [first_position_list, {list_split_1}];
     end
-    index_range_2 = index_range(mid_index+1:end);
-    if ~isempty(index_range_2)
-        index_ranges = [index_ranges, {index_range_2}];
+    list_split_2 = index_range(mid_index+1:end);
+    if ~isempty(list_split_2)
+        first_position_list = [first_position_list, {list_split_2}];
     end
     num_additional_positions = num_additional_positions -1;
     cnt = cnt +1;
@@ -82,17 +153,6 @@ end
 % pause
 % end
 % return;
-%% TEST
-close all; 
-clear all;
-format long;
-filename = 'res\floorplans\P1-Seminarraum.dxf';
-config = Configurations.Discretization.iterative;
-environment = Environment.load(filename);
-options = config.workspace;
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Grid discretization DOES NOT WORK!!!
