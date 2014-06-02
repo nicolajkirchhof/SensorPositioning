@@ -1,25 +1,34 @@
-function sensor_poses = iterative(environment, workspace_positions, options)
-%% ITERATIVE(environment, workspace_positions, options) samples the sensorspace
+function sensor_poses = iterative(environment, sensor, workspace_positions, options)
+%% ITERATIVE(environment, sensor, workspace_positions, options) samples the sensorspace
 %    by edge splitting. Options 
 % options.resolution.angular : angular resolution per vertex
 % options.poses.additional : number of additional poses to the vertex poses
+%
+% Right now 2.6.14 the orientation of the environment is ccw for the outer boundary 
+% and cw for the inner mountable rings, therfore the corners have to be processed
+% in reverse order.
+bpolyclip
+% boundary_edges = mb.ring2edges(environment.boundary.ring);
+% boundary_edges_selection = boundary_edges(:, environment.boundary.isplaceable);
+% id_tmp = 1:size(boundary_edges,2);
+% indices_boundary_edges = id_tmp(environment.boundary.isplaceable);
 
-boundary_edges = mb.ring2edges(environment.boundary.ring);
-boundary_edges_selection = boundary_edges(:, environment.boundary.isplaceable);
-id_tmp = 1:size(boundary_edges,2);
-indices_boundary_edges = id_tmp(environment.boundary.isplaceable);
+% mountable_edges = cellfun(@mb.ring2edges, environment.mountable, 'uniformoutput', false);
 
-mountable_edges = cellfun(@mb.ring2edges, environment.mountable, 'uniformoutput', false);
-
+%% Poses on Boundary vertices
 boundary_corners = mb.ring2corners(environment.boundary.ring);
 boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
 
-mb.angle2points(edges)
+sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), options.resolution.angular, false);
 
-        num_angles_per_position = size(sensor_angles_ring_edges, 2);
-        replicate_positions_for_angles_function = @(x) repmat(x, num_angles_per_position, 1);
+%% Poses on Mountable vertices
+mountable_corners = cellfun(@mb.ring2corners, environment.mountable, 'uniformoutput', false);
+fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), options.resolution.angular, true);
+sensor_poses_boundary = cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false);
 
-sensor_angles_ring_edges = mod(bsxfun(@plus, sensor_poses.sensorspace.angles, mb.angle2points(edges)), 2*pi);
+%% Filter poses based on obstacles and visibility
+
+%% Add additional positions iterative
 
 %% TEST
 % close all; 
