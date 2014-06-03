@@ -56,11 +56,11 @@ num_additional_positions = options.positions.additional - size(fullgrid_position
 % for nap = 1:50
 % num_additional_positions = nap;
 %%% Test for sorted positions
-sorted_positions = meshgrid_spiral_sort(grid_x, grid_y);
+sorted_positions = int64(meshgrid_spiral_sort(grid_x, grid_y));
 inenvironment = Environment.within(environment, sorted_positions);
 sorted_positions_in = sorted_positions(:, inenvironment);
 if ~isempty(fullgrid_positions)
-    sorted_cleaned_positions = setdiff(sorted_positions_in', fullgrid_positions_in', 'rows', 'stable')';
+    sorted_cleaned_positions = setdiff(sorted_positions_in', fullgrid_positions', 'rows', 'stable')';
 else
     sorted_cleaned_positions = sorted_positions_in;
 end
@@ -73,7 +73,7 @@ end
 % end
 %%%
 positions_lists = {sorted_cleaned_positions};
-additional_partgrid_positions = nan(2, num_additional_positions);
+additional_partgrid_positions = zeros(2, num_additional_positions);
 
 cnt = 1;
 
@@ -102,7 +102,7 @@ end
 % mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', '.');
 % pause
 % end
-workspace_positions = [initial_positions_in, fullgrid_positions_in, additional_partgrid_positions];
+workspace_positions = [initial_positions_in, fullgrid_positions, additional_partgrid_positions];
 
 % cla; mb.drawPolygon(placeable_ring); hold on; 
 % mb.drawPoint(initial_positions, 'color', 'g');

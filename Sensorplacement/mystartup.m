@@ -5,7 +5,7 @@ dbstop if error
 %% load libs
 % run extensions.matlab/lib/ext_all.m
 addpath([p filesep 'src']);
-addpath([p filesep 'experiments']);
+% addpath([p filesep 'experiments']);
 
 libs.add_all;
 % addpath example/matlab/
