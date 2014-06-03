@@ -13,18 +13,21 @@ y_ticks = region(2,1):celllength:region(2,2);
 [grid_x, grid_y] = meshgrid(x_ticks, y_ticks);
 initial_positions = [grid_x(:)'; grid_y(:)'];
 
+inenvironment = Environment.within(environment, initial_positions);
+initial_positions_in = initial_positions(:, inenvironment);
+
 if options.positions.additional == 0
-    workspace_positions = initial_positions;
+    workspace_positions = initial_positions_in;
     return
 end
 
 %% refine grid 
-refined_grid = [];
+refined_grid_in = [];
 fullgrid_positions = [];
 celllength = floor(celllength/2);
 
-while options.positions.additional >= size(refined_grid, 2)
-    fullgrid_positions = [fullgrid_positions, refined_grid];
+while options.positions.additional >= size(refined_grid_in, 2)
+    fullgrid_positions = [fullgrid_positions, refined_grid_in];
     
     % replace to avoid rounding errors
     x_ticks_num = length(x_ticks);
@@ -37,6 +40,8 @@ while options.positions.additional >= size(refined_grid, 2)
     
     [grid_x_ref, grid_y_ref] = meshgrid(x_ticks_ref, y_ticks_ref);
     refined_grid = setdiff([grid_x_ref(:), grid_y_ref(:)], [grid_x(:), grid_y(:)], 'rows')';
+    inenvironment = Environment.within(environment, refined_grid);
+    refined_grid_in = refined_grid(:, inenvironment);
     
     x_ticks = x_ticks_ref;
     y_ticks = y_ticks_ref;
@@ -52,10 +57,12 @@ num_additional_positions = options.positions.additional - size(fullgrid_position
 % num_additional_positions = nap;
 %%% Test for sorted positions
 sorted_positions = meshgrid_spiral_sort(grid_x, grid_y);
+inenvironment = Environment.within(environment, sorted_positions);
+sorted_positions_in = sorted_positions(:, inenvironment);
 if ~isempty(fullgrid_positions)
-    sorted_cleaned_positions = setdiff(sorted_positions', fullgrid_positions', 'rows', 'stable')';
+    sorted_cleaned_positions = setdiff(sorted_positions_in', fullgrid_positions_in', 'rows', 'stable')';
 else
-    sorted_cleaned_positions = sorted_positions;
+    sorted_cleaned_positions = sorted_positions_in;
 end
 %     cla; mb.drawPolygon(placeable_ring); hold on; 
 %     mb.drawPoint(initial_positions, 'color', 'g');
@@ -95,14 +102,14 @@ end
 % mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', '.');
 % pause
 % end
-workspace_positions = [initial_positions, fullgrid_positions, additional_partgrid_positions];
+workspace_positions = [initial_positions_in, fullgrid_positions_in, additional_partgrid_positions];
 
-cla; mb.drawPolygon(placeable_ring); hold on; 
-mb.drawPoint(initial_positions, 'color', 'g');
-if ~isempty(fullgrid_positions)
-    mb.drawPoint(fullgrid_positions);
-end
-mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', 'o');
+% cla; mb.drawPolygon(placeable_ring); hold on; 
+% mb.drawPoint(initial_positions, 'color', 'g');
+% if ~isempty(fullgrid_positions)
+%     mb.drawPoint(fullgrid_positions);
+% end
+% mb.drawPoint(additional_partgrid_positions, 'color', 'k', 'marker', 'o');
 return;
 
 %% TEST
@@ -115,11 +122,14 @@ environment = Environment.load(filename);
 options = config.workspace;
 
 opain = sort(randi(200, 1, 10));
-%%
-base_workspace_positions = Discretization.Workspace.iterative( environment, options );
-cla; mb.drawPolygon(environment.boundary.ring); hold on; axis equal;
-mb.drawPoint(base_workspace_positions, 'color', 'g');
 %%%
+base_workspace_positions = Discretization.Workspace.iterative( environment, options );
+% cla; mb.drawPolygon(environment.boundary.ring); hold on; axis equal;
+% mb.drawPoint(base_workspace_positions, 'color', 'g');
+
+Environment.draw(environment);
+Discretization.Workspace.draw(base_workspace_positions);
+%%
 for opa = opain
     %%
 %     opa = opain(1);
@@ -129,6 +139,9 @@ intersect_positions = intersect(workspace_positions_test', base_workspace_positi
 log_test(isempty(setdiff(intersect_positions', base_workspace_positions', 'rows')),... 
     sprintf('%d to %d positions test', size(base_workspace_positions, 2), size(workspace_positions_test,2)));
 base_workspace_positions = workspace_positions_test;
+cla
+Environment.draw(environment);
+Discretization.Workspace.draw(base_workspace_positions);
 pause
 end
         

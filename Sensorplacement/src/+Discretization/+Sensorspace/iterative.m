@@ -24,9 +24,11 @@ sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boun
 %% Poses on Mountable vertices
 mountable_corners = cellfun(@mb.ring2corners, environment.mountable, 'uniformoutput', false);
 fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), options.resolution.angular, true);
-sensor_poses_boundary = cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false);
+sensor_poses_mountables = cell2mat(cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false));
 
 %% Filter poses based on obstacles and visibility
+sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
+sensor_poses_fitered = 
 
 %% Add additional positions iterative
 
