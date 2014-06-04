@@ -1,8 +1,18 @@
-function in = within(environment, positions)
+function in = within(environment, positions, check_mountables)
 %% INENVIRONMENT(environment, positions) tests if the positions are in the environment
 %   and not inside a mountable occupied or obstacle.
-in = binpolygon(positions, environment.boundary.ring);
+%   check_mountables : boolean if mountables and outer boundary are to be checked 
+%       which is false for sensor_poses
 
+if nargin < 3
+    check_mountables = true;
+end
+
+if check_mountables
+in = binpolygon(positions, environment.boundary.ring);
+else 
+    in = true(1, size(positions, 2));
+end
 
 if ~isempty(environment.occupied)
 %     occupied = mb.expandPolygon(environment.occupied, pc.workspace.wall_distance);
@@ -21,7 +31,7 @@ if ~isempty(environment.obstacles)
 %     positions = positions(:, ~in_obstacle);
 end
 %%
-if ~isempty(environment.mountable)
+if check_mountables && ~isempty(environment.mountable)
 %     environment.mountable = mb.expandPolygon(environment.mountable, wall_distance);
     [in_mountable] = mb.inmultipolygon(environment.mountable, positions);
     in = in & ~in_mountable;
@@ -50,7 +60,13 @@ Environment.draw(environment);
 hold on;
 mb.drawPoint(positions(:, in), '.g');
 mb.drawPoint(positions(:, ~in), '.r');
-%%
+%% Test check mountables
+cla
+in_cm = Environment.within(environment, positions, false);
+Environment.draw(environment);
+hold on;
+mb.drawPoint(positions(:, in_cm), '.g');
+mb.drawPoint(positions(:, ~in_cm), '.r');
 
 % base_workspace_positions = 
 

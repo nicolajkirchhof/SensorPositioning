@@ -1,4 +1,4 @@
-function pc = sensorspace_distance_constraints(pc)
+function pc = distance_constraints(pc)
 %% distance constraints are buid as follows:
 % iterate over all points and calculate the distance to all visible sensors
 % the distance is then normed to match the sensor range, whreas 

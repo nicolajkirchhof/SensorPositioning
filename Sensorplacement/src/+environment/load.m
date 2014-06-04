@@ -7,7 +7,7 @@ if nargin < 2
     bpolyclip_options = Configurations.Bpolyclip.environment;
 %     bpolyclip_options.spike_distance = 10;
 end
-bpo = bpolyclip_options.fct_combine(bpolyclip_options);
+bpo = Configurations.Bpolyclip.combine(bpolyclip_options);
 
 
 if ~exist(filename, 'file')

@@ -1,5 +1,6 @@
 function sensorspace = generic()
 
+sensorspace.ringvertices = 16;
 sensorspace.type   = Configurations.Sensorspace.get_types().generic;
 
 % %% generates the envelope to store the sensorspace data

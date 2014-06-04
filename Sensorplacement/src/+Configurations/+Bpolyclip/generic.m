@@ -11,4 +11,4 @@ bpo.spike_distance = 0;
 bpo.verbose        = false;
 bpo.grid_limit     = 1;
 
-bpo.fct_combine = @(bpo) {bpo.check, bpo.spike_distance, bpo.verbose, bpo.grid_limit};
+% bpo.fct_combine = @(bpo) {bpo.check, bpo.spike_distance, bpo.verbose, bpo.grid_limit};

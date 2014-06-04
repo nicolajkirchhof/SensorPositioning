@@ -7,7 +7,7 @@ function sensor_poses = iterative(environment, sensor, workspace_positions, opti
 % Right now 2.6.14 the orientation of the environment is ccw for the outer boundary 
 % and cw for the inner mountable rings, therfore the corners have to be processed
 % in reverse order.
-bpolyclip
+% bpolyclip
 % boundary_edges = mb.ring2edges(environment.boundary.ring);
 % boundary_edges_selection = boundary_edges(:, environment.boundary.isplaceable);
 % id_tmp = 1:size(boundary_edges,2);
@@ -21,17 +21,27 @@ boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceabl
 
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), options.resolution.angular, false);
 
-%% Poses on Mountable vertices
+%%% Poses on Mountable vertices
 mountable_corners = cellfun(@mb.ring2corners, environment.mountable, 'uniformoutput', false);
 fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), options.resolution.angular, true);
 sensor_poses_mountables = cell2mat(cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false));
 
-%% Filter poses based on obstacles and visibility
+Discretization.Sensorspace.draw(sensor_poses_boundary);
+Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
+%%% Filter poses based on obstacles and visibility
 sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
-sensor_poses_fitered = 
+sensor_poses = sensor_poses_initial;
 
+% [in_obstacle] = mb.inmultipolygon(environment.obstacles, int64(sensor_poses_initial(1:2,:)));
+% sensor_poses_initial_in = sensor_poses_initial(:, in_obstacle);
+
+% Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative
 
+
+
+
+return;
 %% TEST
 % close all; 
 clear variables;
@@ -41,9 +51,17 @@ config = Configurations.Discretization.iterative;
 
 environment = Environment.load(filename);
 options = config.workspace;
-base_workspace_positions = Discretization.Workspace.iterative( environment, options );
+options.positions.additional = 50;
 
+workspace_positions = Discretization.Workspace.iterative( environment, options );
+
+discretization = config;
+options = config.sensorspace;
+options.poses.additional = 0;
+sensor = config.sensor;
 options = Configurations.Sensorspace.iterative;
+
+Environment.draw(environment);
 
 
 

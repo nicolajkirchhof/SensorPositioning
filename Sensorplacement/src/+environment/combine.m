@@ -1,32 +1,36 @@
-function pc = combine(pc)
+function environment = combine(environment)
 %%
 % caluclates the combined environment and all information about edges
-poly_wo_mountables = bpolyclip(pc.environment.walls.ring, pc.environment.mountable.poly, 0, pc.common.bpolyclip_options);
+bpolyclip_options = Configurations.Bpolyclip.combine(Configurations.Bpolyclip.environment);
+
+poly_wo_mountables = bpolyclip(environment.boundary.ring, environment.mountable, 0, bpolyclip_options);
 if ~iscell(poly_wo_mountables)
     poly_wo_mountables = {poly_wo_mountables};
 end
-%%%
-if ~isempty(pc.environment.obstacles.poly)
+%%
+bpolyclip_batch_options = Configurations.Bpolyclip.combine(Configurations.Bpolyclip.environment, true);
+if ~isempty(environment.obstacles)
+    %%
     % There are two cases for obstacles, they can either be partially or fully embedded in the outer
     % walls (windows, doors) or be compleatly inside the room (plants, cupboards).
     % Since we are only interessted in the ones that have min one point inside the polygon, we can test
     % for inpolygon before calculating the cuts
-    num_obstacles = numel(pc.environment.obstacles.poly);
+    num_obstacles = numel(environment.obstacles);
     obstacles_inside = false(1, num_obstacles);
     for idp = 1:num_obstacles
-        [in, on] = binpolygon(pc.environment.obstacles.poly{idp}{1}, poly_wo_mountables, pc.common.grid_limit);
+        [in, on] = binpolygon(environment.obstacles{idp}{1}, poly_wo_mountables, 1);
         obstacles_inside(idp) = any(in&~on);
     end
     %%%
-    poly_wo_obstacles = bpolyclip_batch([poly_wo_mountables, pc.environment.obstacles.poly], 0, 1:num_obstacles+1, pc.common.bpolyclip_batch_options);
+    poly_wo_obstacles = bpolyclip_batch([poly_wo_mountables, environment.obstacles], 0, 1:num_obstacles+1, bpolyclip_batch_options);
     
-    pc.environment.combined.poly = poly_wo_obstacles{1};
-%     pc.environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_obstacles, 'uniformoutput', false);
-%     pc.environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_obstacles, 'uniformoutput', false);
+    environment.combined = poly_wo_obstacles{1};
+%     environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_obstacles, 'uniformoutput', false);
+%     environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_obstacles, 'uniformoutput', false);
     
 else
     %%
-    pc.environment.combined.poly = poly_wo_mountables{1};
-%     pc.environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
-%     pc.environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
+    environment.combined = poly_wo_mountables{1};
+%     environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
+%     environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
 end
