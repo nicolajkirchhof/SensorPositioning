@@ -8,13 +8,6 @@ function sensor_poses = iterative(environment, sensor, workspace_positions, opti
 % and cw for the inner mountable rings, therfore the corners have to be processed
 % in reverse order.
 % bpolyclip
-% boundary_edges = mb.ring2edges(environment.boundary.ring);
-% boundary_edges_selection = boundary_edges(:, environment.boundary.isplaceable);
-% id_tmp = 1:size(boundary_edges,2);
-% indices_boundary_edges = id_tmp(environment.boundary.isplaceable);
-
-% mountable_edges = cellfun(@mb.ring2edges, environment.mountable, 'uniformoutput', false);
-
 %% Poses on Boundary vertices
 boundary_corners = mb.ring2corners(environment.boundary.ring);
 boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
@@ -32,9 +25,20 @@ Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
 sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
 sensor_poses = sensor_poses_initial;
 
-% [in_obstacle] = mb.inmultipolygon(environment.obstacles, int64(sensor_poses_initial(1:2,:)));
-% sensor_poses_initial_in = sensor_poses_initial(:, in_obstacle);
+%%% check if points are in environment
+environment = Environment.combine(environment);
+[in_environment] = mb.inmultipolygon(environment.combined, int64(sensor_poses_initial(1:2,:)));
+%%% check distance to polygon edges for every other point
+vertices = environment.combined{1}{1};
+dist_polygon_edges = mb.distancePoints(sensor_poses_initial(1:2,~in_environment), vertices);
+dist_polygon_edges_min = min(dist_polygon_edges, [], 2);
+in_environment(~in_environment) = dist_polygon_edges_min < 10;
+sensor_poses_initial_in = sensor_poses_initial(:, in_environment);
+%%
 
+Discretization.Sensorspace.draw(sensor_poses_boundary);
+Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
+Discretization.Sensorspace.draw(sensor_poses_initial_in, 'r');
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative
 
