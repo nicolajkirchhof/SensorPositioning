@@ -1,8 +1,12 @@
-function draw(environment)
+function draw(environment, islegend)
 
 holdison = false;
 if ishold
     holdison = true;
+end
+
+if nargin < 2
+    islegend = true;
 end
 
 %%
@@ -39,7 +43,9 @@ end
 h = mb.drawPolygon( environment.boundary.ring , 'color', 'k');
 legend(h, 'Walls');
 legend off;
-legend show;
+if islegend
+    legend show;
+end
 %
 %
 % mb.fillHoles( pc.environment.boost , [0.8 0.8 0.8]  );

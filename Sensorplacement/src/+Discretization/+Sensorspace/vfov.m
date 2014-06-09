@@ -2,6 +2,13 @@ function [valid_sensor_poses, vfov_rings, sp_wpn_visibilities] = vfov(sensor_pos
 %% VFOV(sensor_poses, environment, discretization) calculates the vfov of one 
 %   ore multiple sensors
 %   
+valid_sensor_poses = [];
+vfov_rings = {};
+sp_wpn_visibilities = [];
+if isempty(sensor_poses) || isempty(environment)
+    return;
+end
+
 write_log(' calculating visibilities:');
 sensor = discretization.sensor;
 sensorspace = discretization.sensorspace;
@@ -40,24 +47,13 @@ poly_combine_jobs = mat2cell([numel(vis_polys)+(1:numel(sensor_fovs)); u_p_ic']'
 small_polys = sensor_visibility_polygon_areas < sensor.area(1);
 write_log('number of polys neglected because of area %d\n',  sum(small_polys));
 sensor_visibility_polygons = sensor_visibility_polygons(~small_polys);
-% sensor_fovs = sensor_fovs(~small_polys);
-% sensor_visibility_polygon_areas = sensor_visibility_polygon_areas(~small_polys);
 sensorpositions_filtered = sensor_poses(:, ~small_polys);
-% num_sensors = sum(~small_polys);
 %%%
 % check all points against all visibility polygons
 fun_binpolygon = @(poly) binpolygon(int64(workspace_positions(1:2,:)), poly); 
 svp_empty = cellfun(@isempty, sensor_visibility_polygons);
 sensor_point_visibilities = cell2mat(cellfun(fun_binpolygon, sensor_visibility_polygons(~svp_empty), 'uniformoutput', false)')';
 %%%
-% svp_vis = false(1, size(workspace_positions, 2));
-% spv = cell(1, num_sensors);
-% spv(svp_empty) = {false(1, size(workspace_positions, 2))};
-% spv(~svp_empty) = sensor_point_visibilities;
-%%%
-% filter visibility polygons with no points in them
-% sensor_point_visibilities = cell2mat(spv');
-% if sensorspace.min_visible_positions>0
 empty_visibilities = sum(sensor_point_visibilities,1) == 0;
 write_log('number of polys neglected because of visibility %d\n', sum(empty_visibilities));
 %%% calculate filtered vectors
