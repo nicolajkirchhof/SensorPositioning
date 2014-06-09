@@ -1,4 +1,4 @@
-function sensor_poses = iterative(environment, sensor, workspace_positions, options)
+function [sensor_poses, vfovs, vm] = iterative(environment, sensor, workspace_positions, options)
 %% ITERATIVE(environment, sensor, workspace_positions, options) samples the sensorspace
 %    by edge splitting. Options 
 % options.resolution.angular : angular resolution per vertex
@@ -34,14 +34,13 @@ dist_polygon_edges = mb.distancePoints(sensor_poses_initial(1:2,~in_environment)
 dist_polygon_edges_min = min(dist_polygon_edges, [], 2);
 in_environment(~in_environment) = dist_polygon_edges_min < 10;
 sensor_poses_initial_in = sensor_poses_initial(:, in_environment);
-%%
 
-Discretization.Sensorspace.draw(sensor_poses_boundary);
-Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
-Discretization.Sensorspace.draw(sensor_poses_initial_in, 'r');
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative
-
+mountable_corners_flat = cell2mat(mountable_corners);
+edges = [boundary_corners(1:4, :), mountable_corners_flat(1:4,:)];
+edgelengths = sum(edges.^2, 1);
+[~, idmax] = max(edgelengths);
 
 
 
@@ -67,7 +66,9 @@ options = Configurations.Sensorspace.iterative;
 
 Environment.draw(environment);
 
-
+Discretization.Sensorspace.draw(sensor_poses_boundary);
+Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
+Discretization.Sensorspace.draw(sensor_poses_initial_in, 'r');
 
 %%
 sensor_poses.problem.S = [];
