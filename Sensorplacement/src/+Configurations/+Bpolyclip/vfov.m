@@ -8,6 +8,6 @@ function bpo = vfov()
 
 bpo = Configurations.Bpolyclip.generic;
 bpo.check          = true;
-bpo.spike_distance = 0;
+bpo.spike_distance = 400;
 bpo.verbose        = true;
 bpo.grid_limit     = 1;

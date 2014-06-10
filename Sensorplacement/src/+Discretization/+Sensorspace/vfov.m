@@ -14,9 +14,9 @@ sensor = discretization.sensor;
 sensorspace = discretization.sensorspace;
 environment = Environment.combine(environment);
 %%% remove sensor positions that are not in polygon
-bpolyclip_options = Configurations.Bpolyclip.environment;
+bpolyclip_options = Configurations.Bpolyclip.vfov;
 bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
-visilibity_options = {bpolyclip_options.spike_distance, bpolyclip_options.spike_distance, bpolyclip_options.verbose};
+visilibity_options = Configurations.Visilibity.combine(Configurations.Visilibity.vfov);
 [unique_positions, ~, u_p_ic] = unique(sensor_poses(1:2,:)', 'rows', 'stable');
 %%%
 vis_polys = visilibity(unique_positions', environment.combined, visilibity_options{:});
@@ -65,63 +65,46 @@ write_log('...done ');
 %%
 return;
 %% TESTING
+%% TEST
+% close all; 
 clear variables;
 format long;
 filename = 'res\floorplans\P1-Seminarraum.dxf';
-config = Configurations.Discretization.iterative;
+options = Configurations.Discretization.iterative;
 
 environment = Environment.load(filename);
-options = config.workspace;
-options.positions.additional = 50;
+options.workspace.positions.additional = 50;
 
 workspace_positions = Discretization.Workspace.iterative( environment, options );
 
-discretization = config;
-options = config.sensorspace;
-options.poses.additional = 0;
-sensor = config.sensor;
-options = Configurations.Sensorspace.iterative;
-
-
-
-%%% Poses on Boundary vertices
-boundary_corners = mb.ring2corners(environment.boundary.ring);
-boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
-
-sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), options.resolution.angular, false);
-
-%%% Poses on Mountable vertices
-mountable_corners = cellfun(@mb.ring2corners, environment.mountable, 'uniformoutput', false);
-fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), options.resolution.angular, true);
-sensor_poses_mountables = cell2mat(cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false));
-
-Discretization.Sensorspace.draw(sensor_poses_boundary);
-Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
-%%% Filter poses based on obstacles and visibility
-sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
-% sensor_poses = sensor_poses_initial;
-%%% check if points are in environment
-environment = Environment.combine(environment);
-[in_environment] = mb.inmultipolygon(environment.combined, int64(sensor_poses_initial(1:2,:)));
-%%% check distance to polygon edges for every other point
-vertices = environment.combined{1}{1};
-dist_polygon_edges = mb.distancePoints(sensor_poses_initial(1:2,~in_environment), vertices);
-dist_polygon_edges_min = min(dist_polygon_edges, [], 2);
-in_environment(~in_environment) = dist_polygon_edges_min < 10;
-sensor_poses = sensor_poses_initial(:, in_environment);
+% options = config;
+%%
+% for npts = randi(800, 1, 20)
+npts = 0;
+options.sensorspace.poses.additional = npts;
+%%%
 
 %%%
-[valid_sensor_poses, vfov_rings, sp_wpn_visibilities] = Discretization.Sensorspace.vfov(sensor_poses, environment, workspace_positions, discretization);
+[sensor_poses, vfovs, vm] = Discretization.Sensorspace.iterative(environment, workspace_positions, options);
+
+Discretization.Sensorspace.draw(sensor_poses);
 %%
-cla,
-for idv = 1:numel(vfov_rings)
-Environment.draw(environment);
-hold on;
-Discretization.Sensorspace.draw(valid_sensor_poses(:, idv));
-mb.drawPolygon(vfov_rings(idv));
+cla
+Environment.draw(environment, false); 
+cellfun(@(p) mb.drawPoint(p{1}{1}(:,2), 'color', 'g'), vfovs);
+%%
+for i = 1:numel(vfovs)
+    cla
+Environment.draw(environment, false); 
+mb.drawPolygon(vfovs(i));
+disp(i);
 pause;
 end
+% cellfun(@(p) mb.drawPolygon(p{1}{1}, 'color', 'g'), vfovs()
+% Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
+% Discretization.Sensorspace.draw(sensor_poses_initial_in, 'r');
+disp(npts);
+% pause;
+% end
 %%
-Discretization.Sensorspace.draw(valid_sensor_poses);
-
 

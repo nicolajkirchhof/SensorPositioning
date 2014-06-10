@@ -1,7 +1,9 @@
 function [ workspace_positions ] = iterative( environment, options )
-%ITERATIVE Iterative discretization of the environment based on
-% max_cell_length and additional positions Configurations.Workspace.iterative
+%ITERATIVE( environment, options ) Iterative discretization of the environment
+%   based on max_cell_length and additional positions 
+% options : discretization options including sensorspace, workspace and sensor
 import Discretization.Workspace.*;
+options = options.workspace;
 placeable_ring = mb.expandPolygon(environment.boundary.ring, -options.wall_distance);
 p1 = min(placeable_ring{1}, [], 2);
 p2 = max(placeable_ring{1}, [], 2);
@@ -119,7 +121,7 @@ format long;
 filename = 'res\floorplans\P1-Seminarraum.dxf';
 config = Configurations.Discretization.iterative;
 environment = Environment.load(filename);
-options = config.workspace;
+options = config;
 
 opain = sort(randi(200, 1, 10));
 %%%
