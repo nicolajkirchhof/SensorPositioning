@@ -5,6 +5,7 @@ discretization = Configurations.Discretization.generic;
 discretization.sensor = Configurations.Sensor.tpl;
 discretization.sensorspace = Configurations.Sensorspace.iterative;
 discretization.workspace = Configurations.Workspace.iterative;
+discretization.angularmerge = deg2rad(6);
 discretization.type = Configurations.Discretization.get_types().iterative;
 
 return;

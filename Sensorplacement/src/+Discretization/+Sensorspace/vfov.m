@@ -44,15 +44,22 @@ combined_polys = [vis_polys, sensor_fovs];
 poly_combine_jobs = mat2cell([numel(vis_polys)+(1:numel(sensor_fovs)); u_p_ic']', ones(numel(sensor_fovs),1), 2);
 %%%
 [sensor_visibility_polygons, sensor_visibility_polygon_areas] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options );
+%%
 small_polys = sensor_visibility_polygon_areas < sensor.area(1);
 write_log('number of polys neglected because of area %d\n',  sum(small_polys));
 sensor_visibility_polygons = sensor_visibility_polygons(~small_polys);
 sensorpositions_filtered = sensor_poses(:, ~small_polys);
-%%%
+%%% merge points and remove spikes
+fun_spike = @(poly, center) mb.removePolygonAngularSpikes(poly, discretization.angularmerge, center);
+fun_merge = @(poly, center) fun_spike(mb.mergePolygonPointsAngularDist(poly{1}{1}, discretization.angularmerge, center),center);
+% fun_merge = @(p, c) fprintf('sz=%d %d %f %f %f\n', size(p{1}{1}), c);
+sensorpositions_filtered_cell = mat2cell(sensorpositions_filtered, 3, ones(1, size(sensorpositions_filtered,2)));
+sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
+
 % check all points against all visibility polygons
 fun_binpolygon = @(poly) binpolygon(int64(workspace_positions(1:2,:)), poly); 
-svp_empty = cellfun(@isempty, sensor_visibility_polygons);
-sensor_point_visibilities = cell2mat(cellfun(fun_binpolygon, sensor_visibility_polygons(~svp_empty), 'uniformoutput', false)')';
+svp_empty = cellfun(@isempty, sensor_visibility_polygons_merged);
+sensor_point_visibilities = cell2mat(cellfun(fun_binpolygon, sensor_visibility_polygons_merged(~svp_empty), 'uniformoutput', false)')';
 %%%
 empty_visibilities = sum(sensor_point_visibilities,1) == 0;
 write_log('number of polys neglected because of visibility %d\n', sum(empty_visibilities));
@@ -60,6 +67,8 @@ write_log('number of polys neglected because of visibility %d\n', sum(empty_visi
 vfov_rings = sensor_visibility_polygons(~empty_visibilities);
 sp_wpn_visibilities = sensor_point_visibilities(:, ~empty_visibilities)';
 valid_sensor_poses = sensorpositions_filtered(:, ~empty_visibilities);
+
+
 write_log('...done ');
 
 %%
@@ -78,7 +87,7 @@ options.workspace.positions.additional = 50;
 workspace_positions = Discretization.Workspace.iterative( environment, options );
 
 % options = config;
-%%
+%%%
 % for npts = randi(800, 1, 20)
 npts = 0;
 options.sensorspace.poses.additional = npts;

@@ -10,4 +10,4 @@ bpo = Configurations.Bpolyclip.generic;
 bpo.check          = true;
 bpo.spike_distance = 400;
 bpo.verbose        = true;
-bpo.grid_limit     = 1;
+bpo.grid_limit     = 10;
