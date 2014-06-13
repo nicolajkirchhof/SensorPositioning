@@ -1,4 +1,4 @@
-function [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions, options)
+function [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions, options, debug)
 %% ITERATIVE(environment, sensor, workspace_positions, options) samples the sensorspace
 %    by edge splitting. Options is a discretization with the following suboptions set for 
 %   the sensorposes.
@@ -9,6 +9,9 @@ function [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions,
 % and cw for the inner mountable rings, therfore the corners have to be processed
 % in reverse order.
 % bpolyclip
+if nargin < 4
+    debug = [];
+end
 %% set options
 sensor = options.sensor;
 sensorspace = options.sensorspace;
@@ -34,7 +37,7 @@ sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
 environment = Environment.combine(environment);
 in_environment = Environment.within_combined(environment, sensor_poses_initial, 10);
 sensor_poses_in = sensor_poses_initial(:, in_environment);
-[sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_in, environment, workspace_positions, options);
+[sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_in, environment, workspace_positions, options, debug);
 
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative

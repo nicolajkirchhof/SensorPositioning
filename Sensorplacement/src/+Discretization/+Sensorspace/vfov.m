@@ -1,7 +1,14 @@
-function [valid_sensor_poses, vfov_rings, sp_wpn_visibilities] = vfov(sensor_poses, environment, workspace_positions, discretization)
-%% VFOV(sensor_poses, environment, discretization) calculates the vfov of one 
+function [valid_sensor_poses, vfov_rings, sp_wpn_visibilities] = vfov(sensor_poses, environment, workspace_positions, discretization, debug)
+%% VFOV(sensor_poses, environment, discretization) calculates the vfov of one
 %   ore multiple sensors
-%   
+%
+%   additional options :
+% remove_spikes = true  : remove empty polygons
+
+if nargin < 5 || isempty(debug)
+    debug.remove_spikes = true;
+end
+
 valid_sensor_poses = [];
 vfov_rings = {};
 sp_wpn_visibilities = [];
@@ -32,8 +39,8 @@ vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
 sensor_poses = sensor_poses(:, ~vis_flt);
 u_p_ic = u_p_ic(~vis_flt);
 %%%
-% calculates the sensor fov, the inner ring is defined by the min distance and the outer ring by 
-% the max distance. Since both rings have the same orientation, the inner is flipped to get a 
+% calculates the sensor fov, the inner ring is defined by the min distance and the outer ring by
+% the max distance. Since both rings have the same orientation, the inner is flipped to get a
 % polygon
 default_annulus = mb.createAnnulusSegment(0,0,sensor.distance(1), sensor.distance(2), 0, sensor.fov, sensorspace.ringvertices);
 fun_sensorfov = @(x,y,theta) int64(bsxfun(@plus, ([cos(theta) -sin(theta); sin(theta)  cos(theta)]*default_annulus), [x;y]));
@@ -50,14 +57,17 @@ write_log('number of polys neglected because of area %d\n',  sum(small_polys));
 sensor_visibility_polygons = sensor_visibility_polygons(~small_polys);
 sensorpositions_filtered = sensor_poses(:, ~small_polys);
 %%% merge points and remove spikes
-fun_spike = @(poly, center) mb.removePolygonAngularSpikes(poly, discretization.angularmerge, center);
-fun_merge = @(poly, center) fun_spike(mb.mergePolygonPointsAngularDist(poly{1}{1}, discretization.angularmerge, center),center);
-% fun_merge = @(p, c) fprintf('sz=%d %d %f %f %f\n', size(p{1}{1}), c);
-sensorpositions_filtered_cell = mat2cell(sensorpositions_filtered, 3, ones(1, size(sensorpositions_filtered,2)));
-sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
-
+if debug.remove_spikes
+    fun_spike = @(poly, center) mb.removePolygonAngularSpikes(poly, discretization.angularmerge, center);
+    fun_merge = @(poly, center) fun_spike(mb.mergePolygonPointsAngularDist(poly{1}{1}, discretization.angularmerge, center),center);
+    % fun_merge = @(p, c) fprintf('sz=%d %d %f %f %f\n', size(p{1}{1}), c);
+    sensorpositions_filtered_cell = mat2cell(sensorpositions_filtered, 3, ones(1, size(sensorpositions_filtered,2)));
+    sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
+else
+    sensor_visibility_polygons_merged = sensor_visibility_polygons;
+end
 % check all points against all visibility polygons
-fun_binpolygon = @(poly) binpolygon(int64(workspace_positions(1:2,:)), poly); 
+fun_binpolygon = @(poly) binpolygon(int64(workspace_positions(1:2,:)), poly);
 svp_empty = cellfun(@isempty, sensor_visibility_polygons_merged);
 sensor_point_visibilities = cell2mat(cellfun(fun_binpolygon, sensor_visibility_polygons_merged(~svp_empty), 'uniformoutput', false)')';
 %%%
@@ -75,7 +85,7 @@ write_log('...done ');
 return;
 %% TESTING
 %% TEST
-% close all; 
+% close all;
 clear variables;
 format long;
 filename = 'res\floorplans\P1-Seminarraum.dxf';
@@ -99,15 +109,15 @@ options.sensorspace.poses.additional = npts;
 Discretization.Sensorspace.draw(sensor_poses);
 %%
 cla
-Environment.draw(environment, false); 
+Environment.draw(environment, false);
 cellfun(@(p) mb.drawPoint(p{1}{1}(:,2), 'color', 'g'), vfovs);
 %%
 for i = 1:numel(vfovs)
     cla
-Environment.draw(environment, false); 
-mb.drawPolygon(vfovs(i));
-disp(i);
-pause;
+    Environment.draw(environment, false);
+    mb.drawPolygon(vfovs(i));
+    disp(i);
+    pause;
 end
 % cellfun(@(p) mb.drawPolygon(p{1}{1}, 'color', 'g'), vfovs()
 % Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
