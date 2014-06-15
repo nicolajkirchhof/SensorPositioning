@@ -1,13 +1,9 @@
-function [ discretization ] = generate( environment, config )
+function [ quality ] = generate( discretization, config )
 %GENERATE generates a discretization for a given environment by using the 
 % parameters that are provided along with it
 % requirements:
-%   config.sensorspace : config of sensorspace
-%   config.workspace   : config of workspace
-%   config.sensor      : config of sensor
-%   config.bpolyclip   : config of bpolyclip
-%   config.visilibity  : config of visilibity
-%   environment : representation of environment
+%   config.ws  : type of ws quality
+%   config.wss : type of wss quality
 % import Discretization.*
 discretization = DataModels.discretization;
 
@@ -18,7 +14,7 @@ discretization.wpn = Discretization.Workspace.(config.workspace.type)(environmen
 discretization.num_sensors = size(discretization.sp, 2);
 discretization.num_positions = size(discretization.wpn, 2);
 
-[discretization.spo] = Discretization.Sensorspace.sameplace(discretization.sp, config.sensor.fov);
+[discretization.spo] = Discretization.Sensorspace.sameplace(discretization.sp, fov);
 
 [discretization.sc, discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(discretization.vm, discretization.spo, config);
 

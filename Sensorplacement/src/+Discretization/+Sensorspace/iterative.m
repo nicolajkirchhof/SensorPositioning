@@ -114,7 +114,7 @@ Environment.draw(environment, false);
 [sensor_poses, vfovs, vm] = Discretization.Sensorspace.iterative(environment, workspace_positions, options);
 
 Discretization.Sensorspace.draw(sensor_poses);
-cellfun(@(p) mb.drawPoint(p{1}{1}(:,2), 'color', 'g'), vfovs)
+cellfun(@(p) mb.drawPoint(p(:,2), 'color', 'g'), vfovs)
 % Discretization.Sensorspace.draw(sensor_poses_mountables, 'g');
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'r');
 disp(npts);

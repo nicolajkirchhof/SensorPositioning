@@ -1,25 +1,38 @@
-function pc = sensorcomb(pc)
+function [sc, sc_wpn] = sensorcomb(vm, spo, config)
 %% Builds all sensor combinations for every workspace point
 % use straight forward sum(n-1:n-i1)-(n-i2) to calculate intersection index
 % combinations that are not valid due to sameplace constraints are excluded
 
-if ~pc.progress.sensorspace.visibility
-    pc = sensorspace.visibility(pc);
-end
-if ~pc.progress.sensorspace.sameplace
-    pc = sensorspace.sameplace(pc);
+% if ~progress.sensorspace.visibility
+%     pc = sensorspace.visibility(pc);
+% end
+% if ~progress.sensorspace.sameplace
+%     pc = sensorspace.sameplace(pc);
+% end
+% common.tmpfile.wp_sc_idx.name = [wd filesep name tag '.tmp']; %filename of the used tmpfile
+% common.tmpfile.wp_sc_idx.fid = 0; %filename of the used tmpfile
+
+persistent filename_sc fid_sc
+
+if isempty(filename_sc)
+    filename_sc = [config.common.workdir filesep 'sensorcomb.tmp'];
 end
 
-if pc.problem.num_positions > intmax('uint16') || pc.problem.num_sensors > intmax('uint16')
+num_positions = size(vm, 2);
+num_sensors = size(vm, 1);
+
+if num_positions > intmax('uint16') || num_sensors > intmax('uint16')
     error('only %d positions supported due to data type', intmax('uint16'));
 end
 %%
-num_sensors = pc.problem.num_sensors;
-sc_ij = false(num_sensors);
+% num_sensors = problem.num_sensors;
+
 
 % make sure previous file is closed
-if pc.common.tmpfile.wp_sc_idx.fid > 0
-     pc.common.tmpfile.wp_sc_idx.fid = fclose(pc.common.tmpfile.wp_sc_idx.fid);
+if ~isempty(fid_sc) && fid_sc > 0
+     fid_sc = fclose(fid_sc);
+else
+    fid_sc = 0;
 end
 %%% estimate combination matrix size
 % estimated number of combinations from visible sensors for each point
@@ -34,11 +47,14 @@ end
     % one 8 bit entry per combination element
     % The matrix is stored columnwise, therefore the appropriate space
     % for each column must be known in advance, which is not, due to the
-    num_slice_rows = floor(pc.common.workmem/pc.problem.num_positions);
-    wp_sc_cache = zeros(num_slice_rows, pc.problem.num_positions, 'uint8');
-xt_ji = pc.problem.xt_ij'; % use transposed matrix since column operations are much faster
+    num_slice_rows = min([num_positions*num_sensors^2, floor(config.common.workmem/num_positions)]);
+    
+    
+    wp_sc_cache = zeros(num_slice_rows, num_positions, 'uint8');
+    sc_ij = false(num_sensors);
+xt_ji = vm'; % use transposed matrix since column operations are much faster
 loop_display(num_sensors, 10);
-if pc.common.is_logging, write_log('calculating all qualities for every workspace point'); end
+if config.common.is_logging, write_log('calculating all qualities for every workspace point'); end
 %%
 cnt = 1;
 % num_comb = 1;
@@ -46,9 +62,9 @@ num_slices = 1;
 for ids = 1:num_sensors
     %% finds all the used combinations from the xt_ij matrix
     % the idea is to move through all sensor rows and and them with the current sensor row
-    % if there are no common points the resulting vector is all false
+    % if there are no config.common points the resulting vector is all false
     for ids2 = ids+1:num_sensors
-        if any(xt_ji(:, ids)&xt_ji(:,ids2)) && ~pc.problem.sp_ij(ids, ids2)
+        if any(xt_ji(:, ids)&xt_ji(:,ids2)) && ~spo(ids, ids2)
             sc_ij(ids, ids2) = 1;
             combs = xt_ji(:, ids)&xt_ji(:,ids2);
             % sc_wp_idx{ids, ids2} = uint16(find(combs)); % profile 21.131s
@@ -59,13 +75,13 @@ for ids = 1:num_sensors
             if cnt > num_slice_rows                
                 % we've reached the max matrix size therefore the matrix is written to
                 % a file
-                if pc.common.tmpfile.wp_sc_idx.fid < 1
+                if fid_sc < 1
                     write_log('matrix size too big, using tempfile');
                     % first time, open file
-                    pc.common.tmpfile.wp_sc_idx.fid = fopen(pc.common.tmpfile.wp_sc_idx.name, 'W');
+                    fid_sc = fopen(filename_sc, 'W');
                 end
-                fwrite(pc.common.tmpfile.wp_sc_idx.fid, wp_sc_cache);
-                wp_sc_cache = zeros(num_slice_rows, pc.problem.num_positions, 'uint8');
+                fwrite(fid_sc, wp_sc_cache);
+                wp_sc_cache = zeros(num_slice_rows, num_positions, 'uint8');
                 num_slices = num_slices + 1;
                 cnt = 1;
             end
@@ -73,49 +89,70 @@ for ids = 1:num_sensors
     end
     loop_display(ids);
 end
-if cnt > 1 && pc.common.tmpfile.wp_sc_idx.fid > 0
-    fwrite(pc.common.tmpfile.wp_sc_idx.fid, wp_sc_cache(1:cnt-1, :));
+if cnt > 1 && fid_sc > 0
+    fwrite(fid_sc, wp_sc_cache(1:cnt-1, :));
     num_slices = num_slices + 1;
 end
 write_log('Calculation finished');
 %%
-pc.problem.sc_ij = sc_ij;
+problem.sc_ij = sc_ij;
 [c1, c2] = find(sc_ij);
-pc.problem.sc_idx = uint16(sortrows([c1, c2]));
-% sc_ind = sub2ind(size(sc_wp_idx), uint64(pc.problem.sc_idx(:,1)), uint64(pc.problem.sc_idx(:,2)));
+sc = uint16(sortrows([c1, c2]));
+% sc_ind = sub2ind(size(sc_wp_idx), uint64(sc(:,1)), uint64(sc(:,2)));
 %%%
 % reduce variable size by selecting only non empty cells
-% pc.problem.sc_wp_idx = sc_wp_idx(sc_ind);
-pc.problem.num_comb = size(pc.problem.sc_idx, 1);
-% pc.problem.num_comb = num_comb;
-% pc.problem.sc_wp_idx2 = sc_wp_idx2;
+% problem.sc_wp_idx = sc_wp_idx(sc_ind);
+num_comb = size(sc, 1);
+% problem.num_comb = num_comb;
+% problem.sc_wp_idx2 = sc_wp_idx2;
 % whos_prettyprint;
 % set progress
 %%%
-if pc.common.tmpfile.wp_sc_idx.fid > 1
-fclose(pc.common.tmpfile.wp_sc_idx.fid);
+if fid_sc > 1
+fclose(fid_sc);
 % prevent changes
-pc.common.tmpfile.wp_sc_idx.fid = fopen(pc.common.tmpfile.wp_sc_idx.name, 'r');
-pc.problem.wp_sc_idx = @(r, c) sliced_read(c, pc.common.tmpfile.wp_sc_idx.fid, num_slices, num_slice_rows, pc.problem.num_positions, pc.problem.num_comb);
+fid_sc = fopen(filename_sc, 'r');
+sc_wpn = @(r, c) sliced_read(c, fid_sc, num_slices, num_slice_rows, problem.num_positions, problem.num_comb);
 else
-    pc.problem.wp_sc_idx = wp_sc_cache(1:pc.problem.num_comb, :);
+    sc_wpn = wp_sc_cache(1:num_comb, :);
 end
 %%%
-pc.progress.sensorspace.sensorcomb = 1;
+% progress.sensorspace.sensorcomb = 1;
 
 return;
 
+%% TEST small
+
+vm = [0 1 0 1 0 1 0 1; 
+      0 0 1 1 0 0 1 1; 
+      0 0 0 0 1 1 1 1]';
+spo = false(size(vm, 1));
+config = Configurations.Discretization.iterative;
+[sc, sc_wpn] = Discretization.Sensorspace.sensorcomb(vm, spo, config);
+
+
+%% TEST Big
+num_wpn = 1500;
+num_sp = 1500;
+
+vm = randi(2, num_wpn, num_sp)-1;
+spo = false(size(vm, 1));
+config = Configurations.Discretization.iterative;
+[sc, sc_wpn] = Discretization.Sensorspace.sensorcomb(vm, spo, config);
+
+
+
 %% test tmp file
-if pc.problem.num_comb >= intmax('uint32')
+if problem.num_comb >= intmax('uint32')
     error('test must be redefined')
 end
-loop_display(pc.problem.num_positions, 10);
+loop_display(problem.num_positions, 10);
 write_log('checking all qualities for every workspace point');
-for idw = 1:pc.problem.num_positions
-    sc_file = find(pc.problem.wp_sc_idx(idw));
+for idw = 1:problem.num_positions
+    sc_file = find(sc_wpn(idw));
     sc_mat = {};
-    for idc = 1:pc.problem.num_comb
-        if any(pc.problem.sc_wp_idx{idc} == idw)
+    for idc = 1:problem.num_comb
+        if any(problem.sc_wp_idx{idc} == idw)
             sc_mat{end+1, 1} = idc;
         end
     end
@@ -134,14 +171,14 @@ end
 write_log('all good');
 %%
 %
-% frewind(pc.common.tmpfile.wp_sc_idx.fid);
-% loop_display(pc.problem.num_comb, 10);
+% frewind(fid_sc);
+% loop_display(problem.num_comb, 10);
 % write_log('checking all qualities for every workspace point');
-% for idw = 1:pc.problem.num_comb
-%     ids = fread(pc.common.tmpfile.wp_sc_idx.fid, pc.problem.num_positions, 'uint8');
-%     if ~isempty(setdiff(find(ids), pc.problem.sc_wp_idx{idw}))
+% for idw = 1:problem.num_comb
+%     ids = fread(fid_sc, problem.num_positions, 'uint8');
+%     if ~isempty(setdiff(find(ids), problem.sc_wp_idx{idw}))
 %         %%
-%         figure, plot(1:numel(pc.problem.sc_wp_idx{idw}), pc.problem.sc_wp_idx{idw}, 'og');
+%         figure, plot(1:numel(problem.sc_wp_idx{idw}), problem.sc_wp_idx{idw}, 'og');
 %         hold on;
 %         plot(1:numel(find(ids)), find(ids), 'or');
 %         %%

@@ -5,7 +5,8 @@ workspace = Configurations.Workspace.generic;
 workspace.positions.additional = 0;
 workspace.cell.length          = [0 1000]; 
 workspace.wall_distance        = 500;
-workspace.sampling.technique   = workspace.sampling.techniques.iterative;
+types = Configurations.Workspace.get_types();
+workspace.type   = types.iterative;
 
 % workspace.number_of_positions = 100;
 % workspace.min_position_distance = 300;

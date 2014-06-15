@@ -1,0 +1,1648 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"case",
+				"end{cases}	Diss_Kirchhof.tex"
+			],
+			[
+				"if",
+				"ifthenelse"
+			],
+			[
+				"optimi",
+				"optimizationsubjects"
+			],
+			[
+				"opti",
+				"optimizationcriterion"
+			],
+			[
+				"th",
+				"thefigurecounter"
+			],
+			[
+				"dop",
+				"doptrilateration_content"
+			],
+			[
+				"add",
+				"addfigure"
+			],
+			[
+				"math",
+				"mathfrak"
+			],
+			[
+				"W",
+				"W^p"
+			],
+			[
+				"mat",
+				"mathfrak"
+			],
+			[
+				"Q",
+				"Qscw"
+			],
+			[
+				"sim",
+				"simplemathset"
+			],
+			[
+				"end",
+				"end{alignat}	Diss_Kirchhof.tex"
+			],
+			[
+				"gra",
+				"graphics"
+			],
+			[
+				"msymSen",
+				"msymSensorspaceposition"
+			],
+			[
+				"Om",
+				"Omega"
+			],
+			[
+				"todo",
+				"todolist"
+			],
+			[
+				"it",
+				"item	Itemize"
+			],
+			[
+				"kel",
+				"Kelly2003: Precision dilution in triangulation based mobile robot position estimation"
+			],
+			[
+				"ir",
+				"fig:irfseminarplacement"
+			],
+			[
+				"vf",
+				"msymVfovIntersection"
+			],
+			[
+				"bi",
+				"eqn:bip:simple:obj"
+			],
+			[
+				"msymSe",
+				"msymSensingRange"
+			],
+			[
+				"msym",
+				"msymSensingRange"
+			],
+			[
+				"msymDecision",
+				"msymDecisionSensorspaceposes"
+			],
+			[
+				"msymv",
+				"msymVfov"
+			],
+			[
+				"msymDe",
+				"msymDecisionSensorspacepose"
+			],
+			[
+				"msymC",
+				"msymSensorspaceposition"
+			],
+			[
+				"sym",
+				"symvector"
+			],
+			[
+				"si",
+				"fig:simpleenvironment"
+			],
+			[
+				"en",
+				"ensuremath"
+			],
+			[
+				"msy",
+				"msymNumSensorspacepositions"
+			],
+			[
+				"ms",
+				"msymsensorspaceposition"
+			],
+			[
+				"gdo",
+				"gdopsymbol"
+			],
+			[
+				"k",
+				"kcoverage"
+			],
+			[
+				"sensor",
+				"sensorselected"
+			],
+			[
+				"samepl",
+				"sameplaceoverlapping"
+			],
+			[
+				"work",
+				"workspacepose"
+			],
+			[
+				"senso",
+				"sensorspacepose"
+			],
+			[
+				"visib",
+				"visibilitymatrix"
+			],
+			[
+				"num",
+				"numpositions"
+			],
+			[
+				"subse",
+				"subsection"
+			],
+			[
+				"son",
+				"Song2011: Distributed Wide Area Scene Analysis in Reconfigurable Camera Networks"
+			],
+			[
+				"mitt",
+				"  Mittal2007: A General Method for Sensor Planning in Multi-Sensor Systems: Extension to Random Occlusion"
+			],
+			[
+				"co",
+				"color_scheme"
+			],
+			[
+				"se",
+				"set"
+			],
+			[
+				"set",
+				"settings"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"ca",
+				"LaTeXing: Rebuild Cache"
+			],
+			[
+				"cl",
+				"LaTeXing: Clean up (Remove) all Nonessential Files"
+			],
+			[
+				"lat cl",
+				"LaTeXing: Clean up (Remove) all Nonessential Files"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"cle",
+				"LaTeXing: Clean up (Remove) all Nonessential Files"
+			],
+			[
+				"char",
+				"Character Table: Lookup Unicode Character"
+			],
+			[
+				"lat st",
+				"Preferences: LaTeXing Settings - User"
+			],
+			[
+				"cach",
+				"LaTeXing: Rebuild Cache"
+			],
+			[
+				"lat set",
+				"Preferences: LaTeXing Settings - User"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"settin",
+				"Preferences: Settings - User"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"sett",
+				"Preferences: Settings - User"
+			],
+			[
+				"setti",
+				"Preferences: LaTeXing Settings - Default"
+			],
+			[
+				"ke",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"di",
+				"Package Control: Disable Package"
+			],
+			[
+				"sho",
+				"LaTeXing: Show Log Panel"
+			],
+			[
+				"log",
+				"LaTeXing: Show Log Panel"
+			],
+			[
+				"si",
+				"View: Toggle Side Bar"
+			],
+			[
+				"tem",
+				"LaTeXing: Clean Temporary Output Dictionary"
+			],
+			[
+				"line",
+				"Line Ending to all views: Windows"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"setting",
+				"Preferences: Settings - User"
+			],
+			[
+				"exten",
+				"Preferences: LaTeXing Settings - Default (Extended)"
+			],
+			[
+				"extend",
+				"Preferences: LaTeXing Settings - User (Extended)"
+			],
+			[
+				"late set",
+				"Preferences: LaTeXing Settings - User"
+			],
+			[
+				"latex set",
+				"Preferences: LaTeXing Settings - Default"
+			],
+			[
+				"te",
+				"LaTeXing: Clean Temporary Output Dictionary"
+			],
+			[
+				"latex se",
+				"Preferences: LaTeXing Settings - User"
+			],
+			[
+				"pref",
+				"Preferences: Settings - User"
+			],
+			[
+				"show",
+				"LaTeXing: Show Log Panel"
+			],
+			[
+				"temp",
+				"LaTeXing: Clean Temporary Output Dictionary"
+			],
+			[
+				"lat sett",
+				"Preferences: LaTeXing Settings - User"
+			],
+			[
+				"clen",
+				"LaTeXing: Clean up (Remove) all Nonessential Files"
+			],
+			[
+				"clea",
+				"Build: Clean up Files"
+			],
+			[
+				"la opt",
+				"Snippet: LaTeXing Option PDF Name"
+			],
+			[
+				"roo",
+				"Snippet: LaTeXing Option Root File"
+			],
+			[
+				"late se",
+				"Preferences: LaTeXing Settings - Default (Extended)"
+			],
+			[
+				"latexin",
+				"Preferences: LaTeXing Settings - Default"
+			],
+			[
+				"sid",
+				"View: Toggle Side Bar"
+			],
+			[
+				"pre",
+				"Preferences: Package Control Settings – User"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"su",
+				"Preferences: Settings - User"
+			],
+			[
+				"mini",
+				"View: Toggle Minimap"
+			],
+			[
+				"disc",
+				"Package Control: Discover Packages"
+			],
+			[
+				"latexing set",
+				"Preferences: LaTeXing Settings - Default"
+			],
+			[
+				"settings",
+				"Preferences: LaTeXing Settings - Default"
+			],
+			[
+				"latexing",
+				"Preferences: LaTeXing Settings - User"
+			],
+			[
+				"side",
+				"View: Toggle Side Bar"
+			],
+			[
+				"dic",
+				"Dictionaries: Set Language"
+			],
+			[
+				"boo",
+				"Bookmarks: Toggle"
+			],
+			[
+				"cac",
+				"LaTeXing: Rebuild Cache"
+			],
+			[
+				"late",
+				"LaTeXing: Rebuild Cache"
+			],
+			[
+				"pa",
+				"Package Control: Disable Package"
+			],
+			[
+				"defaul",
+				"Preferences: Settings - Default"
+			],
+			[
+				"user",
+				"Preferences: Settings - User"
+			],
+			[
+				"proj",
+				"Project: Edit"
+			],
+			[
+				"synt late",
+				"Set Syntax: LaTeXing"
+			],
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"syntax tex",
+				"Set Syntax: TeX"
+			],
+			[
+				"syn lat",
+				"Set Syntax: LaTeXing"
+			],
+			[
+				"re",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"syn late",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"oni",
+				"LaTeXing: Online Lookup"
+			],
+			[
+				"q",
+				"Git: Quick Commit"
+			],
+			[
+				"add",
+				"Git: Quick Add"
+			],
+			[
+				"qui",
+				"Git: Quick Status"
+			],
+			[
+				"git",
+				"SublimeGit: Documentation"
+			],
+			[
+				"latex",
+				"LaTeXing: Install License"
+			],
+			[
+				"ch",
+				"LaTeXing: Check System"
+			],
+			[
+				"che",
+				"LaTeXing: Check System"
+			],
+			[
+				"check",
+				"LaTeXing: Check System"
+			],
+			[
+				"lat",
+				"LaTeXing: Texcount"
+			],
+			[
+				"save",
+				"File: Save All"
+			],
+			[
+				"togg",
+				"View: Toggle Side Bar"
+			],
+			[
+				"tikz",
+				"Set Syntax: TikZ"
+			],
+			[
+				"split",
+				"Snippet: Split"
+			],
+			[
+				"jso",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"cas",
+				"Convert Case: Swap Case"
+			],
+			[
+				"upp",
+				"Convert Case: Upper Case"
+			],
+			[
+				"pac",
+				"Package Control: List Packages"
+			],
+			[
+				"tran",
+				"BingTranslator: Reverse Translate"
+			],
+			[
+				"min",
+				"View: Toggle Minimap"
+			],
+			[
+				"bui",
+				"Build: Build"
+			],
+			[
+				"pus",
+				"Git: Push"
+			],
+			[
+				"comm",
+				"Git: Quick Commit"
+			],
+			[
+				"tr",
+				"BingTranslator: Translate"
+			],
+			[
+				"matl",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"ind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"pu",
+				"Git: Push"
+			],
+			[
+				"git com",
+				"Git: Quick Commit"
+			],
+			[
+				"the",
+				"Weblookup: Thesaurus Selection"
+			],
+			[
+				"commi",
+				"Git: Quick Commit"
+			],
+			[
+				"gi",
+				"Git: Status"
+			],
+			[
+				"goo",
+				"SmartGoogle: Search from selction"
+			],
+			[
+				"bi",
+				"BingTranslator: Translate"
+			],
+			[
+				"th",
+				"Thesaurus search"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"bin",
+				"BingTranslator: Translate"
+			],
+			[
+				"vie",
+				"View: Toggle Side Bar"
+			],
+			[
+				"kei",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"ren",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"",
+				"BingTranslator: Translate"
+			],
+			[
+				"smar",
+				"SmartGoogle: Search from selction"
+			],
+			[
+				"instl",
+				"Package Control: Install Package"
+			],
+			[
+				"gitcon",
+				"Set Syntax: Git Config"
+			],
+			[
+				"push",
+				"Git: Push"
+			],
+			[
+				"git: a",
+				"Git: Add..."
+			],
+			[
+				"git:ad",
+				"Git: Add..."
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"todo",
+				"Show TODOs: Open files only"
+			],
+			[
+				"tod",
+				"Show TODOs: Open files only"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 335.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": false,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/C/Users/Nico/.gitconfig",
+		"/D/Apps/Irf/irimg-tk.thilo/.git/config",
+		"/C/Users/Nico/Projects/Extensions/Src/mex/bpolyclip/bpolyclip/bpolyclip.hpp",
+		"/C/Users/Nico/Projects/Dissertation/common/acronyms.tex",
+		"/C/Users/Nico/Projects/Dissertation/common/definitions.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/diss-config.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/DiscreteModels.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/FrontBackmatter/Contents.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Experiments.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/triangulation_12degFov10mdist_errorEval.tex",
+		"/D/Downloads/OpenELEC-RPi.arm-4.0.2/OpenELEC-RPi.arm-4.0.2/README.md",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Promotion_Zip/Eroeffnung_Promotionsverfahren_2012.doc",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Preprocessing.tex",
+		"/C/Users/Nico/Projects/Dissertation/common/symbols.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/SensorPositioning.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Introduction.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Approximations.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Doc/ClassicThesis/Examples/classicthesis-article.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Mindmaps/Opt Sensor Pose .mm",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/ContinuousModels.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Doc/ClassicThesis/Chapters/Content.tex",
+		"/C/Users/Nico/Projects/Dissertation/common/symbolsComments.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/sensormodel_content.dpth",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/solvingquality_content.dpth",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Doc/ClassicThesis/Chapters/Chapter02.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/ThesisSetup.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/SensorPositioningComments.aux",
+		"/C/Users/Nico/Projects/Dissertation/common/acronymsComments.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Outline.docx",
+		"/C/Users/Nico/Documents/Config/homefolder/_netrc",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/SensorPositioningComments.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.ptex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/Diss_Kirchhof-figure0.log",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/Diss_Kirchhof-figure0.dpth",
+		"/C/Users/Nico/Projects/Dissertation/common/library.bib",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.log",
+		"/C/Users/Nico/Projects/Dissertation/common/graph.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/ThesisSetup.log",
+		"/C/Users/Nico/Projects/Dissertation/common/latex_commands.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/irfcont_content.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/irfcont_content.log",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/sensormodel_content.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/SensorPoseCalibration.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/multi_intersections.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Appendix.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.tdo",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.bcf",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/diss.sublime-project",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/CompiledTikz/ThesisSetup.pdf",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Tikz/ThesisSetup.dpth",
+		"/C/Users/Nico/Projects/Dissertation/common/notations.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/solvingquality_content.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Doc/ClassicThesis/README",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/sensoroverlap_content.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Figuretest.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.bbl",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/IntroductionComments.tex",
+		"/C/Users/Nico/Projects/Dissertation/common/local2.bib",
+		"/C/Users/Nico/Projects/Dissertation/common/local.bib",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Doc/ClassicThesis/CHANGES",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/FrontBackmatter/Bibliography.tex",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/User/LaTeXing.sublime-settings",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Mindmaps/DisDo.mm",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Remote.bib",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/DiscreteModels.aux",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Preprocessing.aux",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Promotion_Zip/Kolloquium_2012.doc",
+		"/C/Users/Nico/Projects/Extensions/Src/Matlab/tools.libs/ext_all.m",
+		"/C/Users/Nico/AppData/Roaming/MathWorks/MATLAB/R2014a/matlab.prf",
+		"/E/serial/Readme.txt",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Compile-Thesis.ps1",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/classicthesis.sty",
+		"//openelec/Configfiles/samba.conf",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/graph.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/graph_sensorsystems.tex",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/vfov_visible_content.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/vfov_visible.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/figures/sensoroverlap_content.tikz",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/F-doptriangulation_content.txt",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/figures/doptriangulation_content.tikz",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/vfov_visible_content.txt",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/LaTeXing/LaTeX.sublime-build",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/User/LaTeX.sublime-build",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/LaTeXing/Default (Windows).sublime-keymap",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/CompiledTikz/doptrilateration_content.tikz.pdf",
+		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/LaTeXing/LaTeXing.sublime-settings",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/doptriangulation_content.tikz",
+		"/c/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.toc",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/vfov_visible.synctex.gz(busy)",
+		"/C/Users/Nico/Projects/Dissertation/common/Create-Snippets.ps1",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/irfbest.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.synctex.gz(busy)",
+		"/C/Users/Nico/downloads/HTPC-Manager-master/README.md",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/FrontBackmatter/Abstract.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/FrontBackmatter/Publication.tex",
+		"/D/Archive/uni/VHDL/prakt/src/aufgabe04.vhd",
+		"/D/Archive/bookmarks.html",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/main.tex",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/Gurobi.txt",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/nkCLTemplate.tex",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/nkCLTemplateBegin.tex",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/nkCLTemplateEnd.tex",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/moderncv.cls",
+		"/C/Users/Nico/Projects/Karriere/Source/CoverLetter/moderncvcolorgreen.sty",
+		"/C/Users/Nico/Projects/Irf/Data/nico.staff/cv/cvNK/WasIchTunWill.txt",
+		"/C/Users/Nico/Projects/Irf/Data/nico.staff/cv/cvNicolajKirchhof.tex",
+		"/C/Users/Nico/Projects/Irf/Data/nico.staff/cv/cvNK/ShortProfileIrfLT512Char.txt",
+		"/C/Users/Nico/Projects/Irf/Data/nico.staff/cv/cvNK/Readme.md",
+		"/C/Users/Nico/Projects/Irf/Data/nico.staff/cv/cvNK/Jani Tipps Lebenslauf.txt",
+		"/C/Users/Nico/Documents/Projects/Karriere/Fragen.txt",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/bcf",
+		"/c/Users/Nico/Projects/Dissertation/Thesis/Diss_Kirchhof.ptex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Doc/ClassicThesis/Chapters/Chapter01.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/thilouncertainty.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/Todo.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/dop.svg",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Figures/compile-tikz.ps1",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/FrontBackmatter/Titleback.tex",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/texput.log",
+		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/defaultSettings.yaml",
+		"/C/Users/Nico/.ssh/github_rsa.pub",
+		"/C/Users/Nico/Workspace/nico.staff/Thesis/Figures/sensormodel_content.tikz"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"<open folders>,*.tex, *.tikz",
+			"<open folders>,*.tex,",
+			"<open folders>,*.tex, *.tikz, *.sty",
+			"<open folders>,*.tex, *.tikz",
+			"<open folders>",
+			"Thesis",
+			"<open files>",
+			"C:\\Users\\Nico\\PortableApps\\SublimeText2.X.x64\\Data\\Packages\\User\\Snippets\\dissmath",
+			"*.tex"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"models",
+			"\\che",
+			"fov",
+			"x",
+			"ring",
+			"mathema",
+			"subfloat",
+			"subfig",
+			"subfigure",
+			"models",
+			"\\\\cite?",
+			"Chen2002Design",
+			":spike",
+			"\\\\ac?(\\{cnl\\})",
+			"\\\\ac?(\\{pa\\})",
+			"\\\\ac?(\\{pcso\\})",
+			"\\\\ac?(\\{pcsd\\})",
+			"\\\\ac?(\\{pcs\\})",
+			"\\\\ac?(\\{pcso\\})",
+			"\\\\ac.(\\{pcso\\})",
+			"\\\\ac.(\\{cnl\\})",
+			"\\\\ac.(\\{pa\\})",
+			"\\\\ac.(\\{pcso\\})",
+			"\\\\ac.(\\{pcsd\\})",
+			"\\\\ac.(\\{pcs\\})",
+			"\\\\ac.(\\{pc\\})",
+			"\\\\ac?\\{pc\\}",
+			"model",
+			"\\ac{pa}",
+			"model",
+			"\\ac{cnl}",
+			"model",
+			"vfov_visible",
+			"\\ac{aco}",
+			"ifthenelse",
+			"figure",
+			"error",
+			"\\aca",
+			"\\acs",
+			"Symbols",
+			"msymSameplaceoverlapping",
+			"\\; \\forall \\: \\acs{msymSensorspaceposition}",
+			"msymSensorspaceposition",
+			"\\acs{msymSensorspaceposition}",
+			"\\acs{msymSensorspacepositions}",
+			"msymSensorspaceposition",
+			"write",
+			"tikz",
+			"tikzpicture",
+			"tikz",
+			"\\chapter",
+			"chapter",
+			"todo",
+			"tikz",
+			"figure",
+			"Error",
+			"DeclareAcronym",
+			"\\DeclareAcronym{n@Tuple}{\n    short =\\ensuremath{a = (a_0,\\dotsc)},\n    long  = An ordered list (n-tuple),\n    class = Notations}\n\n",
+			"htbp",
+			"sensitive",
+			"mapping",
+			"thilo",
+			"research",
+			"\\aca{vfov}",
+			"msymVfov",
+			"biblatex",
+			"Zhu1992Calculation",
+			"Akbarzadeh2012Probabilistic",
+			"Kelly2003Precision",
+			"Goodman2010Handbook",
+			"Osais2009On",
+			"Nemhauser1988Integer",
+			"\\cite",
+			"Kemper2010a",
+			"\\ref{}",
+			"citet",
+			"eqn:WpvFamily",
+			"fig:label",
+			"bip:mspqm:st:cqual",
+			"eqn:QbpvFamily",
+			"eqn:QbpvElement",
+			"eqn:bip:mssqm:obj",
+			"\n    ",
+			"eqn:quality:wss",
+			"\\box",
+			"frac",
+			"state",
+			"source",
+			"align",
+			"mous",
+			"pmatrixsimple",
+			"n",
+			"BigO",
+			"R_{Z_1}",
+			".tikz",
+			"sensoroverlap_content",
+			".tikz",
+			"myfigurenamewin",
+			"setfigurename",
+			".tikz",
+			"includegraphics",
+			"Z_i",
+			"}{",
+			"set",
+			"model",
+			"$F$",
+			"Wpv",
+			"vsc",
+			"m@Qscw",
+			"caseelememnt",
+			"case",
+			"\\aca{m@Qscw}",
+			"cases",
+			"quality",
+			"altin",
+			"relo",
+			"\\ac{VM}",
+			"msymSensor",
+			"\\acs{msymSensorspacepose3}",
+			"\\acs{msymSensorspacepose}",
+			"msymSensor",
+			"\\acs{msymSensorspace}",
+			"msymSensor",
+			"\\aca{m@Si''}",
+			"\\aca{m@S",
+			"\\aca{m@S''}",
+			"\\aca{m@S\\'\\'}",
+			"msymSensor"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\\\oldacro$1",
+			"\\oldacro{pc}",
+			"tbp",
+			"m@Vfov",
+			"\\REF",
+			"bigO",
+			"\\aca{m@Si''}",
+			"\\aca{m@S}",
+			"S",
+			"\\aca{m@Si'}",
+			"\\aca{m@Si''}",
+			"S",
+			"\\acs{m@S}",
+			"\\acs{m@Sp}",
+			"\\acs{m@S}",
+			"\\aca{m@S}",
+			"\\aca{m@Sp}",
+			"\\aca{m@S}",
+			"\\acs{m@vm}",
+			"\\aca{m@vm}",
+			"\\aca{m@Csso}",
+			"\\acs{m@Csso}",
+			"m@vm",
+			"\\acs{m@vm}",
+			"\\ace{m@vm}",
+			"\\acs{m@vm}",
+			"\\acs{m@Css}",
+			"\\aca{m@Css}",
+			"m@phi",
+			"``",
+			"''",
+			"``",
+			"20$3-$2-$1",
+			"m@Qsw",
+			"m@xv",
+			"m@xs",
+			"m@cs",
+			"m@csi",
+			"m@xsi",
+			"m@xvc",
+			"m@Qswij",
+			"m@l",
+			"m@m",
+			"m@n",
+			"m@Theta",
+			"m@H-1",
+			"m@xvc",
+			"\\aca*{m@xis}",
+			"m@xi's",
+			"m@xis",
+			"m@Omega",
+			"m:Omega",
+			"m@d",
+			"m@Omega",
+			"m@Psi",
+			"m@cis",
+			"msymPsi",
+			"msymOmega",
+			"ac{thilo}",
+			"acrocmd",
+			"mark size=2.5pt",
+			"mark size=1.8pt",
+			"{spn}s",
+			"{sc}si",
+			"{sc}s",
+			"{vfov}s",
+			"{wpn}s",
+			"{sp}s",
+			"white!90!black",
+			"{pcsd}",
+			"{wpn}",
+			"{pcs}",
+			"{pa}",
+			"\\ac{pcso}",
+			"\\ac{pc}",
+			"\\ac{pa}",
+			"\\ac{pcsd}",
+			"\\ac{wpn}",
+			"marks,line width=1pt,",
+			"size=0.2",
+			"0.2",
+			"0.1",
+			"size=0.01",
+			"mark=o,line width=1pt,",
+			"color=white!0!black",
+			"color=white!40!black",
+			"line width=2.5pt",
+			"\\acrodef",
+			"line width=2.5pt",
+			"mark size=2.5pt",
+			"white!50!black",
+			"white!20!black",
+			"white!70!black",
+			"mark=x",
+			"*",
+			"\\ac{wpn}",
+			"msymIndexSensorspace",
+			"\\acs*",
+			"msymIndexWorkspace",
+			"\\ac{wpn}",
+			"white!60!black",
+			"\\ac",
+			"table[x index=1, y index=0, row sep=crcr]",
+			"symmatrix",
+			"symvector",
+			"symmatrix",
+			"symvector",
+			"\\ac{msyminnerangle}",
+			"\\acrodef",
+			"\\ac*{fov}",
+			"\\ac*{mip}",
+			"\\ac*{gdop}",
+			"\\ac*{bip}",
+			"\\ac*{vfov}",
+			"\\ac*",
+			"\\acrodef",
+			"\\newacro",
+			"\\ac{css}",
+			"\\ac{cp}",
+			"\\ac{spp}",
+			"\\ac{wp}",
+			"\\ac{sc}",
+			"WALL",
+			"Weblookup",
+			"weblookup",
+			"Weblookup",
+			"weblookup",
+			"dictcc"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 180.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 112.0
+	},
+	"output.git-commit":
+	{
+		"height": 124.0
+	},
+	"output.unicode_preview":
+	{
+		"height": 682.0
+	},
+	"project": "sensorplacement.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"ac",
+				"common\\acronyms.tex"
+			],
+			[
+				"app",
+				"Thesis\\Chapters\\Approximations.tex"
+			],
+			[
+				"pre",
+				"Thesis\\Chapters\\Preprocessing.tex"
+			],
+			[
+				"in",
+				"Thesis\\Chapters\\Introduction.tex"
+			],
+			[
+				"conti",
+				"Thesis\\Chapters\\ContinuousModels.tex"
+			],
+			[
+				"",
+				"Thesis\\Chapters\\Preprocessing.tex"
+			],
+			[
+				"d",
+				"common\\definitions.tex"
+			],
+			[
+				"comm",
+				"Thesis\\Chapters\\SensorPositioningComments.tex"
+			],
+			[
+				"pr",
+				"Thesis\\Chapters\\Preprocessing.tex"
+			],
+			[
+				"com",
+				"Thesis\\Chapters\\SensorPositioningComments.tex"
+			],
+			[
+				"not",
+				"common\\notations.tex"
+			],
+			[
+				"con",
+				"Thesis\\FrontBackmatter\\Contents.tex"
+			],
+			[
+				"sy",
+				"common\\symbols.tex"
+			],
+			[
+				"de",
+				"common\\definitions.tex"
+			],
+			[
+				"sen",
+				"Thesis\\Chapters\\SensorPositioning.tex"
+			],
+			[
+				"a",
+				"common\\acronyms.tex"
+			],
+			[
+				"kir",
+				"Thesis\\Diss_Kirchhof.tex"
+			],
+			[
+				"acr",
+				"common\\acronyms.tex"
+			],
+			[
+				"todo",
+				"Thesis\\Chapters\\Todo.tex"
+			],
+			[
+				"ex",
+				"Thesis\\Chapters\\Experiments.tex"
+			],
+			[
+				"di",
+				"Thesis\\diss-config.tex"
+			],
+			[
+				"cont",
+				"Thesis\\FrontBackmatter\\Contents.tex"
+			],
+			[
+				"def",
+				"common\\definitions.tex"
+			],
+			[
+				"df",
+				"common\\definitions.tex"
+			],
+			[
+				"k",
+				"Thesis\\Diss_Kirchhof.tex"
+			],
+			[
+				"th",
+				"Thesis\\Figures\\ThesisSetup.tikz"
+			],
+			[
+				"sensorpo",
+				"Thesis\\Chapters\\SensorPoseCalibration.tex"
+			],
+			[
+				"mod",
+				"Thesis\\Chapters\\DiscreteModels.tex"
+			],
+			[
+				"thesis",
+				"Thesis\\Figures\\ThesisSetup.tikz"
+			],
+			[
+				"ki",
+				"Thesis\\Diss_Kirchhof.tex"
+			],
+			[
+				"posi",
+				"Thesis\\Chapters\\SensorPositioningComments.tex"
+			],
+			[
+				"se",
+				"Thesis\\Chapters\\SensorPositioning.tex"
+			],
+			[
+				"e",
+				"Thesis\\Chapters\\Experiments.tex"
+			],
+			[
+				"senso",
+				"Thesis\\Chapters\\SensorPoseCalibration.tex"
+			],
+			[
+				"diss_",
+				"Thesis\\Diss_Kirchhof.tex"
+			],
+			[
+				"dis",
+				"Thesis\\diss-config.tex"
+			],
+			[
+				"bi",
+				"Thesis\\FrontBackmatter\\Bibliography.tex"
+			],
+			[
+				"pos",
+				"Thesis\\Chapters\\SensorPoseCalibration.tex"
+			],
+			[
+				"appr",
+				"Thesis\\Chapters\\Approximations.tex"
+			],
+			[
+				"ap",
+				"Thesis\\Chapters\\Approximations.tex"
+			],
+			[
+				"disc",
+				"Thesis\\Chapters\\DiscreteModels.tex"
+			],
+			[
+				"vfo",
+				"Thesis\\Figures\\vfov_visible_content.tikz"
+			],
+			[
+				"fi",
+				"Thesis\\Chapters\\Figuretest.tex"
+			],
+			[
+				"ti",
+				"Thesis\\Figures\\ThesisSetup.tikz"
+			],
+			[
+				"vf",
+				"Thesis\\Figures\\vfov_visible_content.tikz"
+			],
+			[
+				"s",
+				"common\\symbols.tex"
+			],
+			[
+				"pose",
+				"Thesis\\Chapters\\SensorPoseCalibration.tex"
+			],
+			[
+				"re",
+				"Thesis\\Remote.bib"
+			],
+			[
+				"v",
+				"Thesis\\Figures\\vfov_visible_content.tikz"
+			],
+			[
+				"r",
+				"Thesis\\Remote.bib"
+			],
+			[
+				"the",
+				"Thesis\\Figures\\ThesisSetup.tikz"
+			],
+			[
+				"doptr",
+				"Thesis\\Figures\\doptriangulation.tex"
+			],
+			[
+				"tik",
+				"Thesis\\Figures\\doptriangulation_content.tikz"
+			],
+			[
+				"sym",
+				"common\\symbols.tex"
+			],
+			[
+				"sensor",
+				"Thesis\\Figures\\sensormodel_content.tikz"
+			],
+			[
+				"defi",
+				"common\\definitions.tex"
+			],
+			[
+				"sens",
+				"Thesis\\Chapters\\SensorPositioning.tex"
+			],
+			[
+				"fron",
+				"Thesis\\FrontBackmatter\\Contents.tex"
+			],
+			[
+				"dop",
+				"Thesis/Figures/doptrilateration_content.tikz"
+			],
+			[
+				"sensorov",
+				"Thesis/Figures/sensoroverlap_content.tikz"
+			],
+			[
+				"thes",
+				"Thesis/Figures/ThesisSetupDoc.tex"
+			],
+			[
+				"diss",
+				"Thesis/Diss_Kirchhof.tex"
+			],
+			[
+				"conten",
+				"Thesis/FrontBackmatter/Contents.tex"
+			],
+			[
+				"cal",
+				"Thesis/Chapters/SensorPoseCalibration.tex"
+			],
+			[
+				"ca",
+				"Thesis/Chapters/SensorPoseCalibration.tex"
+			],
+			[
+				"cali",
+				"Thesis/Chapters/SensorPoseCalibration.tex"
+			],
+			[
+				"sensorm",
+				"Thesis/Figures/sensormodel.tex"
+			],
+			[
+				"sensorcont",
+				"Thesis/Figures/sensormodel_content.tikz"
+			],
+			[
+				"d/",
+				"/C/Users/Nico/PortableApps/SublimeText2.X.x64/Data/Packages/User/Snippets/equation.sublime-snippet"
+			],
+			[
+				"irfsen",
+				"Thesis/Figures/irfsensors_content.tikz"
+			],
+			[
+				"irfq",
+				"Thesis/Figures/irfqualities_content.tikz"
+			],
+			[
+				"solvi",
+				"Thesis/Figures/solvingtime_content.tikz"
+			],
+			[
+				"solvin",
+				"Thesis/Figures/solvingquality_content.tikz"
+			],
+			[
+				"p1",
+				"Thesis/Figures/p1eval_content.tikz"
+			],
+			[
+				"p",
+				"Thesis/Chapters/SensorPositioning.tex"
+			],
+			[
+				"to",
+				"Thesis/Chapters/Todo.tex"
+			],
+			[
+				"thesiss",
+				"Thesis/Figures/ThesisSetup.tikz"
+			],
+			[
+				"po",
+				"Thesis/Chapters/SensorPositioning.tex"
+			],
+			[
+				"sensorp",
+				"Thesis/Chapters/SensorPoseCalibration.tex"
+			],
+			[
+				"sensorpose",
+				"Thesis/Chapters/SensorPoseCalibration.tex"
+			],
+			[
+				"tod",
+				"Thesis/Chapters/Todo.tex"
+			],
+			[
+				"i",
+				"Thesis/Chapters/Introduction.tex"
+			],
+			[
+				"int",
+				"Thesis/Chapters/Introduction.tex"
+			],
+			[
+				"ipi",
+				"/C/Users/Nico/Workspace/nico.staff/Paper/2013-10-Sensorplacement/ipin2013_kirchhof.tex"
+			],
+			[
+				"oth",
+				"Thesis/Chapters/OtherStuff.tex"
+			],
+			[
+				"c",
+				"Thesis/Chapters/Content.tex"
+			],
+			[
+				"sensorpl",
+				"Thesis/Chapters/SensorPlacementCalibration.tex"
+			],
+			[
+				"sensrpo",
+				"Thesis/Chapters/SensorPositioning.tex"
+			],
+			[
+				"doptril",
+				"Thesis/Figures/doptrilateration.tex"
+			],
+			[
+				"irfs",
+				"figures/irfsensors_content.tex"
+			],
+			[
+				"sop",
+				"figures/doptriangulation.tex"
+			],
+			[
+				"irfcon",
+				"figures/irfcont_content.tex"
+			],
+			[
+				"irf",
+				"figures/irfsensors_content.tex"
+			],
+			[
+				"ssn",
+				"figures/solvingquality_content.tex"
+			],
+			[
+				"vis",
+				"figures/vfov_visible_content.tex"
+			],
+			[
+				"irfqu",
+				"figures/irfqualities_content.tex"
+			],
+			[
+				"sol",
+				"figures/solvingquality_content.tex"
+			],
+			[
+				"do",
+				"figures/doptriangulation.tex"
+			],
+			[
+				"over",
+				"figures/sensoroverlap_content.tex"
+			],
+			[
+				"vi",
+				"/C/Users/nico/Workspace/nico.staff/sublime/Vim Hotkeys - Keyboard Shortcuts"
+			],
+			[
+				"ip",
+				"2013-YY-Sensorplacement/ipin2013_kirchhof.tex"
+			],
+			[
+				"sensormod",
+				"2013-YY-Sensorplacement/figures/sensormodel_content.tex"
+			],
+			[
+				"t",
+				"/C/Users/Nico/Workspace/sensorplacement.thilo/fig/test_sensoroverlap.tex"
+			],
+			[
+				"test",
+				"/C/Users/Nico/Workspace/sensorplacement.thilo/fig/test_sensoroverlap.tex"
+			],
+			[
+				"lat",
+				"/C/Users/Nico/PortableApps/SublimeText2.X.x64/Data/Packages/LaTeXTools/README.markdown"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/Nico/Workspace/nico.staff/ipin2013paper.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+		"_vintageous_last_buffer_search": "theo",
+		"_vintageous_last_char_search_command": "vi_f",
+		"_vintageous_last_character_search": "v",
+		"_vintageous_reset_during_init": true,
+		"vintage":
+		{
+			"_cmdline_cd": "C:\\Users\\Nico\\AppData\\Roaming\\Sublime Text 3\\Packages\\User"
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 230.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

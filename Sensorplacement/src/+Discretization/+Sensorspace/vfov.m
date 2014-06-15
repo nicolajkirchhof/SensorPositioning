@@ -64,7 +64,7 @@ if debug.remove_spikes
     sensorpositions_filtered_cell = mat2cell(sensorpositions_filtered, 3, ones(1, size(sensorpositions_filtered,2)));
     sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
 else
-    sensor_visibility_polygons_merged = sensor_visibility_polygons;
+    sensor_visibility_polygons_merged = mb.flattenPolygon(sensor_visibility_polygons);
 end
 % check all points against all visibility polygons
 fun_binpolygon = @(poly) binpolygon(int64(workspace_positions(1:2,:)), poly);
@@ -74,7 +74,7 @@ sensor_point_visibilities = cell2mat(cellfun(fun_binpolygon, sensor_visibility_p
 empty_visibilities = sum(sensor_point_visibilities,1) == 0;
 write_log('number of polys neglected because of visibility %d\n', sum(empty_visibilities));
 %%% calculate filtered vectors
-vfov_rings = sensor_visibility_polygons(~empty_visibilities);
+vfov_rings = sensor_visibility_polygons_merged(~empty_visibilities);
 sp_wpn_visibilities = sensor_point_visibilities(:, ~empty_visibilities)';
 valid_sensor_poses = sensorpositions_filtered(:, ~empty_visibilities);
 

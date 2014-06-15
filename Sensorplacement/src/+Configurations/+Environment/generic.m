@@ -8,7 +8,6 @@ function discretization = generic()
 discretization.sensorspace = Configurations.Sensorspace.generic;
 discretization.workspace = Configurations.Workspace.generic;
 discretization.sensor = Configurations.Sensor.generic;
-discretization.common = Configurations.Common.generic('generic');
 discretization.type = Configurations.Discretization.get_types().generic;
 
 % return;
