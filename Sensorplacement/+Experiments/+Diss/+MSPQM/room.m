@@ -12,7 +12,9 @@ config_discretization.sensorspace.poses.additional = 0;
 
 discretization = Discretization.generate(environment, config_discretization);
 
-quality = Quality.generate(discretization, 
+config_quality = Configurations.Quality.diss;
+[quality] = Quality.generate(discretization, config_quality); 
+
 
 
 
