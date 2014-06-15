@@ -22,6 +22,8 @@ discretization.num_positions = size(discretization.wpn, 2);
 
 [discretization.sc, discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(discretization.vm, discretization.spo, config);
 
+% discretization.wpn_sc = cellfun(@
+
 discretization.num_comb = size(discretization.sc, 1);
 
 

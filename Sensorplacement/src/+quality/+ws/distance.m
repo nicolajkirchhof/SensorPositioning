@@ -1,6 +1,7 @@
-function [val, ids] = distance(discretization, config)
+function [quality] = distance(discretization, config)
 % Loops through all workspace points and calculates the distance to all sensors
 
+quality = DataModels.quality;
 [model_path, model_name] = fileparts(mfilename('fullpath'));
 model_prefix = model_path(max(strfind(model_path, '+'))+1:end);
 quality_type = [model_prefix '_' model_name];
@@ -28,7 +29,8 @@ for idw = 1:num_positions
 %     sensor_flt = .problem.xt_ij(:,idw);
     ids{idw} = find(discretization.vm(:, idw));
     distances = mb.distancePoints(discretization.wpn(:,idw), discretization.sp(1:2, ids{idw}));
-    val{idw} = 1 - (abs(distances' - config.sensor.distance_optimal)/(config.sensor.distance(2)-config.sensor.distance_optimal));
+%     val{idw} = 1 - (abs(distances' - config.sensor.distance_optimal)/(config.sensor.distance(2)-config.sensor.distance_optimal));
+val{idw} = 1 - (distances'/config.sensor.distance(2));
 %     val(idw, sensor_flt) = distances;
 %     val(idw, ~sensor_flt) = inf;
 end
@@ -39,6 +41,8 @@ write_log('...done ');
 % .quality.(quality_type).valbw = val;
 % .quality.(quality_type).valsum = valsum;
 % .progress.quality.(quality_type) = true;
+quality.ws.val= val;
+quality.ws.ids= ids;
 
 return;
 
@@ -58,7 +62,7 @@ config_discretization.sensorspace.poses.additional = 0;
 discretization = Discretization.generate(environment, config_discretization);
 
 config_quality = Configurations.Quality.diss;
-[quality, quality_ids] = Quality.WS.distance(discretization, config_quality);
+[quality] = Quality.WS.distance(discretization, config_quality);
 
 % 
 % %% testing

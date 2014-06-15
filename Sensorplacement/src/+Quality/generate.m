@@ -5,21 +5,11 @@ function [ quality ] = generate( discretization, config )
 %   config.ws  : type of ws quality
 %   config.wss : type of wss quality
 % import Discretization.*
-discretization = DataModels.discretization;
 
-discretization.wpn = Discretization.Workspace.(config.workspace.type)(environment, config);
+quality_tmp = Quality.WS.(config.ws)(discretization, config);
 
-[discretization.sp, discretization.vfovs, discretization.vm] = Discretization.Sensorspace.(config.sensorspace.type)(environment, discretization.wpn, config);
-
-discretization.num_sensors = size(discretization.sp, 2);
-discretization.num_positions = size(discretization.wpn, 2);
-
-[discretization.spo] = Discretization.Sensorspace.sameplace(discretization.sp, fov);
-
-[discretization.sc, discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(discretization.vm, discretization.spo, config);
-
-discretization.num_comb = size(discretization.sc, 1);
-
+quality = Quality.WSS.(config.wss)(discretization, config);
+quality.ws = quality_tmp.ws; 
 
 
 return;
@@ -36,6 +26,8 @@ Environment.draw(environment);
 options.positions.additional = 0;
 discretization = Discretization.generate(environment, config_discretization);
 
+config_quality = Configurations.Quality.diss;
+[quality] = Quality.generate(discretization, config_quality);
 
 %%% OLD CODE   
 % switch options.sampling_technique

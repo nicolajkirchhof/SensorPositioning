@@ -2,6 +2,7 @@ function two_sensor_triangulation_const_dist_gdop%(fov, max_dist, s1x, s2x,dista
 % only function in order to keep workspace clean;
 close all;
 clear all;
+import Experiments.gdop.*
 %%% Evaluation of distances for different angles
 uc_fov = 6;
 uc_fov_2 = uc_fov/2;
@@ -68,14 +69,15 @@ qkline = 0.84;
 % 
 % qd1d2pl = ds1+ds2;
 
-qcust = repmat(((distances/dmax)+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)));
-[vqc, iqc] = findtwocrossings(qcust, 1.9);
+% qcust = repmat(((distances/dmax)+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)));
+% [vqc, iqc] = findtwocrossings(qcust, 1.9);
 
-qcust_1 = 1-(qcust/4);
-[vqc1, iqc1] = findtwocrossings(qcust_1, 0.523);
+% qcust_1 = 1-(qcust/4);
+% [vqc1, iqc1] = findtwocrossings(qcust_1, 0.523);
 %%%
 % qcustmov = 1-(repmat((((distances-2000)/(dmax-2000))+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)))/4);
-qcust2 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs)))/2);
+% qcust2 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs)))/2);
+qcust2 = 1-(repmat((distances.^2/dmax.^2), num_angles, 1)./(sin(deg2rad(angs)))/2);
 qcust2(qcust2 < 0) = -1;
 qcline = 0.58;
 [vqc2, iqc2] = findtwocrossings(qcust2, qcline);

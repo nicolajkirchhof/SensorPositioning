@@ -1,4 +1,6 @@
 function [vals, ids] = findtwocrossings(M, val)
+%% findtwocrossings(M, val) calculates the intersections of two functions
+% 
 
 M(M>=val) = 0;
 [Mmax, Mmaxid] = max(diff(M));

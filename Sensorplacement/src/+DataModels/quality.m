@@ -5,4 +5,5 @@ function q = quality()
 q.ws.val = [];
 q.ws.ids = [];
 q.wss.val = [];
-q.wss.ids = [];
+q.wss.valbw = [];
+q.wss.valsum = [];
