@@ -1,4 +1,4 @@
-function [ pc, id ] = init( pc, mtype )
+function [ config ] = init( config )
 %INIT Initializes the tempfiles for model writing
 % %%
 % Maximize
@@ -17,23 +17,40 @@ function [ pc, id ] = init( pc, mtype )
 % set1: S1:: x1:10 x2:13
 % End
 
-if pc.common.debug
-    % direct all fprint streams to console
-    pc.model.file.obj.fids = 1;
-    pc.model.file.bounds.fids = 1;
-    pc.model.file.st.fids = 1;
-    pc.model.file.bin.fids = 1;
-    pc.model.file.general.fids = 1;
+if config.common.debug
     return;
 end
-%%
-if ~pc.model.(mtype).file.open
-    for type = pc.model.filetypes
-        fn = sprintf('%s/%s%s.tmp', pc.common.workdir, type{1}, pc.model.(mtype).tag);
-        pc.model.(mtype).(type{1}).file = fn;
-        pc.model.(mtype).(type{1}).fid = fopen(fn, 'W');
+
+for type = fieldnames(config.filehandles)'
+    if config.filehandles.(type{1}) == 1
+        config.filehandles.(type{1}) = fopen(config.tempfilenames.(type{1}), 'W');
+    else
+        error('file of model %s already open', mtype);
     end
-    pc.model.(mtype).file.open = true;
-else
-    error('file of model %s already open', mtype);
 end
+
+return;
+%% 
+config = Configurations.Optimization.Discrete.stcm;
+config = Optimization.Discrete.Models.init(config);
+    
+    % if pc.common.debug
+    %     % direct all fprint streams to console
+    %     pc.model.file.obj.fids = 1;
+    %     pc.model.file.bounds.fids = 1;
+    %     pc.model.file.st.fids = 1;
+    %     pc.model.file.bin.fids = 1;
+    %     pc.model.file.general.fids = 1;
+    %     return;
+    % end
+    %%
+    % if ~pc.model.(mtype).file.open
+    %     for type = pc.model.filetypes
+    %         fn = sprintf('%s/%s%s.tmp', pc.common.workdir, type{1}, pc.model.(mtype).tag);
+    %         pc.model.(mtype).(type{1}).file = fn;
+    %         pc.model.(mtype).(type{1}).fid = fopen(fn, 'W');
+    %     end
+    %     pc.model.(mtype).file.open = true;
+    % else
+    %     error('file of model %s already open', mtype);
+    % end

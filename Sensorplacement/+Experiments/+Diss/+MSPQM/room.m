@@ -15,6 +15,9 @@ discretization = Discretization.generate(environment, config_discretization);
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
 
+config_model = Configurations.Optimization.Continuous;
+
+
 
 
 

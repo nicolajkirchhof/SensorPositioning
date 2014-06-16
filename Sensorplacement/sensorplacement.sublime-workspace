@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"di",
+				"Discretization"
+			],
+			[
+				"sens",
+				"Sensorplacement"
+			],
+			[
 				"case",
 				"end{cases}	Diss_Kirchhof.tex"
 			],
@@ -193,15 +201,20 @@
 			]
 		]
 	},
-	"buffers":
-	[
-	],
 	"build_system": "",
 	"command_palette":
 	{
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"si",
+				"View: Toggle Side Bar"
+			],
 			[
 				"ca",
 				"LaTeXing: Rebuild Cache"
@@ -279,20 +292,12 @@
 				"LaTeXing: Show Log Panel"
 			],
 			[
-				"si",
-				"View: Toggle Side Bar"
-			],
-			[
 				"tem",
 				"LaTeXing: Clean Temporary Output Dictionary"
 			],
 			[
 				"line",
 				"Line Ending to all views: Windows"
-			],
-			[
-				"inst",
-				"Package Control: Install Package"
 			],
 			[
 				"setting",
@@ -667,7 +672,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 416.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -688,6 +693,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Nico/Projects/SensorPositioning/Sensorplacement/src/+Configurations/discretization_iterative.m",
 		"/C/Users/Nico/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
 		"/C/Users/Nico/.gitconfig",
 		"/D/Apps/Irf/irimg-tk.thilo/.git/config",
@@ -814,8 +820,7 @@
 		"/C/Users/Nico/Projects/Dissertation/Thesis/FrontBackmatter/Titleback.tex",
 		"/C/Users/Nico/Projects/Dissertation/Thesis/texput.log",
 		"/C/Users/Nico/Projects/Dissertation/Thesis/Chapters/defaultSettings.yaml",
-		"/C/Users/Nico/.ssh/github_rsa.pub",
-		"/C/Users/Nico/Workspace/nico.staff/Thesis/Figures/sensormodel_content.tikz"
+		"/C/Users/Nico/.ssh/github_rsa.pub"
 	],
 	"find":
 	{
@@ -1112,14 +1117,6 @@
 		"whole_word": false,
 		"wrap": true
 	},
-	"groups":
-	[
-		{
-			"sheets":
-			[
-			]
-		}
-	],
 	"incremental_find":
 	{
 		"height": 34.0
@@ -1137,11 +1134,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.461768219833,
 			1.0
 		],
 		"rows":
@@ -1171,7 +1175,6 @@
 	{
 		"height": 682.0
 	},
-	"project": "sensorplacement.sublime-project",
 	"replace":
 	{
 		"height": 62.0
@@ -1639,7 +1642,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 230.0,
 	"status_bar_visible": true,
 	"template_settings":

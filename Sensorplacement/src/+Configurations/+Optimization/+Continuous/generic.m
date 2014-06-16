@@ -1,8 +1,8 @@
 function common = generic(name)
 %% GENERIC generic configuration of common variables
 if nargin < 1
-%     error('name must be provided');
-    name = 'unnamed';
+    error('name must be provided');
+%     name = 'unnamed';
 end
 
 name = name;

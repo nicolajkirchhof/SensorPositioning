@@ -1,4 +1,4 @@
-function [ pc, id ] = finish( pc, model_type )
+function [ config ] = finish( config )
 %INIT Closes the tempfiles and sets the progress
 % %%
 % Maximize
@@ -17,24 +17,31 @@ function [ pc, id ] = finish( pc, model_type )
 % set1: S1:: x1:10 x2:13
 % End
 
-if pc.common.debug
+if config.common.debug
     % direct all fprint streams to console
-    pc.model.file.obj.fids = 1;
-    pc.model.file.bounds.fids = 1;
-    pc.model.file.st.fids = 1;
-    pc.model.file.bin.fids = 1;
-    pc.model.file.general.fids = 1;
+%     pc.model.file.obj.fids = 1;
+%     pc.model.file.bounds.fids = 1;
+%     pc.model.file.st.fids = 1;
+%     pc.model.file.bin.fids = 1;
+%     pc.model.file.general.fids = 1;
     return;
 end
 %%
-    if ~pc.model.(model_type).file.open
-        warning('model was not initialized');
-    end
-    for type = pc.model.filetypes
-        if ~isempty(pc.model.(model_type).(type{1}).fid)&&pc.model.(model_type).(type{1}).fid>1
-            pc.model.(model_type).(type{1}).fid = fclose(pc.model.(model_type).(type{1}).fid);
+for type = fieldnames(config.filehandles)'
+    if config.filehandles.(type{1}) > 1
+        config.filehandles.(type{1}) = fclose(config.filehandles.(type{1}));
+        if config.filehandles.(type{1}) == 0
+            config.filehandles.(type{1}) = 1
+        else
+            error('fclose did not succseed');
         end
+    else
+        error('file of model %s not valid', mtype);
     end
-    
-    pc.progress.model.(model_type) = true;
-    pc = model.enable(pc, model_type);
+end
+
+return;
+%% 
+config = Configurations.Optimization.Discrete.stcm;
+config = Optimization.Discrete.Models.init(config);
+config = Optimization.Discrete.Models.finish(config);
