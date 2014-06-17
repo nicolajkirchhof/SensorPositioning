@@ -17,6 +17,7 @@ function [ config ] = init( config )
 % set1: S1:: x1:10 x2:13
 % End
 
+
 if config.common.debug
     return;
 end

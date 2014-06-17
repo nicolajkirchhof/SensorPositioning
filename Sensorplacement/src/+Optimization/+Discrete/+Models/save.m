@@ -1,28 +1,29 @@
-function pc = save( pc )
+function config = save( config )
 %FINISH combines the tempfiles to a .lp file
 
-if pc.common.debug
+if config.common.debug
     return;
 end
 
-if isempty(pc.name)
-    warning('no model name given, using environment file name');
-    [~, basename] = fileparts(pc.environment.file);
-    pc.name = basename;
-end
+% if isempty(pc.name)
+%     warning('no model name given, using environment file name');
+%     [~, basename] = fileparts(pc.environment.file);
+%     pc.name = basename;
+% end
 
-outname = [pc.common.workdir '/' pc.name];
-sel_models = [];
-for model_name = fieldnames(pc.model.types)'
-    model_name = model_name{1};
-    if pc.model.(model_name).enable
-        outname = [outname pc.model.(model_name).tag];
-        sel_models{end+1} = model_name;
-        % elseif pc.model.config.
-        %     outname = [outname '_dist'];
-    end
-end
-outname = [outname '.lp'];
+% outname = [pc.common.workdir '/' pc.name];
+% sel_models = [];
+% for model_name = fieldnames(pc.model.types)'
+%     model_name = model_name{1};
+%     if pc.model.(model_name).enable
+%         outname = [outname pc.model.(model_name).tag];
+%         sel_models{end+1} = model_name;
+%         % elseif pc.model.config.
+%         %     outname = [outname '_dist'];
+%     end
+% end
+% outname = [config.common.workdir '/' config.filename '.lp'];
+outname = config.filename;
 os = getenv('OS');
 if strfind(os, 'Windows')
     fun_conv_path = @(x) strrep(x, '/', '\');
@@ -44,19 +45,46 @@ modelfile.general.header = sprintf('echo General >> %s', outname);
 if strfind(os, 'Windows')
     %% open file by writing a newline
     system(sprintf('echo. > %s', outname));
-    for modelfiletype = pc.model.filetypes
+    if ~isempty(config.header)
+        system(sprintf('echo >> %s', config.header));
+    end
+    for modelfiletype = fieldnames(config.filehandles)'
         system(modelfile.(modelfiletype{1}).header);
-        for model = sel_models
-            if pc.model.(model{1}).(modelfiletype{1}).enable
-                fun_addfile2model(pc.model.(model{1}).(modelfiletype{1}).file);
-            else
-                write_log('param %s of model %s where not written',modelfiletype{1} ,model{1});
-            end
-        end
+        fun_addfile2model(config.tempfilenames.(modelfiletype{1}));
         system(['echo. >> ' outname]);
     end
     system(['echo END >> ' outname]);
 end
 write_log('...done ');
-pc.progress.model.saved = true;
-pc.model.lastsave = outname;
+% config.progress.model.saved = true;
+% config.model.lastsave = outname;
+return;
+
+%%  TEST
+clear variables;
+format long;
+filename = 'res\floorplans\P1-Seminarraum.dxf';
+config_discretization = Configurations.Discretization.iterative;
+
+environment = Environment.load(filename);
+Environment.draw(environment);
+% options = config.workspace;
+
+config_discretization.positions.additional = 0;
+config_discretization.sensorspace.poses.additional = 0;
+
+discretization = Discretization.generate(environment, config_discretization);
+
+config_quality = Configurations.Quality.diss;
+[quality] = Quality.generate(discretization, config_quality); 
+
+config = Configurations.Optimization.Discrete.stcm;
+
+config = Optimization.Discrete.Models.init(config);
+Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
+config = Optimization.Discrete.Models.finish(config);
+config.filename = 'test.lp';
+%%
+Optimization.Discrete.Models.save(config);
+
+

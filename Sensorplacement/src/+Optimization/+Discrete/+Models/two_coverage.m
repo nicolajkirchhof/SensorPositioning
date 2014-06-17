@@ -1,4 +1,4 @@
-function pc = coverage(pc)
+function pc = two_coverage(pc)
 %%
 [model_path, model_name] = fileparts(mfilename('fullpath'));
 model_prefix = model_path(max(strfind(model_path, '+'))+1:end);

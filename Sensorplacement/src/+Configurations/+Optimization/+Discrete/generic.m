@@ -8,6 +8,7 @@ model.header = []; % user defined header of comments to file e.g. \Problem name:
 %         [~, name, ~] = fileparts(fn(idws).name);
 %         modname = [mt '_' name];
 model.tag = [];
+model.name = [];
 % model.types = modname;
 % model.id = 0;
 % model.tag = tag;
