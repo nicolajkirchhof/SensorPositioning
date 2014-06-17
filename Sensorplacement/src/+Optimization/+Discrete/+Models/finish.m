@@ -31,7 +31,7 @@ for type = fieldnames(config.filehandles)'
     if config.filehandles.(type{1}) > 1
         config.filehandles.(type{1}) = fclose(config.filehandles.(type{1}));
         if config.filehandles.(type{1}) == 0
-            config.filehandles.(type{1}) = 1
+            config.filehandles.(type{1}) = 1;
         else
             error('fclose did not succseed');
         end

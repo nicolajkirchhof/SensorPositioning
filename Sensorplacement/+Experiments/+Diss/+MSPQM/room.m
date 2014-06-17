@@ -16,6 +16,17 @@ config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
 
 config_model = Configurations.Optimization.Discrete.stcm;
+% config = Configurations.Optimization.Discrete.stcm;
+config_model.name = 'P1';
+filename = Optimization.Discrete.Models.stcm(discretization, config_model);
+
+
+
+
+%%
+cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
+solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);
+sol = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
 
 
 

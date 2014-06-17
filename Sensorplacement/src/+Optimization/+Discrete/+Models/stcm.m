@@ -7,6 +7,7 @@ import Optimization.Discrete.Models.*
 filename = sprintf('%s_%s_%d_%d_%d', config.type, config.name, discretization.num_sensors,...
     discretization.num_positions, discretization.num_comb);
 config.filename = [config.common.workdir '/' filename '.lp'];
+filename = config.filename;
 
 config = init(config);
 Objective.sum_sensors(discretization, config);
@@ -44,6 +45,8 @@ config_quality = Configurations.Quality.diss;
 config = Configurations.Optimization.Discrete.stcm;
 config.name = 'P1';
 filename = Optimization.Discrete.Models.stcm(discretization, config);
-
-
+%%
+cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
+solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);
+sol = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
 
