@@ -1,4 +1,4 @@
-function filename = stcm(discretization, config)
+function filename = mssqm(discretization, quality, config)
 %%
 
 import Optimization.Discrete.Models.*
@@ -11,8 +11,9 @@ filename = config.filename;
 
 config = init(config);
 Objective.sum_sensors(discretization, config);
-Constraints.two_coverage(discretization, config);
+% Constraints.two_coverage(discretization, config);
 Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
+Optimization.Discrete.Models.Constraints.single_sensor_quality(discretization, quality, config);
 Binaries.sensors(discretization, config);
 config = finish(config);
 
@@ -42,10 +43,10 @@ discretization = Discretization.generate(environment, config_discretization);
 
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
-
-config = Configurations.Optimization.Discrete.stcm;
+%%
+config = Configurations.Optimization.Discrete.mssqm;
 config.name = 'P1';
-filename = Optimization.Discrete.Models.stcm(discretization, config);
+filename = Optimization.Discrete.Models.mssqm(discretization, quality, config);
 %%
 cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
 solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);

@@ -5,6 +5,7 @@ discrete.wpn = []; % int64 [2,n] matrix where every point is defined by [x;y]
 discrete.sp = [];
 discrete.vm = []; % visibility matrix [num_sensor_positions; num_workspace_positions]
 discrete.vfovs = {}; % holds all visibility polygons
+discrete.spo_ids = {}; % ids of sameplace sensors
 discrete.spo = []; % columns=sensor_ids, rows=overlappings in fov
 discrete.sc = []; % [n 2] array with all relevant two combinations of sensors sorted
 discrete.sc_wpn = []; % {num_positions} with max [num_comb, 1] arrays with indices of sensor combinations that sees the workspace points

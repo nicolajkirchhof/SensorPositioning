@@ -18,7 +18,7 @@ discretization.wpn = Discretization.Workspace.(config.workspace.type)(environmen
 discretization.num_sensors = size(discretization.sp, 2);
 discretization.num_positions = size(discretization.wpn, 2);
 
-[discretization.spo] = Discretization.Sensorspace.sameplace(discretization.sp, config.sensor.fov);
+[discretization.spo discretization.spo_ids] = Discretization.Sensorspace.sameplace(discretization.sp, config.sensor.fov);
 
 [discretization.sc, discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(discretization.vm, discretization.spo, config);
 

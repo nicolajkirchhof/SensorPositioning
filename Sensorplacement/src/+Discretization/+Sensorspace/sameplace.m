@@ -1,4 +1,4 @@
-function spo = sameplace(sensor_poses, fov)
+function [spo sp_idx] = sameplace(sensor_poses, fov)
 %% get the angles of every point and calculate the circular distance to
 % have all neighbouring circular angle distances and test which overlap
 % an overlap is only given if the sensor fov can be compleatly covered
