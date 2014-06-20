@@ -1,4 +1,4 @@
-function filename = mssqm(discretization, quality, config)
+function filename = sco(discretization, quality, config)
 %%
 
 import Optimization.Discrete.Models.*
@@ -10,11 +10,14 @@ config.filename = [config.common.workdir '/' filename '.lp'];
 filename = config.filename;
 
 config = init(config);
-Objective.sum_sensors(discretization, config);
-Constraints.two_coverage(discretization, config);
-Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
-Optimization.Discrete.Models.Constraints.single_sensor_quality(discretization, quality, config);
+% Objective.sum_sensors(discretization, config);
+Optimization.Discrete.Models.Objective.sum_sensorcombinations(discretization,config);
+% Constraints.two_coverage(discretization, config);
+% Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
+% Optimization.Discrete.Models.Constraints.sc_backward(discretization, config);
+Optimization.Discrete.Models.Constraints.sc_min_quality(discretization, quality, config);
 Binaries.sensors(discretization, config);
+Optimization.Discrete.Models.Binaries.sensorcombinations(discretization, config);
 config = finish(config);
 
 save(config);
@@ -26,6 +29,7 @@ save(config);
 % draw.solution(, s);
 return;
 %% TEST
+
 
 clear variables;
 format long;
@@ -44,10 +48,12 @@ discretization = Discretization.generate(environment, config_discretization);
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
 %%
-config_model = Configurations.Optimization.Discrete.mssqm;
-config_model.quality.min = 1.1;
+config_model = Configurations.Optimization.Discrete.mspqm;
+config_model.quality.min = 0.58;
 config_model.name = 'P1';
-filename = Optimization.Discrete.Models.mssqm(discretization, quality, config_model);
+% config_model.common.debug = 1;
+% config_model.is_relax = false;
+filename = Optimization.Discrete.Models.sco(discretization, quality, config_model);
 model.filename = filename;
 %%
 cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
@@ -57,5 +63,4 @@ sol = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
 solution = DataModels.solution(environment, discretization, quality, model,...
     config_environment, config_discretization, config_quality, config_model,...
     sol);
-
-
+Evaluation.plots.wss_solution_parsed(solution);

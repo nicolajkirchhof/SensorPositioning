@@ -41,9 +41,10 @@ for idp = 1:numel(sp_idx)
     num_angles = numel(angles);
     [angles_sorted, ~] = sort(angles);
     angles_distances = arrayfun(@(idx) [inf(idx-1,1); cumsum([0; diff(angles_sorted(idx:end))])], 1:num_angles, 'uniformoutput', false);
-    sensor_overlappings = cellfun(@(ang_dist) ~(ang_dist > fov), angles_distances, 'uniformoutput', false);   
+    sensor_overlappings = cellfun(@(ang_dist) ~(ang_dist > deg2rad(fov)), angles_distances, 'uniformoutput', false);   
     % set last overlapping to false since otherwise a gap is created
     sensor_overlappings_mat = cell2mat(sensor_overlappings)';
+    sensor_overlappings_mat(:, end) = 0;
     %%% reorder colums accordings to sort order 
     % since the last row is always zero, 
     % and the first one has only one sensor in it they can be neglected

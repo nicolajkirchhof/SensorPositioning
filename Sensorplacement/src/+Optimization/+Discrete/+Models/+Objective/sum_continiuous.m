@@ -1,12 +1,12 @@
-function sum_sensorcombinations(discretization, config)
+function sum_sensors(discretization, config)
 %%
-
 import Optimization.Discrete.Models.write
-%%
-write_log(' adding sensorcombinations objective...');
+write_log(' adding sum continuous obj...');
 fid = config.filehandles.obj;
-write.tag_value_lines(fid, ' +s%ds%d', discretization.sc, config.common.linesize);
-% write.tag_value_lines(fid, ' s%d', (1:discretization.num_sensors)', config.common.linesize);
+qvalsummax = sum(discretization.valsum);
+model.write.tag_2value_lines(fid, ' -%0.4e w%d', ones(pc.problem.num_positions, 1)*(1/qvalsummax), (1:pc.problem.num_positions)', pc.common.linesize);
+write_log('... done ');
+write.tag_value_lines(fid, ' +s%d', (1:discretization.num_sensors)', config.common.linesize);
 write_log('\n...done ');
 
 return;
@@ -28,8 +28,8 @@ discretization = Discretization.generate(environment, config_discretization);
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
 
-config_model = Configurations.Optimization.Discrete.stcm;
-Optimization.Discrete.Models.Objective.sum_sensorcombinations(discretization, config_model);
+config = Configurations.Optimization.Discrete.stcm;
+Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
 
 
 %%

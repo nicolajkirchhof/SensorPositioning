@@ -1,4 +1,4 @@
-function model = mssqm(common)
+function model = mspqm(common)
 %% GENERIC generic configuration of common variables
 
 if nargin < 1
@@ -18,7 +18,7 @@ for type = fn'
     model.tempfilenames.(type{1}) = fn;
 end
 
-model.quality.min = 1.1;
+model.quality.min = 0.58;
 model.is_relax = true;
 
 model.header = []; % user defined header of comments to file e.g. \Problem name: xyz

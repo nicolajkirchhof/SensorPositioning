@@ -4,6 +4,7 @@ import Optimization.Discrete.Models.write
 write_log(' adding sensor binaries...');
 fid = config.filehandles.bin;
 write.tag_value_lines(fid, ' s%d', (1:discretization.num_sensors)', config.common.linesize);
+fprintf(fid, '\n');
 write_log('\n...done ');
 
 return;

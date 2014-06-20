@@ -41,16 +41,16 @@ for idw = 1:discretization.num_positions
     
     %calc which sensors can not be combined
     [not_comb_sets not_comb_set_ids] = cellfun(@(s) intersect(s_idx, s), spo_ids, 'uniformoutput', false);
-    [maxq] = cellfun(@(ids) max(q_val(ids)), not_comb_set_ids, 'uniformoutput', false);
-    maxq_empty = cellfun(@isempty, maxq)
+    [maxq] = cellfun(@(ids) min(q_val(ids)), not_comb_set_ids, 'uniformoutput', false);
+    maxq_empty = cellfun(@isempty, maxq);
     
-    
-    if sum(cell2mat(maxq(~maxq_empty)) >= qmin
+    q_max_pt = sum(cell2mat(maxq(~maxq_empty)))/2;
+    if q_max_pt >= qmin
         fprintf(fid, ' >= %e \n', qmin);
     else
-        warning('\n model not solveable relaxing workspace point %d to %e \n', idw, qmin);
+        warning('\n model not solveable relaxing quality of workspace point %d to %e \n', idw, q_max_pt);
 %         discretization.k(idw) = numel(s_idx);
-        fprintf(fid, ' >= %e \n', qmin);
+        fprintf(fid, ' >= %e \n', q_max_pt);
     end
     
     if mod(idw,discretization.num_positions/100)<1
