@@ -2,21 +2,11 @@ function model = stcm(common)
 %% GENERIC generic configuration of common variables
 
 if nargin < 1
-    common = Configurations.Common.generic('stcm');
+    common = Configurations.Common.generic(mfilename());
 end
 
-model.common = common;
-model.type = 'stcm';
-% model_types = {'ws', 'wss', 'it'};
-
-model.filehandles = struct('obj',1, 'st',1,  'bounds',1, 'bin',1, 'general',1); % types of tmp files
-
-fn = fieldnames(model.filehandles);
-model.tempfilenames = [];
-for type = fn'
-    fn = sprintf('%s/%s_%s.tmp', common.workdir, model.type, type{1});
-    model.tempfilenames.(type{1}) = fn;
-end
+model = Configurations.Optimization.Discrete.generic(common);
+model.type = mfilename();
 
 
 model.header = []; % user defined header of comments to file e.g. \Problem name: xyz

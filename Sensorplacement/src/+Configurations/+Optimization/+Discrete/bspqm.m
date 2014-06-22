@@ -1,4 +1,4 @@
-function model = mssqm(common)
+function model = bspqm(common)
 %% GENERIC generic configuration of common variables
 
 if nargin < 1
@@ -7,7 +7,10 @@ end
 
 model = Configurations.Optimization.Discrete.generic(common);
 model.type = mfilename();
-model.quality.min = 1.1;
+% model_types = {'ws', 'wss', 'it'};
+
+model.quality.min = 0.58;
+model.quality.reject = 0;
 model.is_relax = true;
 
 model.header = []; % user defined header of comments to file e.g. \Problem name: xyz

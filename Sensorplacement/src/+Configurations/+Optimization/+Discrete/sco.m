@@ -7,7 +7,7 @@ end
 
 model = Configurations.Optimization.Discrete.generic(common);
 model.type = mfilename();
-model.quality.min = 1.1;
+model.quality.min = 0.58;
 model.is_relax = true;
 
 model.header = []; % user defined header of comments to file e.g. \Problem name: xyz

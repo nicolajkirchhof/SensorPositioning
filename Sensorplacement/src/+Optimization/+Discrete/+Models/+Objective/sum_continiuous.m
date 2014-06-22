@@ -1,13 +1,17 @@
-function sum_sensors(discretization, config)
+function sum_continiuous(discretization, quality, config)
 %%
+if nargin < 3
+    error('too few input arguments in %s \n', mfilename);
+end
+
 import Optimization.Discrete.Models.write
 write_log(' adding sum continuous obj...');
 fid = config.filehandles.obj;
-qvalsummax = sum(discretization.valsum);
-model.write.tag_2value_lines(fid, ' -%0.4e w%d', ones(pc.problem.num_positions, 1)*(1/qvalsummax), (1:pc.problem.num_positions)', pc.common.linesize);
+qvalsummax = sum(quality.wss.valsum);
+write.tag_2value_lines(fid, ' -%0.4e w%d', ones(discretization.num_positions, 1)*(1/qvalsummax), (1:discretization.num_positions)', config.common.linesize);
 write_log('... done ');
-write.tag_value_lines(fid, ' +s%d', (1:discretization.num_sensors)', config.common.linesize);
-write_log('\n...done ');
+% write.tag_value_lines(fid, ' +s%d', (1:discretization.num_sensors)', config.common.linesize);
+% write_log('\n...done ');
 
 return;
 %% Tests
@@ -19,7 +23,7 @@ config_discretization = Configurations.Discretization.iterative;
 environment = Environment.load(filename);
 Environment.draw(environment);
 % options = config.workspace;
-
+%%%
 config_discretization.positions.additional = 0;
 config_discretization.sensorspace.poses.additional = 0;
 
@@ -27,9 +31,9 @@ discretization = Discretization.generate(environment, config_discretization);
 
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
-
+%%
 config = Configurations.Optimization.Discrete.stcm;
-Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
+Optimization.Discrete.Models.Objective.sum_continiuous(discretization,quality, config);
 
 
 %%

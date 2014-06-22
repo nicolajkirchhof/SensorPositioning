@@ -1,11 +1,16 @@
-function sum_sensors(discretization, config)
+function wpn_quality(discretization, config)
 %%
+
+
+
 import Optimization.Discrete.Models.write
-write_log(' adding sum sensor obj...');
-fid = config.filehandles.obj;
-write.tag_value_lines(fid, ' +s%d', (1:discretization.num_sensors)', config.common.linesize);
-fprintf(fid, '\n');
-write_log('\n...done ');
+%%
+fid = config.filehandles.bounds;
+write_log(' %s bounds...', mfilename);
+%qmins = repmat(pc.model.(model_type).quality.min/(qvalsbwmax+qvalsummax), size((1:discretization.num_positions)')) ;
+qmins = repmat(config.quality.min, size((1:discretization.num_positions)')) ;
+write.tag_2value_lines(fid, '%e <= w%d\n', qmins, (1:discretization.num_positions)', config.common.linesize);
+write_log('... done ');
 
 return;
 %% Tests
@@ -25,9 +30,9 @@ discretization = Discretization.generate(environment, config_discretization);
 
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality); 
-
-config = Configurations.Optimization.Discrete.stcm;
-Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
+%%
+config = Configurations.Optimization.Discrete.bspqm;
+Optimization.Discrete.Models.Bounds.wpn_quality(discretization, config);
 
 
 %%
