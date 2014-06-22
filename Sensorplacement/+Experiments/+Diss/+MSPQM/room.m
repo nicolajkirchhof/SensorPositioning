@@ -56,6 +56,36 @@ config_models.(mname) = Configurations.Optimization.Discrete.(mname);
 config_models.(mname).name = 'P1';
 filenames.(mname) = Optimization.Discrete.Models.(mname)(discretization, quality, config_models.(mname));
 
+%%%
+mname = modelnames.gsco;
+config_models.(mname) = Configurations.Optimization.Discrete.(mname);
+% config = Configurations.Optimization.Discrete.stcm;
+config_models.(mname).name = 'P1';
+filenames.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
+
+%%%
+mname = modelnames.gcs;
+config_models.(mname) = Configurations.Optimization.Discrete.(mname);
+% config = Configurations.Optimization.Discrete.stcm;
+config_models.(mname).name = 'P1';
+filenames.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
+
+%%%
+mname = modelnames.gscs;
+config_models.(mname) = Configurations.Optimization.Discrete.(mname);
+% config = Configurations.Optimization.Discrete.stcm;
+config_models.(mname).name = 'P1';
+filenames.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
+
+%%%
+mname = modelnames.gsss;
+config_models.(mname) = Configurations.Optimization.Discrete.(mname);
+% config = Configurations.Optimization.Discrete.stcm;
+config_models.(mname).name = 'P1';
+filenames.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
+
+
+
 %%
 for filename = fieldnames(filenames)'
     disp(filenames.(filename{1}));
