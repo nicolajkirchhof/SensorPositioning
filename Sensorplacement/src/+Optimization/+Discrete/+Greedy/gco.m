@@ -1,6 +1,9 @@
-function [ solution ] = gsco( discretization, quality, config )
-%GCS Calculates the greedy combined selection for the discretization
-%
+function [ solution ] = gco( discretization, quality, config )
+%% [ solution ] = gsco( discretization, quality, config ) 
+% uses the greedy combined selection strategy to calculate a min quality
+% two coverage
+
+
 
 is_wpn_covered = false(1, discretization.num_positions);
 % sensors_selected = [];
