@@ -1,4 +1,4 @@
-function filename = stcm(discretization, config)
+function filename = stcm(discretization, ~, config)
 %%
 
 import Optimization.Discrete.Models.*
@@ -45,7 +45,7 @@ config_quality = Configurations.Quality.diss;
 
 config = Configurations.Optimization.Discrete.stcm;
 config.name = 'P1';
-filename = Optimization.Discrete.Models.stcm(discretization, config);
+filename = Optimization.Discrete.Models.stcm(discretization, [], config);
 %%
 cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
 solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);

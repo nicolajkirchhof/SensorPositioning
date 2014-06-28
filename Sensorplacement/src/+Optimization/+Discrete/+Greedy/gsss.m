@@ -1,8 +1,18 @@
-function [ solution ] = gsss( discretization, quality, solution, config )
+function [ solution ] = gsss( discretization, quality, config, solution )
 %% [ solution ] = gsco( discretization, quality, config ) 
 % uses the greedy single sensor selection strategy to calculate a min
 % quality two coverage based on an initial workspace coverage
 
+if nargin < 4 || isempty(solution) 
+    config_opt = Configurations.Optimization.Discrete.ssc;
+    % config = Configurations.Optimization.Discrete.stcm;
+    config_opt.name = config.name;
+    %%%
+    filename = Optimization.Discrete.Models.ssc(discretization, quality, config_opt);
+    cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
+    solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);
+    solution = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
+end
 
 % is_wpn_covered = false(1, discretization.num_positions);
 % sensors_selected = [];
@@ -126,14 +136,14 @@ modelnames = Configurations.Optimization.Discrete.get_types();
 
 %%%
 % mname = modelnames.gsco;
-config = Configurations.Optimization.Discrete.ssc;
-% config = Configurations.Optimization.Discrete.stcm;
-config.name = 'P1';
-%%%
-filename = Optimization.Discrete.Models.ssc(discretization, quality, config);
-cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
-solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);
-solution = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
+% config = Configurations.Optimization.Discrete.ssc;
+% % config = Configurations.Optimization.Discrete.stcm;
+% config.name = 'P1';
+% %%%
+% filename = Optimization.Discrete.Models.ssc(discretization, quality, config);
+% cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
+% solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);
+% solution = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
 
 
 %%%
@@ -141,8 +151,8 @@ solution = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
 config = Configurations.Optimization.Discrete.gsss;
 % config = Configurations.Optimization.Discrete.stcm;
 config.name = 'P1';
-%%
-solution = Optimization.Discrete.Greedy.gsss(discretization, quality, solution, config);
+%%%
+solution = Optimization.Discrete.Greedy.gsss(discretization, quality, config);
 hold on;
 mb.drawPoint(discretization.sp(1:2,solution.x)); 
 mb.drawPolygon(discretization.vfovs(solution.x));

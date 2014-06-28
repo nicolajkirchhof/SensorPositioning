@@ -1,4 +1,4 @@
-function filename = ssc(discretization, quality, config)
+function filename = ssc(discretization, ~, config)
 %% filename = ssc(discretization, quality, config) 
 %   The single sensor sensor coverage model
 
