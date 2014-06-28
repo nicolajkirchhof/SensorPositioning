@@ -40,7 +40,7 @@ wpn_remaining = double(max(sc_wpn_minq, [], 1));
 %%
 while any(wpn_remaining > 0)
 %%
-    sumq = sum(sc_wpn_minq, 2);
+    sumq = sum(sc_wpn_minq>0, 2);
     [maxq maxq_id] = max(sumq);
     sc_selected = [sc_selected, maxq_id];
     wpn_ids = sc_wpn_minq(maxq_id, :)>0;

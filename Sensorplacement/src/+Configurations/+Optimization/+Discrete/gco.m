@@ -1,4 +1,4 @@
-function model = ssc(common)
+function model = gcs(common)
 %% GENERIC generic configuration of common variables
 
 if nargin < 1
@@ -7,8 +7,7 @@ end
 
 model = Configurations.Optimization.Discrete.generic(common);
 model.type = mfilename();
-% model.quality.min = 1.1;
-model.k = 1;
+model.quality.min = 0.58;
 model.is_relax = true;
 
 model.header = []; % user defined header of comments to file e.g. \Problem name: xyz
@@ -17,7 +16,7 @@ model.header = []; % user defined header of comments to file e.g. \Problem name:
 %% TEMP
 return;
 %%
-config = Configurations.Optimization.Discrete.ssc;
+config = Configurations.Optimization.Discrete.mssqm;
 
 
 

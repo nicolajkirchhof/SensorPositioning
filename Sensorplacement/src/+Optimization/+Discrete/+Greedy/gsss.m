@@ -4,11 +4,9 @@ function [ solution ] = gsss( discretization, quality, solution, config )
 % quality two coverage based on an initial workspace coverage
 
 
-
-
-is_wpn_covered = false(1, discretization.num_positions);
+% is_wpn_covered = false(1, discretization.num_positions);
 % sensors_selected = [];
-sc_selected = [];
+
 sc_wpn_minq = uint8(zeros(discretization.num_comb, discretization.num_positions));
 % qmin = config.quality.min;
 
@@ -40,23 +38,62 @@ end
 
 
 %%%
+% wpn_remaining = double(max(sc_wpn_minq, [], 1));
+sensors_selected = find(solution.x);
+sc_selected = comb2unique(sensors_selected);
+[~, idx_sc_selected] = intersect(discretization.sc, sc_selected, 'rows');
+
+wpn_covered = sc_wpn_minq(idx_sc_selected, :)>0;
+sc_wpn_minq(sc_selected, :) = 0;
+sc_wpn_minq(:, wpn_covered) = sc_wpn_minq(:, wpn_covered)-1;
 wpn_remaining = double(max(sc_wpn_minq, [], 1));
+
+vm_tmp = discretization.vm;
+vm_tmp(:, wpn_remaining==0) = 0;
 %%
 while any(wpn_remaining > 0)
 %%
-    sumq = sum(sc_wpn_minq, 2);
-    [maxq maxq_id] = max(sumq);
-    sc_selected = [sc_selected, maxq_id];
-    wpn_ids = sc_wpn_minq(maxq_id, :)>0;
-    sc_wpn_minq(maxq_id, :) = 0;
-    sc_wpn_minq(:, wpn_ids) = sc_wpn_minq(:, wpn_ids)-1;
-    wpn_remaining = wpn_remaining - wpn_ids;
-%     num_wpn_covered = num_wpn_covered + sum(wpn_ids);
+    % R and S are synonyms for the first and second sensor selection arrays
+    [R ids_R] = sort(sum(vm_tmp(sensors_selected,:), 2), 1, 'descend');
+    ids_R = sensors_selected(ids_R);
+    id_R = 1;
+    idRmax = ids_R(id_R);
+    flt_idRmax = find(any(discretization.sc==uint16(idRmax), 2));  
+    [num_wpn_covered id_sc] = max(sum(sc_wpn_minq(flt_idRmax, :)>0, 2));
+    id_sc = flt_idRmax(id_sc);
+%     ids_sc = discretization.sc(id_sc, :);
+    %%
+    while id_R+1 <= numel(ids_R) && num_wpn_covered < R(id_R+1)
+            id_R = id_R + 1;
+            idRmaxTest = ids_R(id_R);
+            flt_idRmaxTest = find(any(discretization.sc==uint16(idRmaxTest), 2));
+            [num_wpn_covered_test id_sc_test] = max(sum(sc_wpn_minq(flt_idRmaxTest, :)>0, 2));
+            id_sc_test = flt_idRmaxTest(id_sc_test);
+            %%
+            if num_wpn_covered_test > num_wpn_covered
+%                 idRmax = idRmaxTest;
+                id_sc = id_sc_test;
+                num_wpn_covered = num_wpn_covered_test;
+            end
+    end
+    %%
+    ids_sc = discretization.sc(id_sc, :);
+    wpn_covered = sc_wpn_minq(id_sc, :)>0;
+    wpn_remaining = wpn_remaining - wpn_covered;
+    % remove wpn that are covered from vm
+    vm_tmp(:, wpn_remaining==0) = 0;
+    sensors_selected = unique([sensors_selected(:); ids_sc(:)]);
+    sc_selected = comb2unique(sensors_selected);
+    [~, idx_sc_selected] = intersect(discretization.sc, sc_selected, 'rows');
+    %%
+    sc_wpn_minq(idx_sc_selected, :) = 0;
+    sc_wpn_minq(:, wpn_covered) = sc_wpn_minq(:, wpn_covered)-1;
+    
 end
 
 
 %% return result in solution form
-sensors_selected = unique(discretization.sc(sc_selected, :));
+sensors_selected = sensors_selected;
 solution = [];
 solution.x = sensors_selected;
 % mb.drawPoint
@@ -87,82 +124,29 @@ filenames = [];
 config_models = [];
 modelnames = Configurations.Optimization.Discrete.get_types();
 
-%%
+%%%
 % mname = modelnames.gsco;
-config = Configurations.Optimization.Discrete.gsco;
+config = Configurations.Optimization.Discrete.ssc;
+% config = Configurations.Optimization.Discrete.stcm;
+config.name = 'P1';
+%%%
+filename = Optimization.Discrete.Models.ssc(discretization, quality, config);
+cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe'
+solfile = Optimization.Discrete.Solver.cplex.startext(filename, cplex);
+solution = Optimization.Discrete.Solver.cplex.read_solution_it(solfile);
+
+
+%%%
+% mname = modelnames.gsco;
+config = Configurations.Optimization.Discrete.gsss;
 % config = Configurations.Optimization.Discrete.stcm;
 config.name = 'P1';
 %%
-solution = Optimization.Discrete.Greedy.gsco(discretization, quality, config);
+solution = Optimization.Discrete.Greedy.gsss(discretization, quality, solution, config);
 hold on;
 mb.drawPoint(discretization.sp(1:2,solution.x)); 
 mb.drawPolygon(discretization.vfovs(solution.x));
 
 
-%% testing greedy opt
-qmin = 0.3;
-wp_sc_flt = cellfun(@(x) x>qmin, pc.quality.wss_dd_dop.val, 'uniformoutput', false);
-sc_wp_idx = cell(pc.problem.num_sensors);
-%%
-for idwp = 1:pc.problem.num_positions
-    %%
-    sc_idx = find(pc.problem.wp_sc_idx(:,idwp));
-    sc_idx_sel = sc_idx(wp_sc_flt{idwp});
-    
-    sc_ind = sub2ind(size(pc.problem.sc_ij), double(pc.problem.sc_idx(sc_idx_sel,1)),double(pc.problem.sc_idx(sc_idx_sel,2)));
-    for idsc = sc_ind(:)'
-        sc_wp_idx{idsc} = [sc_wp_idx{idsc} idwp];
-    end
-end
-%%
-sc_wp_num = cellfun(@numel, sc_wp_idx);
-sc_wp_idx_up = sc_wp_idx;
-sc_wp_rel_flt = triu(true(size(sc_wp_idx_up)), 1);
 
-[mx, mx_ind] = max(sc_wp_num(:));
-[s1_idx, s2_idx] = ind2sub(size(sc_wp_num), mx_ind);
-sel_sensors = [s1_idx, s2_idx];
-scale = 2;
-draw.workspace(pc)
-hold on;
-    mb.drawPolygon(pc.problem.V(sel_sensors))
-    mb.drawPoint(pc.problem.S(1:2,sel_sensors))
-    %%
-while mx > 0;
-    %%
-    sc_wp_idx_up(sc_wp_rel_flt) = cellfun(@(x) setdiff(x, sc_wp_idx_up{mx_ind}), sc_wp_idx_up(sc_wp_rel_flt), 'uniformoutput', false); 
-    sc_wp_num_up = cellfun(@numel, sc_wp_idx_up);
-    
-   [mxc, mx_indc] = max(sc_wp_num_up(sel_sensors, :),[], 2);
-   [mxr, mx_indr] = max(sc_wp_num_up(:,sel_sensors),[], 1);
-   [mx_sel, mx_sel_ind] = max([mxc(:); mxr(:)]);
-    [mx, mx_ind] = max(sc_wp_num_up(:));
-    %%
-    if mx > 0 && mx <= scale*mx_sel 
-        % choose only one additional sensor if gain is less than scale times the number of added wp
-        if mx_sel_ind <= numel(mxc)
-            % mx_sel_ind is column
-            s2_idx = mx_indc(mx_sel_ind);
-            s1_idx = sel_sensors(mx_sel_ind);                       
-        else
-            [~, mx_sel_ind] = max(mxr);
-            s1_idx = mx_indr(mx_sel_ind);
-            s2_idx = sel_sensors(mx_sel_ind);           
-        end
-        mx_ind = sub2ind(size(sc_wp_idx_up), s1_idx, s2_idx);
-    else
-        [s1_idx, s2_idx] = ind2sub(size(sc_wp_num), mx_ind);    
-    end
-    
-    %%    
-    sel_sensors = unique([sel_sensors, s1_idx, s2_idx]);
-    mb.drawPolygon(pc.problem.V(sel_sensors))
-    mb.drawPoint(pc.problem.S(1:2,sel_sensors))
-    pause
-end
-%%
-draw.workspace(pc)
-hold on;
-mb.drawPolygon(pc.problem.V(sel_sensors))
-mb.drawPoint(pc.problem.S(1:2,sel_sensors))
 
