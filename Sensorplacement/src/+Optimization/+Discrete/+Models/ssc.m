@@ -1,6 +1,6 @@
 function filename = ssc(discretization, ~, config)
 %% filename = ssc(discretization, quality, config) 
-%   The single sensor sensor coverage model
+%   The single sensor coverage model
 
 import Optimization.Discrete.Models.*
 % model = DataModels.optimizationmodel;

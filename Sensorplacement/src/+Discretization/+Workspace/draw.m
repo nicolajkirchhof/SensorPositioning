@@ -8,7 +8,7 @@ if ishold
 end
 
 hold on; 
-h = drawPoint(positions', '.g');
+h = drawPoint(positions', '.k');
 legend(h(1), 'Workspace Point');
 legend off;
 legend show;

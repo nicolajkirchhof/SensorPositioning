@@ -2,7 +2,7 @@ function [ solution ] = gco( discretization, quality, config )
 %% [ solution ] = gsco( discretization, quality, config )
 % uses the greedy combined selection strategy to calculate a min quality
 % two coverage
-
+tic;
 
 
 is_wpn_covered = false(1, discretization.num_positions);
@@ -42,6 +42,7 @@ end
 sensors_selected = [];
 wpn_remaining = double(max(sc_wpn_minq, [], 1));
 vm_tmp = discretization.vm;
+cnt = 0;
 %%
 while any(wpn_remaining > 0)
     %%
@@ -89,14 +90,19 @@ while any(wpn_remaining > 0)
     sc_wpn_minq(sc_selected, :) = 0;
     sc_wpn_minq(:, wpn_covered) = sc_wpn_minq(:, wpn_covered)-1;
     %     num_wpn_covered = num_wpn_covered + sum(wpn_ids);
+    cnt = cnt + 1;
 end
+time = toc;
 
 %% return result in solution form
 sensors_selected = unique(discretization.sc(sc_selected, :));
-solution = [];
-solution.x = sensors_selected;
-% mb.drawPoint
-
+solution = DataModels.solution();
+% solution.x = sensors_selected;
+solution.sensors_selected = sensors_selected;
+solution.sc_selected = sc_selected;
+solution.name = config.name;
+solution.solvingtime = time;
+solution.iterations = cnt;
 return;
 %% TEST
 clear variables;
@@ -131,6 +137,6 @@ config.name = 'P1';
 %%%
 solution = Optimization.Discrete.Greedy.gco(discretization, quality, config);
 hold on;
-mb.drawPoint(discretization.sp(1:2,solution.x));
-mb.drawPolygon(discretization.vfovs(solution.x));
+mb.drawPoint(discretization.sp(1:2,solution.sensors_selected));
+mb.drawPolygon(discretization.vfovs(solution.sensors_selected));
 

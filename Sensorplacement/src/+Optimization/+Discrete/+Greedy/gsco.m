@@ -1,7 +1,7 @@
 function [ solution ] = gsco( discretization, quality, config )
 %GCS Calculates the greedy combined selection for the discretization
 %
-
+tic;
 is_wpn_covered = false(1, discretization.num_positions);
 % sensors_selected = [];
 sc_selected = [];
@@ -33,10 +33,11 @@ for idw = 1:discretization.num_positions
 
     sc_wpn_minq(ids, idw) = uint8(wp_comb_flt*num_pairs);
 end
-
+time = toc;
 
 %%%
 wpn_remaining = double(max(sc_wpn_minq, [], 1));
+cnt = 0;
 %%
 while any(wpn_remaining > 0)
 %%
@@ -47,15 +48,21 @@ while any(wpn_remaining > 0)
     sc_wpn_minq(maxq_id, :) = 0;
     sc_wpn_minq(:, wpn_ids) = sc_wpn_minq(:, wpn_ids)-1;
     wpn_remaining = wpn_remaining - wpn_ids;
+    cnt = cnt + 1;
 %     num_wpn_covered = num_wpn_covered + sum(wpn_ids);
 end
 
 
 %% return result in solution form
 sensors_selected = unique(discretization.sc(sc_selected, :));
-solution = [];
-solution.x = sensors_selected;
-% mb.drawPoint
+solution = DataModels.solution();
+% solution.x = sensors_selected;
+solution.sensors_selected = sensors_selected;
+solution.sc_selected = sc_selected;
+solution.name = config.name;
+solution.solvingtime = time;
+solution.iterations = cnt;
+
 
 return;
 %% TEST
@@ -83,16 +90,16 @@ filenames = [];
 config_models = [];
 modelnames = Configurations.Optimization.Discrete.get_types();
 
-%%
+%%%
 % mname = modelnames.gsco;
 config = Configurations.Optimization.Discrete.gsco;
 % config = Configurations.Optimization.Discrete.stcm;
 config.name = 'P1';
-%%
+%%%
 solution = Optimization.Discrete.Greedy.gsco(discretization, quality, config);
 hold on;
-mb.drawPoint(discretization.sp(1:2,solution.x)); 
-mb.drawPolygon(discretization.vfovs(solution.x));
+mb.drawPoint(discretization.sp(1:2,solution.sensors_selected)); 
+mb.drawPolygon(discretization.vfovs(solution.sensors_selected));
 
 
 %% testing greedy opt
