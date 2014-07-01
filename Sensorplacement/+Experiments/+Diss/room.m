@@ -71,3 +71,25 @@ for mnamecell = modelnames'
     title(sprintf('%s s=%d', mname, numel(solutions.(mname).sensors_selected)));
     subplots_id = subplots_id + 1;
 end
+
+%% INTEGRATE SOLUTIONS
+discretization_collection = Discretization.split(environment_collection, discretization);
+
+config_quality = Configurations.Quality.diss;
+quality_collection = cell(size(discretization_collection));
+%%
+for id_dis = 1:numel(discretization_collection)
+    quality_collection{id_dis} = Quality.generate(discretization_collection{id_dis}, config_quality);
+end
+
+%%
+filenames = {};
+solutions = {};
+config_models = Configurations.Optimization.Discrete.bspqm;
+for id_dis = 1:numel(discretization_collection)
+        discretization = discretization_collection{id_dis};
+        quality = quality_collection{id_dis};
+        filenames{id_dis} = Optimization.Discrete.Models.bspqm(discretization, quality, config_models);
+        solutions{id_dis} = fun_solve(filenames{id_dis}); 
+end
+

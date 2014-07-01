@@ -442,6 +442,22 @@ end
 rings = cellfun(@mb.visilibity2boost, rings, 'uniformoutput', false);
 
 
+return;
+
+%% TEST
+%% Testing
+clear variables;
+format long;
+cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe';
+fun_solve = @(filename) Optimization.Discrete.Solver.cplex.run(filename, cplex);
+filename = 'res\floorplans\P1-Seminarraum.dxf';
+config_discretization = Configurations.Discretization.iterative;
+
+environment = Environment.load(filename);
+environment = Environment.combine(environment);
+poly = Environment.Decompose.simplify(environment.combined{1}, 1);
+[rings, cutinfo, pcd] = mb.polygonConvexDecomposition(poly, true);
+
 
 %
 % %% plot normals
