@@ -5,7 +5,7 @@ function env = generic()
 % sensor 
 
 
-env.type = 'generic';
+env.type = 'hertel';
 % return;
 
 %%

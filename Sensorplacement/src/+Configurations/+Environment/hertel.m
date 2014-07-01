@@ -1,11 +1,11 @@
-function env = generic()
+function env = hertel()
 %% GENERIC generic configuration of discretization includes
 % sensorspace 
 % workspace
 % sensor 
 
 
-env.type = 'generic';
+env.type = 'hertel';
 % return;
 
 %%

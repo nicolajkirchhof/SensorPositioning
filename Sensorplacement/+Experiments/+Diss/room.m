@@ -93,3 +93,14 @@ for id_dis = 1:numel(discretization_collection)
         solutions{id_dis} = fun_solve(filenames{id_dis}); 
 end
 
+%% Other Partitions
+
+
+config = Configurations.Environment.hertel;
+environment_collection2 = Environment.Decompose.rpd(environment, config, true);
+
+config = Configurations.Environment.keil;
+environment_collection3 = Environment.Decompose.rpd(environment, config, true);
+
+
+

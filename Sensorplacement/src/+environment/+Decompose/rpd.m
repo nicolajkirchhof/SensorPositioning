@@ -1,18 +1,30 @@
-function [ environment_collection ] = rpd( environment, debug )
+function [ environment_collection ] = rpd( environment, config, debug )
 %RPD uses the radial polygon decomposition to divide the input environment
 % environment = Environment.combine(environment);
 % pcomb = environment.combined{1};
 %%
 environment = Environment.combine(environment);
 pcomb_simpl = Environment.Decompose.simplify(environment.combined{1}, 1);
-[rings, cutinfo, pcd] = mb.polygonConvexDecomposition(pcomb_simpl);
+
+types = Configurations.Environment.get_types();
+cutinfo = [];
+switch config.type
+    case types.rpd
+        [rings, cutinfo, pcd] = mb.polygonConvexDecomposition(pcomb_simpl);
+    case types.hertel
+        rings = polypartition(pcomb_simpl, 3);
+    case types.keil
+        rings = polypartition(pcomb_simpl, 4);
+end
 
 environment_collection = {};
 
 for idr = 1:numel(rings)
     environment_tmp = DataModels.environment();
     environment_tmp.boundary.ring = rings{idr};
+    if ~isempty(cutinfo)
     environment_tmp.boundary.isplaceable = ~cutinfo{idr};
+    end
     environment_tmp.file = [environment.file, '_' num2str(idr)];
     environment_collection{idr} = environment_tmp;
 end
@@ -31,5 +43,12 @@ config_discretization = Configurations.Discretization.iterative;
 
 environment = Environment.load(filename);
 
-environment_collection = Environment.Decompose.rpd(environment, true);
+config = Configurations.Environment.rpd;
+environment_collection = Environment.Decompose.rpd(environment, config, true);
+
+config = Configurations.Environment.hertel;
+environment_collection2 = Environment.Decompose.rpd(environment, config, true);
+
+config = Configurations.Environment.keil;
+environment_collection3 = Environment.Decompose.rpd(environment, config, true);
 

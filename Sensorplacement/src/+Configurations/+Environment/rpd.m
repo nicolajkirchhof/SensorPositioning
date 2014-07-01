@@ -1,11 +1,11 @@
-function env = generic()
+function env = rpd()
 %% GENERIC generic configuration of discretization includes
 % sensorspace 
 % workspace
 % sensor 
 
 
-env.type = 'generic';
+env.type = 'rpd';
 % return;
 
 %%
