@@ -21,7 +21,7 @@ environment_collection = {};
 
 for idr = 1:numel(rings)
     environment_tmp = DataModels.environment();
-    environment_tmp.boundary.ring = rings{idr};
+    environment_tmp.boundary.ring = int64(rings{idr});
     if ~isempty(cutinfo)
     environment_tmp.boundary.isplaceable = ~cutinfo{idr};
     end

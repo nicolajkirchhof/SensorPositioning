@@ -4,9 +4,7 @@ function filename = bspqm(discretization, quality, config)
 import Optimization.Discrete.Models.*
 % model = DataModels.optimizationmodel;
 
-filename = sprintf('%s_%s_%d_%d_%d', config.type, config.name, discretization.num_sensors,...
-    discretization.num_positions, discretization.num_comb);
-config.filename = [config.common.workdir '/' filename '.lp'];
+config.filename = create_filename(discretization, config);
 filename = config.filename;
 
 config = init(config);
@@ -22,6 +20,7 @@ Optimization.Discrete.Models.Binaries.sensorcombinations(discretization, config)
 config = finish(config);
 
 save(config);
+
 
 %  = model.ws.coverage();
 %  = model.save();

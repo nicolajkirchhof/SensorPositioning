@@ -1,21 +1,27 @@
-function common = generic(name)
+function common = generic(in_name, wd)
 %% GENERIC generic configuration of common variables
-if nargin < 1
-%     error('name must be provided');
+persistent name tag init workdir
+
+if isempty(init)
     name = 'unnamed';
+    tag = datestr(now,30);
+    init = true;
+    workdir = '../tmp/';
+    if nargin > 0
+        name = in_name;
+    end
+    if nargin > 1
+        workdir = wd;
+    end 
 end
 
-name = name;
-tag = datestr(now,30);
-
-wd = ['../tmp/' name];
-common.workdir = wd;
+common.workdir = workdir;
 if ~exist(common.workdir, 'dir')
     mkdir(common.workdir);
 end
 
 %%
-
+common.tag = tag;
 common.is_logging = true; 
 common.verbose = true; % should additional output like progress bars be displayed
 common.is_display = true; % should calculated properties be displayed on screen
