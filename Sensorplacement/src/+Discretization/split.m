@@ -57,7 +57,7 @@ config_discretization = Configurations.Discretization.iterative;
 environment = Environment.load(filename);
 Environment.draw(environment);
 % options = config.workspace;
-environment_collection = Environment.Decompose.rpd(environment, true);
+environment_collection = Environment.decompose(environment, true);
 
 config_discretization.positions.additional = 0;
 config_discretization.sensorspace.poses.additional = 0;

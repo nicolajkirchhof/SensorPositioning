@@ -1,12 +1,5 @@
 function solution = read_solution(solutionfile)
 
-% get full path
-% [path, base] = fileparts(problemfile);
-% if ~isempty(strtrim(path))
-%     addpath(path);
-% end
-% problemfile = which(problemfile);
-% solutionfile = [path '\' base '.sol'];
 if ~exist(solutionfile, 'file')
     error('solution to file %s does not exist', solutionfile);
     return;
@@ -169,7 +162,8 @@ solution.iterations = solution.header.MIPIterations;
 solution.name = solution.header.problemName;
 solution.status = solution.header.solutionStatusValue;
 solution.statusstring = solution.header.solutionStatusString;
-
+solution.linearConstraints = {};
+solution.variables = {};
 %%
 % solution.ax = abs(solution.linearConstraints.slack);
 % solution.x = solution.variables.value;

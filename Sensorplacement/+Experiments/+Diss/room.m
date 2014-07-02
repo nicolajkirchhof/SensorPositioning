@@ -1,5 +1,8 @@
-clear variables;
-format long;
+function [processing] = room(num_wpn, num_sp)
+%% calculates all evaluations for the given number of additional wpn and sp
+
+% clear variables;
+% format long;
 cplex = 'C:\Users\Nico\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 fun_solve = @(filename) Optimization.Discrete.Solver.cplex.run(filename, cplex);
 filename = 'res\floorplans\P1-Seminarraum.dxf';
@@ -27,10 +30,10 @@ input.quality = quality;
 input.config.discretization = config_discretization;
 input.config.quality = config_quality;
 
-%%
+%% Calculate Discrete Models
 filenames = [];
 solutions = [];
-logdata = [];
+% logdata = [];
 for mnamecell = modelnames'
     mname = mnamecell{1};
     if any(strcmp(mnamecell, {'generic', 'compare'}))
@@ -38,6 +41,12 @@ for mnamecell = modelnames'
     end
     
     config_models.(mname) = Configurations.Optimization.Discrete.(mname);
+
+end
+modelnames = fieldnames(config_models);
+%%
+for mnamecell = modelnames'
+    mname = mnamecell{1};
     % config = Configurations.Optimization.Discrete.stcm;
     config_models.(mname).name = 'P1';
     if strcmp(mname(1), 'g')
@@ -48,7 +57,7 @@ for mnamecell = modelnames'
     end
 end
 
-%%
+%% Plot discrete Models
 figure;
 num_subpolots = numel(modelnames);
 num_lines = 2;
@@ -72,26 +81,29 @@ for mnamecell = modelnames'
     subplots_id = subplots_id + 1;
 end
 
-%% INTEGRATE SOLUTIONS
-discretization_collection = Discretization.split(environment_collection, discretization);
-
-config_quality = Configurations.Quality.diss;
-quality_collection = cell(size(discretization_collection));
-%%
-for id_dis = 1:numel(discretization_collection)
-    quality_collection{id_dis} = Quality.generate(discretization_collection{id_dis}, config_quality);
-end
+%% Calculate Poly Decomp solutions
+rpd_env_collection = Environment.decompose(environment, Configurations.Environment.rpd);
+hertel_env_collection = Environment.decompose(environment, Configurations.Environment.hertel);
+keil_env_collection = Environment.decompose(environment, Configurations.Environment.keil);
 
 %%
-filenames = {};
-solutions = {};
-config_models = Configurations.Optimization.Discrete.bspqm;
-for id_dis = 1:numel(discretization_collection)
-        discretization = discretization_collection{id_dis};
-        quality = quality_collection{id_dis};
-        filenames{id_dis} = Optimization.Discrete.Models.bspqm(discretization, quality, config_models);
-        solutions{id_dis} = fun_solve(filenames{id_dis}); 
-end
+rpd_dis_collection = Discretization.split(rpd_env_collection, discretization);
+hertel_dis_collection = Discretization.split(hertel_env_collection, discretization);
+keil_dis_collection = Discretization.split(keil_env_collection, discretization);
+%%
+rpd_qual_collection = Quality.split(rpd_dis_collection, quality);
+hertel_qual_collection = Quality.split(hertel_dis_collection, quality);
+keil_qual_collection = Quality.split(keil_dis_collection, quality);
+
+%%
+fun_bspqm = @(d, q) Optimization.Discrete.Models.bspqm(d, q, config_models.bspqm);
+filenames.rdp.bspqm = cellfun(fun_bspqm, rdp_dis_collection, rdp_qual_collection, 'uni', false);
+    
+%         discretization = discretization_collection{id_dis};
+%         quality = quality_collection{id_dis};
+%         filenames = Optimization.Discrete.Models.bspqm(discretization, quality, config_models);
+%         solutions{id_dis} = fun_solve(filenames{id_dis}); 
+
 
 %% Other Partitions
 
