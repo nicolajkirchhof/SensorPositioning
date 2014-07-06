@@ -36,6 +36,10 @@ for idp = 1:discretization.num_positions
                 if sum(wp_comb_flt) > idrelax
                     write_log('\nmodel for point %d was sucessful relaxed to %d\n\n', idp, idrelax);
                     is_relaxed = true;
+                elseif idrelax >= sum(qvals>0)
+                    warning('\nmodel for point %d was not sucessful relaxed and set to %d\n\n', idp, idrelax);
+                    wp_comb_flt = (qvals > 0);
+                    is_relaxed = true;
                 else
                     idrelax = idrelax + 1;
                 end
