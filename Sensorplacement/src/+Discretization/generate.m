@@ -9,6 +9,7 @@ function [ discretization ] = generate( environment, config )
 %   config.visilibity  : config of visilibity
 %   environment : representation of environment
 % import Discretization.*
+
 discretization = DataModels.discretization;
 
 discretization.wpn = Discretization.Workspace.(config.workspace.type)(environment, config);

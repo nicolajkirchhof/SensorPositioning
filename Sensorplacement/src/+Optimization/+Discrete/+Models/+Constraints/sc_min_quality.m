@@ -25,19 +25,24 @@ import Optimization.Discrete.Models.write
         %% no sensor has quality, relax model
         if ~any(wp_comb_flt) && config.is_relax
             warning('\n relaxing model for point %d\n', idw);
-            for idrelax = [1, 2, 4, 8]
+            idrelax = 1;
+            is_relaxed = false;
+            while ~is_relaxed
                 wp_comb_flt = (qvals > config.quality.min/idrelax);
                 if sum(wp_comb_flt) > idrelax
                     num_pairs = idrelax;
-                    write_log('\nmodel for point %d was sucessful relaxed to %d\n', idw, idrelax);
-                    break;
+                    write_log('\nmodel for point %d was sucessful relaxed to %d\n\n', idw, idrelax);
+                    is_relaxed = true;
+%                     break;
+                else
+                    idrelax = idrelax + 1;
                 end
             end
-            if num_pairs == 1
-                warning('workspace point relaxed to max, min quality not guaranteed');
-                num_pairs = numel(wp_comb_flt);
-                wp_comb_flt = qvals>0;
-            end
+%             if num_pairs == 1
+%                 warning('workspace point relaxed to max, min quality not guaranteed');
+%                 num_pairs = numel(wp_comb_flt);
+%                 wp_comb_flt = qvals>0;
+%             end
         end
         wp_comb_ind = wp_comb_ind(wp_comb_flt);
         %%

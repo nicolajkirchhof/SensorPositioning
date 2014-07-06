@@ -1,4 +1,4 @@
-function [processing] = create_models(filename, num_wpn, num_sp, name)
+function [processing] = create_models(filename, num_wpn, num_sp, name, modelnames)
 %% [processing] = room(filename, num_wpn, num_sp, name) 
 %   calculates the environment from filename with 
 %   all evaluations for the given number of additional wpn and sp
@@ -9,13 +9,17 @@ if nargin < 4
     error('All parameters have to be provided');
 end
 
+if nargin < 5
+    modelnames = fieldnames(Configurations.Optimization.Discrete.get_types());
+end
+
 config_discretization = Configurations.Discretization.iterative;
 
 environment = Environment.load(filename);
 Environment.draw(environment);
 % options = config.workspace;
 
-config_discretization.positions.additional = num_wpn;
+config_discretization.workspace.positions.additional = num_wpn;
 config_discretization.sensorspace.poses.additional = num_sp;
 
 discretization = Discretization.generate(environment, config_discretization);
@@ -24,7 +28,6 @@ config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality);
 
 config_models = [];
-modelnames = fieldnames(Configurations.Optimization.Discrete.get_types());
 
 input.discretization = discretization;
 input.environment = environment;
@@ -51,7 +54,7 @@ for mnamecell = modelnames'
     % config = Configurations.Optimization.Discrete.stcm;
     config_models.(mname).name = name;
     if strcmp(mname(1), 'g')
-        solutions.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
+%         solutions.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
     else
         [filenames.(mname)] = Optimization.Discrete.Models.(mname)(discretization, quality, config_models.(mname));
 %         solutions.(mname) = fun_solve(filenames.(mname));        
