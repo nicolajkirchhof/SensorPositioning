@@ -34,6 +34,10 @@ import Optimization.Discrete.Models.write
                     write_log('\nmodel for point %d was sucessful relaxed to %d\n\n', idw, idrelax);
                     is_relaxed = true;
 %                     break;
+                elseif idrelax >= sum(qvals>0)
+                    warning('\nmodel for point %d was not sucessful relaxed and set to %d\n\n', idw, idrelax);
+                    idrelax = sum(wp_comb_flt);
+                    is_relaxed = true;
                 else
                     idrelax = idrelax + 1;
                 end
