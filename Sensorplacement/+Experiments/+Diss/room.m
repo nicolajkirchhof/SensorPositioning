@@ -1,8 +1,12 @@
 % function [processing] = room(num_wpn, num_sp)
 %% calculates all evaluations for the given number of additional wpn and sp
+
+% num_wpn = 100;
+% num_sp = 100;
 clear variables functions
-num_wpn = 100;
-num_sp = 100;
+for num_wpn = 0:50:200
+    for num_sp = 0:50:200
+clear functions
 name = 'P1';
 workdir = sprintf('../tmp/p1/%dwpn_%dsp', num_wpn, num_sp);
 if exist(workdir, 'dir')
@@ -21,6 +25,8 @@ fun_solve = @(filename) Optimization.Discrete.Solver.cplex.run(filename, cplex);
 
 processing = Experiments.Diss.create_models(filename, num_wpn, num_sp, name);
 save(output_filename, 'processing');
+    end
+end
 
 %% Solve models
 
