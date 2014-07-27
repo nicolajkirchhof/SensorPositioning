@@ -56,13 +56,22 @@ small_polys = sensor_visibility_polygon_areas < sensor.area(1);
 write_log('number of polys neglected because of area %d\n',  sum(small_polys));
 sensor_visibility_polygons = sensor_visibility_polygons(~small_polys);
 sensorpositions_filtered = sensor_poses(:, ~small_polys);
+
 %%% merge points and remove spikes
 if debug.remove_spikes
     fun_spike = @(poly, center) mb.removePolygonAngularSpikes(poly, discretization.angularmerge, center);
-    fun_merge = @(poly, center) fun_spike(mb.mergePolygonPointsAngularDist(poly{1}{1}, discretization.angularmerge, center),center);
+%     fun_merge = @(poly, center) fun_spike(mb.mergePolygonPointsAngularDist(poly{1}{1}, discretization.angularmerge, center),center);
     % fun_merge = @(p, c) fprintf('sz=%d %d %f %f %f\n', size(p{1}{1}), c);
-    sensorpositions_filtered_cell = mat2cell(sensorpositions_filtered, 3, ones(1, size(sensorpositions_filtered,2)));
-    sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
+%     sensorpositions_filtered_cell = mat2cell(sensorpositions_filtered, 3, ones(1, size(sensorpositions_filtered,2)));
+    sensor_visibility_polygons_merged = cell(1, size(sensorpositions_filtered, 2));
+    loop_display(numel(sensorpositions_filtered),1);
+    for idx = 1:size(sensor_visibility_polygons_merged, 2)
+        center = sensorpositions_filtered(:, idx);
+        sensor_visibility_polygons_merged{idx} = fun_spike(mb.mergePolygonPointsAngularDist(sensor_visibility_polygons{idx}{1}{1}, discretization.angularmerge, center),center);
+%     sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
+        loop_display(idx);
+        disp(idx);
+    end
 else
     sensor_visibility_polygons_merged = mb.flattenPolygon(sensor_visibility_polygons);
 end

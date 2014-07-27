@@ -12,7 +12,7 @@ cla
 mb.drawPolygon(pcomb, 'color', 'g', 'marker', 'x');
 end
 
-fun_simplify = @(ring) int64(dpsimplify.dpsimplify(double(ring'), 100)');
+fun_simplify = @(ring) int64(dpsimplify.dpsimplify(double(ring'), 50)');
 
 pcomb_it1 = cellfun(fun_simplify , pcomb, 'uni', false);
 pcomb_simp = pcomb;

@@ -12,13 +12,15 @@ end
 if nargin < 5
     modelnames = fieldnames(Configurations.Optimization.Discrete.get_types());
 end
-
+%%
 config_discretization = Configurations.Discretization.iterative;
 
 environment = Environment.load(filename);
 Environment.draw(environment);
 % options = config.workspace;
 
+config_discretization.workspace.wall_distance = 200;
+config_discretization.workspace.cell.length = [0 1000];
 config_discretization.workspace.positions.additional = num_wpn;
 config_discretization.sensorspace.poses.additional = num_sp;
 
@@ -61,38 +63,38 @@ for mnamecell = modelnames'
     end
 end
 
-%% Calculate Poly Decomp solutions
-input.rpd.environment_collection = Environment.decompose(environment, Configurations.Environment.rpd);
-input.hertel.environment_collection = Environment.decompose(environment, Configurations.Environment.hertel);
-input.keil.environment_collection = Environment.decompose(environment, Configurations.Environment.keil);
-
-%%
-input.rpd.discretization_collection = Discretization.split(input.rpd.environment_collection, discretization);
-input.hertel.discretization_collection = Discretization.split(input.hertel.environment_collection, discretization);
-input.keil.discretization_collection = Discretization.split(input.keil.environment_collection, discretization);
-%%
-input.rpd.quality_collection = Quality.split(input.rpd.discretization_collection, quality);
-input.hertel.quality_collection = Quality.split(input.hertel.discretization_collection, quality);
-input.keil.quality_collection = Quality.split(input.keil.discretization_collection, quality);
-
-%%
-
-fun_bspqm = @(d, q) Optimization.Discrete.Models.bspqm(d, q, config_models.bspqm);
-fun_mspqm = @(d, q) Optimization.Discrete.Models.bspqm(d, q, config_models.mspqm);
-
-filenames.rpd.bspqm = cellfun(fun_bspqm, input.rpd.discretization_collection, input.rpd.quality_collection, 'uni', false);
-filenames.hertel.bspqm = cellfun(fun_bspqm, input.hertel.discretization_collection, input.hertel.quality_collection, 'uni', false);
-filenames.keil.bspqm = cellfun(fun_bspqm, input.keil.discretization_collection, input.keil.quality_collection, 'uni', false);
-
-filenames.rpd.mspqm = cellfun(fun_mspqm, input.rpd.discretization_collection, input.rpd.quality_collection, 'uni', false);
-filenames.hertel.mspqm = cellfun(fun_mspqm, input.hertel.discretization_collection, input.hertel.quality_collection, 'uni', false);
-filenames.keil.mspqm = cellfun(fun_mspqm, input.keil.discretization_collection, input.keil.quality_collection, 'uni', false);
-
-
+% %% Calculate Poly Decomp solutions
+% input.rpd.environment_collection = Environment.decompose(environment, Configurations.Environment.rpd);
+% input.hertel.environment_collection = Environment.decompose(environment, Configurations.Environment.hertel);
+% input.keil.environment_collection = Environment.decompose(environment, Configurations.Environment.keil);
+% 
+% %%
+% input.rpd.discretization_collection = Discretization.split(input.rpd.environment_collection, discretization);
+% input.hertel.discretization_collection = Discretization.split(input.hertel.environment_collection, discretization);
+% input.keil.discretization_collection = Discretization.split(input.keil.environment_collection, discretization);
+% %%
+% input.rpd.quality_collection = Quality.split(input.rpd.discretization_collection, quality);
+% input.hertel.quality_collection = Quality.split(input.hertel.discretization_collection, quality);
+% input.keil.quality_collection = Quality.split(input.keil.discretization_collection, quality);
+% 
+% %%
+% 
+% fun_bspqm = @(d, q) Optimization.Discrete.Models.bspqm(d, q, config_models.bspqm);
+% fun_mspqm = @(d, q) Optimization.Discrete.Models.bspqm(d, q, config_models.mspqm);
+% 
+% filenames.rpd.bspqm = cellfun(fun_bspqm, input.rpd.discretization_collection, input.rpd.quality_collection, 'uni', false);
+% filenames.hertel.bspqm = cellfun(fun_bspqm, input.hertel.discretization_collection, input.hertel.quality_collection, 'uni', false);
+% filenames.keil.bspqm = cellfun(fun_bspqm, input.keil.discretization_collection, input.keil.quality_collection, 'uni', false);
+% 
+% filenames.rpd.mspqm = cellfun(fun_mspqm, input.rpd.discretization_collection, input.rpd.quality_collection, 'uni', false);
+% filenames.hertel.mspqm = cellfun(fun_mspqm, input.hertel.discretization_collection, input.hertel.quality_collection, 'uni', false);
+% filenames.keil.mspqm = cellfun(fun_mspqm, input.keil.discretization_collection, input.keil.quality_collection, 'uni', false);
+% 
+% 
 processing.input = input;
 processing.filenames = filenames;
 processing.solutions = solutions;
-
+% 
 return;
 
 %% TEST

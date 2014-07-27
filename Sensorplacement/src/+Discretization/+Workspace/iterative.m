@@ -16,7 +16,8 @@ y_ticks = region(2,1):celllength:region(2,2);
 initial_positions = [grid_x(:)'; grid_y(:)'];
 
 inenvironment = Environment.within(environment, initial_positions);
-initial_positions_in = initial_positions(:, inenvironment);
+inplaceable = binpolygon(initial_positions, placeable_ring, 10);
+initial_positions_in = initial_positions(:, inenvironment&inplaceable);
 
 if options.positions.additional == 0
     workspace_positions = initial_positions_in;

@@ -7,8 +7,8 @@ if nargin < 2
 end
 
 if ~is_batch_processing
-    bpo_combined =  {bpo.check, bpo.spike_distance, bpo.verbose, bpo.grid_limit};
+    bpo_combined =  {bpo.check, bpo.spike_distance, bpo.grid_limit, bpo.verbose};
 else
-    bpo_combined =  {bpo.check, bpo.spike_distance, bpo.verbose, bpo.grid_limit, bpo.verbose};
+    bpo_combined =  {bpo.check, bpo.spike_distance, bpo.grid_limit, bpo.verbose};
 end
 

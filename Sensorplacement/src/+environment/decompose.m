@@ -3,6 +3,10 @@ function [ environment_collection ] = decompose( environment, config, debug )
 % environment = Environment.combine(environment);
 % pcomb = environment.combined{1};
 %%
+if nargin < 2
+    debug = false;
+end
+
 environment = Environment.combine(environment);
 pcomb_simpl = Environment.simplify(environment.combined{1}, 1);
 
@@ -10,7 +14,7 @@ types = Configurations.Environment.get_types();
 cutinfo = [];
 switch config.type
     case types.rpd
-        [rings, cutinfo, pcd] = mb.polygonConvexDecomposition(pcomb_simpl);
+        [rings, cutinfo, pcd] = mb.polygonConvexDecomposition(pcomb_simpl, debug);
     case types.hertel
         rings = polypartition(pcomb_simpl, 3);
     case types.keil

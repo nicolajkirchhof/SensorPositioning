@@ -34,3 +34,7 @@ else
 %     environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
 %     environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
 end
+
+if ~(iscell(environment.combined))
+    environment.combined = {environment.combined};
+end
