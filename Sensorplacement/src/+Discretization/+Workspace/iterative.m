@@ -44,7 +44,10 @@ while options.positions.additional >= size(refined_grid_in, 2)
     [grid_x_ref, grid_y_ref] = meshgrid(x_ticks_ref, y_ticks_ref);
     refined_grid = setdiff([grid_x_ref(:), grid_y_ref(:)], [grid_x(:), grid_y(:)], 'rows')';
     inenvironment = Environment.within(environment, refined_grid);
-    refined_grid_in = refined_grid(:, inenvironment);
+    inplaceable = binpolygon(refined_grid, placeable_ring, 10);
+
+    refined_grid_in = refined_grid(:, inenvironment&inplaceable);
+%     refined_grid_in = refined_grid(:, inplaceable);
     
     x_ticks = x_ticks_ref;
     y_ticks = y_ticks_ref;
@@ -61,7 +64,8 @@ num_additional_positions = options.positions.additional - size(fullgrid_position
 %%% Test for sorted positions
 sorted_positions = int64(meshgrid_spiral_sort(grid_x, grid_y));
 inenvironment = Environment.within(environment, sorted_positions);
-sorted_positions_in = sorted_positions(:, inenvironment);
+inplaceable = binpolygon(sorted_positions, placeable_ring, 10);
+sorted_positions_in = sorted_positions(:, inenvironment&inplaceable);
 if ~isempty(fullgrid_positions)
     sorted_cleaned_positions = setdiff(sorted_positions_in', fullgrid_positions', 'rows', 'stable')';
 else

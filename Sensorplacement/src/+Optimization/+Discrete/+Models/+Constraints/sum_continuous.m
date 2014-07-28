@@ -40,7 +40,8 @@ for idw = 1:discretization.num_positions
 %     qscaled = qscaled/q_row_scale;
 %     qscaled = qscaled * 10;
     if isempty(wp_comb_flt)
-        error('model not solveable');
+        warning('model not solveable removing point %d', idw);
+        continue;
     end
     wp_comb_ind = wp_comb_ind(wp_comb_flt);
     %%

@@ -1,0 +1,85 @@
+% This file was created by matlab2tikz v0.4.0.
+% Copyright (c) 2008--2013, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+% 
+% 
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=4.17369791666667in,
+height=5.45880208333333in,
+scale only axis,
+xmin=-100,
+xmax=4000,
+ymin=-2181.20608972359,
+ymax=3181.20608972359,
+hide axis,
+axis x line*=bottom,
+axis y line*=left
+]
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+0 0\\
+1000 0\\
+1000 800\\
+0 800\\
+0 0\\
+};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:200,-100,0) {orthogonal};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2000 1000\\
+1524.47174185242 654.508497187474\\
+1706.10737385376 95.4915028125263\\
+2293.89262614624 95.4915028125262\\
+2475.52825814758 654.508497187474\\
+2000 1000\\
+};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:1800,-100,0) {convex};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+3650 500\\
+3866.23611470218 680.620833093576\\
+3584.75222930516 668.423910911639\\
+3622.86917788827 947.581645677531\\
+3423.06708986583 748.933544073759\\
+3263.16850496396 980.91282158641\\
+3249.34134090519 699.50430682006\\
+2974.89143213519 763.216081438678\\
+3154.25672507902 545.937379454143\\
+2908.51345015805 408.125241091715\\
+3187.4457160676 368.391959280661\\
+3098.68268181037 100.991386359881\\
+3331.58425248198 259.543589206795\\
+3446.13417973165 2.13291185248278\\
+3511.43458894413 276.209177161234\\
+3769.50445861033 163.152178176721\\
+3633.11805735109 409.689583453212\\
+3650 500\\
+};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:3050,-100,0) {star shaped};
+\end{axis}
+\end{tikzpicture}%

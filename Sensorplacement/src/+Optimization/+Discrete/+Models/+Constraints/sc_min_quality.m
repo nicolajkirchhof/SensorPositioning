@@ -20,7 +20,8 @@ import Optimization.Discrete.Models.write
         wp_comb_flt = (qvals > config.quality.min);
         num_pairs = 1;
         if isempty(wp_comb_flt)
-            error('model not solveable');
+            warning('model not solveable');
+            continue;
         end
         %% no sensor has quality, relax model
         if ~any(wp_comb_flt) && config.is_relax

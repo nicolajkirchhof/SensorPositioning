@@ -70,7 +70,7 @@ if debug.remove_spikes
         sensor_visibility_polygons_merged{idx} = fun_spike(mb.mergePolygonPointsAngularDist(sensor_visibility_polygons{idx}{1}{1}, discretization.angularmerge, center),center);
 %     sensor_visibility_polygons_merged = cellfun(fun_merge, sensor_visibility_polygons, sensorpositions_filtered_cell , 'uniformoutput', false);
         loop_display(idx);
-        disp(idx);
+%         disp(idx);
     end
 else
     sensor_visibility_polygons_merged = mb.flattenPolygon(sensor_visibility_polygons);
