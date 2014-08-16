@@ -1,0 +1,182 @@
+% This file was created by matlab2tikz v0.4.0.
+% Copyright (c) 2008--2013, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+% 
+% 
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=5.0859375in,
+height=4.06875in,
+scale only axis,
+xmin=0,
+xmax=5000,
+ymin=0,
+ymax=4000,
+hide axis,
+axis x line*=bottom,
+axis y line*=left
+]
+\addplot [
+color=black,
+line width=2.0pt,
+only marks,
+mark=*,
+mark options={solid,fill=black,draw=black},
+forget plot
+]
+table[row sep=crcr]{
+250 1000\\
+500 3000\\
+750 1000\\
+};
+\addplot [
+color=black,
+solid,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+250 1000\\
+500 3000\\
+750 1000\\
+};
+\addplot [
+color=black,
+dotted,
+forget plot
+]
+table[row sep=crcr]{
+750 250\\
+750 1000\\
+};
+\addplot [
+color=black,
+dotted,
+forget plot
+]
+table[row sep=crcr]{
+250 250\\
+250 1000\\
+};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:125,3500,0) {Mergeable};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+1500 0\\
+1500 4000\\
+};
+\addplot [
+color=black,
+line width=2.0pt,
+only marks,
+mark=*,
+mark options={solid,fill=black,draw=black},
+forget plot
+]
+table[row sep=crcr]{
+2250 2000\\
+2500 3000\\
+2750 1000\\
+};
+\addplot [
+color=black,
+solid,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2250 2000\\
+2500 3000\\
+2750 1000\\
+};
+\addplot [
+color=black,
+dotted,
+forget plot
+]
+table[row sep=crcr]{
+2250 2000\\
+2250 250\\
+};
+\addplot [
+color=black,
+dotted,
+forget plot
+]
+table[row sep=crcr]{
+2750 1000\\
+2750 250\\
+};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:2250,3750,0) {Left};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:2250,3500,0) {oriented};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+3500 0\\
+3500 4000\\
+};
+\addplot [
+color=black,
+line width=2.0pt,
+only marks,
+mark=*,
+mark options={solid,fill=black,draw=black},
+forget plot
+]
+table[row sep=crcr]{
+4750 2000\\
+4500 3000\\
+4250 1000\\
+};
+\addplot [
+color=black,
+solid,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+4750 2000\\
+4500 3000\\
+4250 1000\\
+};
+\addplot [
+color=black,
+dotted,
+forget plot
+]
+table[row sep=crcr]{
+4750 2000\\
+4750 250\\
+};
+\addplot [
+color=black,
+dotted,
+forget plot
+]
+table[row sep=crcr]{
+4250 1000\\
+4250 250\\
+};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:4250,3750,0) {Right};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:4250,3500,0) {oriented};
+\end{axis}
+\end{tikzpicture}%

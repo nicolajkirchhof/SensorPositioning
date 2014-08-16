@@ -5,7 +5,7 @@ cla;
 axis equal
 hold on;
 axis off
-xlim([-300 8300]);
+xlim([-300 8600]);
 ylim([-300 8300]);
 
 room = [0 0; 8000 0; 8000 7000; 0 7000; 0, 0];
@@ -36,87 +36,41 @@ pixfov = circleArcToPolyline([sensor.position, distance, pix_offset, pixel_fov],
 pixfov = [sensor.position;pixfov];
 drawPolygon(pixfov, 'color', 'k');
 fillPolygon(pixfov, zeros(1,3), 'facealpha', 0.3);
-fov_label = circleArcToPolyline([sensor.position, distance+800, pix_offset, pixel_fov], 128);
+fov_label = circleArcToPolyline([sensor.position, distance+1000, pix_offset, pixel_fov], 128);
 drawPolyline(fov_label, 'color', 'k');
-%%
-% sensor = struct('position', [], 'pixelpoly', {}, 'phi_deg', []);
-sensor.position = int64([8000 7000]);
+%%%
+pix_offset = 0;
+sensor.position = [5000 6500];
 
-offset = 12;
-pix_offset = 180;
-
-% for idpix = 1:4
-%     pix_offset = pix_offset+(idpix-1)*offset;
-    pixfov = circleArcToPolyline([sensor.position, distance, pix_offset, pixel_fov], 128);
-    pixfov = [sensor.position;pixfov];
-    drawPolygon(pixfov, 'color', 'k');
-    fillPolygon(pixfov, zeros(1,3), 'facealpha', 0.3);
-    fov_label = circleArcToPolyline([sensor.position, distance+200*idpix, pix_offset, pixel_fov], 128);
-    drawPolyline(fov_label, 'color', 'k');
-% end
-
-% pix_offset = 90-pixel_fov;
-% pixfov = circleArcToPolyline([sensor.position, distance, pix_offset, pixel_fov], 128);
-% pixfov = [sensor.position;pixfov];
+pixfov = circleArcToPolyline([sensor.position, distance, pix_offset, pixel_fov], 128);
+pixfov = [sensor.position;pixfov];
 % drawPolygon(pixfov, 'color', 'k');
 % fillPolygon(pixfov, zeros(1,3), 'facealpha', 0.3);
-% fov_label = circleArcToPolyline([sensor.position, distance+800, pix_offset, pixel_fov], 128);
+fov_label = circleArcToPolyline([sensor.position, distance+200, pix_offset, pixel_fov], 128);
 % drawPolyline(fov_label, 'color', 'k');
 
-%%
-env_1 = int64(room);
-res = visilibity([8000; 7000], env_1, 10, 10, 0);
+%%%
+sensor.position = int64([8000 7000]);
+env_1 = int64(room');
+env_2 = int64(obstacle');
+env_int = {env_1, env_2};
+res = visilibity([8000; 7000], env_int, 10, 10, 0);
+res_vfov = bpolyclip(int64(pixfov'), int64(res{1}), true, 10, 1);
+mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.8);
 
 
-%%
-%elevated
-distance = 6000;
-
-ids = 1;
-idpix = 7;
-pix_offset = sensor(ids).phi_deg+(idpix-1)*pixel_fov;
-pixfov = circleArcToPolyline([sensor(ids).position, distance, pix_offset, pixel_fov], 128);
-pixfov = [sensor(ids).position;pixfov];
-drawPolygon(pixfov, 'color', 'k');
-fillPolygon(pixfov, 'k', 'facealpha', 0.2);
-e1 = pixfov;
-
-ids = 2;
-idpix = 10
-if idpix <= 8
-    pix_offset = sensor(ids).phi_deg+(idpix-1)*pixel_fov;
-end
-if idpix > 8
-    pix_offset = sensor(ids).phi_deg+90-(17-idpix)*pixel_fov;
-end
-pixfov = circleArcToPolyline([sensor(ids).position, distance, pix_offset, pixel_fov], 128);
-pixfov = [sensor(ids).position;pixfov];
-drawPolygon(pixfov, 'color', 'k');
-fillPolygon(pixfov, 'k', 'facealpha', 0.2);
-e2 = pixfov;
-
-ids = 3;
-idpix = 8
-if idpix <= 8
-    pix_offset = sensor(ids).phi_deg+(idpix-1)*pixel_fov;
-end
-if idpix > 8
-    pix_offset = sensor(ids).phi_deg+90-(17-idpix)*pixel_fov;
-end
-pixfov = circleArcToPolyline([sensor(ids).position, distance, pix_offset, pixel_fov], 128);
-pixfov = [sensor(ids).position;pixfov];
-drawPolygon(pixfov, 'color', 'k');
-fillPolygon(pixfov, 'k', 'facealpha', 0.2);
-e3 = pixfov;
+%%%
 
 
+% plot(4100,3200, 'marker', 'o', 'markersize', 8, 'markerfacecolor', 'k',  'markeredgecolor', 'k');
+text(8200, 6700, '$\Lambda_6$');
 
-plot(4100,3200, 'marker', 'o', 'markersize', 8, 'markerfacecolor', 'k',  'markeredgecolor', 'k');
+text(3600, 3700, '$\Lambda_5$');
+text(3900, 3060, '$\Lambda_4$');
+text(4300, 2100, '$\Lambda_3$');
+text(4400, 1160, '$\Lambda_2$');
+text(4300, 300, '$\Lambda_1$');
 
-text(-600, -300, '$S_1$');
-text(8000, -300, '$S_2$');
-text(8000, 7300, '$S_3$');
-text(-600, 7300, '$S_4$');
+%%%
+matlab2tikz('export/SensorSampling.tikz', 'parseStrings', false);
 
-
-matlab2tikz('export/ThiloSetup.tikz', 'parseStrings', false);
