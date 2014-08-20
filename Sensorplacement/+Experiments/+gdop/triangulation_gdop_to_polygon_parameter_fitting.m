@@ -10,13 +10,13 @@ pdiffflt = fun_pdiffflt(offset);
 
 %%
 
-flti = 120:240; fltj = 1:9; pipmxflt = pinterpointmax(flti, fltj); qkellyflt2 = qkelly(flti, fltj);
-figure, hold on, plot(pipmxflt), plot(qkellyflt2)
-fun_pdiffflt2 = @(x) pipmxflt-x.*qkellyflt2;
-offset2 = fminsearch(@(x) sum(sum(fun_pdiffflt2(x).^2)), 1);
-pdiffflt2 = fun_pdiffflt2(offset2);
-% figure, plot(pdiffflt2);
-figure,hold on; plot(angs(flti,1), pipmxflt), plot(angs(flti,1), offset2.*qkellyflt2); 
+% flti = 120:240; fltj = 1:9; pipmxflt = pinterpointmax(flti, fltj); qkellyflt2 = qkelly(flti, fltj);
+% figure, hold on, plot(pipmxflt), plot(qkellyflt2)
+% fun_pdiffflt2 = @(x) pipmxflt-x.*qkellyflt2;
+% offset2 = fminsearch(@(x) sum(sum(fun_pdiffflt2(x).^2)), 1);
+% pdiffflt2 = fun_pdiffflt2(offset2);
+% % figure, plot(pdiffflt2);
+% figure,hold on; plot(angs(flti,1), pipmxflt), plot(angs(flti,1), offset2.*qkellyflt2); 
 
 %%
 figure,

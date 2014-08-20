@@ -1,4 +1,4 @@
-function two_sensor_triangulation_const_dist_gdop%(fov, max_dist, s1x, s2x,distance_factor)
+% function two_sensor_triangulation_const_dist_gdop%(fov, max_dist, s1x, s2x,distance_factor)
 % only function in order to keep workspace clean;
 close all;
 clear all;
@@ -87,87 +87,175 @@ qcline = 0.58;
 % [vqc2, iqc2] = findtwocrossings(qcust3, 0.2);
 
 %%
+
 markercolor = [0 0 0];
-figure,
-sz = {2,2};
-plt = 1;
-subplot(sz{:}, plt)
-% mesh(ds1, ds2, psize);
-% imagesc(psize);
-plot(angs(:,1), psize); hold on;
+figure;
+% sz = {2,2};
+% plt = 1;
+% h_sp1 = subplot(sz{:}, plt);
+cla;
+hold on;
+handles = plot(angs(:,1), psize); 
 line([0, 180], [pszline pszline], 'color', markercolor);
 ylim([0 2]);
-title('polygon size for different angs and distances');
-% axis off;
-% % 
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+end
+title('a) Polygon sizes vs angles');
+xlabel('Inner bearing angle $[^{\circ}]$');
+ylabel('Size $[m^2]$');
+xlim([0 180]);
+% matlab2tikz('export/QualityKellyVsCustom_1.tikz', 'parseStrings', false);
+%%%
+figure;
 % plt = plt+1;
 % subplot(sz{:}, plt)
-% % mesh(ds1, ds2, qd1d2);
-% plot(angs(:,1), plength); 
-% title('polygon length for different angles and distances');
-
-% 
-plt = plt+1;
-subplot(sz{:}, plt)
-% mesh(ds1, ds2, qd1d2);
-plot(angs(:,1), pinterpointmax);
+cla;
+handles = plot(angs(:,1), pinterpointmax);
 ylim([0 5]);
+xlim([0 180]);
 line([0, 180], [pimxline pimxline], 'color', markercolor);
-title('max polygon interpoint distance for different angles and distances');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+end
+title('b) Max polygon interpoint distance');
+xlabel('Inner bearing angle $[^{\circ}]$');
+ylabel('Size $m$');
+% matlab2tikz('export/QualityKellyVsCustom_2.tikz', 'parseStrings', false);
 
-% axis off;
+figure;
 % plt = plt+1;
 % subplot(sz{:}, plt)
-% % mesh(ds1, ds2, pidmax);
-% imagesc(pidmax);
-% title('max ip dist for different distances at 90°');
-
-% plt = plt+1;
-% subplot(sz{:}, plt)
-% % mesh(ds1, ds2, pidmax);
-% imagesc(pidmean);
-% title('mean ip dist for different distances at 90°');
-
-% plt = plt+1;
-% subplot(sz{:}, plt)
-% % mesh(ds1, ds2, pidmax);
-% imagesc(qd1d2pl);
-% title('ds1 + ds2 plus for different distances at 90°');
-% 
-
-plt = plt+1;
-subplot(sz{:}, plt)
-% mesh(ds1, ds2, plength);
-plot(angs(:,1), qkelly);
+cla;
+handles = plot(angs(:,1), qkelly);
 ylim([0 2]);
+xlim([0 180]);
 line([0 180], [qkline qkline], 'color', markercolor);
-title('kelly quality for different angles and distances');
+title('c) Kelly quality');
+xlabel('Inner bearing angle $[^{\circ}]$');
+ylabel('Quality');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+end
+% matlab2tikz('export/QualityKellyVsCustom_3.tikz', 'parseStrings', false);
 
-plt = plt+1;
-subplot(sz{:}, plt)
-% mesh(ds1, ds2, qd1d2);
-plot(angs(:,1), qcust2); 
+figure;
+% plt = plt+1;
+% subplot(sz{:}, plt)
+cla;
+handles = plot(angs(:,1), qcust2); 
 line([0 180], [qcline qcline], 'color', markercolor);
 ylim([0 1]);
-title('custom gdop func for different angles and distances');
-% 
-% plt = plt+1;
-% subplot(sz{:}, plt)
-% % mesh(ds1, ds2, qd1d2);
-% plot(angs(:,1), qcust3); 
-% line([0 180], [0.22 0.22], 'color', markercolor);
-% ylim([0 1]);
-% title('custom gdop func for different angles and distances');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+end
+xlim([0 180]);
+title('d) Custom gdop function');
+xlabel('Inner bearing angle $[^{\circ}]$');
+ylabel('Quality');
+% matlab2tikz('export/QualityKellyVsCustom_4.tikz', 'parseStrings', false);
 
-% plt = plt+1;
-% subplot(sz{:}, plt)
-% % mesh(ds1, ds2, qcust);
-% % imagesc(qcust);
-% plot(angs(:,1), qcust_1);
-% line([0 180], [0.523 0.523], 'color', markercolor);
-% title('custom gdop func for different angles and distances');
-% % axis off
+%%
+flti = 40:320; fltj = 1:9; psizeflt = psize(flti, fltj); qkellyflt = qkelly(flti, fltj);
+% figure, hold on, plot(psizeflt), plot(qkellyflt)
+fun_pdiffflt = @(x) psizeflt-x.*qkellyflt;
+offset = fminsearch(@(x) sum(sum(fun_pdiffflt(x).^2)), 1);
+pdiffflt = fun_pdiffflt(offset);
+% figure, plot(pdiffflt);
 
+
+%%%
+
+flti = 120:240; fltj = 1:9; pipmxflt = pinterpointmax(flti, fltj); qkellyflt2 = qkelly(flti, fltj);
+% figure, hold on, plot(pipmxflt), plot(qkellyflt2)
+fun_pdiffflt2 = @(x) pipmxflt-x.*qkellyflt2;
+offset2 = fminsearch(@(x) sum(sum(fun_pdiffflt2(x).^2)), 1);
+pdiffflt2 = fun_pdiffflt2(offset2);
+% % figure, plot(pdiffflt2);
+% figure,hold on; plot(angs(flti,1), pipmxflt), plot(angs(flti,1), offset2.*qkellyflt2); 
+
+%%
+figure,
+% sz = {2,2};
+% plt = 1;
+% subplot(sz{:}, plt)
+cla;
+hold on;
+handles = plot(angs(:,1), psize); 
+handles2 = plot(angs(:,1), offset.*qkelly, 'linestyle', '--');
+line([0, 180], [pszline pszline], 'color', markercolor);
+ylim([0 2]);
+xlim([0 180]);
+ylabel('Quality');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+    set(handles2(idh), 'color', colors(idh, :));
+end
+title('Polygon size vs fitted Kelly quality.');
+matlab2tikz('export/QualityKellyVsProperties_1.tikz', 'parseStrings', false);
+
+figure;
+% plt = plt+1;
+% subplot(sz{:}, plt);
+cla;
+hold on;
+handles = plot(angs(:,1), psize-offset.*qkelly); 
+% plot(angs(:,1), offset.*qkelly)
+% line([0, 180], [pszline pszline], 'color', markercolor);
+ylim([-2 2]);
+xlim([0 180]);
+ylabel('Quality');
+title('Difference of polygon size and fitted Kelly');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+%     set(handles2(idh), 'color', colors(idh, :));
+end
+matlab2tikz('export/QualityKellyVsProperties_2.tikz', 'parseStrings', false);
+
+figure,
+% plt = plt+1;
+% subplot(sz{:}, plt);
+cla;
+hold on;
+handles = plot(angs(:,1), pinterpointmax(:, 1:2:end)); 
+handles2 = plot(angs(:,1), offset2.*qkelly(:,1:2:end), 'linestyle', '--');
+line([0, 180], [pimxline pimxline], 'color', markercolor);
+ylim([0 4]);
+xlim([0 180]);
+ylabel('Quality');
+title('Polygon size vs fitted Kelly quality');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+    set(handles2(idh), 'color', colors(idh, :));
+end
+matlab2tikz('export/QualityKellyVsProperties_3.tikz', 'parseStrings', false);
+
+figure,
+% plt = plt+1;
+% subplot(sz{:}, plt);
+cla;
+hold on;
+handles = plot(angs(:,1), pinterpointmax-offset2.*qkelly); 
+% plot(angs(:,1), offset.*qkelly)
+% line([0, 180], [pszline pszline], 'color', markercolor);
+ylim([-4 4]);
+xlim([0 180]);
+ylabel('Quality');
+title('Difference polygon size vs fitted Kelly quality');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+%     set(handles2(idh), 'color', colors(idh, :));
+end
+xlabel('Inner bearing angle $[^{\circ}]$');
+matlab2tikz('export/QualityKellyVsProperties_4.tikz', 'parseStrings', false);
 
 
 %% Evaluation of dist/angle

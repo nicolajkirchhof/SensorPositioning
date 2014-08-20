@@ -11,13 +11,14 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=5.0859375in,
+width=3.12421875in,
 height=5.45880208333333in,
 scale only axis,
 xmin=-300,
 xmax=8300,
-ymin=-2115.24526369688,
-ymax=7115.24526369688,
+ymin=-5013.18996415771,
+ymax=10013.1899641577,
+hide axis,
 axis x line*=bottom,
 axis y line*=left
 ]
@@ -143,5 +144,15 @@ table[row sep=crcr]{
 3600 1000\\
 2515 3712\\
 };
+\node[right, inner sep=0mm, text=black]
+at (axis cs:3700,-300,0) {$v_1$};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:3000,400,0) {$e_1$};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:4300,400,0) {$e_n$};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:1800,4000,0) {$v_2$};
+\node[right, inner sep=0mm, text=black]
+at (axis cs:5300,2600,0) {$v_n$};
 \end{axis}
 \end{tikzpicture}%

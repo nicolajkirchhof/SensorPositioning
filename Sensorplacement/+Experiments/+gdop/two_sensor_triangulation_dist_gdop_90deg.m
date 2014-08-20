@@ -1,4 +1,4 @@
-function two_sensor_triangulation_dist_gdop_90deg%(fov, max_dist, s1x, s2x,distance_factor)
+% function two_sensor_triangulation_dist_gdop_90deg%(fov, max_dist, s1x, s2x,distance_factor)
 % only function in order to keep workspace clean;
 close all;
 clear all;
@@ -60,7 +60,7 @@ plt = plt+1;
 subplot(sz{:}, plt)
 % mesh(ds1, ds2, qd1d2);
 imagesc(qd1d2);
-title('quality (d1*d2) for different distances at 90°');
+title('quality (d1*d2) for different distances at 90\°');
 axis off;
 % plt = plt+1;
 % subplot(sz{:}, plt)
@@ -91,10 +91,14 @@ plt = plt+1;
 subplot(sz{:}, plt)
 % mesh(ds1, ds2, qcust);
 imagesc(qcust);
-title('custom range func for different distances at 90°');
+title('custom range function\n for different distances at $90^{\circ}$');
 axis off
 
+% matlab2tikz(
+
+return;
 %%
+
 %%% Evaluation of dist/angle
 % figure, drawPolygon(s1_poly)
 distances = 100:1000:9000;

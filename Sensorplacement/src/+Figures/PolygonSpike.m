@@ -39,7 +39,11 @@ res_vfov = bpolyclip(int64(pixfov'), int64(res{1}), true, 10, 1);
 mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.5);
 mb.drawPoint(res_vfov{1}{1}, 'color', 'k', 'markersize', 5, 'markerfacecolor', 'w');
 
-
+text(3700, -300, '$v_1$');
+text(3000, 400, '$e_1$');
+text(4300, 400, '$e_n$');
+text(1800, 4000, '$v_2$');
+text(5300, 2600, '$v_n$');
 %%%
 
 
@@ -52,6 +56,6 @@ mb.drawPoint(res_vfov{1}{1}, 'color', 'k', 'markersize', 5, 'markerfacecolor', '
 % text(4400, 1160, '$\Lambda_2$');
 % text(4300, 300, '$\Lambda_1$');
 
-%%
+%%%
 matlab2tikz('export/PolygonSpike.tikz', 'parseStrings', false);
 
