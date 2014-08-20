@@ -3325,8 +3325,8 @@ solid,
 forget plot
 ]
 table[row sep=crcr]{
-0 1.5\\
-180 1.5\\
+0 2.02671257062147\\
+180 2.02671257062147\\
 };
 \end{axis}
 \end{tikzpicture}%

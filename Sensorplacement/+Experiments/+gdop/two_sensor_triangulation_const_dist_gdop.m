@@ -1,4 +1,4 @@
-% function two_sensor_triangulation_const_dist_gdop%(fov, max_dist, s1x, s2x,distance_factor)
+function two_sensor_triangulation_const_dist_gdop%(fov, max_dist, s1x, s2x,distance_factor)
 % only function in order to keep workspace clean;
 close all;
 clear all;
@@ -107,13 +107,13 @@ xlabel('Inner bearing angle $[^{\circ}]$');
 ylabel('Size $[m^2]$');
 xlim([0 180]);
 % matlab2tikz('export/QualityKellyVsCustom_1.tikz', 'parseStrings', false);
-%%%
+%%
 figure;
 % plt = plt+1;
 % subplot(sz{:}, plt)
 cla;
 handles = plot(angs(:,1), pinterpointmax);
-ylim([0 5]);
+ylim([0 4]);
 xlim([0 180]);
 line([0, 180], [pimxline pimxline], 'color', markercolor);
 colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
@@ -121,10 +121,10 @@ for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
 end
 title('b) Max polygon interpoint distance');
-xlabel('Inner bearing angle $[^{\circ}]$');
+% xlabel('Inner bearing angle $[^{\circ}]$');
 ylabel('Size $m$');
-% matlab2tikz('export/QualityKellyVsCustom_2.tikz', 'parseStrings', false);
-
+matlab2tikz('export/QualityKellyVsCustom_2.tikz', 'parseStrings', false);
+%%
 figure;
 % plt = plt+1;
 % subplot(sz{:}, plt)
@@ -187,7 +187,7 @@ cla;
 hold on;
 handles = plot(angs(:,1), psize); 
 handles2 = plot(angs(:,1), offset.*qkelly, 'linestyle', '--');
-line([0, 180], [pszline pszline], 'color', markercolor);
+line([0, 180], offset*[pszline pszline], 'color', 'k');
 ylim([0 2]);
 xlim([0 180]);
 ylabel('Quality');
@@ -225,7 +225,7 @@ cla;
 hold on;
 handles = plot(angs(:,1), pinterpointmax(:, 1:2:end)); 
 handles2 = plot(angs(:,1), offset2.*qkelly(:,1:2:end), 'linestyle', '--');
-line([0, 180], [pimxline pimxline], 'color', markercolor);
+line([0, 180], offset*[pimxline pimxline], 'color', 'k');
 ylim([0 4]);
 xlim([0 180]);
 ylabel('Quality');

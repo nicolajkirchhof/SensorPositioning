@@ -8,7 +8,7 @@ inner_poly = circleToPolygon(inner,3600);
 uc_poly = bpolyclip(int64(outer_poly'),int64(inner_poly'), 0);
 
 %%%
-% cla
+cla
 % mb.drawPolygon(uc_poly)
 
 %%%
@@ -45,6 +45,25 @@ for cnt = 1:numel(pcut)-1
     ipmean(cnt) = mean(dists);
     plength(cnt) = mb.polygonLength(pcut{cnt}); 
 end
+%%
+delete(gca)
+% cla;
+hold on;
+% set(gca, 'ytick', []);
+s1s2_ang_deg = rad2deg(s1s2_ang);
+plot(s1s2_ang_deg, 30*psize./max(psize), 'color', 'k');
+plot(s1s2_ang_deg, 30*0.5*plength./max(plength), 'color', 0.5*ones(1,3));
+plot(s1s2_ang_deg, 1./sin(s1s2_ang), 'color', 0.7*ones(1,3));
+legend('Size', 'Area', 'Sin^{-1}', 'Location', 'North');
+% title('scaled size for two sensors');
+ylim([0.5, 3.5]);
+xlim([0, 180]);
+ylabel('');
+xlabel('Inner bearing angle $[^{\circ}]$');
+%%%
+matlab2tikz('export/gdop_trilateration.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+    'extraAxisOptions',{'y post scale=1'});
 
 %%
 % h_size = figure; 

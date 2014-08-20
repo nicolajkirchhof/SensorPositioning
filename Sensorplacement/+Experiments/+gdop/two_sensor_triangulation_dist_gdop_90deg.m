@@ -40,7 +40,7 @@ plength = arrayfun(@mb.polygonLength, pcuts);
 
 qd1d2 = ds1.*ds2;
 qd1d2pl = ds1+ds2;
-
+        
 qcust = ((ds1/dmax)+1).*((ds2/dmax)+1);
 
 pid = arrayfun(@mb.polygonInterpointDistances, pcuts, 'uniformoutput', false);

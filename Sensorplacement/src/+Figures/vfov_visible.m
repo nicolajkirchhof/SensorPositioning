@@ -6,7 +6,10 @@
 % pc = environment.load(pc);
 % b_comb_env = pc.environment.combined.poly;
 %%
+cla;
 col = repmat((0:10)', 1, 3)*0.1;
+xlim([800 6000]);
+ylim([800 6000]);
 
 fun_trans = @(p) cellfun(@(x) x', p, 'uniformoutput', false);
 rect_env = int64(rectToPolygon([1 1 5 5]*1000));
@@ -42,19 +45,29 @@ vint = bpolyclip(vfov{1}, vfov2{1}, 1, true);
 fillPolygon(vfov{1}{1}', col(6,:));
 fillPolygon(obst_env, col(10,:));
 
-drawPolygon(vfov2{1}{1}','color', col(3,:), 'linestyle', '-', 'linewidth', 4);
+drawPolygon(vfov2{1}{1}','color', col(3,:), 'linestyle', '-');%, 'linewidth', 4);
 
 fillPolygon(fun_trans(vint{1}), col(3,:));
 fillPolygon(fun_trans(vint{2}), col(3,:));
 drawPolygon(p_comb_env, 'k');
 
-text('Interpreter', 'none', 'position', [800 800], 'string', 'S1')
-drawPoint([1000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceColor', col(2,:), 'markersize', 10);
+% text('Interpreter', 'none', 'position', [800 800], 'string', 'S1')
+text(800, 800, '$S_1$');
+text(2000, 2000, '$\Lambda_1$');
+text(3200, 2500, '$\Psi_{1,2}$', 'color', 'w');
+text(3200, 5100, '$\Psi_{1,2}$', 'color', 'w');
+drawPoint([1000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceColor', 'k', 'markersize', 6);
 
-text('Interpreter', 'none', 'position', [6050 800], 'string', 'S2')
-drawPoint([6000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceColor', col(2,:), 'markersize', 10);
+text(6050, 800, '$S_2$');
+text(4600, 2000, '$\Lambda_1$');
 
-matlab2tikz('fig/vfov_visible.tex');
+drawPoint([6000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceColor', 'k', 'markersize', 6);
+
+
+%%
+matlab2tikz('export/VfovVisible.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+    'extraAxisOptions',{'y post scale=1'});
 
 %%
 

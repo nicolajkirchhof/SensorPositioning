@@ -33,7 +33,7 @@ env_1 = int64(room');
 env_2 = int64(obstacle');
 env_3 = int64(obstacle2');
 env_int = {env_1, env_2, env_3};
-res = visilibity([4000; 0], env_int, 10, 10, 0);
+res = visilibity(double(sensor.position)', env_int, 10, 10, 0);
 res_vfov = bpolyclip(int64(pixfov'), int64(res{1}), true, 10, 1);
 mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.4);
 % mb.drawPoint(res_vfov{1}{1}, 'color', 'k', 'markersize', 5, 'markerfacecolor', 'w');
@@ -57,6 +57,17 @@ res_vfov = bpolyclip(int64(pixfov2'), int64(res{1}), true, 10, 1);
 mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.4);
 % mb.drawPoint(res_vfov{1}{1}, 'color', 'k', 'markersize', 5, 'markerfacecolor', 'w');
 
+cellsz = 1000;
+midx = 1500:cellsz:7000;
+midy = 500:cellsz:5000;
+
+[x, y] = meshgrid(midx, midy);
+
+for id = 1:numel(x)
+    gridcell = rectAsPolygon([x(id), y(id), cellsz, cellsz]);
+    drawPolygon(gridcell, 'linewidth', 1, 'color', 0.6*ones(1,3));
+%     drawPoint([3000 1000; 1000 2000; 2000 2000; 3000 2000; 4000 2000], 'marker', 'o', 'color', 'k', 'markersize', 5, 'markerfacecolor', 'k');
+end
 
 %%%
 
@@ -71,4 +82,6 @@ mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.4);
 % text(4300, 300, '$\Lambda_1$');
 
 %%
-matlab2tikz('export/VfovIntersectionMultipleParts.tikz', 'parseStrings', false);
+matlab2tikz('export/VfovIntersectionMultipleParts.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+    'extraAxisOptions',{'y post scale=1'});
