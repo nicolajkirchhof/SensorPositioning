@@ -9,8 +9,8 @@ uc_fov_2 = uc_fov/2;
 s1 = [0, 0];
 s2 = [0, 0];
 dmax = 10000;
-s1_poly = flipud(int64([s1; circleArcToPolyline([s1, dmax, 90-uc_fov_2, uc_fov], 64)]));
-
+% s1_poly = flipud(int64([s1; circleArcToPolyline([s1, dmax, 90-uc_fov_2, uc_fov], 64)]));
+s1_poly = flipud([s1; circleArcToPolyline([s1, dmax, 90-uc_fov_2, uc_fov], 64)]);
 distances = 100:1000:9100;
 num_angles = 360;
 pcuts = cell(num_angles, numel(distances));
@@ -23,21 +23,28 @@ dist = distances(2);
 %%%
 for dist = distances
     %%
+%     dist = distances(1);
     circlepoints = round(circleArcToPolyline([0, dist, dist, -90, 180], num_angles))';
     pt = circlepoints(:,2);
     %%
     for pt = circlepoints
         %%
+        pt = circlepoints(:,320);
         ang = 180 + atan2d(pt(2)-dist,pt(1));
         angs(cnt) = ang - 90;
-        s2_poly = flipud(int64([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]));
+%         s2_poly = flipud(int64([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]));
+s2_poly = flipud([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]);
         pcuts{cnt} = bpolyclip(s1_poly', s2_poly', 1, true); 
-%         figure, hold on, drawPolygon(s1_poly), drawPolygon(s2_poly), axis equal
-%         figure, mb.drawPolygon(pcuts{1}),
+%         figure, hold on, axis equal
+        cla, hold on, drawPolygon(s1_poly), drawPolygon(s2_poly), 
+        mb.drawPolygon(pcuts{1}, 'k')
+        ylim([50 150])
+        xlim([-50 50])
 %         figure, hold on, mb.drawPolygon(s1_pmoved'), mb.drawPolygon(s2_pmoved')
         %%
 %         pcuts{cnt} = bpolyclip(s1_pmoved, s2_pmoved, 1, true);
         cnt = cnt + 1;
+        
     end
 end
 %%%
@@ -77,7 +84,8 @@ qkline = 0.84;
 %%%
 % qcustmov = 1-(repmat((((distances-2000)/(dmax-2000))+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)))/4);
 % qcust2 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs)))/2);
-qcust2 = 1-(repmat((distances.^2/dmax.^2), num_angles, 1)./(sin(deg2rad(angs)))/2);
+% qcust2 = 1-(repmat((distances.^2/dmax.^2), num_angles, 1)./(sin(deg2rad(angs)))/2);
+qcust2 = 1-(qkelly./2);
 qcust2(qcust2 < 0) = -1;
 qcline = 0.58;
 [vqc2, iqc2] = findtwocrossings(qcust2, qcline);
@@ -141,7 +149,7 @@ for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
 end
 % matlab2tikz('export/QualityKellyVsCustom_3.tikz', 'parseStrings', false);
-
+%%
 figure;
 % plt = plt+1;
 % subplot(sz{:}, plt)
@@ -217,16 +225,16 @@ for idh = 1:numel(handles)
 %     set(handles2(idh), 'color', colors(idh, :));
 end
 matlab2tikz('export/QualityKellyVsProperties_2.tikz', 'parseStrings', false);
-
+%%
 figure,
 % plt = plt+1;
 % subplot(sz{:}, plt);
 cla;
 hold on;
-handles = plot(angs(:,1), pinterpointmax(:, 1:2:end)); 
-handles2 = plot(angs(:,1), offset2.*qkelly(:,1:2:end), 'linestyle', '--');
-line([0, 180], offset*[pimxline pimxline], 'color', 'k');
-ylim([0 4]);
+handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)); 
+handles2 = plot(angs(:,1), offset2.*qkelly(:,2:2:end), 'linestyle', '--');
+line([0, 180], (offset2/offset)*[pszline pszline], 'color', 'k');
+ylim([0 6]);
 xlim([0 180]);
 ylabel('Quality');
 title('Polygon size vs fitted Kelly quality');
@@ -236,15 +244,15 @@ for idh = 1:numel(handles)
     set(handles2(idh), 'color', colors(idh, :));
 end
 matlab2tikz('export/QualityKellyVsProperties_3.tikz', 'parseStrings', false);
-
+%%
 figure,
 % plt = plt+1;
 % subplot(sz{:}, plt);
 cla;
 hold on;
-handles = plot(angs(:,1), pinterpointmax-offset2.*qkelly); 
+handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)-offset2.*qkelly(:, 2:2:end)); 
 % plot(angs(:,1), offset.*qkelly)
-% line([0, 180], [pszline pszline], 'color', markercolor);
+line([0, 180], [0 0], 'color', markercolor);
 ylim([-4 4]);
 xlim([0 180]);
 ylabel('Quality');
