@@ -10,7 +10,7 @@ axis off
 % xlim([-300 5300]);
 % ylim([-300 3300]);
 
-filename = 'res/polygons/PolygonDecompositionSteinerPoints.dxf';
+filename = 'res/polygons/PolygonDecompositionWithoutSteinerPoints.dxf';
 [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
 
 polys = c_Poly(:,1);
@@ -26,17 +26,17 @@ for idp = 1:numel(polys)
     drawPolygon(polys{idp}, 'color', 'k', 'linewidth', 2);
 end
 
-for idc = 1:numel(circles)
-    drawCircle(circles{idc}, 'color', 'k');
-    fillPolygon(circleToPolygon(circles{idc}, 128), 'k');
-end
+% for idc = 1:numel(circles)
+%     drawCircle(circles{idc}, 'color', 'k');
+%     fillPolygon(circleToPolygon(circles{idc}, 128), 'k');
+% end
 
-text(98, 40, 'SP');
+% text(98, 40, 'SP');
 
 
 
 %%
-matlab2tikz('export/ConvexDecompositionWithSteinerPoints.tikz', 'parseStrings', false,... 
+matlab2tikz('export/ConvexDecompositionWithoutSteinerPoints.tikz', 'parseStrings', false,... 
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
