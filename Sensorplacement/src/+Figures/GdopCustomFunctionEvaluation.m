@@ -20,12 +20,20 @@ ds2 = zeros(size(pcuts));
 cnti = 1;
 cntj = 1;
 dist = distances(2);
+colors = flipud(repmat(linspace(0,0.7,numel(distances))', 1, 3));
 
+cnt_plt = [1:10]*36;
+figure, hold on, axis equal;
+mb.drawPolygon(s1_poly/1000, 'color', [0, 0, 0]);
+drawPoint(s1/1000, 'color', [0, 0, 0], 'markersize', 6, 'markerfacecolor', [0, 0, 0]);
 %%%
 for dist = distances
     %%
 %     dist = distances(1);
     circlepoints = round(circleArcToPolyline([0, dist, dist, -90, 180], num_angles))';
+    h = drawEdge(circlepoints(:, 1:end-1)'/1000, circlepoints(:, 2:end)'/1000);
+    set(h, 'color', colors(cntj, :));
+    drawPoint(s1+[0 dist]/1000, 'marker', 'x', 'markersize', 6, 'color', [0, 0, 0]);
     pt = circlepoints(:,2);
     %%
     for pt = circlepoints
@@ -34,8 +42,12 @@ for dist = distances
         ang = 180 + atan2d(pt(2)-dist,pt(1));
         angs(cnti, cntj) = ang - 90;
 %         s2_poly = flipud(int64([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]));
-s2_poly = flipud([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]);
+        s2_poly = flipud([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]);
         pcuts{cnti, cntj} = bpolyclip(s1_poly', s2_poly', 1, true); 
+        if cnt_plt(cntj) == cnti
+            mb.drawPolygon(s2_poly/1000, 'color', colors(cntj, :), 'linestyle', '--');
+            drawPoint(pt'/1000, 'color', [0, 0, 0], 'markersize', 6, 'markerfacecolor', [0, 0, 0]);
+        end
 %         figure, hold on, axis equal
 %         cla, hold on, drawPolygon(s1_poly), drawPolygon(s2_poly), 
 %         mb.drawPolygon(pcuts{1}, 'k')
@@ -50,6 +62,17 @@ s2_poly = flipud([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64
     cnti = 1;
     cntj = cntj+1;
 end
+% title('Polygon evaluation szenario');
+xlabel('$[m]$');
+ylabel('$[m]$');
+ylim([-500, 18500]/1000);
+xlim([-7500, 10000]/1000);
+matlab2tikz('export/PolygonEvaluationSzenario.tikz', 'parseStrings', false,... 
+    'tikzFileComment','width', '8cm', '% -*- root: TestingFigures.tex -*-',...
+    'extraAxisOptions',{'y post scale=1'});
+% set(gca, 'XTickLabel', num2str(str2num(get(gca, 'XTickLabel'))/1000));
+% set(gca, 'YTickLabel', num2str(str2num(get(gca, 'YTickLabel'))/1000));
+% matlab2tikz('export/PolygonEvaluationSzenario.tikz', 'parseStrings', false);
 %%%
 psize = arrayfun(@mb.polygonArea, pcuts)./(1000^2);
 %%%
@@ -97,7 +120,7 @@ qcust2(qcust2 < 0) = 0;
 
 % [vqc2, iqc2] = findtwocrossings(qcust2, qcline);
 
-%% Match the polygon size and interpoint distances to qkelly function
+%%% Match the polygon size and interpoint distances to qkelly function
 flti = 40:320; fltj = 1:9; psizeflt = psize(flti, fltj); qkellyflt = qkelly(flti, fltj);
 % figure, hold on, plot(psizeflt), plot(qkellyflt)
 fun_pdiffflt = @(x) psizeflt-x.*qkellyflt;
@@ -190,20 +213,22 @@ figure;
 % subplot(sz{:}, plt)
 cla;
 handles = plot(angs(:,1), qcust2); 
-line([0 180], [qcline qcline], 'color', markercolor);
-ylim([0 1]);
+line([0 180], [qcline qcline], 'color', [0 0 0]);
 colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
 for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
 end
+ylim([0 1]);
 xlim([0 180]);
-title('d) Custom gdop function');
+% title('d) Custom gdop function');
 xlabel('Inner bearing angle $[^{\circ}]$');
 ylabel('Quality');
-% matlab2tikz('export/QualityKellyVsCustom_4.tikz', 'parseStrings', false);
+% matlab2tikz('export/ScQKellyVsQualityFunction.tikz', 'parseStrings', false);
+matlab2tikz('export/ScQKellyVsQualityFunction.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
+    'height', '5cm', 'extraAxisOptions',{'y post scale=1'});
 
-
-%%
+%%%
 figure,
 % sz = {2,2};
 % plt = 1;
@@ -215,14 +240,18 @@ handles2 = plot(angs(:,1), qkelly, 'linestyle', '--');
 line([0, 180], [pszline pszline]./offset, 'color', 'k');
 ylim([0 2]);
 xlim([0 180]);
-ylabel('Quality');
+ylabel('$[m^2]$, $H^{sc}$');
 colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
 for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
     set(handles2(idh), 'color', colors(idh, :));
 end
-title('Polygon size vs fitted Kelly quality.');
-matlab2tikz('export/ScQKellyVsPolygonArea.tikz', 'parseStrings', false);
+xlabel('Inner bearing angle $[^{\circ}]$');
+% title('a) Polygon size vs fitted Kelly quality.');
+matlab2tikz('export/ScQKellyVsPolygonArea.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
+    'height', '5cm', 'extraAxisOptions',{'y post scale=1'}); %, 'unit vector ratio=1 40 1'});
+% matlab2tikz('export/ScQKellyVsPolygonArea.tikz', 'parseStrings', false);
 
 figure;
 % plt = plt+1;
@@ -232,17 +261,21 @@ hold on;
 handles = plot(angs(:,1), psize./offset-qkelly); 
 % plot(angs(:,1), offset.*qkelly)
 % line([0, 180], [pszline pszline], 'color', markercolor);
-ylim([-2 2]);
+ylim([-1 1]);
 xlim([0 180]);
-ylabel('Quality');
-title('Difference of polygon size and fitted Kelly');
+ylabel('$[m^2]$, $H^{sc}$');
+% title('b) Difference of polygon size and fitted Kelly');
 colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
 for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
 %     set(handles2(idh), 'color', colors(idh, :));
 end
-matlab2tikz('export/ScQKellyVsPolygonAreaDiff.tikz', 'parseStrings', false);
-%%
+xlabel('Inner bearing angle $[^{\circ}]$');
+matlab2tikz('export/ScQKellyVsPolygonAreaDiff.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
+    'height', '5cm', 'extraAxisOptions',{'y post scale=1'}); %, 'unit vector ratio=1 40 1'});
+% matlab2tikz('export/ScQKellyVsPolygonAreaDiff.tikz', 'parseStrings', false);
+%%%
 figure,
 % plt = plt+1;
 % subplot(sz{:}, plt);
@@ -253,14 +286,18 @@ handles2 = plot(angs(:,1), qkelly(:,2:2:end), 'linestyle', '--');
 line([0, 180], (offset2/offset)*[pszline pszline], 'color', 'k');
 ylim([0 3]);
 xlim([0 180]);
-ylabel('Quality');
-title('Maximum interpoint distance vs fitted Kelly quality');
+ylabel('$[m]$, $H^{sc}$');
+% title('a) Maximum interpoint distance vs fitted Kelly quality');
 colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
 for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
     set(handles2(idh), 'color', colors(idh, :));
 end
-matlab2tikz('export/ScQKellyVsInterpointDistance.tikz', 'parseStrings', false);
+xlabel('Inner bearing angle $[^{\circ}]$');
+matlab2tikz('export/ScQKellyVsInterpointDistance.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
+    'height', '5cm', 'extraAxisOptions',{'y post scale=1'});
+% matlab2tikz('export/ScQKellyVsInterpointDistance.tikz', 'parseStrings', false);
 %%%
 figure,
 % plt = plt+1;
@@ -269,17 +306,18 @@ cla;
 hold on;
 handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)-offset2.*qkelly(:, 2:2:end)); 
 % plot(angs(:,1), offset.*qkelly)
-line([0, 180], [0 0], 'color', markercolor);
+line([0, 180], [0 0], 'color', [0 0 0]);
 ylim([-4 4]);
 xlim([0 180]);
-ylabel('Quality');
-title('Difference polygon size vs fitted Kelly quality');
+ylabel('$[m]$, $H^{sc}$');
+% title('b) Difference of maximum interpoint distance vs fitted Kelly quality');
 colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
 for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
 %     set(handles2(idh), 'color', colors(idh, :));
 end
 xlabel('Inner bearing angle $[^{\circ}]$');
-matlab2tikz('export/ScQKellyVsInterpointDistanceDiff.tikz', 'parseStrings', false);
-
+matlab2tikz('export/ScQKellyVsInterpointDistanceDiff.tikz', 'parseStrings', false,... 
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
+    'height', '5cm', 'extraAxisOptions',{'y post scale=1'});
 

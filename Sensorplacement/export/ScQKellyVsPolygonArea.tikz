@@ -6,7 +6,7 @@
 %   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
 % where you can also make suggestions and rate matlab2tikz.
 % 
-% 
+% % -*- root: TestingFigures.tex -*-
 % 
 
 % defining custom colors
@@ -18,17 +18,18 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=4.52083333333333in,
-height=3.565625in,
+width=8cm,
+height=5cm,
 scale only axis,
 xmin=0,
 xmax=180,
+xlabel={Inner bearing angle $[^{\circ}]$},
 ymin=0,
 ymax=2,
-ylabel={Quality},
-title={Polygon size vs fitted Kelly quality.},
+ylabel={$[m^2]$, $H^{sc}$},
 axis x line*=bottom,
-axis y line*=left
+axis y line*=left,
+y post scale=1
 ]
 \addplot [
 color=white!70!black,
