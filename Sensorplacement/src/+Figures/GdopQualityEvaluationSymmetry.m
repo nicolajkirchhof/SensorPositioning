@@ -91,7 +91,7 @@ matlab2tikz('export/QScKellyContours_2m.tikz', 'parseStrings', false,...
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
 ...%     'height', '5cm',... 
     'extraAxisOptions',{'y post scale=1'});
-%%%
+%%
 cnt = 4;
 % figure; hold on;
 cla; hold on;
@@ -99,7 +99,8 @@ for contourlevel = 0.1:0.1:0.9
     contour(X,Y,Z{cnt}, contourlevel, 'color', (1-contourlevel)*[1 1 1]); %,  'ShowText','on', 'LabelSpacing', 250);
     %     contour(X,Y,Z{cnt}, contourlevel, 'color', (1-contourlevel)*[1 1 1], 'ShowText','on', 'LabelSpacing', 250);
 end
-dm = (x2-x1);
+% dm = (x2-x1);
+dm = distances(cnt);
 % title(sprintf('Polygon contours at %m', dm));
 xlabel('$[m]$');
 ylabel('$[m]$');
@@ -109,21 +110,49 @@ xlim([2.5, 15.5]);
 set(gca,'YDir','normal');
 plot(x1, y1, 'ok', 'markerfacecolor', [0 0 0]);
 plot((x1+distances(cnt)), y1, 'ok', 'markerfacecolor', [0 0 0]);
-%%%
+%%
+pt_sym = [7, 12;
+       11, 12;
+       11, 8;
+       7, 8];
+% alignment = {'bottom', 'bottom', 'top', 'top'};
+phiBoffset= [180, 180, 0, 0];
+phiAoffset= [0, 0, 180, 180];
+for idpt = 1:4
+    %%
+    plot(pt_sym(idpt, 1), pt_sym(idpt, 2), 'k+', 'markersize', 10, 'linewidth', 2);
+    edgeA = [[x1, y1], pt_sym(idpt, :)];
+    lineA = createLine(edgeA(1:2), edgeA(3:4));
+    ptA = pointOnLine(lineA, edgeLength(edgeA)/2); 
+    phiA = rad2deg(lineAngle(lineA))+phiAoffset(idpt);
+    drawEdge(edgeA, 'color', [0 0 0], 'linewidth', 2, 'linestyle', '--');
+    text(ptA(1), ptA(2), ['a' num2str(idpt)], 'Rotation', phiA, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+    %%
+    edgeB = [[x1+dm, y2], pt_sym(idpt, :)];
+    lineB = createLine(edgeB(1:2), edgeB(3:4));
+    ptB = pointOnLine(lineB, edgeLength(edgeB)/2); 
+    phiB = rad2deg(lineAngle(lineB))+phiBoffset(idpt);
+    drawEdge(edgeB , 'color', [0 0 0], 'linewidth', 2, 'linestyle', ':');
+    text(ptB(1), ptB(2), ['b' num2str(idpt)], 'Rotation', phiB,'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+end
+drawEdge([x1, y1], [x1+dm, y2], 'color', [0 0 0], 'linewidth', 2);
+text(9, 10, 'c', 'VerticalAlignment', 'bottom');
+
+%%
 contourlevel = 0.9;
-xt = 5.5;
+xt = 4.5;
 idxt = find(X(1,:)==xt, 1, 'first');
 txt_level = sprintf('$>%g$', contourlevel);
 yt_top = 11.5;
 yt_bottom = 8.5;
-text(xt, yt_top, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
-text(xt, yt_bottom, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
-xt = 12.5;
+text(xt, yt_top, txt_level, 'Rotation', 45, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
+text(xt, yt_bottom, txt_level, 'Rotation', 495, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
+xt = 13.5;
 txt_level = sprintf('$>%g$', contourlevel);
 % yt_top = 11;
 % yt_bottom = Y(find(Z{cnt}(:,idxt)>contourlevel, 1, 'first'), idxt);
-text(xt, yt_top, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
-text(xt, yt_bottom, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+text(xt, yt_top, txt_level, 'Rotation', 315, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
+text(xt, yt_bottom, txt_level, 'Rotation', 225, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
 %%%
 xt = (x2-x1)/2;
 idxt = find(X(1,:)==xt, 1, 'first');
@@ -140,7 +169,7 @@ matlab2tikz('export/QScKellyContours_8m.tikz', 'parseStrings', false,...
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
 ...    'height', '5cm', 
     'extraAxisOptions',{'y post scale=1'});
-%%%
+%%
 cnt = 7;
 % figure; hold on;
     cla; hold on;

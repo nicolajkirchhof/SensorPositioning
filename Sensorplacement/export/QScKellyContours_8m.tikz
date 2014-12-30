@@ -68752,14 +68752,170 @@ forget plot
 table[row sep=crcr]{
 13 10\\
 };
-\node[below, inner sep=0mm, text=black]
-at (axis cs:5.5,11.5,0) {$>0.9$};
-\node[above, inner sep=0mm, text=black]
-at (axis cs:5.5,8.5,0) {$>0.9$};
-\node[below, inner sep=0mm, text=black]
-at (axis cs:12.5,11.5,0) {$>0.9$};
-\node[above, inner sep=0mm, text=black]
-at (axis cs:12.5,8.5,0) {$>0.9$};
+\addplot [
+color=black,
+line width=2.0pt,
+mark size=5.0pt,
+only marks,
+mark=+,
+mark options={solid},
+forget plot
+]
+table[row sep=crcr]{
+7 12\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+5 10\\
+7 12\\
+};
+\node[above, inner sep=0mm, rotate=45, text=black]
+at (axis cs:6,11,0) {a1};
+\addplot [
+color=black,
+dotted,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13 10\\
+7 12\\
+};
+\node[above, inner sep=0mm, rotate=341.565051177078, text=black]
+at (axis cs:10,11,0) {b1};
+\addplot [
+color=black,
+line width=2.0pt,
+mark size=5.0pt,
+only marks,
+mark=+,
+mark options={solid},
+forget plot
+]
+table[row sep=crcr]{
+11 12\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+5 10\\
+11 12\\
+};
+\node[above, inner sep=0mm, rotate=18.434948822922, text=black]
+at (axis cs:8,11,0) {a2};
+\addplot [
+color=black,
+dotted,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13 10\\
+11 12\\
+};
+\node[above, inner sep=0mm, rotate=315, text=black]
+at (axis cs:12,11,0) {b2};
+\addplot [
+color=black,
+line width=2.0pt,
+mark size=5.0pt,
+only marks,
+mark=+,
+mark options={solid},
+forget plot
+]
+table[row sep=crcr]{
+11 8\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+5 10\\
+11 8\\
+};
+\node[above, inner sep=0mm, rotate=161.565051177078, text=black]
+at (axis cs:8,9,0) {a3};
+\addplot [
+color=black,
+dotted,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13 10\\
+11 8\\
+};
+\node[above, inner sep=0mm, rotate=225, text=black]
+at (axis cs:12,9,0) {b3};
+\addplot [
+color=black,
+line width=2.0pt,
+mark size=5.0pt,
+only marks,
+mark=+,
+mark options={solid},
+forget plot
+]
+table[row sep=crcr]{
+7 8\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+5 10\\
+7 8\\
+};
+\node[above, inner sep=0mm, rotate=135, text=black]
+at (axis cs:6,9,0) {a4};
+\addplot [
+color=black,
+dotted,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13 10\\
+7 8\\
+};
+\node[above, inner sep=0mm, rotate=198.434948822922, text=black]
+at (axis cs:10,9,0) {b4};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+5 10\\
+13 10\\
+};
+\node[above, right, inner sep=0mm, text=black]
+at (axis cs:9,10,0) {c};
+\node[below, inner sep=0mm, rotate=45, text=black]
+at (axis cs:4.5,11.5,0) {$>0.9$};
+\node[below, inner sep=0mm, rotate=135, text=black]
+at (axis cs:4.5,8.5,0) {$>0.9$};
+\node[below, inner sep=0mm, rotate=315, text=black]
+at (axis cs:13.5,11.5,0) {$>0.9$};
+\node[below, inner sep=0mm, rotate=225, text=black]
+at (axis cs:13.5,8.5,0) {$>0.9$};
 \node[below, inner sep=0mm, text=black]
 at (axis cs:9,18.62,0) {$>0.4$};
 \node[above, inner sep=0mm, text=black]
