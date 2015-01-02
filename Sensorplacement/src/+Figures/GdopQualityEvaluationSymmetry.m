@@ -110,11 +110,11 @@ xlim([2.5, 15.5]);
 set(gca,'YDir','normal');
 plot(x1, y1, 'ok', 'markerfacecolor', [0 0 0]);
 plot((x1+distances(cnt)), y1, 'ok', 'markerfacecolor', [0 0 0]);
-%%
-pt_sym = [7, 12;
-       11, 12;
-       11, 8;
-       7, 8];
+%%% Plot Symmetry lines and text
+pt_sym = [11, 12;
+        7, 12;
+       7, 8;
+       11, 8];
 % alignment = {'bottom', 'bottom', 'top', 'top'};
 phiBoffset= [180, 180, 0, 0];
 phiAoffset= [0, 0, 180, 180];
@@ -122,23 +122,29 @@ for idpt = 1:4
     %%
     plot(pt_sym(idpt, 1), pt_sym(idpt, 2), 'k+', 'markersize', 10, 'linewidth', 2);
     edgeA = [[x1, y1], pt_sym(idpt, :)];
-    lineA = createLine(edgeA(1:2), edgeA(3:4));
-    ptA = pointOnLine(lineA, edgeLength(edgeA)/2); 
+    lineA = createLine(edgeA(1:2), edgeA(3:4)); 
     phiA = rad2deg(lineAngle(lineA))+phiAoffset(idpt);
+    ptA = polarPoint(pointOnLine(lineA, edgeLength(edgeA)/2), 0.1, deg2rad(phiA+90)) ;
     drawEdge(edgeA, 'color', [0 0 0], 'linewidth', 2, 'linestyle', '--');
-    text(ptA(1), ptA(2), ['a' num2str(idpt)], 'Rotation', phiA, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+    text(ptA(1), ptA(2), ['$a_' num2str(idpt) '$'], 'Rotation', phiA, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
     %%
     edgeB = [[x1+dm, y2], pt_sym(idpt, :)];
     lineB = createLine(edgeB(1:2), edgeB(3:4));
-    ptB = pointOnLine(lineB, edgeLength(edgeB)/2); 
     phiB = rad2deg(lineAngle(lineB))+phiBoffset(idpt);
+    ptB = polarPoint(pointOnLine(lineB, edgeLength(edgeB)/2),0.1, deg2rad(phiB+90)) ; 
     drawEdge(edgeB , 'color', [0 0 0], 'linewidth', 2, 'linestyle', ':');
-    text(ptB(1), ptB(2), ['b' num2str(idpt)], 'Rotation', phiB,'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+    text(ptB(1), ptB(2), ['$b_' num2str(idpt) '$'], 'Rotation', phiB,'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+    
+    ptA_txt = polarPoint(pt_sym(idpt, :), 0.6, deg2rad(phiBoffset(idpt)-90)) ;
+    text(ptA_txt(1), ptA_txt(2), ['$p_' num2str(idpt) '$'], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+
 end
 drawEdge([x1, y1], [x1+dm, y2], 'color', [0 0 0], 'linewidth', 2);
-text(9, 10, 'c', 'VerticalAlignment', 'bottom');
+text(9.1, 10.3, 'c', 'VerticalAlignment', 'bottom');
+line(xlim, [10, 10], 'color', [0 0 0], 'linewidth', 0.5, 'linestyle', '-.');
+line([9, 9],ylim, 'color', [0 0 0], 'linewidth', 0.5, 'linestyle', '-.');
 
-%%
+%%% Plot contour descriptions
 contourlevel = 0.9;
 xt = 4.5;
 idxt = find(X(1,:)==xt, 1, 'first');
@@ -154,7 +160,7 @@ txt_level = sprintf('$>%g$', contourlevel);
 text(xt, yt_top, txt_level, 'Rotation', 315, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
 text(xt, yt_bottom, txt_level, 'Rotation', 225, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
 %%%
-xt = (x2-x1)/2;
+xt = 9.0;
 idxt = find(X(1,:)==xt, 1, 'first');
 %%%
 for contourlevel = 0.4:0.1:0.8
@@ -162,8 +168,8 @@ for contourlevel = 0.4:0.1:0.8
     txt_level = sprintf('$>%g$', contourlevel);
     yt_top = Y(find(Z{cnt}(:,idxt)>contourlevel, 1, 'last'),idxt);
     yt_bottom = Y(find(Z{cnt}(:,idxt)>contourlevel, 1, 'first'), idxt);
-    text(xt, yt_top-0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
-    text(xt, yt_bottom+0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
+    text(xt+0.2, yt_top-0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
+    text(xt+0.2, yt_bottom+0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
 end%     matlab2tikz(sprintf('export/PolygonEvaluationSzenario_%dm.tikz', dm), 'parseStrings', false);
 matlab2tikz('export/QScKellyContours_8m.tikz', 'parseStrings', false,...
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...

@@ -68762,42 +68762,6 @@ mark options={solid},
 forget plot
 ]
 table[row sep=crcr]{
-7 12\\
-};
-\addplot [
-color=black,
-dashed,
-line width=2.0pt,
-forget plot
-]
-table[row sep=crcr]{
-5 10\\
-7 12\\
-};
-\node[above, inner sep=0mm, rotate=45, text=black]
-at (axis cs:6,11,0) {a1};
-\addplot [
-color=black,
-dotted,
-line width=2.0pt,
-forget plot
-]
-table[row sep=crcr]{
-13 10\\
-7 12\\
-};
-\node[above, inner sep=0mm, rotate=341.565051177078, text=black]
-at (axis cs:10,11,0) {b1};
-\addplot [
-color=black,
-line width=2.0pt,
-mark size=5.0pt,
-only marks,
-mark=+,
-mark options={solid},
-forget plot
-]
-table[row sep=crcr]{
 11 12\\
 };
 \addplot [
@@ -68811,7 +68775,7 @@ table[row sep=crcr]{
 11 12\\
 };
 \node[above, inner sep=0mm, rotate=18.434948822922, text=black]
-at (axis cs:8,11,0) {a2};
+at (axis cs:7.96837722339832,11.0948683298051,0) {$a_1$};
 \addplot [
 color=black,
 dotted,
@@ -68823,7 +68787,9 @@ table[row sep=crcr]{
 11 12\\
 };
 \node[above, inner sep=0mm, rotate=315, text=black]
-at (axis cs:12,11,0) {b2};
+at (axis cs:12.0707106781187,11.0707106781187,0) {$b_1$};
+\node[inner sep=0mm, text=black]
+at (axis cs:11,12.6,0) {$p_1$};
 \addplot [
 color=black,
 line width=2.0pt,
@@ -68834,7 +68800,7 @@ mark options={solid},
 forget plot
 ]
 table[row sep=crcr]{
-11 8\\
+7 12\\
 };
 \addplot [
 color=black,
@@ -68844,10 +68810,10 @@ forget plot
 ]
 table[row sep=crcr]{
 5 10\\
-11 8\\
+7 12\\
 };
-\node[above, inner sep=0mm, rotate=161.565051177078, text=black]
-at (axis cs:8,9,0) {a3};
+\node[above, inner sep=0mm, rotate=45, text=black]
+at (axis cs:5.92928932188135,11.0707106781187,0) {$a_2$};
 \addplot [
 color=black,
 dotted,
@@ -68856,10 +68822,12 @@ forget plot
 ]
 table[row sep=crcr]{
 13 10\\
-11 8\\
+7 12\\
 };
-\node[above, inner sep=0mm, rotate=225, text=black]
-at (axis cs:12,9,0) {b3};
+\node[above, inner sep=0mm, rotate=341.565051177078, text=black]
+at (axis cs:10.0316227766017,11.0948683298051,0) {$b_2$};
+\node[inner sep=0mm, text=black]
+at (axis cs:7,12.6,0) {$p_2$};
 \addplot [
 color=black,
 line width=2.0pt,
@@ -68883,7 +68851,7 @@ table[row sep=crcr]{
 7 8\\
 };
 \node[above, inner sep=0mm, rotate=135, text=black]
-at (axis cs:6,9,0) {a4};
+at (axis cs:5.92928932188135,8.92928932188135,0) {$a_3$};
 \addplot [
 color=black,
 dotted,
@@ -68895,7 +68863,47 @@ table[row sep=crcr]{
 7 8\\
 };
 \node[above, inner sep=0mm, rotate=198.434948822922, text=black]
-at (axis cs:10,9,0) {b4};
+at (axis cs:10.0316227766017,8.90513167019495,0) {$b_3$};
+\node[inner sep=0mm, text=black]
+at (axis cs:7,7.4,0) {$p_3$};
+\addplot [
+color=black,
+line width=2.0pt,
+mark size=5.0pt,
+only marks,
+mark=+,
+mark options={solid},
+forget plot
+]
+table[row sep=crcr]{
+11 8\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+5 10\\
+11 8\\
+};
+\node[above, inner sep=0mm, rotate=161.565051177078, text=black]
+at (axis cs:7.96837722339832,8.90513167019495,0) {$a_4$};
+\addplot [
+color=black,
+dotted,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13 10\\
+11 8\\
+};
+\node[above, inner sep=0mm, rotate=225, text=black]
+at (axis cs:12.0707106781187,8.92928932188135,0) {$b_4$};
+\node[inner sep=0mm, text=black]
+at (axis cs:11,7.4,0) {$p_4$};
 \addplot [
 color=black,
 solid,
@@ -68907,7 +68915,25 @@ table[row sep=crcr]{
 13 10\\
 };
 \node[above, right, inner sep=0mm, text=black]
-at (axis cs:9,10,0) {c};
+at (axis cs:9.1,10.3,0) {c};
+\addplot [
+color=black,
+dash pattern=on 1pt off 3pt on 3pt off 3pt,
+forget plot
+]
+table[row sep=crcr]{
+2.5 10\\
+15.5 10\\
+};
+\addplot [
+color=black,
+dash pattern=on 1pt off 3pt on 3pt off 3pt,
+forget plot
+]
+table[row sep=crcr]{
+9 0.5\\
+9 19.5\\
+};
 \node[below, inner sep=0mm, rotate=45, text=black]
 at (axis cs:4.5,11.5,0) {$>0.9$};
 \node[below, inner sep=0mm, rotate=135, text=black]
@@ -68917,24 +68943,24 @@ at (axis cs:13.5,11.5,0) {$>0.9$};
 \node[below, inner sep=0mm, rotate=225, text=black]
 at (axis cs:13.5,8.5,0) {$>0.9$};
 \node[below, inner sep=0mm, text=black]
-at (axis cs:9,18.62,0) {$>0.4$};
+at (axis cs:9.2,18.62,0) {$>0.4$};
 \node[above, inner sep=0mm, text=black]
-at (axis cs:9,1.38,0) {$>0.4$};
+at (axis cs:9.2,1.38,0) {$>0.4$};
 \node[below, inner sep=0mm, text=black]
-at (axis cs:9,17.94,0) {$>0.5$};
+at (axis cs:9.2,17.94,0) {$>0.5$};
 \node[above, inner sep=0mm, text=black]
-at (axis cs:9,2.06,0) {$>0.5$};
+at (axis cs:9.2,2.06,0) {$>0.5$};
 \node[below, inner sep=0mm, text=black]
-at (axis cs:9,17.15,0) {$>0.6$};
+at (axis cs:9.2,17.15,0) {$>0.6$};
 \node[above, inner sep=0mm, text=black]
-at (axis cs:9,2.85,0) {$>0.6$};
+at (axis cs:9.2,2.85,0) {$>0.6$};
 \node[below, inner sep=0mm, text=black]
-at (axis cs:9,16.16,0) {$>0.7$};
+at (axis cs:9.2,16.16,0) {$>0.7$};
 \node[above, inner sep=0mm, text=black]
-at (axis cs:9,3.84,0) {$>0.7$};
+at (axis cs:9.2,3.84,0) {$>0.7$};
 \node[below, inner sep=0mm, text=black]
-at (axis cs:9,14.77,0) {$>0.8$};
+at (axis cs:9.2,14.77,0) {$>0.8$};
 \node[above, inner sep=0mm, text=black]
-at (axis cs:9,5.23,0) {$>0.8$};
+at (axis cs:9.2,5.23,0) {$>0.8$};
 \end{axis}
 \end{tikzpicture}%
