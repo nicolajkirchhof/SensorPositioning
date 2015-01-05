@@ -9,22 +9,22 @@ vpoly(2:end) = cellfun(@flipud, vpoly(2:end), 'UniformOutput', false);
 bpoly = mb.visilibity2boost(vpoly);
 % E_r = mb.radialPolygonSplitting(bpoly);
 
-%%
+%%%
 cla;
 axis equal;
 axis off;
-xlim([0 16250]);
-mb.drawPolygon(polypartition(bpoly, 0), 'color', [0 0 0], 'linestyle', ':');
-mb.drawPolygon(bpoly, 'color', [0 0 0]);
+xlim([0 16300]);
+mb.drawPolygon(polypartition(bpoly, 0),'linewidth', 2, 'color', [0 0 0], 'linestyle', '--');
+mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 2);
 matlab2tikz('export/TriangulationEarClipping.tikz', 'parseStrings', false,...
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '10cm',...
 ...    'height', '5cm', 
     'extraAxisOptions',{'y post scale=1'});
-%%
+%%%
 cla;
 axis equal;
-mb.drawPolygon(polypartition(bpoly, 3), 'color', [0 0 0], 'linestyle', ':');
-mb.drawPolygon(bpoly, 'color', [0 0 0]);
+mb.drawPolygon(polypartition(bpoly, 3), 'linewidth', 2, 'color', [0 0 0], 'linestyle', '--');
+mb.drawPolygon(bpoly,'linewidth', 2, 'color', [0 0 0]);
 matlab2tikz('export/TriangulationHertelMehlhorn.tikz', 'parseStrings', false,...
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '10cm',...
 ...    'height', '5cm', 
