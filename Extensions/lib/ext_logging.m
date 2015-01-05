@@ -1,1 +1,0 @@
-addpath([fileparts(mfilename('fullpath')) '/logging']);
