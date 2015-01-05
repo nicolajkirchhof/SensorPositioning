@@ -11,13 +11,13 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=4.71458333333333in,
-height=3.64203125in,
+width=10cm,
+height=7.88709677419355cm,
 scale only axis,
 xmin=0.529167000000001,
 xmax=162.529167,
-ymin=-17.0436014489616,
-ymax=108.101935448962,
+ymin=-18.3563168709677,
+ymax=109.414650870968,
 hide axis,
 axis x line*=bottom,
 axis y line*=left,

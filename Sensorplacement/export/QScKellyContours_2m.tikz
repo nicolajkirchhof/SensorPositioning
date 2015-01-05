@@ -26,6 +26,7 @@ xlabel={$[m]$},
 ymin=1,
 ymax=19,
 ylabel={$[m]$},
+hide axis,
 axis x line*=bottom,
 axis y line*=left,
 y post scale=1

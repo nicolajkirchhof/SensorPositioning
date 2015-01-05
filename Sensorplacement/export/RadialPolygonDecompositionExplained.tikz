@@ -12,12 +12,12 @@
 
 \begin{axis}[%
 width=10cm,
-height=10.2920410467914cm,
+height=12.7300509337861cm,
 scale only axis,
-xmin=0,
-xmax=165,
-ymin=-39.3801721360289,
-ymax=130.438505136029,
+xmin=0.793680999999992,
+xmax=162.793681,
+ymin=-57.5842460636672,
+ymax=148.642579063667,
 hide axis,
 axis x line*=bottom,
 axis y line*=left,
@@ -132,7 +132,7 @@ forget plot
 ]
 table[row sep=crcr]{
 21.400903 57.53\\
-0 36.129097\\
+0.793680999999992 36.922778\\
 };
 \addplot [
 color=black,
@@ -142,7 +142,7 @@ forget plot
 ]
 table[row sep=crcr]{
 21.400903 33.528333\\
-0 54.929236\\
+0.793680999999992 54.135555\\
 };
 \addplot [
 color=black,
@@ -152,7 +152,7 @@ forget plot
 ]
 table[row sep=crcr]{
 84.793681 57.53\\
-165 -22.676319\\
+162.793681 -20.47\\
 };
 \addplot [
 color=black,
@@ -162,7 +162,7 @@ forget plot
 ]
 table[row sep=crcr]{
 84.793681 33.528333\\
-165 113.734652\\
+162.793681 111.528333\\
 };
 \addplot [
 color=black,

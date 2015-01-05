@@ -35,8 +35,8 @@ end
 
 
 
-%%
+%%%
 matlab2tikz('export/ConvexDecompositionWithoutSteinerPoints.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '10cm',...
     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
