@@ -64,9 +64,16 @@ elseif strcmpi(filename(point_idx(end)+1:end), 'dxf')
     environment.walls     = environment.walls{1};
     
     if numel(environment.walls{1}) ~= 2
-        error('wall could not be converted into contour');
+        warning('wall could not be converted into contour using second greatest size');
+        sizes = cellfun(@(x) abs(mb.polygonArea(x)),  environment.walls{1});
+        [~, id_sz] = max(sizes);
+        sizes(id_sz) = 0;
+        [~, id_sz] = max(sizes);
+        environment.boundary.ring = environment.walls{1}{id_sz}(:,end:-1:1);
+    else
+        environment.boundary.ring = environment.walls{1}{2}(:,end:-1:1);
     end
-    environment.boundary.ring = environment.walls{1}{2}(:,end:-1:1);
+    
 else
     error('file extension unknown');
 end
