@@ -10,13 +10,80 @@ axis off
 % xlim([0 165]);
 % ylim([0 100]);
 
-filename = 'res/polygons/SpecialIntersectionCase.dxf';
-[c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
+filename = 'res/floorplans/SmallFlat.dxf';
+% [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
 
-polys = c_Poly(:,1);
-edges = c_Line(:,1);
-circles = c_Cir(:,1);
+% polys = c_Poly(:,1);
+% edges = c_Line(:,1);
+% circles = c_Cir(:,1);
+env = environment.load(filename);
+env.obstacles = {};
+env_comb = environment.combine(env);
+mb.drawPolygon(env_comb.combined);
 
+[P_c, E_r] = mb.polygonConvexDecomposition(env_comb.combined);
+
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+cellfun(@(x) fun_draw_edge(x.edge), E_r);
+% drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+mb.drawPolygon(env_comb.combined, 'color', [0 0 0], 'linewidth', 2);
+%%
+clear variables;
+cla;
+axis equal
+hold on;
+axis off
+
+% xlim([0 165]);
+% ylim([0 100]);
+
+filename = 'res/floorplans/P1-Seminarraum.dxf';
+% [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
+
+% polys = c_Poly(:,1);
+% edges = c_Line(:,1);
+% circles = c_Cir(:,1);
+env = environment.load(filename);
+env.obstacles = {};
+env_comb = environment.combine(env);
+mb.drawPolygon(env_comb.combined);
+
+[P_c, E_r] = mb.polygonConvexDecomposition(env_comb.combined);
+
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+cellfun(@(x) fun_draw_edge(x.edge), E_r);
+% drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+mb.drawPolygon(env_comb.combined, 'color', [0 0 0], 'linewidth', 2);
+
+%%
+clear variables;
+cla;
+axis equal
+hold on;
+axis off
+
+% xlim([0 165]);
+% ylim([0 100]);
+
+filename = 'res/floorplans/LargeFlat.dxf';
+% [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
+
+% polys = c_Poly(:,1);
+% edges = c_Line(:,1);
+% circles = c_Cir(:,1);
+env = environment.load(filename);
+env.obstacles = {};
+env_comb = environment.combine(env);
+mb.drawPolygon(env_comb.combined);
+
+[P_c, E_r] = mb.polygonConvexDecomposition(env_comb.combined);
+
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+cellfun(@(x) fun_draw_edge(x.edge), E_r);
+% drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+mb.drawPolygon(env_comb.combined, 'color', [0 0 0], 'linewidth', 2);
+
+%%
 
 for idl = [1,2,3,4,5,7,10,12,13,14]
 %     pause; disp(idl)
