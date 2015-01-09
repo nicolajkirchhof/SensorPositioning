@@ -12,12 +12,12 @@
 
 \begin{axis}[%
 width=10cm,
-height=19.8630136986301cm,
+height=5.03448275862069cm,
 scale only axis,
-xmin=250,
-xmax=3900,
-ymin=1150,
-ymax=8400,
+xmin=1150,
+xmax=8400,
+ymin=250,
+ymax=3900,
 hide axis,
 axis x line*=bottom,
 axis y line*=left,
@@ -25,28 +25,14 @@ y post scale=1,
 unit vector ratio=1 1 1
 ]
 \addplot [
-color=blue,
-solid,
+color=black,
+dashed,
+line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3844 8312\\
-344 8312\\
-344 1200\\
-3844 1200\\
-3844 8312\\
-};
-\addplot [
-color=blue,
-solid,
-forget plot
-]
-table[row sep=crcr]{
-3011 7393\\
-3011 7937\\
-3511 7937\\
-3511 7393\\
-3011 7393\\
+7393 3511\\
+7060 3844\\
 };
 \addplot [
 color=black,
@@ -55,8 +41,8 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3011 7393\\
-344 4726\\
+7937 3511\\
+8270 3844\\
 };
 \addplot [
 color=black,
@@ -65,8 +51,8 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3011 7937\\
-2636 8312\\
+7937 3011\\
+8312 2636\\
 };
 \addplot [
 color=black,
@@ -75,18 +61,8 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3511 7937\\
-3844 8270\\
-};
-\addplot [
-color=black,
-dashed,
-line width=2.0pt,
-forget plot
-]
-table[row sep=crcr]{
-3511 7393\\
-3844 7060\\
+7393 3011\\
+4726 344\\
 };
 \addplot [
 color=black,
@@ -95,11 +71,11 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3844 8312\\
-344 8312\\
-344 1200\\
-3844 1200\\
-3844 8312\\
+8312 3844\\
+8312 344\\
+1200 344\\
+1200 3844\\
+8312 3844\\
 };
 \addplot [
 color=black,
@@ -108,11 +84,11 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3011 7393\\
-3011 7937\\
-3511 7937\\
-3511 7393\\
-3011 7393\\
+7393 3011\\
+7937 3011\\
+7937 3511\\
+7393 3511\\
+7393 3011\\
 };
 \end{axis}
 \end{tikzpicture}%

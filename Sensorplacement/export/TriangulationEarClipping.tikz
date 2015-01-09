@@ -11,14 +11,13 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=10cm,
-height=12.7300509337861cm,
+width=3cm,
+height=5.34782608695652cm,
 scale only axis,
-xmin=0,
-xmax=16300,
-ymin=-5821.99151103565,
-ymax=14927.9915110357,
-hide axis,
+xmin=-100,
+xmax=9100,
+ymin=0,
+ymax=16400,
 axis x line*=bottom,
 axis y line*=left,
 y post scale=1
@@ -30,10 +29,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-14249 7723\\
-16279 9053\\
-79 9053\\
-14249 7723\\
+9053 79\\
+9053 16279\\
+7723 8479\\
+9053 79\\
 };
 \addplot [
 color=black,
@@ -42,10 +41,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-12279 7723\\
-14249 7723\\
-79 9053\\
-12279 7723\\
+9053 79\\
+7723 8479\\
+7723 2140\\
+9053 79\\
 };
 \addplot [
 color=black,
@@ -54,10 +53,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-16279 53\\
-16279 9053\\
-14249 7723\\
-16279 53\\
+7723 14249\\
+9053 16279\\
+53 16279\\
+7723 14249\\
 };
 \addplot [
 color=black,
@@ -66,10 +65,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-16279 53\\
-14249 7723\\
-14249 1383\\
-16279 53\\
+1383 14249\\
+7723 14249\\
+53 16279\\
+1383 14249\\
 };
 \addplot [
 color=black,
@@ -78,10 +77,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 53\\
-16279 53\\
-14249 1383\\
-79 53\\
+1383 14249\\
+53 16279\\
+53 79\\
+1383 14249\\
 };
 \addplot [
 color=black,
@@ -90,10 +89,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 53\\
-14249 1383\\
-12279 1383\\
-79 53\\
+1383 12279\\
+1383 14249\\
+53 79\\
+1383 12279\\
 };
 \addplot [
 color=black,
@@ -102,10 +101,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 53\\
-12279 1383\\
-8479 1383\\
-79 53\\
+53 79\\
+9053 79\\
+7723 2140\\
+53 79\\
 };
 \addplot [
 color=black,
@@ -114,10 +113,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 53\\
-8479 1383\\
-2140 1383\\
-79 53\\
+53 79\\
+7723 2140\\
+5753 2140\\
+53 79\\
 };
 \addplot [
 color=black,
@@ -126,10 +125,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 9053\\
-79 53\\
-2140 1383\\
-79 9053\\
+5753 2140\\
+5753 8479\\
+3353 8479\\
+5753 2140\\
 };
 \addplot [
 color=black,
@@ -138,10 +137,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 9053\\
-2140 1383\\
-2140 3353\\
-79 9053\\
+5753 2140\\
+3353 8479\\
+3353 2140\\
+5753 2140\\
 };
 \addplot [
 color=black,
@@ -150,10 +149,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-12279 1383\\
-12279 7723\\
-8479 5753\\
-12279 1383\\
+53 79\\
+5753 2140\\
+3353 2140\\
+53 79\\
 };
 \addplot [
 color=black,
@@ -162,10 +161,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-8479 7723\\
-8479 5753\\
-12279 7723\\
-8479 7723\\
+53 79\\
+3353 2140\\
+1383 2140\\
+53 79\\
 };
 \addplot [
 color=black,
@@ -174,10 +173,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-8479 7723\\
-12279 7723\\
-79 9053\\
-8479 7723\\
+9053 16279\\
+7723 14249\\
+7723 12279\\
+9053 16279\\
 };
 \addplot [
 color=black,
@@ -186,10 +185,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-2140 7723\\
-8479 7723\\
-79 9053\\
-2140 7723\\
+7723 8479\\
+9053 16279\\
+7723 12279\\
+7723 8479\\
 };
 \addplot [
 color=black,
@@ -198,10 +197,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-8479 3353\\
-8479 1383\\
-12279 1383\\
-8479 3353\\
+5753 8479\\
+7723 8479\\
+7723 12279\\
+5753 8479\\
 };
 \addplot [
 color=black,
@@ -210,10 +209,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-8479 3353\\
-12279 1383\\
-8479 5753\\
-8479 3353\\
+5753 8479\\
+7723 12279\\
+1383 12279\\
+5753 8479\\
 };
 \addplot [
 color=black,
@@ -222,10 +221,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-2140 3353\\
-8479 3353\\
-8479 5753\\
-2140 3353\\
+3353 8479\\
+5753 8479\\
+1383 12279\\
+3353 8479\\
 };
 \addplot [
 color=black,
@@ -234,10 +233,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-2140 3353\\
-8479 5753\\
-2140 5753\\
-2140 3353\\
+1383 8479\\
+3353 8479\\
+1383 12279\\
+1383 8479\\
 };
 \addplot [
 color=black,
@@ -246,10 +245,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 9053\\
-2140 3353\\
-2140 5753\\
-79 9053\\
+1383 8479\\
+1383 12279\\
+53 79\\
+1383 8479\\
 };
 \addplot [
 color=black,
@@ -258,10 +257,10 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 9053\\
-2140 5753\\
-2140 7723\\
-79 9053\\
+1383 8479\\
+53 79\\
+1383 2140\\
+1383 8479\\
 };
 \addplot [
 color=black,
@@ -270,11 +269,11 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-79 53\\
-16279 53\\
-16279 9053\\
-79 9053\\
-79 53\\
+53 79\\
+9053 79\\
+9053 16279\\
+53 16279\\
+53 79\\
 };
 \addplot [
 color=black,
@@ -283,11 +282,11 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-14249 7723\\
-14249 1383\\
-12279 1383\\
-12279 7723\\
-14249 7723\\
+7723 14249\\
+7723 12279\\
+1383 12279\\
+1383 14249\\
+7723 14249\\
 };
 \addplot [
 color=black,
@@ -296,11 +295,11 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-8479 5753\\
-2140 5753\\
-2140 7723\\
-8479 7723\\
-8479 5753\\
+5753 8479\\
+7723 8479\\
+7723 2140\\
+5753 2140\\
+5753 8479\\
 };
 \addplot [
 color=black,
@@ -309,11 +308,11 @@ line width=2.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-8479 1383\\
-2140 1383\\
-2140 3353\\
-8479 3353\\
-8479 1383\\
+1383 8479\\
+3353 8479\\
+3353 2140\\
+1383 2140\\
+1383 8479\\
 };
 \end{axis}
 \end{tikzpicture}%

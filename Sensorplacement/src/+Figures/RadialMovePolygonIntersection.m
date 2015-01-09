@@ -54,8 +54,8 @@ drawEdge(interx_edge, 'linewidth', 2, 'linestyle', '-.', 'color', [0 0 0]);
 xing_poly = intersectEdges(interx_edge, [0 225 500 225]);
 drawPoint(xing_poly, 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
 
-%%%
-axis on;
+% %%%
+% axis on;
 % text(100, 110, '$v_{1}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
 text(100, 310 , '$v_{1}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
 text(320, 205 , '$v_{1,p}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');

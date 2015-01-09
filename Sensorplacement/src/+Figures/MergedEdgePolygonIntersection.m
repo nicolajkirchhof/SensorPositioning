@@ -60,7 +60,12 @@ matlab2tikz('export/MergedEdgePolygonIntersection.tikz', 'parseStrings', false,.
     'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
-
+%%
+[P_c, E_r] = mb.polygonConvexDecomposition(mb.visilibity2boost({vpoly}));
+% cla;
+drawPolygon(P_c)
+set(gca, 'CameraUpVector', [1 0 0]);
+% set(gca, 'YAxisLocation', 'bottom');
 %%
 
 for idl = [1,2,3,4,5,7,10,12,13,14]

@@ -25,16 +25,6 @@ end
 for idp = 1:numel(polys)
     drawPolygon(polys{idp}, 'color', 'k', 'linewidth', 2);
 end
-
-% for idc = 1:numel(circles)
-%     drawCircle(circles{idc}, 'color', 'k');
-%     fillPolygon(circleToPolygon(circles{idc}, 128), 'k');
-% end
-
-% text(98, 40, 'SP');
-
-
-
 %%%
 matlab2tikz('export/ConvexDecompositionWithoutSteinerPoints.tikz', 'parseStrings', false,... 
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '10cm',...
