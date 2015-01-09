@@ -1,0 +1,1562 @@
+% This file was created by matlab2tikz v0.4.0.
+% Copyright (c) 2008--2013, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+% % -*- root: TestingFigures.tex -*-
+% 
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=10cm,
+height=3.07070707070707cm,
+scale only axis,
+xmin=300,
+xmax=49800,
+ymin=300,
+ymax=15500,
+hide axis,
+axis x line*=bottom,
+axis y line*=left,
+y post scale=1,
+unit vector ratio=1 1 1
+]
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+23955 14552\\
+25955 14552\\
+25955 13952\\
+23955 13952\\
+23955 13552\\
+25955 13552\\
+25955 12952\\
+23955 12952\\
+23955 12552\\
+25955 12552\\
+25955 11952\\
+23955 11952\\
+23955 11552\\
+25954 11552\\
+25954 10952\\
+23955 10952\\
+23955 8952\\
+26005 8952\\
+26005 8802\\
+23955 8802\\
+23957 8011\\
+23807 8011\\
+23807 8111\\
+23355 8111\\
+23355 9809\\
+13855 9809\\
+13855 9252\\
+13370 8767\\
+10605 8752\\
+10126 9231\\
+10126 9803\\
+3404 9803\\
+2292 8734\\
+2570 8488\\
+6605 8488\\
+6605 7052\\
+7917 7052\\
+8380 6589\\
+8380 3797\\
+7905 3359\\
+6555 3359\\
+6555 2109\\
+3798 2109\\
+2355 3552\\
+600 3549\\
+605 602\\
+7193 602\\
+9943 3352\\
+14067 3352\\
+16917 502\\
+20743 502\\
+21832 1591\\
+21508 1902\\
+17435 1902\\
+17305 2052\\
+17305 3352\\
+16091 3352\\
+15620 3814\\
+15620 4112\\
+16105 4112\\
+16105 6252\\
+15605 6252\\
+15605 6574\\
+16119 7087\\
+17305 7087\\
+17305 8502\\
+20267 8502\\
+21817 6952\\
+23805 6952\\
+23805 7044\\
+23955 7044\\
+23955 6852\\
+24205 6852\\
+24205 6702\\
+23855 6702\\
+23855 1652\\
+27255 1652\\
+27255 6702\\
+25055 6702\\
+25055 6852\\
+28505 6852\\
+28505 6702\\
+27405 6702\\
+27405 1652\\
+30435 1652\\
+30435 6702\\
+29205 6702\\
+29205 6852\\
+31705 6852\\
+31705 6702\\
+30585 6702\\
+30585 1652\\
+33605 1652\\
+33605 6702\\
+32405 6702\\
+32405 6852\\
+34905 6852\\
+34905 6702\\
+33755 6702\\
+33755 1652\\
+36755 1652\\
+36755 6702\\
+35605 6702\\
+35605 6852\\
+36905 6852\\
+36905 1652\\
+49505 1652\\
+49505 15202\\
+36915 15202\\
+36915 8802\\
+35605 8802\\
+35605 8952\\
+36765 8952\\
+36765 15202\\
+33719 15202\\
+33719 8952\\
+34455 8952\\
+34455 8802\\
+32455 8802\\
+32455 8952\\
+33569 8952\\
+33569 15202\\
+28455 15202\\
+28455 8952\\
+31205 8952\\
+31205 8802\\
+27005 8802\\
+27005 8952\\
+28305 8952\\
+28305 13952\\
+26305 13952\\
+26305 14552\\
+28305 14552\\
+28305 15202\\
+23955 15202\\
+23955 14552\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+49205 1802\\
+48695 1802\\
+48695 2302\\
+49205 2302\\
+49205 1802\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+42380 1802\\
+42380 2302\\
+42890 2302\\
+42890 1802\\
+42380 1802\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+36015 2302\\
+36525 2302\\
+36525 1802\\
+36015 1802\\
+36015 2302\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+30200 2302\\
+30200 1802\\
+29690 1802\\
+29690 2302\\
+30200 2302\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+49205 8121\\
+48695 8121\\
+48695 8621\\
+49205 8621\\
+49205 8121\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+42380 8121\\
+42380 8621\\
+42890 8621\\
+42890 8121\\
+42380 8121\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+36015 8621\\
+36525 8621\\
+36525 8121\\
+36015 8121\\
+36015 8621\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+30200 8621\\
+30200 8121\\
+29690 8121\\
+29690 8621\\
+30200 8621\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+49205 14411\\
+48695 14411\\
+48695 14911\\
+49205 14911\\
+49205 14411\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+42380 14411\\
+42380 14911\\
+42890 14911\\
+42890 14411\\
+42380 14411\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+36015 14911\\
+36525 14911\\
+36525 14411\\
+36015 14411\\
+36015 14911\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+30200 14911\\
+30200 14411\\
+29690 14411\\
+29690 14911\\
+30200 14911\\
+};
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+37955 6852\\
+37955 8802\\
+37870 8802\\
+37870 8952\\
+39305 8952\\
+39305 8802\\
+38105 8802\\
+38105 6702\\
+37870 6702\\
+37870 6852\\
+37955 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25955 13552\\
+26355 13952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25954 10952\\
+27954 8952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+23355 8111\\
+22196 6952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+6605 8488\\
+7920 9803\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+8380 3797\\
+9776.2440270349 3185.2440270349\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+7905 3359\\
+8479.49773804212 1888.49773804212\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+6555 2109\\
+7627.5 1036.5\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+3798 2109\\
+3173.78016150374 602\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+17435 1902\\
+16833.7389598759 585.261040124095\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+17305 2052\\
+15893.5266126134 1525.47338738664\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+16091 3352\\
+15503.9139200098 1915.08607999024\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+15620 3814\\
+14230.131284452 3188.86871554803\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+17305 8502\\
+15998 9809\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+20267 8502\\
+20808.3771260216 9809\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 1802\\
+49355 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+48695 1802\\
+48545 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 2302\\
+49505 2602\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 1802\\
+42230 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42890 1802\\
+43040 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 2302\\
+33755 4562\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36525 2302\\
+36755 2532\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36525 1802\\
+36675 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 1802\\
+35865 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 2302\\
+30435 2537\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 1802\\
+30350 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+29690 1802\\
+29540 1652\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+29690 2302\\
+27405 4587\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 8121\\
+49505 7821\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 8621\\
+49505 8921\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 8621\\
+35834 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36525 8621\\
+36706 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 8121\\
+34746 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 8621\\
+30381 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 8121\\
+31469 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+29690 8121\\
+28421 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+29690 8621\\
+29509 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 14411\\
+49505 14111\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+48695 14911\\
+48404 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 14911\\
+49496 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 14911\\
+42089 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42890 14911\\
+43181 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 14911\\
+35724 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36525 14911\\
+36765 15151\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36525 14411\\
+36765 14171\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 14411\\
+33719 12115\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 14911\\
+30491 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 14411\\
+33569 11042\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+29690 14411\\
+28455 13176\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+29690 14911\\
+29399 15202\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+37870 8952\\
+36915 9907\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+37870 6702\\
+36905 5737\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25955 14552\\
+26305 14552\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25955 13952\\
+26305 13952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25955 12952\\
+25955 12552\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25955 11952\\
+28305 11949.0625045898\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+25955 11952\\
+25954 11552\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+28505 6852\\
+29205 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+28505 6702\\
+29205 6702\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+31705 6852\\
+32405 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+31705 6702\\
+32405 6702\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+34905 6852\\
+35605 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+34905 6702\\
+35605 6702\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+24205 6852\\
+25055 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+24205 6702\\
+25055 6702\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36915 8802\\
+37870 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36905 6852\\
+37870 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36525 8121\\
+36905 6852\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+23955 8011\\
+23955 7044\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+23805 8011\\
+23805 7044\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+26005 8952\\
+27005 8952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+26005 8802\\
+27005 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+35605 8802\\
+34455 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+35605 8952\\
+34455 8952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+32455 8802\\
+31205 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+32455 8952\\
+31205 8952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+14067 3352\\
+15605 4112\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+15605 6252\\
+15605 4112\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 8621\\
+39305 8952\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+10126 9231\\
+7917 7052\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+9943 3352\\
+8380 6589\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+10605 8752\\
+8380 6589\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13370 8767\\
+15605 6574\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+13855 9252\\
+16119 7087\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 8121\\
+39305 8802\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+38105 6702\\
+42380 8121\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+48695 8621\\
+48695 14411\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42890 8621\\
+42890 14411\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+48695 2302\\
+42890 2302\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+48695 8121\\
+42890 8121\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 2302\\
+38105 6702\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 14411\\
+39305 8952\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+23955 14552\\
+25955 14552\\
+25955 13952\\
+23955 13952\\
+23955 13552\\
+25955 13552\\
+25955 12952\\
+23955 12952\\
+23955 12552\\
+25955 12552\\
+25955 11952\\
+23955 11952\\
+23955 11552\\
+25954 11552\\
+25954 10952\\
+23955 10952\\
+23955 8952\\
+26005 8952\\
+26005 8802\\
+23955 8802\\
+23955 8011\\
+23805 8011\\
+23805 8111\\
+23355 8111\\
+23355 9809\\
+13855 9809\\
+13855 9252\\
+13370 8767\\
+10605 8752\\
+10126 9231\\
+10126 9803\\
+3404 9803\\
+2292 8734\\
+2570 8488\\
+6605 8488\\
+6605 7052\\
+7917 7052\\
+8380 6589\\
+8380 3797\\
+7905 3359\\
+6555 3359\\
+6555 2109\\
+3798 2109\\
+2355 3552\\
+600 3549\\
+605 602\\
+7193 602\\
+9943 3352\\
+14067 3352\\
+16917 502\\
+20743 502\\
+21832 1591\\
+21508 1902\\
+17435 1902\\
+17305 2052\\
+17305 3352\\
+16091 3352\\
+15620 3814\\
+15605 4112\\
+16105 4112\\
+16105 6252\\
+15605 6252\\
+15605 6574\\
+16119 7087\\
+17305 7087\\
+17305 8502\\
+20267 8502\\
+21817 6952\\
+23805 6952\\
+23805 7044\\
+23955 7044\\
+23955 6852\\
+24205 6852\\
+24205 6702\\
+23855 6702\\
+23855 1652\\
+27255 1652\\
+27255 6702\\
+25055 6702\\
+25055 6852\\
+28505 6852\\
+28505 6702\\
+27405 6702\\
+27405 1652\\
+30435 1652\\
+30435 6702\\
+29205 6702\\
+29205 6852\\
+31705 6852\\
+31705 6702\\
+30585 6702\\
+30585 1652\\
+33605 1652\\
+33605 6702\\
+32405 6702\\
+32405 6852\\
+34905 6852\\
+34905 6702\\
+33755 6702\\
+33755 1652\\
+36755 1652\\
+36755 6702\\
+35605 6702\\
+35605 6852\\
+36905 6852\\
+36905 1652\\
+49505 1652\\
+49505 15202\\
+36915 15202\\
+36915 8802\\
+35605 8802\\
+35605 8952\\
+36765 8952\\
+36765 15202\\
+33719 15202\\
+33719 8952\\
+34455 8952\\
+34455 8802\\
+32455 8802\\
+32455 8952\\
+33569 8952\\
+33569 15202\\
+28455 15202\\
+28455 8952\\
+31205 8952\\
+31205 8802\\
+27005 8802\\
+27005 8952\\
+28305 8952\\
+28305 13952\\
+26305 13952\\
+26305 14552\\
+28305 14552\\
+28305 15202\\
+23955 15202\\
+23955 14552\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 1802\\
+48695 1802\\
+48695 2302\\
+49205 2302\\
+49205 1802\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 1802\\
+42380 2302\\
+42890 2302\\
+42890 1802\\
+42380 1802\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 2302\\
+36525 2302\\
+36525 1802\\
+36015 1802\\
+36015 2302\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 2302\\
+30200 1802\\
+29690 1802\\
+29690 2302\\
+30200 2302\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 8121\\
+48695 8121\\
+48695 8621\\
+49205 8621\\
+49205 8121\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 8121\\
+42380 8621\\
+42890 8621\\
+42890 8121\\
+42380 8121\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 8621\\
+36525 8621\\
+36525 8121\\
+36015 8121\\
+36015 8621\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 8621\\
+30200 8121\\
+29690 8121\\
+29690 8621\\
+30200 8621\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+49205 14411\\
+48695 14411\\
+48695 14911\\
+49205 14911\\
+49205 14411\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+42380 14411\\
+42380 14911\\
+42890 14911\\
+42890 14411\\
+42380 14411\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+36015 14911\\
+36525 14911\\
+36525 14411\\
+36015 14411\\
+36015 14911\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+30200 14911\\
+30200 14411\\
+29690 14411\\
+29690 14911\\
+30200 14911\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+37955 6852\\
+37955 8802\\
+37870 8802\\
+37870 8952\\
+39305 8952\\
+39305 8802\\
+38105 8802\\
+38105 6702\\
+37870 6702\\
+37870 6852\\
+37955 6852\\
+};
+\end{axis}
+\end{tikzpicture}%

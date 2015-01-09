@@ -1,0 +1,211 @@
+% This file was created by matlab2tikz v0.4.0.
+% Copyright (c) 2008--2013, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+% % -*- root: TestingFigures.tex -*-
+% 
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=10cm,
+height=14.1880341880342cm,
+scale only axis,
+xmin=50,
+xmax=5900,
+ymin=500,
+ymax=8800,
+hide axis,
+axis x line*=bottom,
+axis y line*=left,
+y post scale=1,
+unit vector ratio=1 1 1
+]
+\addplot [
+color=blue,
+solid,
+forget plot
+]
+table[row sep=crcr]{
+2470 5535\\
+2470 5815\\
+2375 5815\\
+2375 5915\\
+2470 5915\\
+2470 7715\\
+107 7715\\
+107 5915\\
+1765 5915\\
+1765 5815\\
+1365 5815\\
+1365 3645\\
+1791 3645\\
+1791 3545\\
+1365 3545\\
+1365 552\\
+3091 552\\
+3091 3545\\
+2415 3545\\
+2415 3645\\
+2470 3645\\
+2470 3715\\
+2570 3715\\
+2570 3645\\
+3191 3645\\
+3191 552\\
+5868 552\\
+5868 4543\\
+2570 4540\\
+2570 4460\\
+2470 4460\\
+2470 4710\\
+2570 4710\\
+2570 4640\\
+5868 4643\\
+5868 8735\\
+2570 8735\\
+2570 5535\\
+2470 5535\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+3191 3645\\
+4087.38027314112 4541.38027314112\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2375 5815\\
+1765 5815\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2375 5915\\
+1765 5915\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+1791 3645\\
+2415 3645\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+1791 3545\\
+2415 3545\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2470 3715\\
+2470 4460\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2570 3715\\
+2570 4460\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2470 5535\\
+2470 4710\\
+};
+\addplot [
+color=black,
+dashed,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2570 4710\\
+2570 5535\\
+};
+\addplot [
+color=black,
+solid,
+line width=2.0pt,
+forget plot
+]
+table[row sep=crcr]{
+2470 5535\\
+2470 5815\\
+2375 5815\\
+2375 5915\\
+2470 5915\\
+2470 7715\\
+107 7715\\
+107 5915\\
+1765 5915\\
+1765 5815\\
+1365 5815\\
+1365 3645\\
+1791 3645\\
+1791 3545\\
+1365 3545\\
+1365 552\\
+3091 552\\
+3091 3545\\
+2415 3545\\
+2415 3645\\
+2470 3645\\
+2470 3715\\
+2570 3715\\
+2570 3645\\
+3191 3645\\
+3191 552\\
+5868 552\\
+5868 4543\\
+2570 4540\\
+2570 4460\\
+2470 4460\\
+2470 4710\\
+2570 4710\\
+2570 4640\\
+5868 4643\\
+5868 8735\\
+2570 8735\\
+2570 5535\\
+2470 5535\\
+};
+\end{axis}
+\end{tikzpicture}%
