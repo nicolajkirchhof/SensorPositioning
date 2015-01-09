@@ -27,7 +27,7 @@ unit vector ratio=1 1 1
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -37,7 +37,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -47,7 +47,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -57,7 +57,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -67,7 +67,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -77,7 +77,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -87,7 +87,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -97,7 +97,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -107,7 +107,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -121,7 +121,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -135,7 +135,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -149,7 +149,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{

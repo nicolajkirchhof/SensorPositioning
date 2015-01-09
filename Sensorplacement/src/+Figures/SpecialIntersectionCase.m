@@ -33,16 +33,7 @@ for idp = 1:numel(polys)
     drawPolygon(polys{idp}, 'color', 'k', 'linewidth', 2);
  end
 
-% for idc = 1:numel(circles)
-%     drawCircle(circles{idc}, 'color', 'k');
-%     fillPolygon(circleToPolygon(circles{idc}, 128), 'k');
-% end
-
-% text(98, 40, 'SP');
-
-
-
-%%
+%%%
 matlab2tikz('export/SpecialIntersectionCase.tikz', 'parseStrings', false,... 
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});

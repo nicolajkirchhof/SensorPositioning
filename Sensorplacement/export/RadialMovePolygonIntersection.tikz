@@ -27,7 +27,7 @@ unit vector ratio=1 1 1
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -37,7 +37,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -47,7 +47,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -57,7 +57,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -80,7 +80,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dotted,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -89,6 +89,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -99,6 +100,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -110,7 +112,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dash pattern=on 1pt off 3pt on 3pt off 3pt,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -119,6 +121,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -130,6 +133,10 @@ table[row sep=crcr]{
 \node[above, inner sep=0mm, text=black]
 at (axis cs:100,310,0) {$v_{1}$};
 \node[inner sep=0mm, text=black]
-at (axis cs:320,205,0) {$v_{1,p}$};
+at (axis cs:320,200,0) {$v_{1,p}$};
+\node[inner sep=0mm, text=black]
+at (axis cs:600,150,0) {$e_{m}$};
+\node[inner sep=0mm, text=black]
+at (axis cs:875,150,0) {$v_{1,m}$};
 \end{axis}
 \end{tikzpicture}%

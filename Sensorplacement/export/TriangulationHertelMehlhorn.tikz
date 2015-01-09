@@ -18,6 +18,7 @@ xmin=-100,
 xmax=9100,
 ymin=0,
 ymax=16400,
+hide axis,
 axis x line*=bottom,
 axis y line*=left,
 y post scale=1
@@ -25,181 +26,167 @@ y post scale=1
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
 7723 8479\\
 9053 79\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
 9053 16279\\
+7723 12279\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
 7723 12279\\
 7723 8479\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-9053 79\\
-7723 8479\\
 7723 2140\\
 9053 79\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
 7723 14249\\
 9053 16279\\
-53 16279\\
-1383 14249\\
-7723 14249\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-1383 14249\\
 53 16279\\
+1383 14249\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
 53 79\\
 1383 12279\\
-1383 14249\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-53 79\\
-9053 79\\
-7723 2140\\
 5753 2140\\
 53 79\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-5753 2140\\
 5753 8479\\
 3353 8479\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
 3353 2140\\
 5753 2140\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-53 79\\
-5753 2140\\
 3353 2140\\
 53 79\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-53 79\\
-3353 2140\\
 1383 2140\\
 53 79\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-9053 16279\\
-7723 14249\\
-7723 12279\\
-9053 16279\\
-};
-\addplot [
-color=black,
-dashed,
-line width=2.0pt,
-forget plot
-]
-table[row sep=crcr]{
-5753 8479\\
-7723 8479\\
-7723 12279\\
 1383 12279\\
 5753 8479\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-3353 8479\\
-5753 8479\\
 1383 12279\\
 3353 8479\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-1383 8479\\
-3353 8479\\
 1383 12279\\
 1383 8479\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-1383 8479\\
-1383 12279\\
 53 79\\
-1383 8479\\
-};
-\addplot [
-color=black,
-dashed,
-line width=2.0pt,
-forget plot
-]
-table[row sep=crcr]{
-1383 8479\\
-53 79\\
-1383 2140\\
 1383 8479\\
 };
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -212,7 +199,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -225,7 +212,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -238,7 +225,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{

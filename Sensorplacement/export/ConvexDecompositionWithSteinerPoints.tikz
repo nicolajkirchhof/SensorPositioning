@@ -27,7 +27,7 @@ unit vector ratio=1 1 1
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -37,7 +37,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -47,7 +47,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -57,7 +57,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -67,7 +67,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -77,7 +77,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -87,7 +87,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -97,7 +97,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -107,7 +107,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -117,7 +117,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -127,7 +127,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -137,7 +137,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -151,7 +151,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -165,7 +165,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -179,7 +179,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -192,7 +192,6 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
-mark size=4.0pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -202,6 +201,6 @@ table[row sep=crcr]{
 4652.9167 10252.9167\\
 };
 \node[right, inner sep=0mm, text=black]
-at (axis cs:3500,10000,0) {SP};
+at (axis cs:3000,10000,0) {$p_s$};
 \end{axis}
 \end{tikzpicture}%

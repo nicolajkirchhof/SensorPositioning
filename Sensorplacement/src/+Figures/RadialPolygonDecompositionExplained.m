@@ -7,8 +7,8 @@ axis equal
 hold on;
 axis off
 
-% xlim([0 165]);
-% ylim([0 100]);
+xlim([0 165]);
+ylim([0 100]);
 
 filename = 'res/polygons/SpecialIntersectionCase.dxf';
 [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
@@ -21,48 +21,56 @@ circles = c_Cir(:,1);
 for idl = [1,2,3,4,5,7,10,12,13,14]
 %     pause; disp(idl)
     edges{idl} = edges{idl}([1,2,4,5]);
-    drawEdge(edges{idl}, 'color', 'k', 'linewidth', 2, 'linestyle', '--');
+    drawEdge(edges{idl}, 'color', 'k', 'linewidth', 1, 'linestyle', '--');
 end
 
 for idl = [6,8,9,11]
 %     pause; disp(idl)
     edges{idl} = edges{idl}([1,2,4,5]);
-%     drawEdge(edges{idl}, 'color', 'k', 'linewidth', 2, 'linestyle', ':');
+%     drawEdge(edges{idl}, 'color', 'k', 'linewidth', 1, 'linestyle', ':');
 end
 
 r1 = createRay(edges{9}(1:2), edges{9}(3:4));
 r2 = createRay(edges{11}(3:4), edges{11}(1:2));
-drawRay(createRay(edges{6}(1:2), edges{6}(3:4)), 'color', 'k', 'linewidth', 2, 'linestyle', ':');
-drawRay(createRay(edges{8}(3:4), edges{8}(1:2)), 'color', 'k', 'linewidth', 2, 'linestyle', ':');
-drawRay(r1, 'color', 'k', 'linewidth', 2, 'linestyle', ':');
-drawRay(r2, 'color', 'k', 'linewidth', 2, 'linestyle', ':');
+
+xing_1 = intersectRayPolygon(createRay(edges{6}(1:2), edges{6}(3:4)), polys{1});
+xing_2 = intersectRayPolygon(createRay(edges{8}(3:4), edges{8}(1:2)), polys{1});
+drawEdge([edges{6}(1:2) xing_1], 'color', 'k', 'linewidth', 1, 'linestyle', ':');
+drawEdge([edges{8}(3:4), xing_2], 'color', 'k', 'linewidth', 1, 'linestyle', ':');
+
+xing_3 = intersectRayPolygon(r1, polys{1});
+xing_4 = intersectRayPolygon(r2, polys{1});
+
+drawEdge([edges{9}(1:2) xing_3], 'color', 'k', 'linewidth', 1, 'linestyle', ':');
+drawEdge([edges{11}(3:4) xing_4], 'color', 'k', 'linewidth', 1, 'linestyle', ':');
 
 
 for idp = 1:numel(polys)
-    drawPolygon(polys{idp}, 'color', 'k', 'linewidth', 2);
+    drawPolygon(polys{idp}, 'color', 'k', 'linewidth', 1);
 end
 
  
 % for idp = 2:numel(polys)
-%     drawPoint(polys{idp}, 'marker', 'o', 'color', [0 0 0],'linewidth', 2, 'markersize', 8);
+%     drawPoint(polys{idp}, 'marker', 'o', 'color', [0 0 0],'linewidth', 1, 'markersize', 8);
 % end
-% drawPoint(polys{idp}, 'marker', 'o', 'color', [0 0 0],'linewidth', 2, 'markersize', 8);
-drawPoint(polys{4}(1,:), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
-drawPoint(polys{3}(4,:), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
+% drawPoint(polys{idp}, 'marker', 'o', 'color', [0 0 0],'linewidth', 1, 'markersize', 8);
+drawPoint(polys{4}(1,:), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
+drawPoint(polys{3}(4,:), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
 
-drawPoint(intersectEdges(edges{6}, edges{8}), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
-drawPoint(intersectEdges(edges{9}, edges{11}), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
+drawPoint(intersectEdges(edges{6}, edges{8}), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
+drawPoint(intersectEdges(edges{9}, edges{11}), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
 
 poly_edges = cell(1, numel(polys));
 for idp = 1:numel(polys)
     poly_edges{idp} = [polys{idp}(1:end-1, :), polys{idp}(2:end, :)];
 end
 % plot
-drawPoint(intersectRayPolygon(r1, polys{1}), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
-drawPoint(intersectRayPolygon(r1, polys{2}), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
+drawPoint(intersectRayPolygon(r1, polys{1}), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
+drawPoint(intersectRayPolygon(r1, polys{2}), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
 
-drawPoint(intersectRayPolygon(r2, polys{1}), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
-drawPoint(intersectRayPolygon(r2, polys{2}), 'marker', 'o', 'color', [0 0 0], 'markersize', 6, 'markerfacecolor', [0 0 0]);
+drawPoint(intersectRayPolygon(r2, polys{1}), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
+drawPoint(intersectRayPolygon(r2, polys{2}), 'marker', 'o', 'color', [0 0 0], 'markersize', 5, 'markerfacecolor', [0 0 0]);
+
 
 text(97, 40, '$p_s$', 'horizontalalignment', 'center');
 % text(10, 40, '$p_s$', 'horizontalalignment', 'center');

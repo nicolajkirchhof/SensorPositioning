@@ -27,15 +27,15 @@ vpoly = circshift(vpoly, -1, 2);
 
 E_r = g2d.radialPolygonSplitting({vpoly});
 
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r(2:end-1));
 
-drawPolygon(vpoly, 'color', [0 0 0], 'linewidth', 2);
+drawPolygon(vpoly, 'color', [0 0 0], 'linewidth', 1);
 
 e_r_edges = cell2mat(cellfun(@(x) x.edge, E_r(:)', 'uniformoutput', false)');
 
 merged_edge = [500 175 925 175];
-drawEdge(merged_edge, 'linewidth', 2, 'linestyle', ':', 'color', [0 0 0]);
+drawEdge(merged_edge, 'linewidth', 1, 'linestyle', ':', 'color', [0 0 0]);
 
 combs = comb2unique(1:size(e_r_edges, 1));
 e_r_intersections = intersectEdges(e_r_edges(combs(:,1), :), e_r_edges(combs(:,2), :));
@@ -43,22 +43,24 @@ e_r_intersections = intersectEdges(e_r_edges(combs(:,1), :), e_r_edges(combs(:,2
 xing_points = e_r_intersections(~isnan(e_r_intersections(:,1)), :);
 
 e_n_xing = intersectEdges(E_r{3}.edge, merged_edge);
-drawPoint(xing_points(2,:), 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
+drawPoint(xing_points(2,:), 'color', [0 0 0], 'markerfacecolor', [0 0 0], 'markersize', 5);
 % drawPoint([500 175], 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
 % drawPoint([100 300], 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
 % drawPoint([100 300], 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
-drawPoint(e_n_xing, 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
+drawPoint(e_n_xing, 'color', [0 0 0], 'markerfacecolor', [0 0 0], 'markersize', 5);
 
 interx_edge = [100 300 500 175];
-drawEdge(interx_edge, 'linewidth', 2, 'linestyle', '-.', 'color', [0 0 0]);
+drawEdge(interx_edge, 'linewidth', 1, 'linestyle', '-.', 'color', [0 0 0]);
 xing_poly = intersectEdges(interx_edge, [0 225 500 225]);
-drawPoint(xing_poly, 'color', [0 0 0], 'markerfacecolor', [0 0 0]);
+drawPoint(xing_poly, 'color', [0 0 0], 'markerfacecolor', [0 0 0], 'markersize', 5);
 
 % %%%
 % axis on;
 % text(100, 110, '$v_{1}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
 text(100, 310 , '$v_{1}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
-text(320, 205 , '$v_{1,p}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
+text(320, 200 , '$v_{1,p}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
+text(600, 150 , '$e_{m}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
+text(875, 150 , '$v_{1,m}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
 
 % text(490, 250, '$c_{2,y}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
 % text(490, 150, '$c_{1,x}$', 'horizontalalignment', 'center', 'verticalalignment', 'top');
