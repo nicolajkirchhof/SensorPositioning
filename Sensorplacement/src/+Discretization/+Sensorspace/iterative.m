@@ -1,4 +1,4 @@
-function [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions, options, debug)
+bfunction [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions, options, debug)
 %% ITERATIVE(environment, sensor, workspace_positions, options) samples the sensorspace
 %    by edge splitting. Options is a discretization with the following suboptions set for 
 %   the sensorposes.
@@ -17,12 +17,18 @@ sensor = options.sensor;
 sensorspace = options.sensorspace;
 
 %% Poses on Boundary vertices
-boundary_corners = mb.ring2corners(environment.boundary.ring);
+% use combined environment to place because otherwise obstacles will prohibit 
+% ordinary placement
+environment = Environment.combine(environment);
+boundary = environment.combined{1}(1);
+obstacles = environment.combined{1}(2:end);
+% boundary_corners = mb.ring2corners(environment.boundary.ring);
+boundary_corners = mb.ring2corners(boundary{1});
 boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
 
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), sensorspace.resolution.angular, false);
 
-%%% Poses on Mountable vertices
+%% Poses on Mountable vertices
 mountable_corners = cellfun(@mb.ring2corners, environment.mountable, 'uniformoutput', false);
 fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), sensorspace.resolution.angular, true);
 sensor_poses_mountables = cell2mat(cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false));
@@ -37,7 +43,7 @@ sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
 environment = Environment.combine(environment);
 in_environment = Environment.within_combined(environment, sensor_poses_initial, 10);
 sensor_poses_in = sensor_poses_initial(:, in_environment);
-[sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_in, environment, workspace_positions, options, debug);
+[sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_in, environment, workspace_positions, options, true); % todo: remove spikes as option?
 
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative

@@ -58,9 +58,9 @@ drawPoint(xing_poly, 'color', [0 0 0], 'markerfacecolor', [0 0 0], 'markersize',
 % axis on;
 % text(100, 110, '$v_{1}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
 text(100, 310 , '$v_{1}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
-text(320, 200 , '$v_{1,p}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
+text(320, 200 , '$c_{1,p}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
 text(600, 150 , '$e_{m}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
-text(875, 150 , '$v_{1,m}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
+text(875, 150 , '$c_{1,m}$', 'horizontalalignment', 'center', 'verticalalignment', 'middle');
 
 % text(490, 250, '$c_{2,y}$', 'horizontalalignment', 'center', 'verticalalignment', 'bottom');
 % text(490, 150, '$c_{1,x}$', 'horizontalalignment', 'center', 'verticalalignment', 'top');
