@@ -68,6 +68,38 @@ environment = Environment.load(filename);
 obst_redone = int64([3844 2700; 3300 2700; 3300 1200; 3844 1200; 3844 2700])';
     
 environment.obstacles{2}{1} = obst_redone;
+%%% Test obstacle point integration
+boundary_vpoly = mb.boost2visilibity(environment.boundary.ring);
+boundary_edges = [boundary_vpoly, circshift(boundary_vpoly, -1, 1)];
+obstacle_vpolys = cellfun(@(x)mb.boost2visilibity(x{1}), environment.obstacles, 'uniformoutput', false);
+obstacle_edges = cellfun(@(x) [x, circshift(x, -1, 1)], obstacle_vpolys,  'uniformoutput', false);
+%%%
+for id_poly = 1:numel(obstacle_edges)
+    %%
+    edges = obstacle_edges{id_poly};
+    for id_edge =  1:size(edges, 1)
+        %%
+        xings = intersectEdges(edges(id_edge,:), boundary_edges);
+        flt_xing = ~isnan(xings(:,1)) & ~isinf(xings(:,1));
+        if any(flt_xing)
+            id_xings = find(flt_xing);
+            for id_xing = id_xings
+            boundary_edges = [boundary_edges(1:id_xing-1, :); 
+                               [ boundary_edges(id_xing, 1:2), xings(id_xing, :) ];
+                               [ xings(id_xing, :), boundary_edges(id_xing, 3:4) ];
+                              boundary_edges(id_xing+1:end, :)];
+            end
+%             fprintf(1, '%d %d\n', id_poly, id_edge);
+        end
+    end
+end
+%%% Merge dublicated points
+edge_length = edgeLength(boundary_edges);
+flt_edge_length = edge_length>10;
+boundary_edges = boundary_edges(flt_edge_length, :);
+
+environment.boundary.ring = mb.visilibity2boost(boundary_edges(:, 1:2));
+environment.boundary.isplaceable = ones(1, size(environment.boundary.ring, 2));
 
 % options = config.workspace;
 %%
@@ -75,10 +107,13 @@ environment.obstacles{2}{1} = obst_redone;
 config_discretization.workspace.wall_distance = 200;
 config_discretization.workspace.cell.length = [0 1000];
 config_discretization.workspace.positions.additional = num_wpn;
-config_discretization.sensorspace.poses.additional = num_sp+50;
+config_discretization.workspace.positions.additional = 0;
+config_discretization.sensorspace.poses.additional = 0;
+% config_discretization.sensorspace.poses.additional = num_sp+50;
 
 discretization = Discretization.generate(environment, config_discretization);
-;
+Discretization.draw(discretization, environment);
+
 %%
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality);
@@ -91,10 +126,14 @@ input.quality = quality;
 % input.config.environment = config_environment;
 input.config.discretization = config_discretization;
 input.config.quality = config_quality;
-maxval = cellfun(@max, input.quality.wss.val);
+
 %%
+maxval = cellfun(@max, input.quality.wss.val);
 cla
 Discretization.draw(discretization, environment);
+axis equal;
+xlim([0 4000]);
+ylim([800 8500]);
 % mb.drawPoint(discretization.wpn);
 % Environment.draw(environment);
 scatter(input.discretization.wpn(1,:)', input.discretization.wpn(2,:)', [], repmat(maxval, 1,3), 'fill');

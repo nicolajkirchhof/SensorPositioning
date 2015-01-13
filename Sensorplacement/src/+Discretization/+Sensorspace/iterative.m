@@ -1,4 +1,4 @@
-bfunction [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions, options, debug)
+function [sensor_poses, vfovs, vm] = iterative(environment, workspace_positions, options, debug)
 %% ITERATIVE(environment, sensor, workspace_positions, options) samples the sensorspace
 %    by edge splitting. Options is a discretization with the following suboptions set for 
 %   the sensorposes.
@@ -20,11 +20,15 @@ sensorspace = options.sensorspace;
 % use combined environment to place because otherwise obstacles will prohibit 
 % ordinary placement
 environment = Environment.combine(environment);
-boundary = environment.combined{1}(1);
-obstacles = environment.combined{1}(2:end);
-% boundary_corners = mb.ring2corners(environment.boundary.ring);
-boundary_corners = mb.ring2corners(boundary{1});
+% boundary = environment.combined{1}(1);
+% obstacles = environment.combined{1}(2:end);
+boundary_corners = mb.ring2corners(environment.boundary.ring);
+% boundary_corners = mb.ring2corners(boundary{1});
 boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
+boundary_corners_selection = boundary_corners;
+
+%% Add intersections of obstacles with environment
+
 
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), sensorspace.resolution.angular, false);
 

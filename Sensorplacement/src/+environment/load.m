@@ -5,7 +5,7 @@ environment = DataModels.environment;
 environment.file = filename;
 if nargin < 2
     bpolyclip_options = Configurations.Bpolyclip.environment;
-%     bpolyclip_options.spike_distance = 10;
+    %     bpolyclip_options.spike_distance = 10;
 end
 bpo = Configurations.Bpolyclip.combine(bpolyclip_options);
 
@@ -21,18 +21,18 @@ if strcmpi(filename(point_idx(end)+1:end), 'mat')
     environment.combined = poly.bpoly;
     environment.boundary.ring = poly.bpoly{1};
 elseif strcmpi(filename(point_idx(end)+1:end), 'environment')
-%       error('obsolete');
-%     %%
-      poly_comb = mb.visilibity2boost(load_environment_file(filename));
-      environment.boundary.ring = poly_comb{1};
-      environment.mountable = poly_comb(2:end);
-      environment.combined = poly_comb;
-%     % convert to boost representation
-%     for idp = 1:numel(environment.visilibity)
-%         environment.boost{idp} = [environment.visilibity{idp}', environment.visilibity{idp}(end,:)'];
-%     end
-%     %%
-%     pc = calculate_workspace_representation(pc);
+    %       error('obsolete');
+    %     %%
+    poly_comb = mb.visilibity2boost(load_environment_file(filename));
+    environment.boundary.ring = poly_comb{1};
+    environment.mountable = poly_comb(2:end);
+    environment.combined = poly_comb;
+    %     % convert to boost representation
+    %     for idp = 1:numel(environment.visilibity)
+    %         environment.boost{idp} = [environment.visilibity{idp}', environment.visilibity{idp}(end,:)'];
+    %     end
+    %     %%
+    %     pc = calculate_workspace_representation(pc);
 elseif strcmpi(filename(point_idx(end)+1:end), 'dxf')
     %%
     [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
@@ -52,13 +52,13 @@ elseif strcmpi(filename(point_idx(end)+1:end), 'dxf')
     elseif sum(flt_mountable_objects) == 1
         environment.mountable = object_bpoly_int(flt_mountable_objects);
     end
-    if any(flt_obstacle_objects) 
-    environment.obstacles = bpolyclip_batch(object_bpoly_int(flt_obstacle_objects), 3, {1:sum(flt_obstacle_objects)}, bpo{:});
-    environment.obstacles = environment.obstacles{1};
+    if any(flt_obstacle_objects)
+        environment.obstacles = bpolyclip_batch(object_bpoly_int(flt_obstacle_objects), 3, {1:sum(flt_obstacle_objects)}, bpo{:});
+        environment.obstacles = environment.obstacles{1};
     end
     if any(flt_occupied_objects)
-    environment.occupied  = bpolyclip_batch(object_bpoly_int(flt_occupied_objects), 3, {1:sum(flt_occupied_objects)}, bpo{:});
-    environment.occupied  = environment.occupied{1};
+        environment.occupied  = bpolyclip_batch(object_bpoly_int(flt_occupied_objects), 3, {1:sum(flt_occupied_objects)}, bpo{:});
+        environment.occupied  = environment.occupied{1};
     end
     environment.walls      = bpolyclip_batch(object_bpoly_int(flt_wall_objects), 3, {1:sum(flt_wall_objects)}, bpo{:});
     environment.walls     = environment.walls{1};

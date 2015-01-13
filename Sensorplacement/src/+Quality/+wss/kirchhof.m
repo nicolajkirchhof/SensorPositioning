@@ -3,17 +3,17 @@ function [quality] = kirchhof(discretization, config)
 % point. 
 quality = DataModels.quality;
 
-[model_path, model_name] = fileparts(mfilename('fullpath'));
-model_prefix = model_path(max(strfind(model_path, '+'))+1:end);
-quality_type = [model_prefix '_' model_name];
+% [model_path, model_name] = fileparts(mfilename('fullpath'));
+% model_prefix = model_path(max(strfind(model_path, '+'))+1:end);
+% quality_type = [model_prefix '_' model_name];
 
-write_log(' calculating %s quality values...', quality_type);
+% write_log(' calculating %s quality values...', quality_type);
 loop_display(discretization.num_positions, 10);
 
 vals = cell(discretization.num_positions, 1);
 valbw = zeros(discretization.num_comb, 1);
 valsum = zeros(discretization.num_comb, 1);
-
+%%
 % dmax_2 = (config.sensor.distance(2)^2 );
 dmax = config.sensor.distance(2);
 for idw = 1:discretization.num_positions
@@ -42,9 +42,35 @@ write_log('...done ');
 quality.wss.val = vals;
 quality.wss.valbw = valbw;
 quality.wss.valsum = valsum;
-
+%%
 
 return;
+%% TEST
+discretization = [];
+[X, Y] = meshgrid(0:100:16000, 10000:100:20000);
+discretization.wpn = int64([X(:)'; Y(:)']);
+discretization.sp = [5000, 13000; 10000, 10000];
+discretization.num_positions = size(discretization.wpn, 2);
+discretization.num_comb = 1;
+discretization.sc = [1 2];
+discretization.sc_wpn = uint8(ones(1, discretization.num_positions));
+config.sensor.distance = [0 10000];
+quality = Quality.WSS.kirchhof(discretization, config);
+
+%%
+cla
+axis equal
+qval = cell2mat(quality.wss.val);
+scatter(single(discretization.wpn(1,:)'), single(discretization.wpn(2,:)'), [], repmat(qval, 1, 3));
+xlim([5000 14000])
+ylim([10000 18000])
+%%
+qmat = reshape(qval, size(X));
+% figure;
+axis equal
+contour(X, Y, qmat, 0.1:0.1:0.9, 'ShowText','on');
+xlim([0 16000]);
+ylim([10000 20000]);
 %% TESTS
 clear variables;
 format long;
