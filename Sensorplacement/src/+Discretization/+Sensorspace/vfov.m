@@ -1,12 +1,12 @@
-function [valid_sensor_poses, vfov_rings, sp_wpn_visibilities] = vfov(sensor_poses, environment, workspace_positions, discretization, debug)
+function [valid_sensor_poses, vfov_rings, sp_wpn_visibilities] = vfov(sensor_poses, environment, workspace_positions, discretization, remove_spikes)
 %% VFOV(sensor_poses, environment, discretization) calculates the vfov of one
 %   ore multiple sensors
 %
 %   additional options :
 % remove_spikes = true  : remove empty polygons
 
-if nargin < 5 || isempty(debug)
-    debug.remove_spikes = true;
+if nargin < 5 || isempty(remove_spikes)
+    remove_spikes = true;   
 end
 
 valid_sensor_poses = [];
@@ -58,7 +58,7 @@ sensor_visibility_polygons = sensor_visibility_polygons(~small_polys);
 sensorpositions_filtered = sensor_poses(:, ~small_polys);
 
 %%% merge points and remove spikes
-if debug.remove_spikes
+if remove_spikes
     fun_spike = @(poly, center) mb.removePolygonAngularSpikes(poly, discretization.angularmerge, center);
 %     fun_merge = @(poly, center) fun_spike(mb.mergePolygonPointsAngularDist(poly{1}{1}, discretization.angularmerge, center),center);
     % fun_merge = @(p, c) fprintf('sz=%d %d %f %f %f\n', size(p{1}{1}), c);

@@ -6,7 +6,7 @@ if isempty(init)
     name = 'unnamed';
     tag = datestr(now,30);
     init = true;
-    workdir = '../tmp/';
+    workdir = 'tmp/';
     if nargin > 0
         name = in_name;
     end

@@ -11,13 +11,13 @@
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=10cm,
-height=7.88709677419355cm,
+width=3cm,
+height=5.34782608695652cm,
 scale only axis,
-xmin=0.529167000000001,
-xmax=162.529167,
-ymin=-18.3563168709677,
-ymax=109.414650870968,
+xmin=-100,
+xmax=9100,
+ymin=0,
+ymax=16400,
 hide axis,
 axis x line*=bottom,
 axis y line*=left,
@@ -27,138 +27,138 @@ unit vector ratio=1 1 1
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-84.529167 57.53\\
-84.529167 33.528333\\
+5753 8452.9167\\
+3352.8333 8452.9167\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-122.529167 77.225556\\
-84.529167 77.225556\\
+7722.5556 12252.9167\\
+7722.5556 8452.9167\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-162.529167 90.529167\\
-142.224722 77.225556\\
+9052.9167 16252.9167\\
+7722.5556 14222.4722\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-0.529167 90.529167\\
-21.136389 77.225556\\
+9052.9167 52.9167\\
+7722.5556 2113.6389\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-162.529167 0.529167\\
-142.224722 13.832778\\
+52.9167 16252.9167\\
+1383.2778 14222.4722\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-84.529167 13.832778\\
-122.529167 13.832778\\
+1383.2778 8452.9167\\
+1383.2778 12252.9167\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-21.136389 57.53\\
-21.136389 33.528333\\
+5753 2113.6389\\
+3352.8333 2113.6389\\
 };
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-0.529167 0.529167\\
-21.136389 13.832778\\
+52.9167 52.9167\\
+1383.2778 2113.6389\\
 };
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-0.529167 0.529167\\
-162.529167 0.529167\\
-162.529167 90.529167\\
-0.529167 90.529167\\
-0.529167 0.529167\\
-0.529167 0.529167\\
+52.9167 52.9167\\
+52.9167 16252.9167\\
+9052.9167 16252.9167\\
+9052.9167 52.9167\\
+52.9167 52.9167\\
+52.9167 52.9167\\
 };
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-122.529167 77.225556\\
-122.529167 13.832778\\
-142.224722 13.832778\\
-142.224722 77.225556\\
-122.529167 77.225556\\
-122.529167 77.225556\\
+7722.5556 12252.9167\\
+1383.2778 12252.9167\\
+1383.2778 14222.4722\\
+7722.5556 14222.4722\\
+7722.5556 12252.9167\\
+7722.5556 12252.9167\\
 };
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-84.529167 77.225556\\
-21.136389 77.225556\\
-21.136389 57.53\\
-84.529167 57.53\\
-84.529167 77.225556\\
-84.529167 77.225556\\
+7722.5556 8452.9167\\
+7722.5556 2113.6389\\
+5753 2113.6389\\
+5753 8452.9167\\
+7722.5556 8452.9167\\
+7722.5556 8452.9167\\
 };
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
-84.529167 33.528333\\
-21.136389 33.528333\\
-21.136389 13.832778\\
-84.529167 13.832778\\
-84.529167 33.528333\\
-84.529167 33.528333\\
+3352.8333 8452.9167\\
+3352.8333 2113.6389\\
+1383.2778 2113.6389\\
+1383.2778 8452.9167\\
+3352.8333 8452.9167\\
+3352.8333 8452.9167\\
 };
 \end{axis}
 \end{tikzpicture}%

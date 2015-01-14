@@ -9,7 +9,7 @@ model = Configurations.Optimization.Discrete.generic(common);
 model.type = mfilename();
 % model_types = {'ws', 'wss', 'it'};
 
-model.quality.min = 0.58;
+model.quality.min = 0.45;
 model.quality.reject = 0;
 model.is_relax = true;
 

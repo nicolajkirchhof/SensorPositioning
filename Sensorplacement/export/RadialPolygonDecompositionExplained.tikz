@@ -12,12 +12,13 @@
 
 \begin{axis}[%
 width=10cm,
-height=12.7300509337861cm,
+height=6.06060606060606cm,
+clip=false,
 scale only axis,
-xmin=0.793680999999992,
-xmax=162.793681,
-ymin=-57.5842460636672,
-ymax=148.642579063667,
+xmin=0,
+xmax=165,
+ymin=0,
+ymax=100,
 hide axis,
 axis x line*=bottom,
 axis y line*=left,
@@ -27,7 +28,7 @@ unit vector ratio=1 1 1
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -37,7 +38,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -47,7 +48,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -57,7 +58,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -67,7 +68,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -77,7 +78,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -87,7 +88,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -97,7 +98,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -107,7 +108,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -117,7 +118,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dashed,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -127,47 +128,47 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 dotted,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
 21.400903 57.53\\
-0.793680999999992 36.922778\\
+0.793681 36.922778\\
 };
 \addplot [
 color=black,
 dotted,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
 21.400903 33.528333\\
-0.793680999999992 54.135555\\
+0.793681 54.135555\\
 };
 \addplot [
 color=black,
 dotted,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
 84.793681 57.53\\
-162.793681 -20.47\\
+141.794514 0.529167\\
 };
 \addplot [
 color=black,
 dotted,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
 84.793681 33.528333\\
-162.793681 111.528333\\
+141.794515 90.529167\\
 };
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -181,7 +182,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -195,7 +196,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -209,7 +210,7 @@ table[row sep=crcr]{
 \addplot [
 color=black,
 solid,
-line width=2.0pt,
+line width=1.0pt,
 forget plot
 ]
 table[row sep=crcr]{
@@ -222,6 +223,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -232,6 +234,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -242,6 +245,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -252,6 +256,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -262,6 +267,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -272,6 +278,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -283,6 +290,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},
@@ -293,6 +301,7 @@ table[row sep=crcr]{
 };
 \addplot [
 color=black,
+mark size=2.5pt,
 only marks,
 mark=*,
 mark options={solid,fill=black},

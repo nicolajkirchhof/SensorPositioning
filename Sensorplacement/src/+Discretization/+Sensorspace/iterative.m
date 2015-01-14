@@ -16,13 +16,57 @@ end
 sensor = options.sensor;
 sensorspace = options.sensorspace;
 
+%% Redo environment to add points that are on obstacles
+%%% Test obstacle point integration
+boundary_vpoly = mb.boost2visilibity(environment.boundary.ring);
+boundary_edges = [boundary_vpoly, circshift(boundary_vpoly, -1, 1)];
+obstacle_vpolys = cellfun(@(x)mb.boost2visilibity(x{1}), environment.obstacles, 'uniformoutput', false);
+obstacle_edges = cellfun(@(x) [x, circshift(x, -1, 1)], obstacle_vpolys,  'uniformoutput', false);
+%%%
+for id_poly = 1:numel(obstacle_edges)
+    %%
+    edges = obstacle_edges{id_poly};
+    for id_edge =  1:size(edges, 1)
+        %%
+        xings = intersectEdges(edges(id_edge,:), boundary_edges);
+        flt_xing = ~isnan(xings(:,1)) & ~isinf(xings(:,1));
+        if any(flt_xing)
+            id_xings = find(flt_xing);
+            for id_xing = id_xings
+            boundary_edges = [boundary_edges(1:id_xing-1, :); 
+                               [ boundary_edges(id_xing, 1:2), xings(id_xing, :) ];
+                               [ xings(id_xing, :), boundary_edges(id_xing, 3:4) ];
+                              boundary_edges(id_xing+1:end, :)];
+            end
+%             fprintf(1, '%d %d\n', id_poly, id_edge);
+        end
+    end
+end
+%%% Merge dublicated points
+edge_length = edgeLength(boundary_edges);
+flt_edge_length = edge_length>10;
+boundary_edges = boundary_edges(flt_edge_length, :);
+environment.boundary.ring = mb.visilibity2boost(boundary_edges(:, 1:2));
+environment.boundary.isplaceable = ones(1, size(environment.boundary.ring, 2));
+
+
 %% Poses on Boundary vertices
+% use combined environment to place because otherwise obstacles will prohibit 
+% ordinary placement
+environment = Environment.combine(environment);
+% boundary = environment.combined{1}(1);
+% obstacles = environment.combined{1}(2:end);
 boundary_corners = mb.ring2corners(environment.boundary.ring);
+% boundary_corners = mb.ring2corners(boundary{1});
 boundary_corners_selection = boundary_corners(:, environment.boundary.isplaceable);
+boundary_corners_selection = boundary_corners;
+
+%% Add intersections of obstacles with environment
+
 
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), sensorspace.resolution.angular, false);
 
-%%% Poses on Mountable vertices
+%% Poses on Mountable vertices
 mountable_corners = cellfun(@mb.ring2corners, environment.mountable, 'uniformoutput', false);
 fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), sensorspace.resolution.angular, true);
 sensor_poses_mountables = cell2mat(cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false));
@@ -37,7 +81,7 @@ sensor_poses_initial = [sensor_poses_boundary, sensor_poses_mountables];
 environment = Environment.combine(environment);
 in_environment = Environment.within_combined(environment, sensor_poses_initial, 10);
 sensor_poses_in = sensor_poses_initial(:, in_environment);
-[sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_in, environment, workspace_positions, options, debug);
+[sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_in, environment, workspace_positions, options, true); % todo: remove spikes as option?
 
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative

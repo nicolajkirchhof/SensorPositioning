@@ -1,0 +1,112 @@
+% This file was created by matlab2tikz v0.4.0.
+% Copyright (c) 2008--2013, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+% % -*- root: TestingFigures.tex -*-
+% 
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=10cm,
+height=5.45454545454546cm,
+scale only axis,
+xmin=-10,
+xmax=760,
+ymin=-10,
+ymax=410,
+hide axis,
+axis x line*=bottom,
+axis y line*=left,
+y post scale=1,
+unit vector ratio=1 1 1
+]
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+100 300\\
+750 194.519520890553\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+500 225\\
+675 400\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+500 175\\
+675 0\\
+};
+\addplot [
+color=black,
+dashed,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+100 100\\
+750 205.480479109447\\
+};
+\addplot [
+color=black,
+solid,
+line width=1.0pt,
+forget plot
+]
+table[row sep=crcr]{
+0 0\\
+100 100\\
+0 150\\
+0 175\\
+500 175\\
+500 225\\
+0 225\\
+0 250\\
+100 300\\
+0 400\\
+750 400\\
+750 0\\
+0 0\\
+};
+\addplot [
+color=black,
+mark size=2.5pt,
+only marks,
+mark=*,
+mark options={solid,fill=black},
+forget plot
+]
+table[row sep=crcr]{
+508.68031476333 233.68031476333\\
+716.227766016835 200\\
+508.68031476333 166.31968523667\\
+};
+\node[above, inner sep=0mm, text=black]
+at (axis cs:100,110,0) {$v_{1}$};
+\node[above, inner sep=0mm, text=black]
+at (axis cs:100,310,0) {$v_{2}$};
+\node[above, inner sep=0mm, text=black]
+at (axis cs:490,250,0) {$c_{2,y}$};
+\node[below, inner sep=0mm, text=black]
+at (axis cs:490,150,0) {$c_{1,x}$};
+\node[above, inner sep=0mm, text=black]
+at (axis cs:700,210,0) {$c_{1,2}$};
+\end{axis}
+\end{tikzpicture}%
