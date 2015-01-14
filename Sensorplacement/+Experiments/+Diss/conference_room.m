@@ -48,7 +48,7 @@ cla;
 num_wpn = 0;
 num_sp = 0;
 name = 'ConferenceRoom';
-workdir = sprintf('../tmp/conference_room/%dwpn_%dsp', num_wpn, num_sp);
+workdir = sprintf('tmp/conference_room/%dwpn_%dsp', num_wpn, num_sp);
 if exist(workdir, 'dir')
     rmdir(workdir, 's');
 end
@@ -61,7 +61,7 @@ output_filename = sprintf('../tmp/p1/p1_%d_%d_%s.mat', num_wpn, num_sp, datestr(
 
 % processing = Experiments.Diss.create_models(filename, num_wpn, num_sp, name);
 % save(output_filename, 'processing');
-%%
+%%%
 config_discretization = Configurations.Discretization.iterative;
 
 environment = Environment.load(filename);
@@ -69,43 +69,43 @@ obst_redone = int64([3844 2700; 3300 2700; 3300 1200; 3844 1200; 3844 2700])';
     
 environment.obstacles{2}{1} = obst_redone;
 %%% Test obstacle point integration
-boundary_vpoly = mb.boost2visilibity(environment.boundary.ring);
-boundary_edges = [boundary_vpoly, circshift(boundary_vpoly, -1, 1)];
-obstacle_vpolys = cellfun(@(x)mb.boost2visilibity(x{1}), environment.obstacles, 'uniformoutput', false);
-obstacle_edges = cellfun(@(x) [x, circshift(x, -1, 1)], obstacle_vpolys,  'uniformoutput', false);
-%%%
-for id_poly = 1:numel(obstacle_edges)
-    %%
-    edges = obstacle_edges{id_poly};
-    for id_edge =  1:size(edges, 1)
-        %%
-        xings = intersectEdges(edges(id_edge,:), boundary_edges);
-        flt_xing = ~isnan(xings(:,1)) & ~isinf(xings(:,1));
-        if any(flt_xing)
-            id_xings = find(flt_xing);
-            for id_xing = id_xings
-            boundary_edges = [boundary_edges(1:id_xing-1, :); 
-                               [ boundary_edges(id_xing, 1:2), xings(id_xing, :) ];
-                               [ xings(id_xing, :), boundary_edges(id_xing, 3:4) ];
-                              boundary_edges(id_xing+1:end, :)];
-            end
-%             fprintf(1, '%d %d\n', id_poly, id_edge);
-        end
-    end
-end
-%%% Merge dublicated points
-edge_length = edgeLength(boundary_edges);
-flt_edge_length = edge_length>10;
-boundary_edges = boundary_edges(flt_edge_length, :);
-
-environment.boundary.ring = mb.visilibity2boost(boundary_edges(:, 1:2));
-environment.boundary.isplaceable = ones(1, size(environment.boundary.ring, 2));
+% boundary_vpoly = mb.boost2visilibity(environment.boundary.ring);
+% boundary_edges = [boundary_vpoly, circshift(boundary_vpoly, -1, 1)];
+% obstacle_vpolys = cellfun(@(x)mb.boost2visilibity(x{1}), environment.obstacles, 'uniformoutput', false);
+% obstacle_edges = cellfun(@(x) [x, circshift(x, -1, 1)], obstacle_vpolys,  'uniformoutput', false);
+% %%%
+% for id_poly = 1:numel(obstacle_edges)
+%     %%
+%     edges = obstacle_edges{id_poly};
+%     for id_edge =  1:size(edges, 1)
+%         %%
+%         xings = intersectEdges(edges(id_edge,:), boundary_edges);
+%         flt_xing = ~isnan(xings(:,1)) & ~isinf(xings(:,1));
+%         if any(flt_xing)
+%             id_xings = find(flt_xing);
+%             for id_xing = id_xings
+%             boundary_edges = [boundary_edges(1:id_xing-1, :); 
+%                                [ boundary_edges(id_xing, 1:2), xings(id_xing, :) ];
+%                                [ xings(id_xing, :), boundary_edges(id_xing, 3:4) ];
+%                               boundary_edges(id_xing+1:end, :)];
+%             end
+% %             fprintf(1, '%d %d\n', id_poly, id_edge);
+%         end
+%     end
+% end
+% %%% Merge dublicated points
+% edge_length = edgeLength(boundary_edges);
+% flt_edge_length = edge_length>10;
+% boundary_edges = boundary_edges(flt_edge_length, :);
+% 
+% environment.boundary.ring = mb.visilibity2boost(boundary_edges(:, 1:2));
+% environment.boundary.isplaceable = ones(1, size(environment.boundary.ring, 2));
 
 % options = config.workspace;
-%%
+%%%
 
 config_discretization.workspace.wall_distance = 200;
-config_discretization.workspace.cell.length = [0 1000];
+% config_discretization.workspace.cell.length = [0 1000];
 config_discretization.workspace.positions.additional = num_wpn;
 config_discretization.workspace.positions.additional = 0;
 config_discretization.sensorspace.poses.additional = 0;
@@ -114,7 +114,7 @@ config_discretization.sensorspace.poses.additional = 0;
 discretization = Discretization.generate(environment, config_discretization);
 Discretization.draw(discretization, environment);
 
-%%
+%%%
 config_quality = Configurations.Quality.diss;
 [quality] = Quality.generate(discretization, config_quality);
 
@@ -127,7 +127,8 @@ input.quality = quality;
 input.config.discretization = config_discretization;
 input.config.quality = config_quality;
 
-%%
+
+%%%
 maxval = cellfun(@max, input.quality.wss.val);
 cla
 Discretization.draw(discretization, environment);
@@ -138,17 +139,8 @@ ylim([800 8500]);
 % Environment.draw(environment);
 scatter(input.discretization.wpn(1,:)', input.discretization.wpn(2,:)', [], repmat(maxval, 1,3), 'fill');
 %% Calculate Discrete Models
-filenames = [];
-solutions = [];
-% logdata = [];
-for mnamecell = modelnames'
-    mname = mnamecell{1};
-    if any(strcmp(mnamecell, {'generic', 'compare'}))
-        continue;
-    end
-    config_models.(mname) = Configurations.Optimization.Discrete.(mname);
-end
-modelnames = fieldnames(config_models);
+mspqm = Optimization.Discrete.Models.mspqm(discretization, quality, Configurations.Optimization.Discrete.mspqm);
+
 %%
 for mnamecell = modelnames'
     mname = mnamecell{1};

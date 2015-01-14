@@ -1,23 +1,23 @@
 function filename = mspqm(discretization, quality, config)
 %%
 
-import Optimization.Discrete.Models.*
+% import Optimization.Discrete.Models.*
 % model = DataModels.optimizationmodel;
 
 config.filename = Optimization.Discrete.Models.create_filename(discretization, config);
 filename = config.filename;
 
-config = init(config);
-Objective.sum_sensors(discretization, config);
-Constraints.two_coverage(discretization, config);
+config = Optimization.Discrete.Models.init(config);
+Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
+Optimization.Discrete.Models.Constraints.two_coverage(discretization, config);
 Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
 Optimization.Discrete.Models.Constraints.sc_backward(discretization, config);
 Optimization.Discrete.Models.Constraints.sc_min_quality(discretization, quality, config);
-Binaries.sensors(discretization, config);
+Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 Optimization.Discrete.Models.Binaries.sensorcombinations(discretization, config);
-config = finish(config);
+config = Optimization.Discrete.Models.finish(config);
 
-save(config);
+Optimization.Discrete.Models.save(config);
 
 %  = model.ws.coverage();
 %  = model.save();

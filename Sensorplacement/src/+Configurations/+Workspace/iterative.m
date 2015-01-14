@@ -4,7 +4,7 @@ function workspace = iterative()
 workspace = Configurations.Workspace.generic;
 workspace.positions.additional = 0;
 workspace.cell.length          = [0 1000]; 
-workspace.wall_distance        = 500;
+workspace.wall_distance        = 200;
 types = Configurations.Workspace.get_types();
 workspace.type   = types.iterative;
 
