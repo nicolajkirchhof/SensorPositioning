@@ -115,7 +115,7 @@ qkelly(qkelly > 1e2) = 1e2;
 % qcust2 = 1-(repmat((distances.^2/dmax.^2), num_angles, 1)./(sin(deg2rad(angs)))/2);
 % qcust2 = 1-(qkelly./2);
 dist_norm = min(distances/dmax, ones(size(distances)));
-qcust2 = 1-(bsxfun(@rdivide, dist_norm.^2, sin(deg2rad(angs)))./2);
+qcust2 = 1-(bsxfun(@rdivide, dist_norm.^2, sin(deg2rad(angs))));
 qcust2(qcust2 < 0) = 0;
 
 % [vqc2, iqc2] = findtwocrossings(qcust2, qcline);
@@ -140,13 +140,13 @@ offset2 = fminsearch(@(x) sum(sum(fun_pdiffflt2(x).^2)), 1);
 pdiffflt2 = fun_pdiffflt2(offset2);
 % % figure, plot(pdiffflt2);
 % figure,hold on; plot(angs(flti,1), pipmxflt), plot(angs(flti,1), offset2.*qkellyflt2); 
-pszline = 1; % set polygon area to one
+pszline = 0.5; % set polygon area to one
 
 qkline = pszline/offset; % = 0.902203, qkelly definition relative to defined polygon area
 
 pimxline = qkline * offset2; % = 2.200617, qkelly line tranfered to interpoint distance
 
-qcline = 1-qkline./2; % = 
+qcline = 1-qkline; % = 
 %%
 % qcust3 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs))));
 % qcust3(qcust3 < -10) = nan;
