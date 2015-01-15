@@ -16,6 +16,7 @@ valsum = zeros(discretization.num_comb, 1);
 %%
 % dmax_2 = (config.sensor.distance(2)^2 );
 dmax = config.sensor.distance(2);
+dmax = 10000;
 for idw = 1:discretization.num_positions
     %%
     idc = logical(discretization.sc_wpn(:, idw));
@@ -30,7 +31,7 @@ for idw = 1:discretization.num_positions
     dn2 = ds2./dmax;
     
 %     vals{idw} = 1-(sqrt((ds1'.*ds2')./dmax_2)./(q_sin))./2;
-    vals{idw} = 1-((dn1'.*dn2')./(2*q_sin));
+    vals{idw} = 1-((dn1'.*dn2')./(q_sin));
     vals{idw}(vals{idw}<0) = 0;
 
     valsum(idc, 1) = sum(max(vals{idw},0)); 

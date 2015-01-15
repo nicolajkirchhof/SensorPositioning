@@ -49,6 +49,10 @@ elseif strcmpi(filename(point_idx(end)+1:end), 'dxf')
     if sum(flt_mountable_objects) > 1
         environment.mountable = bpolyclip_batch(object_bpoly_int(flt_mountable_objects), 3, {1:sum(flt_mountable_objects)}, bpo{:});
         environment.mountable = environment.mountable{1};
+%         if iscell(environment.mountable{1})
+%             environment.mountable = cellfun(@(x) x{1}, environment.mountable, 'uniformoutput', false);
+% %             environment.mountable = environment.mountable{1};
+%         end
     elseif sum(flt_mountable_objects) == 1
         environment.mountable = object_bpoly_int(flt_mountable_objects);
     end

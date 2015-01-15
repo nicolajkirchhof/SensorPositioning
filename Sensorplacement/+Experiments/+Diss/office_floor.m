@@ -48,15 +48,15 @@ clear variables % functions;
 close all;
 num_wpn = 0;
 num_sp = 0;
-name = 'ConferenceRoom';
+name = 'OfficeFloor';
 workdir = sprintf('tmp/large_flat/%dwpn_%dsp', num_wpn, num_sp);
 if exist(workdir, 'dir')
     rmdir(workdir, 's');
 end
-filename = 'res\floorplans\LargeFlatOptimized.dxf';
+filename = 'res\floorplans\P1-01-EtPart.dxf';
 Configurations.Common.generic(name, workdir);
 
-output_filename = sprintf('../tmp/largeflat/largeflat_%d_%d_%s.mat', num_wpn, num_sp, datestr(now,30));
+output_filename = sprintf('../tmp/largeflat/officefloor%d_%d_%s.mat', num_wpn, num_sp, datestr(now,30));
 
 %%% Calculate input and greedy solutions
 
@@ -105,8 +105,8 @@ for num_wpn = 0:20:200
     Discretization.draw(discretization, environment);
     
     axis equal;
-    xlim([600 13000]);
-    ylim([0 9600]);
+    xlim([0 50000]);
+    ylim([0 16000]);
     scatter(input.discretization.wpn(1,:)', input.discretization.wpn(2,:)', [], maxval, 'fill');
     colorbar;
     title(sprintf('Num SP %d, Num WPN %d, MinQ %g', num_sp, num_wpn, min(maxval)));

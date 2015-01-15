@@ -1,9 +1,10 @@
-function ws_qstats(pc, name)
-figure, sz = {3, 1};
-val = pc.quality.(name).val;
+function boxplot(wss)
+
+val = wss.val;
 %
 % valbw = pc.quality.(name).valbw;
 %%
+figure, sz = {2, 1};
 allvals = cell2mat(val);
 
 groups  = cellfun(@(x,id) ones(size(x))*id, val, num2cell(1:numel(val))', 'uniformoutput', false);
