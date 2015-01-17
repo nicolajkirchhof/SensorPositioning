@@ -6,21 +6,24 @@
 %   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
 % where you can also make suggestions and rate matlab2tikz.
 % 
-% 
+% % -*- root: TestingFigures.tex -*-
 % 
 \begin{tikzpicture}
 
 \begin{axis}[%
-width=4.17369791666667in,
-height=5.45880208333333in,
+width=11cm,
+height=14.5558866233192cm,
 scale only axis,
 xmin=-100,
 xmax=4000,
-ymin=-2181.20608972359,
-ymax=3181.20608972359,
+xlabel={$[m]$},
+ymin=-2212.68796161858,
+ymax=3212.68796161858,
+ylabel={$[m]$},
 hide axis,
 axis x line*=bottom,
-axis y line*=left
+axis y line*=left,
+y post scale=1
 ]
 \addplot [
 color=black,

@@ -19,8 +19,8 @@ gray = 0.6;
 mb.drawPoint(poly{1}{2}(:,[1]), 'color', gray*ones(1,3), 'markersize', 8, 'markerfacecolor', gray*ones(1,3));
 mb.drawPoint(poly{1}{1}(:,[4]), 'color', gray*ones(1,3), 'markersize', 8, 'markerfacecolor', gray*ones(1,3));
 
-text(600, 300, 'ring1');
-text(200, 250, 'hole1');
+text(600, 300, 'ring');
+text(200, 250, 'hole');
 
 text(-60, -30, 'p1');
 text(480, -30, 'e6');
@@ -42,4 +42,10 @@ text(420, 330, 'p4');
 text(420, 70, 'p3');
 text(240, 70, 'p2');
 
-matlab2tikz('export/SimplePolygonExample.tex')
+% matlab2tikz('export/SimplePolygonExample.tex')
+filename = '../../Dissertation/Thesis/Figures/SimplePolygonExample.tikz';
+matlab2tikz(filename, 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+...    'height', '5cm', 
+    'extraAxisOptions',{'y post scale=1'});
+stn(filename);

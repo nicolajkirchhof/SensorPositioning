@@ -65,12 +65,25 @@ drawPoint([6000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceCol
 
 
 %%
-matlab2tikz('export/VfovVisible.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+% matlab2tikz('export/VfovVisible.tikz', 'parseStrings', false,... 
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+%     'extraAxisOptions',{'y post scale=1'});
+filename = '../../Dissertation/Thesis/Figures/VfovVisible.tikz';
+matlab2tikz(filename, 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+...    'height', '5cm', 
     'extraAxisOptions',{'y post scale=1'});
+stn(filename);
+
+% filename = 'export/VfovVisible.tikz';
+% matlab2tikz(filename, 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '10cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
+% stn(filename);
 
 %%
-
+return;
 
 num_pts = 1000;
 s1xy = [1 1];

@@ -36,4 +36,10 @@ star = bsxfun(@plus, star, [3400;500]);
 mb.drawPolygon(star(:,1:end), 'color', 'k', 'linewidth', 2);
 text(3050, -100, 'star shaped');
 
-matlab2tikz('export/ClassesOfPolygons.tikz')
+% matlab2tikz('export/ClassesOfPolygons.tikz')
+filename = '../../Dissertation/Thesis/Figures/ClassesOfPolygons.tikz';
+matlab2tikz(filename, 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+...    'height', '5cm', 
+    'extraAxisOptions',{'y post scale=1'});
+stn(filename);

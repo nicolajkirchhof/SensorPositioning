@@ -66,5 +66,5 @@ drawPolyline(p_br_annot, 'color',col(1,:) );
 fillPolygon(p_bm, 'k');
 % fillPolygon(p_tm, 'k');
 
-matlab2tikz('fig/sensoroverlap_content.tex');
+% matlab2tikz('fig/sensoroverlap_content.tex');
 %%

@@ -39,4 +39,10 @@ mb.drawPolygon(env, 'color', 'k', 'linewidth', 2);
 
 
 %%
-matlab2tikz('export/GbsInRoom.tikz', 'parseStrings', false);
+% matlab2tikz('export/GbsInRoom.tikz', 'parseStrings', false);
+filename = 'export/GbsInRoom.tikz';
+matlab2tikz(filename, 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+...    'height', '5cm', 
+    'extraAxisOptions',{'y post scale=1'});
+stn(filename);

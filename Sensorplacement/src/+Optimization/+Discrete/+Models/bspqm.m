@@ -1,13 +1,13 @@
 function filename = bspqm(discretization, quality, config)
 %%
 
-import Optimization.Discrete.Models.*
+% import Optimization.Discrete.Models.*
 % model = DataModels.optimizationmodel;
 
-config.filename = create_filename(discretization, config);
+config.filename = Optimization.Discrete.Models.create_filename(discretization, config);
 filename = config.filename;
 
-config = init(config);
+config = Optimization.Discrete.Models.init(config);
 Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
 Optimization.Discrete.Models.Objective.sum_continiuous(discretization, quality, config);
 Optimization.Discrete.Models.Constraints.two_coverage(discretization, config);
@@ -17,9 +17,9 @@ Optimization.Discrete.Models.Constraints.sum_continuous(discretization, quality,
 Optimization.Discrete.Models.Bounds.wpn_quality(discretization, config);
 Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 Optimization.Discrete.Models.Binaries.sensorcombinations(discretization, config);
-config = finish(config);
+config = Optimization.Discrete.Models.finish(config);
 
-save(config);
+Optimization.Discrete.Models.save(config);
 
 
 %  = model.ws.coverage();

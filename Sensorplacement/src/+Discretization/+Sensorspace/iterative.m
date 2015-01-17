@@ -67,7 +67,11 @@ boundary_corners_selection = boundary_corners;
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(boundary_corners_selection, sensor.directional(2), sensorspace.resolution.angular, false);
 
 %% Poses on Mountable vertices
-    mountable_corners = cellfun(@(x)mb.ring2corners(x{1}), environment.mountable, 'uniformoutput', false);
+    if iscell(environment.mountable{1})
+        mountable_corners = cellfun(@(x)mb.ring2corners(x{1}), environment.mountable, 'uniformoutput', false);
+    else
+        mountable_corners = cellfun(@(x)mb.ring2corners(x), environment.mountable, 'uniformoutput', false);
+    end
     fun_place_mountable = @(corners) Discretization.Sensorspace.place_sensors_on_corners(corners, sensor.directional(2), sensorspace.resolution.angular, true);
     sensor_poses_mountables = cell2mat(cellfun(fun_place_mountable, mountable_corners, 'uniformoutput', false));
     % Discretization.Sensorspace.draw(sensor_poses_boundary);

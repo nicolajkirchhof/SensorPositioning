@@ -86,6 +86,9 @@ text(-600, 7300, '$S_4$');
 
 room = [0 0; 8000 0; 8000 7000; 0 7000; 0, 0];
 drawPolyline(room, 'color', 'k', 'linewidth', 2);
-
-matlab2tikz('export/ThiloSetup.tikz', 'parseStrings', false);
-
+filename = '../../Dissertation/Thesis/Figures/ThiloSetup.tikz';
+matlab2tikz(filename, 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+...    'height', '5cm', 
+    'extraAxisOptions',{'y post scale=1'});
+stn(filename);
