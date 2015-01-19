@@ -1,5 +1,6 @@
-close all;
-clear all;
+% close all;
+cla;
+clear variables;
 import Experiments.gdop.*
 %%% Evaluation of distances for different angles
 uc_fov = 6;

@@ -7,9 +7,6 @@ axis equal
 hold on;
 axis off
 
-% xlim([-300 5300]);
-% ylim([-300 3300]);
-
 filename = 'res/polygons/SpecialIntersectionCase.dxf';
 [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
 
@@ -19,22 +16,21 @@ circles = c_Cir(:,1);
 
 for idl = [1,2,3,4,5,7,10,12,13,14]
 %     pause; disp(idl)
-    edges{idl} = edges{idl}([1,2,4,5]);
+    edges{idl} = edges{idl}([1,2,4,5])*100;
     drawEdge(edges{idl}, 'color', 'k', 'linewidth', 2, 'linestyle', '--');
 end
 
 for idl = [6,8,9,11]
 %     pause; disp(idl)
-    edges{idl} = edges{idl}([1,2,4,5]);
+    edges{idl} = edges{idl}([1,2,4,5])*100;
     drawEdge(edges{idl}, 'color', 'k', 'linewidth', 2, 'linestyle', ':');
 end
 
 for idp = 1:numel(polys)
-    drawPolygon(polys{idp}, 'color', 'k', 'linewidth', 2);
+    drawPolygon(polys{idp}*100, 'color', 'k', 'linewidth', 2);
  end
+xlim([-100 16300]);
+ylim([-100 9200]);
+% axis on;
 
-%%%
-matlab2tikz('export/SpecialIntersectionCase.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
-% matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
+Figures.makeFigure('SpecialIntersectionCase');

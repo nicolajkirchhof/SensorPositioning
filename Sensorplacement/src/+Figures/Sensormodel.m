@@ -45,12 +45,13 @@ text(-200, -100,  '$S_1=(x,y,\varphi)^T$');
 
 plot(0,0, 'marker', 'o', 'markersize', 6, 'markerfacecolor', 'k',  'markeredgecolor', 'k');
 %%
-filename = '../../Dissertation/Thesis/Figures/Sensormodel.tikz';
-matlab2tikz(filename, 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
-stn(filename);
+Figures.makeFigure('Sensormodel');
+% filename = '../../Dissertation/Thesis/Figures/Sensormodel.tikz';
+% matlab2tikz(filename, 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
+% stn(filename);
 
 % matlab2tikz('export/Sensormodel.tikz', 'parseStrings', false,... 
 %     'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...

@@ -8,6 +8,8 @@ axis off
 xlim([-300 8600]);
 ylim([-300 8300]);
 
+txt_props = {'horizontalalignment', 'center', 'verticalalignment', 'middle'};
+
 room = [0 0; 8000 0; 8000 7000; 0 7000; 0, 0];
 obstacle = flipud([5000 5000; 7500 5000; 7500 6500; 5000 6500; 5000 5000]);
 
@@ -63,14 +65,14 @@ mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.8);
 
 
 % plot(4100,3200, 'marker', 'o', 'markersize', 8, 'markerfacecolor', 'k',  'markeredgecolor', 'k');
-text(8200, 6700, '$\Lambda_6$');
-
-text(3600, 3700, '$\Lambda_5$');
-text(3900, 3060, '$\Lambda_4$');
-text(4300, 2100, '$\Lambda_3$');
-text(4400, 1160, '$\Lambda_2$');
-text(4300, 300, '$\Lambda_1$');
+text(8300, 6850, '$\Lambda_6$', txt_props{:});
+text(3800, 3700, '$\Lambda_5$', txt_props{:});
+text(4100, 3060, '$\Lambda_4$', txt_props{:});
+text(4500, 2150, '$\Lambda_3$', txt_props{:});
+text(4600, 1160, '$\Lambda_2$', txt_props{:});
+text(4600, 300, '$\Lambda_1$', txt_props{:});
 
 %%%
-matlab2tikz('export/SensorSampling.tikz', 'parseStrings', false);
+Figures.makeFigure('SensorSampling');
+% matlab2tikz('export/SensorSampling.tikz', 'parseStrings', false);
 

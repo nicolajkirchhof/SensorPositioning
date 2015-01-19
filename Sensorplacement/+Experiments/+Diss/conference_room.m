@@ -63,15 +63,15 @@ Environment.draw(environment);
 close all;
 % num_sp = 0:20:200
 num_wpns = 0:10:50;
-num_sps = 0:10:50;
+num_sps = 60:10:100;
 bspqm = cell(numel(num_wpns), numel(num_sps));
 for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
         %%
-        num_sp = 50;
-        num_wpn = 50;
+        num_sp =  0;
+        num_wpn = 0;
         config_discretization = Configurations.Discretization.iterative;
         config_discretization.workspace.wall_distance = 200;
         % config_discretization.workspace.cell.length = [0 1000];
@@ -79,7 +79,7 @@ for id_wpn = 1:numel(num_wpns)
         config_discretization.sensorspace.poses.additional = num_sp;
         discretization = Discretization.generate(environment, config_discretization);
         
-        %%
+        %%%
         config_quality = Configurations.Quality.diss;
         [quality] = Quality.generate(discretization, config_quality);
         

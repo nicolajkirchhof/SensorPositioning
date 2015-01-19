@@ -11,6 +11,8 @@ col = repmat((0:10)', 1, 3)*0.1;
 xlim([800 6000]);
 ylim([800 6000]);
 
+txt_props = {'horizontalalignment', 'center', 'verticalalignment', 'middle'};
+
 fun_trans = @(p) cellfun(@(x) x', p, 'uniformoutput', false);
 rect_env = int64(rectToPolygon([1 1 5 5]*1000));
 obst_env = int64(flipud(rectToPolygon([3 3 1 1]*1000)));
@@ -52,28 +54,28 @@ fillPolygon(fun_trans(vint{2}), col(3,:));
 drawPolygon(p_comb_env, 'k');
 
 % text('Interpreter', 'none', 'position', [800 800], 'string', 'S1')
-text(800, 800, '$S_1$');
-text(2000, 2000, '$\Lambda_1$');
-text(3200, 2500, '$\Psi_{1,2}$', 'color', 'w');
-text(3200, 5100, '$\Psi_{1,2}$', 'color', 'w');
+text(800, 800, '$S_1$', txt_props{:});
+text(2250, 2000, '$\Lambda_1$', txt_props{:});
+text(3500, 2500, '$\Psi_{1,2}$', 'color', 'w', txt_props{:});
+text(3500, 5100, '$\Psi_{1,2}$', 'color', 'w', txt_props{:});
 drawPoint([1000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceColor', 'k', 'markersize', 6);
 
-text(6050, 800, '$S_2$');
-text(4600, 2000, '$\Lambda_1$');
+text(6050, 800, '$S_2$', txt_props{:});
+text(4750, 2000, '$\Lambda_1$', txt_props{:});
 
 drawPoint([6000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'MarkerFaceColor', 'k', 'markersize', 6);
 
-
+Figures.makeFigure('VfovVisible');
 %%
 % matlab2tikz('export/VfovVisible.tikz', 'parseStrings', false,... 
 %     'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
 %     'extraAxisOptions',{'y post scale=1'});
-filename = '../../Dissertation/Thesis/Figures/VfovVisible.tikz';
-matlab2tikz(filename, 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
-stn(filename);
+% filename = '../../Dissertation/Thesis/Figures/VfovVisible.tikz';
+% matlab2tikz(filename, 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
+% stn(filename);
 
 % filename = 'export/VfovVisible.tikz';
 % matlab2tikz(filename, 'parseStrings', false,...

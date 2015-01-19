@@ -6,6 +6,8 @@ axis equal
 hold on;
 axis off
 
+txt_props = {'horizontalalignment', 'center', 'verticalalignment', 'middle'};
+
 xlim([-300 5300]);
 ylim([-300 3300]);
 
@@ -104,19 +106,20 @@ mb.fillPolygon(res_vfov, zeros(1,3), 'facealpha', 0.4);
 mb.drawPolygon(res_vfov, 'color', 'k');
 % mb.drawPoint(res_vfov{1}{1}, 'color', 'k', 'markersize', 5, 'markerfacecolor', 'w');
 
-text(3600, -200, '$S_1$');
-text(4900, -200, '$S_2$');
-text(4900, 3100, '$S_3$');
-text(3000, 500, '$\Lambda_1$');
-text(4500, 500, '$\Lambda_2$');
-text(3500, 2000, '$\Lambda_3$');
-text(2500, 1500, '$\Psi_{1,3}$', 'color', 'w');
-text(4300, 2500, '$\Psi_{2,3}$', 'color', 'w');
+text(3700, -200, '$S_1$', txt_props{:});
+text(5000, -200, '$S_2$', txt_props{:});
+text(5000, 3200, '$S_3$', txt_props{:});
+text(3250, 500, '$\Lambda_1$', txt_props{:});
+text(4700, 500, '$\Lambda_2$', txt_props{:});
+text(3700, 2200, '$\Lambda_3$', txt_props{:});
+text(2600, 1500, '$\Psi_{1,3}$', 'color', 'w', txt_props{:});
+text(4500, 2500, '$\Psi_{2,3}$', 'color', 'w', txt_props{:});
 
 mb.drawPolygon(env, 'color', 'k', 'linewidth', 2);
-
-%%
-matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
+%%%
+Figures.makeFigure('VfovIntersectionInvalidPolygon');
+%%%
+% matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false,... 
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-',...
+%     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);

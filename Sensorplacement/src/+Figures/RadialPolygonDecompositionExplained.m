@@ -110,8 +110,9 @@ text(134, 15, '$e_{g}$', 'rotation', 0, 'horizontalalignment', 'center', 'vertic
 % axis on;
 
 
-%%%
-matlab2tikz('export/RadialPolygonDecompositionExplained.tikz', 'parseStrings', false,... 
-    'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
+%%
+Figures.makeFigure('RadialPolygonDecompositionExplained');
+% matlab2tikz('export/RadialPolygonDecompositionExplained.tikz', 'parseStrings', false,... 
+%     'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
+%     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);

@@ -27,21 +27,16 @@ bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
 
 [P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
 
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
-mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 2);
+mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 % axis on
 ylim([50 5900]);
 xlim([500 8800]);
 
 filename = 'DecomposedSmallFlat';
 Figures.makeFigure(filename);
-%%
-matlab2tikz('export/DecomposedSmallFlat.tikz', 'parseStrings', false,... 
-    'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
-fprintf(1, 'SmallFlat is decomposed into %d convex polygons.\n', numel(P_c));
 
 %%
 clear variables;
@@ -57,28 +52,25 @@ filename = 'res/floorplans/P1-Seminarraum.dxf';
 % polys = c_Poly(:,1);
 % edges = c_Line(:,1);
 % circles = c_Cir(:,1);
-env = environment.load(filename);
+env = Environment.load(filename);
 env.obstacles = {};
-env_comb = environment.combine(env);
+env_comb = Environment.combine(env);
 % mb.drawPolygon(env_comb.combined);
 bpoly = env_comb.combined;
 bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
 
 [P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
 
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
-mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 2);
+mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 
 % axis on
 ylim([250 3900]);
 xlim([1150 8400]);
-
-matlab2tikz('export/DecomposedP1-Seminarraum.tikz', 'parseStrings', false,... 
-    'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
-fprintf(1, 'P1-Seminarraum is decomposed into %d convex polygons.\n', numel(P_c));
+%%%
+Figures.makeFigure('DecomposedP1-Seminarraum');
 
 %%
 clear variables;
@@ -95,9 +87,9 @@ filename = 'res/floorplans/LargeFlat.dxf';
 % polys = c_Poly(:,1);
 % edges = c_Line(:,1);
 % circles = c_Cir(:,1);
-env = environment.load(filename);
+env = Environment.load(filename);
 env.obstacles = {};
-env_comb = environment.combine(env);
+env_comb = Environment.combine(env);
 % mb.drawPolygon(env_comb.combined);
 %%%
 vpoly_full = mb.boost2visilibity(env_comb.combined);
@@ -106,22 +98,18 @@ vpoly = cellfun(@(x) simplifyPolyline(x, 75), vpoly_full, 'uniformoutput', false
 % drawPolygon(vpoly);
 %%%
 bpoly = mb.visilibity2boost(vpoly);
-mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 2);
+mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 
 [P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
 
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
 
 
 xlim([750 13100]);
 ylim([300 9200]);
-
-% axis on
-matlab2tikz('export/DecomposedLargeFlat.tikz', 'parseStrings', false,... 
-    'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
+Figures.makeFigure('DecomposedLargeFlat');
 fprintf(1, 'LargeFlat is decomposed into %d convex polygons.\n', numel(P_c));
 
 %%
@@ -138,9 +126,9 @@ filename = 'res/floorplans/P1-01-EtPart.dxf';
 % polys = c_Poly(:,1);
 % edges = c_Line(:,1);
 % circles = c_Cir(:,1);
-env = environment.load(filename);
+env = Environment.load(filename);
 env.obstacles = {};
-env_comb = environment.combine(env);
+env_comb = Environment.combine(env);
 % mb.drawPolygon(env_comb.combined);
 %%%
 vpoly_full = mb.boost2visilibity(env_comb.combined);
@@ -166,18 +154,15 @@ bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
 
 [P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
 
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
-mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 2);
+mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 %%%
 % axis on
 ylim([300 49800]);
 xlim([300 15500]);
-% 'width', '10cm',
-matlab2tikz('export/DecomposedP1-01-EtPart.tikz', 'parseStrings', false,... 
-    'tikzFileComment', 'height', '20cm', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
+Figures.makeFigure('DecomposedP1-01-EtPart');
 fprintf(1, 'P1-01-EtPart is decomposed into %d convex polygons.\n', numel(P_c));
 
 %%

@@ -1,3 +1,7 @@
+
+
+%% IS THIS OLD???
+
 %% Mage graphic
 % scol = solarized;
 col = repmat((0:10)', 1, 3)*0.1;
@@ -85,74 +89,7 @@ fillPolygon(p_bm, 'k');
 %%%
 % stmatlab2tikz('fig/sensoroverlap.tex');
 Figures.makeFigure('Sensoroverlap');
-%%
-drawPolygon(p_bm);
-drawPolygon(p_br);
-drawPolygon(p_tl);
-drawPolygon(p_tm);
-drawPolygon(p_tr);
 
-%%
-
-% arc left short
-arc_ls = circleArcToPolyline([s1xy, 10, s1rot, 180], num_pts); 
-arc_lsin = circleArcToPolyline([s1xy, 9, s1rot, 180], num_pts); 
-p_ls = [ arc_ls; flipud(arc_lsin)];
-
-
-
-arc_tl = circleArcToPolyline([s2xy, 15, s2rot, 180], num_pts); 
-arc_rlin = circleArcToPolyline([s2xy, 14, s2rot, 180], num_pts); 
-p_tl = [ arc_tl; flipud(arc_rlin)];
-
-arc_rs = circleArcToPolyline([s2xy, 10, s2rot, 180], num_pts); 
-arc_rsin = circleArcToPolyline([s2xy, 9, s2rot, 180], num_pts); 
-p_rs = [ arc_rs; flipud(arc_rsin)];
-
-
-
-
-
-%
-cuts = bpolyclip_batch({p_br', p_ls', p_tl', p_rs'}, 1, combs, true);
-cts = cuts(~cellfun(@isempty, cuts));
-p_cuts = mb.boost2visilibity(cts);
-p_middle = p_cuts{7};
-
-%%%
-for fn = fieldnames(scol)'
-    fn = fn{1};
-    scol.(fn) = rgb2gray(scol.(fn));
-    fprintf(1, 'color %s = %g %g %g \n', fn, scol.(fn));
-end
-%%%
-% scol = solarized;
-cla, hold on, axis equal, axis off,
-set(gca, 'color', 'w');
-drawPolygon(p_br, 'color', scol.base0);
-drawPolygon(p_tl, 'color', scol.base0);
-drawPolygon(p_rs, 'color', scol.base0);
-drawPolygon(p_ls, 'color', scol.base0);
-fillPolygon(p_bm, 'k');
-fillPolygon(p_tm, 'k');
-fillPolygon(p_cuts, scol.base0);
-fillPolygon(p_middle, ones(1,3)*0.2);
-drawPolygon(rect_bnd, 'color', ones(1,3)*0.1);
-% plot
-% set(gca, 'cameraUpVector', [0 1 0]);
-matlab2tikz('fig/doptriag/doptriang.tex');
-% mb.numberRings(p_cuts);
-
-%%
-cla, hold on, axis equal;
-drawPolyline(arc_bl);
-drawPolyline(arc_llin);
-drawPolyline(arc_ls);
-drawPolyline(arc_lsin);
-drawPolyline(arc_tl);
-drawPolyline(arc_rlin);
-drawPolyline(arc_rs);
-drawPolyline(arc_rsin);
 
 
 

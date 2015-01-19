@@ -28,10 +28,11 @@ ylim([0 16400]);
 xlim([-100 9100]);
 
 %%%
-matlab2tikz('export/TriangulationEarClipping.tikz', 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
+Figures.makeFigure('TriangulationEarClipping');
+% matlab2tikz('export/TriangulationEarClipping.tikz', 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
 %%
 cla;
 axis equal;
@@ -61,11 +62,12 @@ mb.drawPolygon(bpoly,'linewidth', 1, 'color', [0 0 0]);
 ylim([0 16400]);
 xlim([-100 9100]);
 
-%%%
-matlab2tikz('export/TriangulationHertelMehlhorn.tikz', 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
+Figures.makeFigure('TriangulationHertelMehlhorn');
+%%
+% matlab2tikz('export/TriangulationHertelMehlhorn.tikz', 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
 %%
 % clear variables;
 cla;
@@ -93,9 +95,10 @@ end
 ylim([0 16400]);
 xlim([-100 9100]);
 %%%
-matlab2tikz('export/ConvexDecompositionWithoutSteinerPoints.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
+Figures.makeFigure('ConvexDecompositionWithoutSteinerPoints');
+% matlab2tikz('export/ConvexDecompositionWithoutSteinerPoints.tikz', 'parseStrings', false,... 
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
+%     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
 %%
 % clear variables;
@@ -124,12 +127,13 @@ for idc = 1:numel(circles)
     drawPoint(circles{idc}([2,1])*100, 'color', [0 0 0], 'marker', 'o', 'markerfacecolor', [0 0 0], 'markersize', 6);
 end
 
-text(3000, 10000, '$p_s$');
+text(3800, 10000, '$p_s$', 'verticalalignment', 'middle', 'horizontalalignment', 'center');
 
 ylim([0 16400]);
 xlim([-100 9100]);
 %%%
-matlab2tikz('export/ConvexDecompositionWithSteinerPoints.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-    'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
+Figures.makeFigure('ConvexDecompositionWithSteinerPoints');
+% matlab2tikz('export/ConvexDecompositionWithSteinerPoints.tikz', 'parseStrings', false,... 
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
+%     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
 % matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);

@@ -19,33 +19,35 @@ gray = 0.6;
 mb.drawPoint(poly{1}{2}(:,[1]), 'color', gray*ones(1,3), 'markersize', 8, 'markerfacecolor', gray*ones(1,3));
 mb.drawPoint(poly{1}{1}(:,[4]), 'color', gray*ones(1,3), 'markersize', 8, 'markerfacecolor', gray*ones(1,3));
 
-text(600, 300, 'ring');
-text(200, 250, 'hole');
+text(600, 300, '$r_1$');
+text(200, 250, '$h_1$');
 
-text(-60, -30, 'p1');
-text(480, -30, 'e6');
-text(-60, 400, 'e1');
-text(-60, 830, 'p2');
-text(520, 830, 'p3');
-text(520, 540, 'p4');
-text(1020, 540, 'p5');
-text(1020, -30, 'p6');
-text(230, 830, 'e2');
-text(520, 650, 'e3');
-text(750, 540, 'e4');
-text(1020, 250, 'e5');
+text(-60, -30, '$p_1$');
+text(480, -30, '$e_6$');
+text(-60, 400, '$e_1$');
+text(-60, 830, '$p_2$');
+text(520, 830, '$p_3$');
+text(520, 540, '$p_4$');
+text(1020, 540, '$p_5$');
+text(1020, -30, '$p_6$');
+text(230, 830, '$e_2$');
+text(520, 650, '$e_3$');
+text(750, 540, '$e_4$');
+text(1020, 250, '$e_5$');
 
-text(240, 170, 'p1');
-text(40, 170, 'p6');
-text(40, 330, 'p5');
-text(420, 330, 'p4');
-text(420, 70, 'p3');
-text(240, 70, 'p2');
+text(240, 170, '$p_1$');
+text(40, 170, '$p_6$');
+text(40, 330, '$p_5$');
+text(420, 330, '$p_4$');
+text(420, 70, '$p_3$');
+text(240, 70, '$p_2$');
+%%
+Figures.makeFigure('SimplePolygonExample');
 
 % matlab2tikz('export/SimplePolygonExample.tex')
-filename = '../../Dissertation/Thesis/Figures/SimplePolygonExample.tikz';
-matlab2tikz(filename, 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
-stn(filename);
+% filename = '../../Dissertation/Thesis/Figures/SimplePolygonExample.tikz';
+% matlab2tikz(filename, 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
+% stn(filename);

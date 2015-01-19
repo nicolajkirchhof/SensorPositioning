@@ -51,5 +51,6 @@ text(x, 3500, 'oriented');
 
 
 %%
-matlab2tikz('export/TypesOfSpikes.tikz', 'parseStrings', false);
+Figures.makeFigure('TypesOfSpikes');
+% matlab2tikz('export/TypesOfSpikes.tikz', 'parseStrings', false);
 

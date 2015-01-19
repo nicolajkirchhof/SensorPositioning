@@ -43,10 +43,10 @@ xlim([0 24]);
 ylim([-1 12]);
 set(gcf, 'color', 'w');
 
-vfov1 = text('Interpreter', 'none', 'string', '$\Lambda_1$');
-vfov2 = text('Interpreter', 'none', 'string', '$\Lambda_2$');
-vfov3 = text('Interpreter', 'none', 'string', '$\Lambda_3$');
-vfov4 = text('Interpreter', 'none', 'string', '$\Lambda_4$');
+vfov1 = text('string', '$\Lambda_1$');
+vfov2 = text('string', '$\Lambda_2$');
+vfov3 = text('string', '$\Lambda_3$');
+vfov4 = text('string', '$\Lambda_4$');
 %
 set(vfov1, 'position', [20.5 0.5]);
 set(vfov2, 'position', [21.3 2.8]);
@@ -65,6 +65,6 @@ drawPolyline(p_br_annot, 'color',col(1,:) );
 % drawPolygon(rect_bnd, 'color', col(1,:));
 fillPolygon(p_bm, 'k');
 % fillPolygon(p_tm, 'k');
-
+Figures.makeFigure('Sensoroverlap');
 % matlab2tikz('fig/sensoroverlap_content.tex');
 %%
