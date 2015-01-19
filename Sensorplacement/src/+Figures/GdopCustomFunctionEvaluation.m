@@ -24,7 +24,8 @@ colors = flipud(repmat(linspace(0,0.7,numel(distances))', 1, 3));
 
 cnt_plt = [1:10]*36;
 figure, hold on, axis equal;
-mb.drawPolygon(s1_poly/1000, 'color', [0, 0, 0]);
+% mb.drawPolygon(s1_poly/1000, 'color', [0, 0, 0]);
+mb.fillPolygon(s1_poly/1000, 'k', 'facealpha', 0.3);
 drawPoint(s1/1000, 'color', [0, 0, 0], 'markersize', 6, 'markerfacecolor', [0, 0, 0]);
 %%%
 for dist = distances
@@ -45,7 +46,8 @@ for dist = distances
         s2_poly = flipud([pt'; circleArcToPolyline([pt', dmax, ang-uc_fov_2, uc_fov], 64)]);
         pcuts{cnti, cntj} = bpolyclip(s1_poly', s2_poly', 1, true); 
         if cnt_plt(cntj) == cnti
-            mb.drawPolygon(s2_poly/1000, 'color', colors(cntj, :), 'linestyle', '--');
+%             mb.drawPolygon(s2_poly/1000, 'color', colors(cntj, :), 'linestyle', '--');
+            mb.fillPolygon(s2_poly/1000, 'k', 'facealpha', 0.3);
             drawPoint(pt'/1000, 'color', [0, 0, 0], 'markersize', 6, 'markerfacecolor', [0, 0, 0]);
         end
 %         figure, hold on, axis equal
@@ -62,15 +64,15 @@ for dist = distances
     cnti = 1;
     cntj = cntj+1;
 end
+%%
 % title('Polygon evaluation szenario');
 xlabel('$[m]$');
 ylabel('$[m]$');
 ylim([-500, 18500]/1000);
 xlim([-7500, 10000]/1000);
-
-filename = 'PolygonEvaluationSzenario';
-Figures.makeFigure(filename);
-
+% filename = 'PolygonEvaluationSzenario';
+Figures.makeFigure('PolygonEvaluationSzenario', '9cm');
+%%
 psize = arrayfun(@mb.polygonArea, pcuts)./(1000^2);
 %%% code for figureing the crossings with the functions
 % pszline = 0.92;

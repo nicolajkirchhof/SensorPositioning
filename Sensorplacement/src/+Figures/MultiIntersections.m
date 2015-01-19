@@ -136,20 +136,5 @@ drawPolygon(p_ads_bnd, 'k', 'linestyle', '--');
 % hseg_ang = drawPolyline(seg_ang);
 % set(hseg_ang, 'color', 'k')
 %%
-Figures.makeFigure('MmultiIntersections');
+Figures.makeFigure('MultiIntersections');
 % matlab2tikz('fig/multi_intersections.tex');
-%%
-% cla
-% seg_ang_s1 = circleArcToPolyline([s1xy, 1, s1rot+fov_2, fov], num_pts);
-% hseg_ang_s1 = drawPolyline(seg_ang_s1);
-% set(hseg_ang_s1, 'color', 'k')
-% 
-% seg_ang_s2 = circleArcToPolyline([s2xy, 1, s2rot+fov_2, fov], num_pts);
-% hseg_ang_s2 = drawPolyline(seg_ang_s2);
-% set(hseg_ang_s2, 'color', 'k')
-% % delete(hseg_ang);
-% % fillPolygon(p_bm, 'k');
-% % fillPolygon(p_tm, 'k');
-% %%
-% % matlab2tikz('fig/sensormodel.tex');
-% matlab2tikz('fig/sensormodel_circles.tex');
