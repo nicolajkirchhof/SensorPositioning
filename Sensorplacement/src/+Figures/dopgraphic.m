@@ -58,6 +58,9 @@ fillPolygon(p_rm, 'k');
 fillPolygon(p_cuts, scol.base0);
 fillPolygon(p_middle, ones(1,3)*0.2);
 drawPolygon(rect_bnd, 'color', ones(1,3)*0.1);
+xlim([-1 31]);
+ylim([-1 20]);
+axis on
 % plot
 % set(gca, 'cameraUpVector', [0 1 0]);
 % matlab2tikz('fig/doptriag/doptriang.tex');

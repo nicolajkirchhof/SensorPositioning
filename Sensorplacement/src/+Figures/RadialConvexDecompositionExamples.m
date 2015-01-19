@@ -14,9 +14,9 @@ filename = 'res/floorplans/SmallFlat.dxf';
 % polys = c_Poly(:,1);
 % edges = c_Line(:,1);
 % circles = c_Cir(:,1);
-env = environment.load(filename);
+env = Environment.load(filename);
 env.obstacles = {};
-env_comb = environment.combine(env);
+env_comb = Environment.combine(env);
 bpoly = env_comb.combined;
 % [(1:39)', vpoly{1}']
 % vpoly{1}(2,23) = 5815;
@@ -35,6 +35,9 @@ mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 2);
 ylim([50 5900]);
 xlim([500 8800]);
 
+filename = 'DecomposedSmallFlat';
+Figures.makeFigure(filename);
+%%
 matlab2tikz('export/DecomposedSmallFlat.tikz', 'parseStrings', false,... 
     'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});

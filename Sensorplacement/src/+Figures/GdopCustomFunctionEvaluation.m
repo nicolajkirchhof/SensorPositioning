@@ -67,15 +67,12 @@ xlabel('$[m]$');
 ylabel('$[m]$');
 ylim([-500, 18500]/1000);
 xlim([-7500, 10000]/1000);
-matlab2tikz('export/PolygonEvaluationSzenario.tikz', 'parseStrings', false,... 
-    'tikzFileComment','width', '8cm', '% -*- root: TestingFigures.tex -*-',...
-    'extraAxisOptions',{'y post scale=1'});
-% set(gca, 'XTickLabel', num2str(str2num(get(gca, 'XTickLabel'))/1000));
-% set(gca, 'YTickLabel', num2str(str2num(get(gca, 'YTickLabel'))/1000));
-% matlab2tikz('export/PolygonEvaluationSzenario.tikz', 'parseStrings', false);
-%%%
+
+filename = 'PolygonEvaluationSzenario';
+Figures.makeFigure(filename);
+
 psize = arrayfun(@mb.polygonArea, pcuts)./(1000^2);
-%%%
+%%% code for figureing the crossings with the functions
 % pszline = 0.92;
 % pszline = 1;
 % [v, i] = findtwocrossings(psize, pszline);
@@ -85,35 +82,9 @@ psize = arrayfun(@mb.polygonArea, pcuts)./(1000^2);
 pinterpoint = arrayfun(@mb.polygonInterpointDistances, pcuts, 'uniformoutput', false);
 pinterpointmax = arrayfun(@(x) max(x{1}), pinterpoint)/1000;
 
-% [vpi, ipi] = findtwocrossings(pinterpointmax, pimxline);
-% myind = sub2ind(size(psize), ipi, [1:10;1:10]);
-% myind = myind(~isnan(myind));
-
-
-%%%
-% plength = arrayfun(@mb.polygonLength, pcuts)./1000;
-% [vpl, ipl] = findtwocrossings(plength);
-
 qkelly = bsxfun(@rdivide, distances.^2, sin(deg2rad(angs)))./(dmax^2);
 qkelly(qkelly > 1e2) = 1e2;
 
-% qkline = 0.84;
-% [vqk, iqk] = findtwocrossings(qkelly, qkline);
-% %%
-% figure, mesh(psize)
-% 
-% qd1d2pl = ds1+ds2;
-
-% qcust = repmat(((distances/dmax)+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)));
-% [vqc, iqc] = findtwocrossings(qcust, 1.9);
-
-% qcust_1 = 1-(qcust/4);
-% [vqc1, iqc1] = findtwocrossings(qcust_1, 0.523);
-%%%
-% qcustmov = 1-(repmat((((distances-2000)/(dmax-2000))+1).^2, num_angles, 1)./(1+sin(deg2rad(angs)))/4);
-% qcust2 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs)))/2);
-% qcust2 = 1-(repmat((distances.^2/dmax.^2), num_angles, 1)./(sin(deg2rad(angs)))/2);
-% qcust2 = 1-(qkelly./2);
 dist_norm = min(distances/dmax, ones(size(distances)));
 qcust2 = 1-(bsxfun(@rdivide, dist_norm.^2, sin(deg2rad(angs))));
 qcust2(qcust2 < 0) = 0;
@@ -129,9 +100,7 @@ offset = fminsearch(@(x) sum(sum(fun_pdiffflt(x).^2)), 1);
 pdiffflt = fun_pdiffflt(offset);
 % figure, plot(pdiffflt);
 
-
 %%%
-
 flti = 120:240; fltj = 1:9; pipmxflt = pinterpointmax(flti, fltj); qkellyflt2 = qkelly(flti, fltj);
 % figure, hold on, plot(pipmxflt), plot(qkellyflt2)
 fun_pdiffflt2 = @(x) pipmxflt-x.*qkellyflt2;
@@ -146,15 +115,97 @@ qkline = pszline/offset; % = 0.902203, qkelly definition relative to defined pol
 
 pimxline = qkline * offset2; % = 2.200617, qkelly line tranfered to interpoint distance
 
-qcline = 1-qkline; % = 
-%%
-% qcust3 = 1-(repmat(((distances/dmax)).^2, num_angles, 1)./(sin(deg2rad(angs))));
-% qcust3(qcust3 < -10) = nan;
-% [vqc2, iqc2] = findtwocrossings(qcust3, 0.2);
-
-%%
-
+qcline = 1-qkline; % =
 markercolor = [0 0 0];
+%%
+cla;
+handles = plot(angs(:,1), qcust2); 
+line([0 180], [qcline qcline], 'color', [0 0 0]);
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+end
+ylim([0 1]);
+xlim([0 180]);
+% title('d) Custom gdop function');
+xlabel('Inner bearing angle $[^{\circ}]$');
+ylabel('Quality');
+
+filename = 'ScQKellyVsQualityFunction';
+Figures.makeFigure(filename, [], '5cm');
+
+%%
+cla;
+hold on;
+handles = plot(angs(:,1), psize./offset); 
+handles2 = plot(angs(:,1), qkelly, 'linestyle', '--');
+line([0, 180], [pszline pszline]./offset, 'color', 'k');
+ylim([0 2]);
+xlim([0 180]);
+ylabel('$[m^2]$, $H^{sc}$');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+    set(handles2(idh), 'color', colors(idh, :));
+end
+xlabel('Inner bearing angle $[^{\circ}]$');
+filename = 'ScQKellyVsPolygonArea';
+Figures.makeFigure(filename, [], '5cm');
+%%
+cla;
+hold on;
+handles = plot(angs(:,1), psize./offset-qkelly); 
+% plot(angs(:,1), offset.*qkelly)
+% line([0, 180], [pszline pszline], 'color', markercolor);
+ylim([-1 1]);
+xlim([0 180]);
+ylabel('$[m^2]$, $H^{sc}$');
+% title('b) Difference of polygon size and fitted Kelly');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+%     set(handles2(idh), 'color', colors(idh, :));
+end
+xlabel('Inner bearing angle $[^{\circ}]$');
+filename = 'ScQKellyVsPolygonAreaDiff';
+Figures.makeFigure(filename, [], '5cm');
+%%
+cla;
+hold on;
+handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)./offset2); 
+handles2 = plot(angs(:,1), qkelly(:,2:2:end), 'linestyle', '--');
+line([0, 180], (offset2/offset)*[pszline pszline], 'color', 'k');
+ylim([0 3]);
+xlim([0 180]);
+ylabel('$[m]$, $H^{sc}$');
+% title('a) Maximum interpoint distance vs fitted Kelly quality');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+    set(handles2(idh), 'color', colors(idh, :));
+end
+xlabel('Inner bearing angle $[^{\circ}]$');
+filename = 'ScQKellyVsInterpointDistance';
+Figures.makeFigure(filename, [], '5cm');
+%%
+cla;
+hold on;
+handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)-offset2.*qkelly(:, 2:2:end)); 
+% plot(angs(:,1), offset.*qkelly)
+line([0, 180], [0 0], 'color', [0 0 0]);
+ylim([-4 4]);
+xlim([0 180]);
+ylabel('$[m]$, $H^{sc}$');
+% title('b) Difference of maximum interpoint distance vs fitted Kelly quality');
+colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
+for idh = 1:numel(handles)
+    set(handles(idh), 'color', colors(idh, :));
+%     set(handles2(idh), 'color', colors(idh, :));
+end
+xlabel('Inner bearing angle $[^{\circ}]$');
+filename = 'ScQKellyVsInterpointDistanceDiff';
+Figures.makeFigure(filename, [], '5cm');
+%%
 figure;
 % sz = {2,2};
 % plt = 1;
@@ -207,117 +258,4 @@ for idh = 1:numel(handles)
     set(handles(idh), 'color', colors(idh, :));
 end
 % matlab2tikz('export/QualityKellyVsCustom_3.tikz', 'parseStrings', false);
-%%
-figure;
-% plt = plt+1;
-% subplot(sz{:}, plt)
-cla;
-handles = plot(angs(:,1), qcust2); 
-line([0 180], [qcline qcline], 'color', [0 0 0]);
-colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
-for idh = 1:numel(handles)
-    set(handles(idh), 'color', colors(idh, :));
-end
-ylim([0 1]);
-xlim([0 180]);
-% title('d) Custom gdop function');
-xlabel('Inner bearing angle $[^{\circ}]$');
-ylabel('Quality');
-% matlab2tikz('export/ScQKellyVsQualityFunction.tikz', 'parseStrings', false);
-matlab2tikz('export/ScQKellyVsQualityFunction.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-    'height', '5cm', 'extraAxisOptions',{'y post scale=1'});
-
-%%%
-figure,
-% sz = {2,2};
-% plt = 1;
-% subplot(sz{:}, plt)
-cla;
-hold on;
-handles = plot(angs(:,1), psize./offset); 
-handles2 = plot(angs(:,1), qkelly, 'linestyle', '--');
-line([0, 180], [pszline pszline]./offset, 'color', 'k');
-ylim([0 2]);
-xlim([0 180]);
-ylabel('$[m^2]$, $H^{sc}$');
-colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
-for idh = 1:numel(handles)
-    set(handles(idh), 'color', colors(idh, :));
-    set(handles2(idh), 'color', colors(idh, :));
-end
-xlabel('Inner bearing angle $[^{\circ}]$');
-% title('a) Polygon size vs fitted Kelly quality.');
-matlab2tikz('export/ScQKellyVsPolygonArea.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-    'height', '5cm', 'extraAxisOptions',{'y post scale=1'}); %, 'unit vector ratio=1 40 1'});
-% matlab2tikz('export/ScQKellyVsPolygonArea.tikz', 'parseStrings', false);
-
-figure;
-% plt = plt+1;
-% subplot(sz{:}, plt);
-cla;
-hold on;
-handles = plot(angs(:,1), psize./offset-qkelly); 
-% plot(angs(:,1), offset.*qkelly)
-% line([0, 180], [pszline pszline], 'color', markercolor);
-ylim([-1 1]);
-xlim([0 180]);
-ylabel('$[m^2]$, $H^{sc}$');
-% title('b) Difference of polygon size and fitted Kelly');
-colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
-for idh = 1:numel(handles)
-    set(handles(idh), 'color', colors(idh, :));
-%     set(handles2(idh), 'color', colors(idh, :));
-end
-xlabel('Inner bearing angle $[^{\circ}]$');
-matlab2tikz('export/ScQKellyVsPolygonAreaDiff.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-    'height', '5cm', 'extraAxisOptions',{'y post scale=1'}); %, 'unit vector ratio=1 40 1'});
-% matlab2tikz('export/ScQKellyVsPolygonAreaDiff.tikz', 'parseStrings', false);
-%%%
-figure,
-% plt = plt+1;
-% subplot(sz{:}, plt);
-cla;
-hold on;
-handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)./offset2); 
-handles2 = plot(angs(:,1), qkelly(:,2:2:end), 'linestyle', '--');
-line([0, 180], (offset2/offset)*[pszline pszline], 'color', 'k');
-ylim([0 3]);
-xlim([0 180]);
-ylabel('$[m]$, $H^{sc}$');
-% title('a) Maximum interpoint distance vs fitted Kelly quality');
-colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
-for idh = 1:numel(handles)
-    set(handles(idh), 'color', colors(idh, :));
-    set(handles2(idh), 'color', colors(idh, :));
-end
-xlabel('Inner bearing angle $[^{\circ}]$');
-matlab2tikz('export/ScQKellyVsInterpointDistance.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-    'height', '5cm', 'extraAxisOptions',{'y post scale=1'});
-% matlab2tikz('export/ScQKellyVsInterpointDistance.tikz', 'parseStrings', false);
-%%%
-figure,
-% plt = plt+1;
-% subplot(sz{:}, plt);
-cla;
-hold on;
-handles = plot(angs(:,1), pinterpointmax(:, 2:2:end)-offset2.*qkelly(:, 2:2:end)); 
-% plot(angs(:,1), offset.*qkelly)
-line([0, 180], [0 0], 'color', [0 0 0]);
-ylim([-4 4]);
-xlim([0 180]);
-ylabel('$[m]$, $H^{sc}$');
-% title('b) Difference of maximum interpoint distance vs fitted Kelly quality');
-colors = flipud(repmat(linspace(0,0.7,numel(handles))', 1, 3));
-for idh = 1:numel(handles)
-    set(handles(idh), 'color', colors(idh, :));
-%     set(handles2(idh), 'color', colors(idh, :));
-end
-xlabel('Inner bearing angle $[^{\circ}]$');
-matlab2tikz('export/ScQKellyVsInterpointDistanceDiff.tikz', 'parseStrings', false,... 
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-    'height', '5cm', 'extraAxisOptions',{'y post scale=1'});
 

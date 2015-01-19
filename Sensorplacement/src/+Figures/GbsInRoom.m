@@ -36,13 +36,14 @@ for id = 1:numel(x)
 end
 
 mb.drawPolygon(env, 'color', 'k', 'linewidth', 2);
-
+filename = 'GbsInRoom';
+Figures.makeFigure(filename);
 
 %%
 % matlab2tikz('export/GbsInRoom.tikz', 'parseStrings', false);
-filename = 'export/GbsInRoom.tikz';
-matlab2tikz(filename, 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
-stn(filename);
+% filename = 'export/GbsInRoom.tikz';
+% matlab2tikz(filename, 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '11cm',...
+% ...    'height', '5cm', 
+%     'extraAxisOptions',{'y post scale=1'});
+% stn(filename);

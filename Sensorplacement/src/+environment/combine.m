@@ -33,6 +33,7 @@ if ~isempty(environment.obstacles)
     else
         environment.combined = poly_wo_obstacles{1};
     end
+    
     %     environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_obstacles, 'uniformoutput', false);
     %     environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_obstacles, 'uniformoutput', false);
     
@@ -43,6 +44,11 @@ else
     %     environment.unmountable.edges = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
     %     environment.unmountable.points = cellfun(@(pts) true(1, size(pts,2)), poly_wo_mountables, 'uniformoutput', false);
 end
+
+environment.combined = mb.mergePoints(environment.combined, 10);
+%% remove spikes
+environment.combined = bpolyclip(environment.combined, environment.combined, 1, true, 10, 1);
+environment.combined = environment.combined{1};
 
 if ~(iscell(environment.combined))
     environment.combined = {environment.combined};

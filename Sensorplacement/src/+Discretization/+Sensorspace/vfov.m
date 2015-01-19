@@ -26,7 +26,14 @@ bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, tr
 visilibity_options = Configurations.Visilibity.combine(Configurations.Visilibity.vfov);
 [unique_positions, ~, u_p_ic] = unique(sensor_poses(1:2,:)', 'rows', 'stable');
 %%%
-vis_polys = visilibity(unique_positions', environment.combined, visilibity_options{:});
+%%
+% for i = 1:size(unique_positions, 1)
+%     visilibity(int64(unique_positions(i,:))', environment.combined, visilibity_options{:})
+%     pause
+% end
+
+%%
+vis_polys = visilibity(int64(unique_positions'), environment.combined{1}, visilibity_options{:});
 vis_empty_flt = cellfun(@isempty, vis_polys);
 vis_flt = any(cell2mat(arrayfun(@(id) u_p_ic==id, find(vis_empty_flt), 'uniformoutput', false)),2);
 % correction if none is filtered

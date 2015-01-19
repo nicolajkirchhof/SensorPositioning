@@ -66,14 +66,14 @@ set(gca, 'color', 'w');
 
 
 
-text('Interpreter', 'none', 'position', s1xy+[-0.2 -0.2], 'string', 'S_1')
-text('Interpreter', 'none', 'position', s2xy+[-0.2 -0.2], 'string', 'S_2')
-text('Interpreter', 'none', 'position', s3xy+[-0.2 -0.2], 'string', 'S_3')
+text('position', s1xy+[-0.2 -0.2], 'string', '$S_1$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
+text('position', s2xy+[-0.2 -0.2], 'string', '$S_2$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
+text('position', s3xy+[-0.2 -0.2], 'string', '$S_3$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
 
 % text('Interpreter', 'none', 'position', [1.5 4], 'string', 'd1');
 % text('Interpreter', 'none', 'position', [3.8 4], 'string', 'd2')
 
-text('Interpreter', 'none', 'position', p1xy+[-0.1 -0.3], 'string', 'O')
+% text('Interpreter', 'none', 'position', p1xy+[-0.1 -0.3], 'string', 'O')
 
 fillPolygon(p_bnd, col(10,:));
 drawPolygon(p_bnd, 'color', col(6,:));
@@ -96,19 +96,18 @@ drawPoint(p1xy, 'marker', 'x','MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'm
 drawPoint([2 2], 'marker', 'x','MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'markersize', 10, 'LineWidth', 3, 'color', col(2,:));
 drawPoint([4 2], 'marker', 'x','MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'markersize', 10, 'LineWidth', 3, 'color', col(2,:));
 
+text('position', [1.9 1.5], 'string', '$C_{1,3}$');
+text('position', [3.8 1.5], 'string', '$C_{1, 2}$');
+text('position', [2.85 2.4], 'string', '$C_{1, 2}$');
 
-text('Interpreter', 'none', 'position', [2 1.6], 'string', 'IN1');
-text('Interpreter', 'none', 'position', [3.8 1.5], 'string', 'IN2');
-text('Interpreter', 'none', 'position', [2.85 2.4], 'string', 'IN3');
-
-%%
+%%%
 p_ad = mb.createAnnulusSegment(5, 3, 0, dist, 175, fov, num_pts)';
 p_ad2 = mb.createAnnulusSegment(2, 5, 0, dist, 265, fov, num_pts)';
 p_ad3 = mb.createAnnulusSegment(3, 1, 0, dist, 40, fov, num_pts)';
 p_ads = {p_ad, p_ad2, p_ad3};
 
 % p_ad = mb.createAnnulusSegment(5, 3, 0, dist, 190, fov, num_pts)';
-%%
+%%%
 fun_trans = @(p) cellfun(@(x) x', p, 'uniformoutput', false);
 b_ads = cellfun(@(x) x', p_ads, 'uniformoutput', false);
 % b_bs = cellfun(@(x) x', p_bs, 'uniformoutput', false);
@@ -136,19 +135,21 @@ drawPolygon(p_ads_bnd, 'k', 'linestyle', '--');
 % seg_ang = circleArcToPolyline([p1xy, 0.5, rad2deg(ang1), rad2deg(anginner)], num_pts);
 % hseg_ang = drawPolyline(seg_ang);
 % set(hseg_ang, 'color', 'k')
-matlab2tikz('fig/multi_intersections.tex');
 %%
-cla
-seg_ang_s1 = circleArcToPolyline([s1xy, 1, s1rot+fov_2, fov], num_pts);
-hseg_ang_s1 = drawPolyline(seg_ang_s1);
-set(hseg_ang_s1, 'color', 'k')
-
-seg_ang_s2 = circleArcToPolyline([s2xy, 1, s2rot+fov_2, fov], num_pts);
-hseg_ang_s2 = drawPolyline(seg_ang_s2);
-set(hseg_ang_s2, 'color', 'k')
-% delete(hseg_ang);
-% fillPolygon(p_bm, 'k');
-% fillPolygon(p_tm, 'k');
-
-% matlab2tikz('fig/sensormodel.tex');
-matlab2tikz('fig/sensormodel_circles.tex');
+Figures.makeFigure('MmultiIntersections');
+% matlab2tikz('fig/multi_intersections.tex');
+%%
+% cla
+% seg_ang_s1 = circleArcToPolyline([s1xy, 1, s1rot+fov_2, fov], num_pts);
+% hseg_ang_s1 = drawPolyline(seg_ang_s1);
+% set(hseg_ang_s1, 'color', 'k')
+% 
+% seg_ang_s2 = circleArcToPolyline([s2xy, 1, s2rot+fov_2, fov], num_pts);
+% hseg_ang_s2 = drawPolyline(seg_ang_s2);
+% set(hseg_ang_s2, 'color', 'k')
+% % delete(hseg_ang);
+% % fillPolygon(p_bm, 'k');
+% % fillPolygon(p_tm, 'k');
+% %%
+% % matlab2tikz('fig/sensormodel.tex');
+% matlab2tikz('fig/sensormodel_circles.tex');

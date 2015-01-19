@@ -19,7 +19,7 @@
 % subs(Qs, x1 = 100, y1 = 100, x2 = 175, y2 = 100, dmax = 100^4/5);
 %%
 % import Figures.*;
-clear all;
+clear variables;
 x1 = 5;
 y1 = 10;
 y2 = 10;
@@ -87,10 +87,9 @@ for contourlevel = 0.4:0.1:0.9
     text(xt, yt_bottom+0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
     
 end
-matlab2tikz('export/QScKellyContours_2m.tikz', 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-...%     'height', '5cm',... 
-    'extraAxisOptions',{'y post scale=1'});
+filename = 'QScKellyContours_2m';
+Figures.makeFigure(filename);
+
 %%
 cnt = 4;
 % figure; hold on;
@@ -146,24 +145,40 @@ line([9, 9],ylim, 'color', [0 0 0], 'linewidth', 0.5, 'linestyle', '-.');
 
 %%% Plot contour descriptions
 contourlevel = 0.9;
-xt = 4.5;
+xt = 5.1;
 idxt = find(X(1,:)==xt, 1, 'first');
 txt_level = sprintf('$>%g$', contourlevel);
-yt_top = 11.5;
-yt_bottom = 8.5;
-text(xt, yt_top, txt_level, 'Rotation', 45, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
-text(xt, yt_bottom, txt_level, 'Rotation', 495, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
-xt = 13.5;
+yt_top = 10.7;
+yt_bottom = 9.3;
+text(xt, yt_top, txt_level, 'Rotation', 45, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+text(xt, yt_bottom, txt_level, 'Rotation', 495, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+xt = 13.1;
 txt_level = sprintf('$>%g$', contourlevel);
 % yt_top = 11;
 % yt_bottom = Y(find(Z{cnt}(:,idxt)>contourlevel, 1, 'first'), idxt);
-text(xt, yt_top, txt_level, 'Rotation', 315, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
-text(xt, yt_bottom, txt_level, 'Rotation', 225, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
+text(xt, yt_top, txt_level, 'Rotation', 315, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+text(xt, yt_bottom, txt_level, 'Rotation', 225, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+%%%
+contourlevel = 0.8;
+xt = 6;
+idxt = find(X(1,:)==xt, 1, 'first');
+txt_level = sprintf('$>%g$', contourlevel);
+yt_top = 12;
+yt_bottom = 8;
+text(xt, yt_top, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+text(xt, yt_bottom, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+xt = 12;
+txt_level = sprintf('$>%g$', contourlevel);
+% yt_top = 11;
+% yt_bottom = Y(find(Z{cnt}(:,idxt)>contourlevel, 1, 'first'), idxt);
+text(xt, yt_top, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+text(xt, yt_bottom, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+
 %%%
 xt = 9.0;
 idxt = find(X(1,:)==xt, 1, 'first');
 %%%
-for contourlevel = 0.4:0.1:0.8
+for contourlevel = 0.4:0.1:0.7
     %%
     txt_level = sprintf('$>%g$', contourlevel);
     yt_top = Y(find(Z{cnt}(:,idxt)>contourlevel, 1, 'last'),idxt);
@@ -171,10 +186,10 @@ for contourlevel = 0.4:0.1:0.8
     text(xt+0.2, yt_top-0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
     text(xt+0.2, yt_bottom+0.05, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom');
 end%     matlab2tikz(sprintf('export/PolygonEvaluationSzenario_%dm.tikz', dm), 'parseStrings', false);
-matlab2tikz('export/QScKellyContours_8m.tikz', 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-...    'height', '5cm', 
-    'extraAxisOptions',{'y post scale=1'});
+%%%
+filename = 'QScKellyContours_8m';
+Figures.makeFigure(filename);
+
 %%
 cnt = 7;
 % figure; hold on;
@@ -212,8 +227,8 @@ yt_top = 16;
 yt_bottom = 4;
 text(xt, yt_top, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
 text(xt, yt_bottom, txt_level, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
-
-matlab2tikz('export/QScKellyContours_14m.tikz', 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
-...    'height', '5cm', 
-'extraAxisOptions',{'y post scale=1'});
+Figures.makeFigure('QScKellyContours_14m');
+% matlab2tikz('export/QScKellyContours_14m.tikz', 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '8cm',...
+% ...    'height', '5cm', 
+% 'extraAxisOptions',{'y post scale=1'});

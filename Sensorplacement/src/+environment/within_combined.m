@@ -10,7 +10,7 @@ end
 
 [in_environment] = mb.inmultipolygon(environment.combined, int64(positions(1:2,:)));
 %%% check distance to polygon edges for every other point
-vertices = environment.combined{1}{1};
+vertices = cell2mat(environment.combined);
 dist_polygon_edges = mb.distancePoints(positions(1:2,~in_environment), vertices);
 dist_polygon_edges_min = min(dist_polygon_edges, [], 2);
 in_environment(~in_environment) = dist_polygon_edges_min < eps;

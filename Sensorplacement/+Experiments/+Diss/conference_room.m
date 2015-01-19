@@ -41,19 +41,20 @@
 
 % clear functions
 %%
-clear variables functions;
+clear variables;% functions;
 
 name = 'ConferenceRoom';
 workdir = sprintf('tmp/conference_room');
-if exist(workdir, 'dir')
-    rmdir(workdir, 's');
-end
+% if exist(workdir, 'dir')
+%     rmdir(workdir, 's');
+% end
 filename = 'res\floorplans\P1-Seminarraum.dxf';
 Configurations.Common.generic(name, workdir);
 
-config_discretization = Configurations.Discretization.iterative;
-
+% Configurations.Environment.generic;
+% 
 environment = Environment.load(filename);
+Environment.draw(environment);
 % obst_redone = int64([3844 2700; 3300 2700; 3300 1200; 3844 1200; 3844 2700])';
 % 
 % environment.obstacles{2}{1} = obst_redone;
@@ -61,23 +62,24 @@ environment = Environment.load(filename);
 %%
 close all;
 % num_sp = 0:20:200
-num_wpns = 0:20:200;
-num_sps = 0:10:100;
+num_wpns = 0:10:50;
+num_sps = 0:10:50;
 bspqm = cell(numel(num_wpns), numel(num_sps));
 for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
         %%
-        num_sp = 0;
-        num_wpn = 0;
+        num_sp = 50;
+        num_wpn = 50;
+        config_discretization = Configurations.Discretization.iterative;
         config_discretization.workspace.wall_distance = 200;
         % config_discretization.workspace.cell.length = [0 1000];
         config_discretization.workspace.positions.additional = num_wpn;
         config_discretization.sensorspace.poses.additional = num_sp;
         discretization = Discretization.generate(environment, config_discretization);
         
-        %%%
+        %%
         config_quality = Configurations.Quality.diss;
         [quality] = Quality.generate(discretization, config_quality);
         
@@ -86,9 +88,10 @@ for id_wpn = 1:numel(num_wpns)
         input.discretization = discretization;
         input.environment = environment;
         input.quality = quality;
-        input.config.environment = config_environment;
+%         input.config.environment = config_environment;
         input.config.discretization = config_discretization;
         input.config.quality = config_quality;
+        input.timestamp = datestr(now,30);
         
         %     %%%
         maxval = cellfun(@max, input.quality.wss.val);
@@ -101,16 +104,16 @@ for id_wpn = 1:numel(num_wpns)
         scatter(input.discretization.wpn(1,:)', input.discretization.wpn(2,:)', [], maxval, 'fill');
         colorbar;
         title(sprintf('Num SP %d, Num WPN %d, MinQ %g', num_sp, num_wpn, min(maxval)));
-        %%%
-        output_filename = sprintf('conference_room_%d_%d_%s.mat', num_wpn, num_sp, datestr(now,30));
+        %%
+        output_filename = sprintf('tmp/conference_room/bspqm__%d_%d_%d.mat', discretization.num_sensors, discretization.num_positions, discretization.num_comb);
         input.filename = Optimization.Discrete.Models.bspqm(discretization, quality, Configurations.Optimization.Discrete.bspqm);
         save(output_filename);
     end
 end
-%% Calculate Discrete Models
-mspqm = Optimization.Discrete.Models.mspqm(discretization, quality, Configurations.Optimization.Discrete.mspqm);
-
-
+% % Calculate Discrete Models
+%mspqm = Optimization.Discrete.Models.mspqm(discretization, quality, Configurations.Optimization.Discrete.mspqm);
+% sol = Optimization.Discrete.Solver.cplex.read_solution('tmp/conference_room/bspqm__130_20_5172.sol');
+% log = Optimization.Discrete.Solver.cplex.read_log('tmp/conference_room/bspqm__130_20_5172.log');
 
 %%
 for mnamecell = modelnames'

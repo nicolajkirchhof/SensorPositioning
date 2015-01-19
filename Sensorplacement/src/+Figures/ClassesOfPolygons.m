@@ -35,7 +35,9 @@ star = bsxfun(@plus, star, [3400;500]);
 % mb.drawPoint(star)
 mb.drawPolygon(star(:,1:end), 'color', 'k', 'linewidth', 2);
 text(3050, -100, 'star shaped');
-
+figurename = 'ClassesOfPolygons';
+Figures.makeFigure(figurename);
+%%
 % matlab2tikz('export/ClassesOfPolygons.tikz')
 filename = '../../Dissertation/Thesis/Figures/ClassesOfPolygons.tikz';
 matlab2tikz(filename, 'parseStrings', false,...

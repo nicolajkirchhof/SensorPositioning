@@ -56,7 +56,7 @@ set(gca, 'color', 'w');
 fillPolygon(p_bm, 'k');
 fillPolygon(p_tm, 'k');
 
-matlab2tikz('fig/doptriag/doptriangulation.tex');
+% matlab2tikz('fig/doptriag/doptriangulation.tex');
 %%
 drawPolygon(p_bm);
 drawPolygon(p_br);
@@ -112,7 +112,7 @@ fillPolygon(p_middle, ones(1,3)*0.2);
 drawPolygon(rect_bnd, 'color', ones(1,3)*0.1);
 % plot
 % set(gca, 'cameraUpVector', [0 1 0]);
-matlab2tikz('fig/doptriag/doptriang.tex');
+% matlab2tikz('fig/doptriag/doptriang.tex');
 % mb.numberRings(p_cuts);
 
 %%

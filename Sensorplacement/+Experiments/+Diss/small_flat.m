@@ -76,8 +76,8 @@ close all;
 num_sp = 0;
 for num_wpn = 0:20:200
     %%
-%     num_sp = 0;
-%     num_wpn = 0;
+    num_sp = 0;
+    num_wpn = 0;
     config_discretization.workspace.wall_distance = 200;
     % config_discretization.workspace.cell.length = [0 1000];
     config_discretization.workspace.positions.additional = num_wpn;
