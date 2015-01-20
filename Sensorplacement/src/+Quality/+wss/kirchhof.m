@@ -33,7 +33,9 @@ for idw = 1:discretization.num_positions
 %     vals{idw} = 1-(sqrt((ds1'.*ds2')./dmax_2)./(q_sin))./2;
     vals{idw} = 1-((dn1'.*dn2')./(q_sin));
     vals{idw}(vals{idw}<0) = 0;
-
+    flt_vis = dn1>1|dn2>1;
+    vals{idw}(flt_vis) = [];
+    
     valsum(idc, 1) = sum(max(vals{idw},0)); 
     valbw(idc,1) = valbw(idc,1)+max(vals{idw}, 0);
     loop_display(idw);
