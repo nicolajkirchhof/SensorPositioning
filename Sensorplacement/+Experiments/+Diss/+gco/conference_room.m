@@ -14,19 +14,24 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-%         num_wpn = 0;
-%         num_sp = 0;
+        num_wpn = 0;
+        num_sp = 0;
         
-        input = Experiments.Diss.conference_room(num_sp, num_wpn, true);
+        input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
         %%%
         input.config.optimization = Configurations.Optimization.Discrete.gco;
         input.config.optimization.name = input.name;
-        output_filename = sprintf('tmp/conference_room/gco__%d_%d_%d.mat', discretization.num_sensors, discretization.num_positions, discretization.num_comb);
-        solution = Optimization.Discrete.Greedy.gco(input.discretization, quality, input.config.optimization);
+        output_filename = sprintf('tmp/conference_room/gco__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
+        solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, input.config.optimization);
         input.solution = solution;
-        Evaluation.filter(solution, input.discretization, input.config.discretization);
+        [input.solution.discretization, input.solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
+        %%
+        cla;
+        Discretization.draw(input.discretization, input.environment);
+        hold on;
+        Discretization.draw_wpn_max_qualities(input.solution.discretization, input.solution.quality);
         
-        save(output_filename, 'input');
+%         save(output_filename, 'input');
     end
 end
 % % Calculate Discrete Models

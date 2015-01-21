@@ -7,8 +7,9 @@ end
 import Optimization.Discrete.Models.write
 write_log(' adding sum continuous obj...');
 fid = config.filehandles.obj;
-qvalsummax = sum(quality.wss.valsum);
-write.tag_2value_lines(fid, ' -%0.4e w%d', ones(discretization.num_positions, 1)*(1/qvalsummax), (1:discretization.num_positions)', config.common.linesize);
+% qvalsummax = sum(quality.wss.valsum);
+qvalscale = max(quality.wss.valsensorsum);
+write.tag_2value_lines(fid, ' -%0.4e w%d', ones(discretization.num_positions, 1)*(1/qvalscale), (1:discretization.num_positions)', config.common.linesize);
 write_log('... done ');
 % write.tag_value_lines(fid, ' +s%d', (1:discretization.num_sensors)', config.common.linesize);
 % write_log('\n...done ');

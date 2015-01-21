@@ -25,29 +25,30 @@ import Optimization.Discrete.Models.write
         end
         %% no sensor has quality, relax model
         if ~any(wp_comb_flt) && config.is_relax
-            warning('\n relaxing model for point %d\n', idw);
-            idrelax = 1;
-            is_relaxed = false;
-            while ~is_relaxed
-                wp_comb_flt = (qvals > config.quality.min/idrelax);
-                if sum(wp_comb_flt) > idrelax
-                    num_pairs = idrelax;
-                    write_log('\nmodel for point %d was sucessful relaxed to %d\n\n', idw, idrelax);
-                    is_relaxed = true;
-%                     break;
-                elseif idrelax >= sum(qvals>0)
-                    warning('\nmodel for point %d was not sucessful relaxed and set to %d\n\n', idw, idrelax);
-                    wp_comb_flt = (qvals > 0);
-                    is_relaxed = true;
-                else
-                    idrelax = idrelax + 1;
-                end
-            end
-%             if num_pairs == 1
-%                 warning('workspace point relaxed to max, min quality not guaranteed');
-%                 num_pairs = numel(wp_comb_flt);
-%                 wp_comb_flt = qvals>0;
+            error('Model will not be relaxed!!!');
+%             warning('\n relaxing model for point %d\n', idw);
+%             idrelax = 1;
+%             is_relaxed = false;
+%             while ~is_relaxed
+%                 wp_comb_flt = (qvals > config.quality.min/idrelax);
+%                 if sum(wp_comb_flt) > idrelax
+%                     num_pairs = idrelax;
+%                     write_log('\nmodel for point %d was sucessful relaxed to %d\n\n', idw, idrelax);
+%                     is_relaxed = true;
+% %                     break;
+%                 elseif idrelax >= sum(qvals>0)
+%                     warning('\nmodel for point %d was not sucessful relaxed and set to %d\n\n', idw, idrelax);
+%                     wp_comb_flt = (qvals > 0);
+%                     is_relaxed = true;
+%                 else
+%                     idrelax = idrelax + 1;
+%                 end
 %             end
+% %             if num_pairs == 1
+% %                 warning('workspace point relaxed to max, min quality not guaranteed');
+% %                 num_pairs = numel(wp_comb_flt);
+% %                 wp_comb_flt = qvals>0;
+% %             end
         end
         wp_comb_ind = wp_comb_ind(wp_comb_flt);
         %%

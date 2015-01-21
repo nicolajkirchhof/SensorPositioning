@@ -24,8 +24,8 @@ for id_wpn = 1:numel(num_wpns)
         Discretization.draw_wpn_max_qualities(input.discretization, input.quality);
   
         %%
-        output_filename = sprintf('tmp/conference_room/bspqm__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
-        input.filename = Optimization.Discrete.Models.bspqm(input.discretization, input.quality, Configurations.Optimization.Discrete.bspqm);
+        output_filename = sprintf('tmp/conference_room/ospqm__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
+        input.filename = Optimization.Discrete.Models.ospqm(input.discretization, input.quality, Configurations.Optimization.Discrete.ospqm);
         save(output_filename);
     end
 end

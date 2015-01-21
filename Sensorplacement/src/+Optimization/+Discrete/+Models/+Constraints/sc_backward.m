@@ -26,7 +26,7 @@ for idc = 1:discretization.num_comb
         loop_display(idc);
     end
 end
-write_log('...done ');
+% write_log('...done ');
 
 
 %%

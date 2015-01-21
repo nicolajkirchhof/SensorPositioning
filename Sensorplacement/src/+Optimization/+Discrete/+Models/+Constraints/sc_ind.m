@@ -1,43 +1,15 @@
-function [ pc ] = sc_ind( pc )
+function sc_ind( discretization, config )
 %ADD_COMBINATIONS Summary of this function goes here
 %   Detailed explanation goes here
 
-[model_path, model_name] = fileparts(mfilename('fullpath'));
-model_prefix = model_path(max(strfind(model_path, '+'))+1:end);
-model_type = [model_prefix '_' model_name];
-%%
-if pc.progress.model.(model_type)
-    pc = model.enable(pc, model_type);
-    return;
-end
-
-if ~pc.progress.sensorspace.sensorcomb
-    pc = sensorspace.sensorcomb(pc);
-end
-
-[pc] = model.init(pc, model_type);
-
-%%
-write_log(' adding combinations to model...');
-%% write constraints
-
-fid = pc.model.(model_type).obj.fid;
-
-%% write objective values
-%%
-%     loop_display(pc.problem.num_comb, 10);
-write_log(' writing obj function...');
-model.write.tag_value_lines(fid, ' +s%ds%d', pc.problem.sc_idx, pc.common.linesize);
-
-write_log('...done ');
 %% write constraints
 %%% first part of and constrints
 % -si2 + di1i2 <= 0
 % two values per row and two equations
 %  si_dij_lhs >= [si_dij_i, si_dij_j(l,r)]   <= si_dij_rhs
 %                 Si1 ... Si2 .... di1i2
-%  -inf       <= [ -1               1   ] <= 0
-%  -inf       <= [        -1        1   ] <= 0
+%  -inf       <= [ 1                -1   ] >= 0
+%  -inf       <= [         1        -1   ] >= 0
 %%% second part of and constraints
 % si1 si2 - di1i2 <= 1
 % matrix representations has the form
@@ -45,33 +17,24 @@ write_log('...done ');
 %                 Si1 ... Si2 .... di1i2
 %  -inf        <= [ 1      1        -1   ] <= 1
 
-fid = pc.model.(model_type).st.fid;
+fid = config.filehandles.st;
 %%
-loop_display(pc.problem.num_comb, 10);
+loop_display(discretization.num_comb, 10);
 write_log('writing constraints... ');
-for idc = 1:pc.problem.num_comb
+for idc = 1:discretization.num_comb
     %%
-    sc_row = pc.problem.sc_idx(idc,:);
-    fprintf(fid,'IFs%1$ds%2$dTHENs%1$d: s%1$ds%2$d = 1 -> s%1$d + s%2$d = 2\n',  sc_row(1), sc_row(2), idc);
-    
-    if mod(idc,pc.problem.num_comb/1000)<1
+    sc_row = discretization.sc(idc,:);
+%     fprintf(fid,'IFs%1$ds%2$dTHENs%1$d: s%1$ds%2$d = 1 -> s%1$d + s%2$d = 2\n',  sc_row(1), sc_row(2), idc);
+    fprintf(fid,'IFs%1$ds%2$dTHENs%1$d: s%1$d -s%1$ds%2$d >= 0\n',  sc_row(1), sc_row(2), idc);
+    fprintf(fid,'IFs%1$ds%2$dTHENs%2$d: s%2$d -s%1$ds%2$d >= 0\n',  sc_row(1), sc_row(2), idc);
+    fprintf(fid,'IFs%1$dANDs%2$dTHENs%1$s%2$d: s%1$d +s%2$d -s%1$ds%2$d <= 1\n',  sc_row(1), sc_row(2), idc);
+
+    if mod(idc,discretization.num_comb/1000)<1
         loop_display(idc);
     end
 end
 write_log('...done ');
-%
-%
-%% write Binaries
-fid = pc.model.(model_type).bin.fid;
-write_log(' writing binaries ...');
-model.write.tag_value_lines(fid, ' s%ds%d', pc.problem.sc_idx, pc.common.linesize);
 
-write_log('...done ');
-
-
-%%
-pc = model.finish(pc,model_type);
-write_log('...done ');
 return;
 %% testing
 close all; clear all; fclose all;
