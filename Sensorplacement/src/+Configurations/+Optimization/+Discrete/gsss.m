@@ -7,7 +7,6 @@ end
 
 model = Configurations.Optimization.Discrete.generic(common);
 model.type = mfilename();
-model.is_relax = true;
 
 model.header = []; % user defined header of comments to file e.g. \Problem name: xyz
 %         [~, name, ~] = fileparts(fn(idws).name);

@@ -1,13 +1,10 @@
-function [ solution ] = gsss( discretization, quality, solution )
+function [ solution ] = gccs( discretization, quality, solution )
 %% [ solution ] = gsss( discretization, solution )
 
 
 sc = discretization.sc;
 
-sp_selected = solution.sensors_selected;
-
-flt_selected = ismember(sc(:, 1), sp_selected)|ismember(sc(:,2), sp_selected);
-sc_selected = find(flt_selected);
+sp_selected = [];
 
 cnt = 1;
 ids_qvmin = cellfun(@(x) find(x > config.quality.min), quality.wss.val, 'uniformoutput', false);
@@ -18,9 +15,9 @@ for id = 1:numel(ids_qvmin)
     sc_wpn(ids_sc(ids_qvmin{id}), id) = true;
 end
 
-is_wpn = any(sc_wpn(sc_selected,:), 1);
+is_wpn = false(discretization.num_positions, 1);
 is_sp = false(discretization.num_sensors, 1);
-is_sp(sp_selected) = true;
+
 sc_wpn(:, is_wpn) = 0;
 
 % is_wpn = false(1, discretization.num_positions);
@@ -38,8 +35,19 @@ while ~all(is_wpn)
 
     [all_max, id_all_max] = max(max_wpn);
 
-    id_sc = ids_sc_wpn_cell{id_all_max}(ids_sc_max_wpn);
-    sp_selected = [id_all_max sp_selected];
+    %% find next sc to select
+    flt_sc_wpn_ns = find(ismember(sc(:, 1), find(~is_sp))&ismember(sc(:,2), find(~is_sp)));
+
+    sc_wpn_sum = sum(sc_wpn(flt_sc_wpn_ns, :), 2);
+    [val_max_sc_ns, id_max_sc_ns] = max(sc_wpn_sum);
+
+    if all_max > val_max_sc_ns
+        id_sc = ids_sc_wpn_cell{id_all_max}(ids_sc_max_wpn);
+        sp_selected = [id_all_max sp_selected];
+    else
+        ids_flt = find(flt_sc_wpn_ns);
+        sp_selected = [sc(ids_flt(ids_sc_max_wpn), :) sp_selected];
+    end
 
     %% update matrices
     flt_selected = ismember(sc(:, 1), sp_selected)|ismember(sc(:,2), sp_selected);

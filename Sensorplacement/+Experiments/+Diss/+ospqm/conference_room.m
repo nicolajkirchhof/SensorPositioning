@@ -29,10 +29,6 @@ for id_wpn = 1:numel(num_wpns)
         save(output_filename);
     end
 end
-% % Calculate Discrete Models
-%mspqm = Optimization.Discrete.Models.mspqm(discretization, quality, Configurations.Optimization.Discrete.mspqm);
-% sol = Optimization.Discrete.Solver.cplex.read_solution('tmp/conference_room/bspqm__130_20_5172.sol');
-% log = Optimization.Discrete.Solver.cplex.read_log('tmp/conference_room/bspqm__130_20_5172.log');
 
 %%
 for mnamecell = modelnames'

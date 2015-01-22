@@ -24,31 +24,16 @@ fid = config.filehandles.st;
 %%
 loop_display(discretization.num_positions, 10);
 write_log(' writing constraints...');
-% qvalsbwmax = max(pc.quality.(pc.model.(model_type).quality.name).valbw);
-% qvalsbwmax = 0;
-% qvalsummax = sum(quality.wss.valsum);
-% qvalscale = max(quality.wss.valsensorsum);
+
 for idw = 1:discretization.num_positions
     %     for idw = 1:10
     %%
     wp_comb_ind = find(discretization.sc_wpn(:, idw));
     qvals = quality.wss.val{idw};    
-%     wp_comb_flt = (qvals > config.quality.reject);
-%     qscaled = qvals./qvalscale;
-% %     qscaled = qvals(wp_comb_flt)./qvalsbw(wp_comb_flt);
-% %     q_row_scale = sum(qscaled)/1;
-% % q_row_scale = 1;
-% %     qscaled = qscaled/q_row_scale;
-% %     qscaled = qscaled * 10;
-%     if isempty(wp_comb_flt)
-%         warning('model not solveable removing point %d', idw);
-%         continue;
-%     end
-%     wp_comb_ind = wp_comb_ind(wp_comb_flt);
+
     %%
     c_cnt = fprintf(fid, ' w%d_comb:', idw);
     write.tag_2value_lines(fid, ' +%0.4e s%ds%d',qvals , discretization.sc(wp_comb_ind,:), config.common.linesize, c_cnt, false);
-    %     model.write.tag_value_lines(fid, ' +inf s%ds%d', discretization.sc(setdiff((1:discretization.num_comb)', wp_comb_ind),:), pc.common.linesize, c_cnt, false);
     fprintf(fid, ' -w%d', idw);
     fprintf(fid, ' = 0\n');
     if mod(idw,discretization.num_positions/100)<1

@@ -43,8 +43,8 @@ solution.linearConstraints.name = {};
 solution.linearConstraints.index = {}; 
 solution.linearConstraints.slack = {};
 solution.variables.name = {};
-solution.variables.index = {}; 
-solution.variables.value = {};
+solution.variables.index = []; 
+solution.variables.value = [];
 
 
 % 

@@ -1,14 +1,6 @@
-clear variables;
-% close all;
-% num_sp = 0:20:200
-% num_wpns = 60:10:100;
-% num_sps = 0:10:100;
-% for id_wpn = 1:numel(num_wpns)
-%     for id_sp = 1:numel(num_sps)
-%         num_wpn = num_wpns(id_wpn);
-%         num_sp = num_sps(id_sp);
 
 %%
+clear variables;
 % % Calculate Discrete Models
 dirname = 'tmp/conference_room/bspqm';
 files = dir([dirname '/*.sol']);

@@ -27,12 +27,8 @@ mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 ylim([0 16400]);
 xlim([-100 9100]);
 
-%%%
-Figures.makeFigure('TriangulationEarClipping');
-% matlab2tikz('export/TriangulationEarClipping.tikz', 'parseStrings', false,...
-%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-% ...    'height', '5cm', 
-%     'extraAxisOptions',{'y post scale=1'});
+Figures.makeFigure('TriangulationEarClipping', '5cm' );
+
 %%
 cla;
 axis equal;
@@ -62,13 +58,9 @@ mb.drawPolygon(bpoly,'linewidth', 1, 'color', [0 0 0]);
 ylim([0 16400]);
 xlim([-100 9100]);
 
-Figures.makeFigure('TriangulationHertelMehlhorn');
-%%
-% matlab2tikz('export/TriangulationHertelMehlhorn.tikz', 'parseStrings', false,...
-%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-% ...    'height', '5cm', 
-%     'extraAxisOptions',{'y post scale=1'});
-%%
+Figures.makeFigure('TriangulationHertelMehlhorn', '5cm');
+
+%% 
 % clear variables;
 cla;
 axis equal
@@ -94,12 +86,8 @@ end
 
 ylim([0 16400]);
 xlim([-100 9100]);
-%%%
-Figures.makeFigure('ConvexDecompositionWithoutSteinerPoints');
-% matlab2tikz('export/ConvexDecompositionWithoutSteinerPoints.tikz', 'parseStrings', false,... 
-%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-%     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
-% matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
+
+Figures.makeFigure('ConvexDecompositionWithoutSteinerPoints', '5cm');
 %%
 % clear variables;
 cla;
@@ -132,8 +120,4 @@ text(3800, 10000, '$p_s$', 'verticalalignment', 'middle', 'horizontalalignment',
 ylim([0 16400]);
 xlim([-100 9100]);
 %%%
-Figures.makeFigure('ConvexDecompositionWithSteinerPoints');
-% matlab2tikz('export/ConvexDecompositionWithSteinerPoints.tikz', 'parseStrings', false,... 
-%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', '3cm',...
-%     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});
-% matlab2tikz('export/VfovIntersectionInvalidPolygon.tikz', 'parseStrings', false);
+Figures.makeFigure('ConvexDecompositionWithSteinerPoints', '5cm');
