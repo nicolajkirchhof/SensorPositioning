@@ -46,6 +46,7 @@ while ~all(is_wpn)
     flt_selected = ismember(sc(:, 1), sp_selected)&ismember(sc(:,2), sp_selected);
     sc_selected = find(flt_selected);
     is_wpn = is_wpn | any(sc_wpn(sc_selected,:), 1);
+    is_sp(sp_selected) = true;
     sc_wpn(:, is_wpn) = 0;
     %%
     cnt = cnt + 1;
