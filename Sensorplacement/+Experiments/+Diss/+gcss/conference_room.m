@@ -4,7 +4,7 @@ clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0;
 % num_sps =  0:10:100;
-num_wpns = 0:10:500;
+num_wpns = 0:10:490;
 num_sps =  0:10:500;
 
 iteration = 0;
@@ -21,18 +21,22 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-%         num_wpn = 250;
-%         num_sp = 250;
-        
+        num_wpn = 250;
+        num_sp = 250;
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
         %%%
-        input.config.optimization = Configurations.Optimization.Discrete.gcss;
         input.config.optimization.name = input.name;
-        output_filename = sprintf('tmp/conference_room/gcss/gcss__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
-        solution = Optimization.Discrete.Greedy.gcss(input.discretization, input.quality, input.config.optimization);
-        input.solution = solution;
-        [input.solution.discretization, input.solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
+        gcss_config = Configurations.Optimization.Discrete.gcss;
+        
+        gcss.config.optimization = Configurations.Optimization.Discrete.gcss;
+        gcss.solution = Optimization.Discrete.Greedy.gcss(input.discretization, input.quality, gcss.config.optimization);
+        [gcss.solution.discretization, gcss.solution.quality] = Evaluation.filter(gcss.solution, input.discretization, input.config.discretization);
+        %%
+        input = gcss;
+        input.num_sp = num_sp;
+        input.num_wpn = num_wpn;
+        output_filename = sprintf('tmp/conference_room/gcss/gcss__%d_%d.mat', num_sp, num_wpn);
         save(output_filename, 'input');
         iteration = iteration + 1;
         if toc(tme)>next
