@@ -37,6 +37,7 @@ while ~all(is_wpn)
     num_wpn_cell = cellfun(@(x) sum(sc_wpn(x, :), 2), ids_sc_wpn_cell, 'uniformoutput', false);        
     flt_nonempty_sp = cellfun(@(x) ~isempty(x), num_wpn_cell);
     ids_sp_left = ids_sp_left(flt_nonempty_sp);
+    num_wpn_cell = num_wpn_cell(flt_nonempty_sp);
 
     [max_wpn, ids_sc_max_wpn] = cellfun(@(x) max(x), num_wpn_cell );
 
