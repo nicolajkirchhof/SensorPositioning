@@ -3,7 +3,7 @@ close all;
 clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-num_wpns = 0:10:500;
+num_wpns = 0:10:490;
 num_sps =  0:10:500;
 cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 
@@ -22,8 +22,8 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-        num_wpn = 0;
-        num_sp = 0;
+%         num_wpn = 0;
+%         num_sp = 0;
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn);
         stcm.config.optimization = Configurations.Optimization.Discrete.stcm;
