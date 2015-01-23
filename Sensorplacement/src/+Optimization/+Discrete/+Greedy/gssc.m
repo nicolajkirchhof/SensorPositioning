@@ -1,7 +1,7 @@
 function [ solution ] = gssc( discretization )
 %% [ solution ] = gsco( discretization )
 % uses the greedy single sensor selection strategy to calculate a workspace cover
-tic;
+timer = tic;
 %%
 is_wpn = false(1, discretization.num_positions);
 sp_selected = [];
@@ -9,7 +9,7 @@ cnt = 1;
 
 vm = discretization.vm;
 %%
-write_log(' Start calculating gco');
+write_log(' Start calculating gssc');
 pct = 0;
 while ~all(is_wpn)
     %%
@@ -26,8 +26,8 @@ while ~all(is_wpn)
         write_log('Pct covered = %d\n', pct*10);
     end
 end
-write_log('Done');
-time = toc;
+write_log('Done ');
+time = toc(timer);
 %% return result in solution form
 % sensors_selected = unique(discretization.sc(sc_selected, :));
 solution = DataModels.solution();

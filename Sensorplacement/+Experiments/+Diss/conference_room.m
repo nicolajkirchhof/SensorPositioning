@@ -22,6 +22,7 @@ config_discretization.workspace.wall_distance = 200;
 % config_discretization.workspace.cell.length = [0 1000];
 config_discretization.workspace.positions.additional = num_wpn;
 config_discretization.sensorspace.poses.additional = num_sp;
+config_discretization.common.verbose = 0;
 discretization = Discretization.generate(environment, config_discretization);
 
 %%%

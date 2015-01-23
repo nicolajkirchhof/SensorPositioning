@@ -1,6 +1,7 @@
 function [ solution ] = gsss( discretization, quality, solution_coverage, config )
 %% [ solution ] = gsss( discretization, solution )
 
+timer = tic;
 
 sc = discretization.sc;
 
@@ -57,7 +58,7 @@ while ~all(is_wpn)
 end
 write_log('Done');
 %% return result in solution form
-time = toc;
+time = toc(timer);
 % sensors_selected = unique(discretization.sc(sc_selected, :));
 solution = DataModels.solution();
 % solution.x = sensors_selected;
