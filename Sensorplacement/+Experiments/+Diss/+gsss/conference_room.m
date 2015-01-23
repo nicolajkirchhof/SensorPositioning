@@ -4,7 +4,7 @@ clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0;
 % num_sps =  0:10:100;
-num_wpns = 0:10:500;
+num_wpns = 10:10:500;
 num_sps =  0:10:500;
 % cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
