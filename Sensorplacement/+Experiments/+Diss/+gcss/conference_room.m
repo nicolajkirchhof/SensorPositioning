@@ -23,7 +23,7 @@ for id_wpn = 1:numel(num_wpns)
         %%%
         input.config.optimization = Configurations.Optimization.Discrete.gcss;
         input.config.optimization.name = input.name;
-        output_filename = sprintf('tmp/conference_room/gsss/gsss__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
+        output_filename = sprintf('tmp/conference_room/gcss/gcss__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
         %%%
         solution = Optimization.Discrete.Greedy.gcss(input.discretization, input.quality, input.config.optimization);
         input.solution = solution;
