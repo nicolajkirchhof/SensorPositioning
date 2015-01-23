@@ -4,9 +4,10 @@ clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0;
 % num_sps =  0:10:100;
-num_wpns = 0:10:500;
+num_wpns = 10:10:500;
 num_sps =  0:10:500;
-cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
+% cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
+cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -21,29 +22,33 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-        num_wpn = 250;
-        num_sp = 250;
+%         num_wpn = 250;
+%         num_sp = 250;
         
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
         %%%
-        input.config.optimization = Configurations.Optimization.Discrete.gsss;
+%         input.config.optimization = Configurations.Optimization.Discrete.gsss;
         input.config.optimization.name = input.name;
-        output_filename = sprintf('tmp/conference_room/gsss/gsss__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
+        
 %         solution_coverage = Optimization.Discrete.Greedy.gssc(input.discretization);
         %%%
 %         input.solution_coverage = solution_coverage;
         ssc_config = Configurations.Optimization.Discrete.ssc;
-        input.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
-        [ssc.solfile, ssc.logfile] = Optimization.Discrete.Solver.cplex.start(ssc.filename, cplex);
-        input.solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(ssc.solfile);
-        input.solution_coverage.log = Optimization.Discrete.Solver.cplex.read_log(ssc.logfile);
-        input.solution_coverage.ssc = ssc;
-         
-        solution = Optimization.Discrete.Greedy.gsss(input.discretization, input.quality, input.solution_coverage, input.config.optimization);
-        input.solution = solution;
-        [input.solution.discretization, input.solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
+        ssc.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
+        [ssc.solfile, ssc.logfile] = Optimization.Discrete.Solver.cplex.start(ssc.filename, cplex, false);
+        ssc.solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(ssc.solfile);
+        ssc.solution_coverage.log = Optimization.Discrete.Solver.cplex.read_log(ssc.logfile);
+        ssc.solution_coverage.ssc = ssc;
+        
+        ssc.config.optimization = Configurations.Optimization.Discrete.gsss;
+        ssc.solution = Optimization.Discrete.Greedy.gsss(input.discretization, input.quality, ssc.solution_coverage, ssc.config.optimization);
+        [ssc.solution.discretization, ssc.solution.quality] = Evaluation.filter(ssc.solution, input.discretization, input.config.discretization);
         %%
+        input = ssc;
+        input.num_sp = num_sp;
+        input.num_wpn = num_wpn;
+        output_filename = sprintf('tmp/conference_room/gsss/gsss__%d_%d.mat', num_sp, num_wpn);
         save(output_filename, 'input');
         iteration = iteration + 1;
         if toc(tme)>next
