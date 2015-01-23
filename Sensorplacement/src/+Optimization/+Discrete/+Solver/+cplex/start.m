@@ -1,8 +1,14 @@
-function [solfile, logfile] = start(filename, cplex)
+function [solfile, logfile] = start(filename, cplex, verbose)
 
-if nargin < 2
+
+if nargin < 2 || isempty(cplex)
     cplex = 'cplex.exe';
 end
+
+if nargin < 3 || isempty(verbose)
+    verbose = true;
+end
+
 solfile = [filename(1:end-2) 'sol'];
 logfile = [filename(1:end-2) 'log'];
 if exist(solfile, 'file')
@@ -21,8 +27,13 @@ cpx_write = sprintf('"write %s"', solfile);
 cmd = sprintf('%s -c %s %s %s %s "quit"', cplex, cpx_read, cpx_log, cpx_start, cpx_write);
 %%%
 % cmd = sprintf('CplexMIPOpt.exe --workdir d:%stmp --input-file %s --threads 3 --workmem 1000 --node-file 3 --tree-limit 3e3', filesep, filename);
-system(cmd, '-echo');
-fprintf(1, '\n');
+if verbose
+    system(cmd, '-echo');
+    fprintf(1, '\n');
+else
+    [~, ~] = system(cmd);
+end
+
 
 return;
 

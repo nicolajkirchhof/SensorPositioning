@@ -27,7 +27,6 @@ for id_wpn = 1:numel(num_wpns)
         workdir = sprintf('tmp/conference_room');
         filename = 'res\floorplans\P1-Seminarraum.dxf';
         Configurations.Common.generic(name, workdir);
-        
         environment = Environment.load(filename);
         % Environment.draw(environment);
         %%%

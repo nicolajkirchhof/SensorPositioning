@@ -1,6 +1,7 @@
 function draw_wpn_max_qualities(discretization, quality)    
 
     maxval = cellfun(@max, quality.wss.val);
+    maxval(maxval==0) = eps;
     axis equal;
     xlim([0 4000]);
     ylim([800 8500]);
