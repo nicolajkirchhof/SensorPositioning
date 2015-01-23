@@ -6,7 +6,7 @@ clear variables;
 % num_sps =  0:10:100;
 num_wpns = 0:10:500;
 num_sps =  0:10:500;
-
+cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -21,8 +21,8 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-%         num_wpn = 250;
-%         num_sp = 250;
+        num_wpn = 250;
+        num_sp = 250;
         
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
@@ -30,12 +30,20 @@ for id_wpn = 1:numel(num_wpns)
         input.config.optimization = Configurations.Optimization.Discrete.gsss;
         input.config.optimization.name = input.name;
         output_filename = sprintf('tmp/conference_room/gsss/gsss__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
-        solution_coverage = Optimization.Discrete.Greedy.gssc(input.discretization);
+%         solution_coverage = Optimization.Discrete.Greedy.gssc(input.discretization);
         %%%
-        input.solution_coverage = solution_coverage;
+%         input.solution_coverage = solution_coverage;
+        ssc_config = Configurations.Optimization.Discrete.ssc;
+        input.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
+        [ssc.solfile, ssc.logfile] = Optimization.Discrete.Solver.cplex.start(ssc.filename, cplex);
+        input.solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(ssc.solfile);
+        input.solution_coverage.log = Optimization.Discrete.Solver.cplex.read_log(ssc.logfile);
+        input.solution_coverage.ssc = ssc;
+         
         solution = Optimization.Discrete.Greedy.gsss(input.discretization, input.quality, input.solution_coverage, input.config.optimization);
         input.solution = solution;
         [input.solution.discretization, input.solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
+        %%
         save(output_filename, 'input');
         iteration = iteration + 1;
         if toc(tme)>next

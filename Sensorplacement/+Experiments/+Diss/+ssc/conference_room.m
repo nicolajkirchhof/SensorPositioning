@@ -16,14 +16,36 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-        num_wpn = 250;
-        num_sp = 250;
+        num_wpn = 500;
+        num_sp = 500;
         
-        input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
+        if nargin < 3
+            draw = false;
+        end
+        
+        name = 'ConferenceRoom';
+        workdir = sprintf('tmp/conference_room');
+        filename = 'res\floorplans\P1-Seminarraum.dxf';
+        Configurations.Common.generic(name, workdir);
+        
+        environment = Environment.load(filename);
+        % Environment.draw(environment);
         %%%
+        config_discretization = Configurations.Discretization.iterative;
+        config_discretization.workspace.wall_distance = 200;
+        % config_discretization.workspace.cell.length = [0 1000];
+        config_discretization.workspace.positions.additional = num_wpn;
+        config_discretization.sensorspace.poses.additional = num_sp;
+        config_discretization.common.verbose = 0;
+        input.config.discretization = config_discretization;
+        input.discretization = Discretization.generate(environment, config_discretization);
+       
         input.config.optimization = Configurations.Optimization.Discrete.ssc;
         %         output_filename = sprintf('tmp/conference_room/ssc/ssc__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
-        input.filename = Optimization.Discrete.Models.ssc(input.discretization, input.quality, input.config.optimization);
+        input.filename = Optimization.Discrete.Models.ssc(input.discretization, [], input.config.optimization);
+        [ssc.solfile, ssc.logfile] = Optimization.Discrete.Solver.cplex.start(ssc.filename, cplex);
+        ssc.log = Optimization.Discrete.Solver.cplex.read_log(ssc.logfile);
+        ssc.solution = Optimization.Discrete.Solver.cplex.read_solution(ssc.solfile);
         %         save(output_filename, 'input');
         stn(input.filename);
         %% TEST solving with and without two sensors per wp
@@ -32,8 +54,8 @@ for id_wpn = 1:numel(num_wpns)
 end
 
 %%
-num_wpn = 0;
-num_sp = 0;
+num_wpn = 250;
+num_sp = 250;
 
 ssc = Experiments.Diss.conference_room(num_sp, num_wpn);
 ssc.config.optimization = Configurations.Optimization.Discrete.ssc;
