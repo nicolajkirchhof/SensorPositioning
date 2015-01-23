@@ -6,7 +6,7 @@ flt_discretization = discretization;
 flt_discretization.sp = discretization.sp(:, sensors_selected);
 flt_discretization.vm = discretization.vm(sensors_selected, :);
 flt_discretization.vfovs = discretization.vfovs(sensors_selected);
-
+%%
 flt_discretization.spo = discretization.spo(sensors_selected, sensors_selected);
 [in1] = ismember(discretization.sc(:,1), sensors_selected);
 [in2] = ismember(discretization.sc(:,2), sensors_selected);

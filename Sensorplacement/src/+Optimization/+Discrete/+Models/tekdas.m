@@ -7,17 +7,17 @@ import Optimization.Discrete.Models.*
 config.filename = Optimization.Discrete.Models.create_filename(discretization, config);
 filename = config.filename;
 
-config = init(config);
-Objective.sum_sensors(discretization, config);
-Constraints.tekdas(discretization, quality, config);
+config = Optimization.Discrete.Models.init(config);
+Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
+Optimization.Discrete.Models.Constraints.tekdas(discretization, quality, config);
 % Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
 % Optimization.Discrete.Models.Constraints.sc_backward(discretization, config);
 % Optimization.Discrete.Models.Constraints.sc_min_quality(discretization, quality, config);
-Binaries.sensors(discretization, config);
+Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 % Optimization.Discrete.Models.Binaries.sensorcombinations(discretization, config);
-config = finish(config);
+config = Optimization.Discrete.Models.finish(config);
 
-save(config);
+Optimization.Discrete.Models.save(config);
 
 %  = model.ws.coverage();
 %  = model.save();

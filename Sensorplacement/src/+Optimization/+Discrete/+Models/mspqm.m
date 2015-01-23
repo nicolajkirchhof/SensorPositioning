@@ -11,7 +11,9 @@ config = Optimization.Discrete.Models.init(config);
 Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
 Optimization.Discrete.Models.Constraints.two_coverage(discretization, config);
 Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
-Optimization.Discrete.Models.Constraints.sc_backward(discretization, config);
+%% sc_ind is mutch faster!!!
+% Optimization.Discrete.Models.Constraints.sc_backward(discretization, config);
+Optimization.Discrete.Models.Constraints.sc_ind(discretization, config);
 Optimization.Discrete.Models.Constraints.sc_min_quality(discretization, quality, config);
 Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 Optimization.Discrete.Models.Binaries.sensorcombinations(discretization, config);

@@ -20,12 +20,11 @@ import Optimization.Discrete.Models.write
         wp_comb_flt = (qvals > config.quality.min);
         num_pairs = 1;
         if isempty(wp_comb_flt)
-            warning('model not solveable');
-            continue;
+            error('model not solveable');
         end
-        %% no sensor has quality, relax model
-        if ~any(wp_comb_flt) && config.is_relax
-            error('Model will not be relaxed!!!');
+%         %% no sensor has quality, relax model
+%         if ~any(wp_comb_flt) && config.is_relax
+%             error('Model will not be relaxed!!!');
 %             warning('\n relaxing model for point %d\n', idw);
 %             idrelax = 1;
 %             is_relaxed = false;
@@ -49,7 +48,7 @@ import Optimization.Discrete.Models.write
 % %                 num_pairs = numel(wp_comb_flt);
 % %                 wp_comb_flt = qvals>0;
 % %             end
-        end
+%         end
         wp_comb_ind = wp_comb_ind(wp_comb_flt);
         %%
         c_cnt = fprintf(fid, ' w%d_comb:', idw);

@@ -27,7 +27,7 @@ for idc = 1:discretization.num_comb
 %     fprintf(fid,'IFs%1$ds%2$dTHENs%1$d: s%1$ds%2$d = 1 -> s%1$d + s%2$d = 2\n',  sc_row(1), sc_row(2), idc);
     fprintf(fid,'IFs%1$ds%2$dTHENs%1$d: s%1$d -s%1$ds%2$d >= 0\n',  sc_row(1), sc_row(2), idc);
     fprintf(fid,'IFs%1$ds%2$dTHENs%2$d: s%2$d -s%1$ds%2$d >= 0\n',  sc_row(1), sc_row(2), idc);
-    fprintf(fid,'IFs%1$dANDs%2$dTHENs%1$s%2$d: s%1$d +s%2$d -s%1$ds%2$d <= 1\n',  sc_row(1), sc_row(2), idc);
+    fprintf(fid,'IFs%1$dANDs%2$dTHENs%1$ds%2$d: s%1$d +s%2$d -s%1$ds%2$d <= 1\n',  sc_row(1), sc_row(2), idc);
 
     if mod(idc,discretization.num_comb/1000)<1
         loop_display(idc);

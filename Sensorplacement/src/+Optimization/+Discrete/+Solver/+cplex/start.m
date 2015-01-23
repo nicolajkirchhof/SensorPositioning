@@ -4,7 +4,7 @@ if nargin < 2
     cplex = 'cplex.exe';
 end
 solfile = [filename(1:end-2) 'sol'];
-logfile = [filename(1:end-2) 'cplog'];
+logfile = [filename(1:end-2) 'log'];
 if exist(solfile, 'file')
     delete(solfile);
 end

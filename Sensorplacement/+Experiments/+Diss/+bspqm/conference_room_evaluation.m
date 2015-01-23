@@ -10,7 +10,7 @@ clear variables;
 
 %%
 % % Calculate Discrete Models
-dirname = 'tmp/conference_room/bspqm';
+dirname = 'tmp/conference_room/bspqm_qscale';
 files = dir([dirname '/*.sol']);
 %%
 for idf = 1:numel(files)
@@ -20,7 +20,7 @@ for idf = 1:numel(files)
     logfile = [dirname filesep strrep(file.name, '.sol', '.log')];
     input_all = load(matfile);
     input = input_all.input;
-    input = rmfield(input, 'solution');
+%     input = rmfield(input, 'solution');
     fields = fieldnames(input);
 
     %%
@@ -46,10 +46,10 @@ for idf = 1:numel(files)
 end
 
 
-
 %% Plot solutions
 clear variables;
 dirname = 'tmp/conference_room/bspqm';
+% dirname = 'tmp/conference_room/bspqm_qscale';
 files = dir([dirname '/*.sol']);
 idf = 1;
 input = cell(1, numel(files));
@@ -60,6 +60,23 @@ for idf = 1:numel(files)
     input_all = load(matfile);
     input{idf} = input_all.input;
 end
+bspqm = input;
+
+%% Plot solutions
+% clear variables;
+% bspqm_dirname = 'tmp/conference_room/bspqm';
+dirname = 'tmp/conference_room/bspqm_qscale';
+files = dir([dirname '/*.sol']);
+idf = 1;
+input = cell(1, numel(files));
+%%%
+for idf = 1:numel(files)
+    file = files(idf);
+    matfile = [dirname filesep strrep(file.name, '.sol', '.mat')];
+    input_all = load(matfile);
+    input{idf} = input_all.input;
+end
+bspqm_qscale = input;
 %% Same WPN
 wpn_found = [];
 wpn_ids = {};

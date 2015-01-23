@@ -15,7 +15,7 @@ function k_coverage(discretization, config)
 % 
 % 
 % [] = model.init(, model_type);
-import Optimization.Discrete.Models.write
+% import Optimization.Discrete.Models.write
 %%
 loop_display(discretization.num_positions, 10);
 write_log(' adding two coverage constraint...');
@@ -26,13 +26,13 @@ for idw = 1:discretization.num_positions
     c_cnt = fprintf(fid, ' k%d_wp%d_coverage:', k, idw);
     % find all visible sensors
     s_idx = find(discretization.vm(:,idw));
-    write.tag_value_lines(fid, ' +s%d', s_idx(:), config.common.linesize, c_cnt, false);
+    Optimization.Discrete.Models.write.tag_value_lines(fid, ' +s%d', s_idx(:), config.common.linesize, c_cnt, false);
     if numel(s_idx) >= k
         fprintf(fid, ' >= %d\n', k);
     else
-        warning('model not solveable relaxing workspace point %d to %d ', idw, numel(s_idx));
+        error('model not solveable');% relaxing workspace point %d to %d ', idw, numel(s_idx));
 %         discretization.k(idw) = numel(s_idx);
-        fprintf(fid, ' >= %d\n', numel(s_idx));
+%         fprintf(fid, ' >= %d\n', numel(s_idx));
     end
     
     if mod(idw,discretization.num_positions/100)<1

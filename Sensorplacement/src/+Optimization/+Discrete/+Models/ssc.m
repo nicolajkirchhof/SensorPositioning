@@ -2,21 +2,21 @@ function filename = ssc(discretization, ~, config)
 %% filename = ssc(discretization, quality, config) 
 %   The single sensor coverage model
 
-import Optimization.Discrete.Models.*
+% import Optimization.Discrete.Models.*
 % model = DataModels.optimizationmodel;
 
-config.filename = create_filename(discretization, config);
+config.filename = Optimization.Discrete.Models.create_filename(discretization, config);
 filename = config.filename;
 
-config = init(config);
-Objective.sum_sensors(discretization, config);
-Constraints.k_coverage(discretization, config);
+config = Optimization.Discrete.Models.init(config);
+Optimization.Discrete.Models.Objective.sum_sensors(discretization, config);
+Optimization.Discrete.Models.Constraints.k_coverage(discretization, config);
 % Constraints.two_coverage(discretization, config);
 Optimization.Discrete.Models.Constraints.sameplace(discretization, config);
-Binaries.sensors(discretization, config);
-config = finish(config);
+Optimization.Discrete.Models.Binaries.sensors(discretization, config);
+config = Optimization.Discrete.Models.finish(config);
 
-save(config);
+Optimization.Discrete.Models.save(config);
 
 %  = model.ws.coverage();
 %  = model.save();
