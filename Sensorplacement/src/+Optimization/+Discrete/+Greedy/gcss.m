@@ -1,7 +1,7 @@
 function [ solution ] = gcss( discretization, quality, config )
 %% [ solution ] = gsss( discretization, solution )
 % greedy combined sensor selection 
-
+timer = tic;
 sc = discretization.sc;
 sp_selected = [];
 
@@ -66,7 +66,7 @@ while ~all(is_wpn)
 end
 write_log('Done');
 %% return result in solution form
-time = toc;
+time = toc(timer);
 % sensors_selected = unique(discretization.sc(sc_selected, :));
 solution = DataModels.solution();
 % solution.x = sensors_selected;
