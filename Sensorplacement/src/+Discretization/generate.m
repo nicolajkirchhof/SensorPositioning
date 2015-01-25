@@ -27,7 +27,8 @@ discretization.num_positions = size(discretization.wpn, 2);
 
 discretization.num_comb = size(discretization.sc, 1);
 
-
+discretization.num_sensors_additional = config.sensorspace.poses.additional;
+discretization.num_positions_additional = config.workspace.positions.additional;
 
 return;
 %% TESTING

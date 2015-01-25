@@ -26,7 +26,6 @@ loop_display(discretization.num_positions, 10);
 write_log(' writing constraints...');
 
 for idw = 1:discretization.num_positions
-    %     for idw = 1:10
     %%
     wp_comb_ind = find(discretization.sc_wpn(:, idw));
     qvals = quality.wss.val{idw};    

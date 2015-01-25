@@ -1,9 +1,33 @@
 %%
-lookupdir = sprintf('tmp/conference_room/environment');
-gco_dir = 'tmp\conference_room\gco';
-files = dir('tmp\conference_room\gco\*.mat'); 
+lookupdir = sprintf('tmp/conference_room/environment/');
+files = dir([lookupdir '*.mat']); 
 base_sensors = 130;
 base_wpn = 20;
+loop_display(numel(files), 5);
+for idf = 1:numel(files)
+    file = files(idf);
+    input_all = load([lookupdir file.name]);
+    %%
+    input = input_all.input;
+    
+    add_sensors = input.discretization.num_sensors - base_sensors;
+    add_sensors = floor(add_sensors/10)*10;
+    add_wpn = input.discretization.num_positions - base_wpn;
+    add_wpn = floor(add_wpn/10)*10;
+
+    input.discretization.num_sensors_additional = add_sensors;
+    input.discretization.num_positions_additional = add_wpn;
+    
+    save([lookupdir file.name], 'input');
+    
+    loop_display(idf);
+end
+
+
+%%
+gco_dir = 'tmp\conference_room\gco';
+files = dir('tmp\conference_room\gco\*.mat'); 
+
 cnt = 0;
 loop_display(numel(files), 5);
 %%

@@ -3,7 +3,9 @@ function sum_sensors(discretization, config)
 import Optimization.Discrete.Models.write
 write_log(' adding sum sensor obj...');
 fid = config.filehandles.obj;
+
 write.tag_value_lines(fid, ' +s%d', (1:discretization.num_sensors)', config.common.linesize);
+
 fprintf(fid, '\n');
 write_log('\n...done ');
 

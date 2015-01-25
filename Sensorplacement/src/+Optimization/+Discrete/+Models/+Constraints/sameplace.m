@@ -1,55 +1,13 @@
 function sameplace(discretization, config)
 % %%
-% [model_path, model_name] = fileparts(mfilename('fullpath'));
-% model_prefix = model_path(max(strfind(model_path, '+'))+1:end);
-% model_type = [model_prefix '_' model_name];
-% %%
-% if pc.progress.model.(model_type)
-%     pc = model.enable(pc, model_type);
-%     return;
-% end
-% 
-% if ~pc.progress.sensorspace.sameplace
-%     pc = sensorspace.sameplace(pc);
-% end
-% 
-% [pc] = model.init(pc, model_type);
-
-
-%%
 import Optimization.Discrete.Models.write
-%%
-% loop_display(discretization.num_positions, 10);
-% write_log(' adding two coverage constraint...');
-% k = 2;
-% fid = config.filehandles.st;
-% for idw = 1:discretization.num_positions
-%     % 16-22 chars
-%     c_cnt = fprintf(fid, ' k%d_wp%d_coverage:', k, idw);
-%     % find all visible sensors
-%     s_idx = find(discretization.vm(:,idw));
-%     write.tag_value_lines(fid, ' +s%d', s_idx(:), config.common.linesize, c_cnt, false);
-%     if numel(s_idx) >= k
-%         fprintf(fid, ' >= %d\n', k);
-%     else
-%         warning('model not solveable relaxing workspace point %d to %d ', idw, numel(s_idx));
-% %         discretization.k(idw) = numel(s_idx);
-%         fprintf(fid, ' >= %d\n', numel(s_idx));
-%     end
-%     
-%     if mod(idw,discretization.num_positions/100)<1
-%         loop_display(idw);
-%     end;
-% end
-% write_log('...done ');
 
-%     write_log(' adding %s constraints', model_type);
     %% write constraints
 
     loop_display(discretization.num_sensors, 10);
     write_log(' adding two coverage constraint...');
     fid = config.filehandles.st;
-    for ids = 1:discretization.num_sensors
+    for ids = 1:discretization.num_sensors       
         if sum(discretization.spo(ids, :)) < 2
             % row can be neglected
             if config.common.debug

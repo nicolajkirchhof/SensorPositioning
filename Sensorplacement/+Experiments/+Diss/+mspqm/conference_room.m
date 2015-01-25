@@ -6,8 +6,8 @@ close all;
 clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-num_wpns = 0:10:500;
-num_sps =  0:10:500;
+num_wpns = 0:10:100;
+num_sps =  0:10:100;
 
 % gco = cell(numel(num_sps), numel(num_wpns));
 for id_wpn = 1:numel(num_wpns)
@@ -16,14 +16,15 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-        num_wpn = 0;
-        num_sp = 50;
+%         num_wpn = 0;
+%         num_sp = 50;
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
         %%%
-        input.config.optimization = Configurations.Optimization.Discrete.mspqm;
+        mspqm_config = Configurations.Optimization.Discrete.mspqm;
+        mspqm_config.common.workdir = 'tmp/conference_room/mspqm/';
         %         output_filename = sprintf('tmp/conference_room/mspqm/mspqm__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
-        input.filename = Optimization.Discrete.Models.input(input.discretization, input.quality, input.config.optimization);
+        input.filename = Optimization.Discrete.Models.mspqm(input.discretization, input.quality, msqpm_config);
         %         save(output_filename, 'input');
         %% TEST solving with and without two sensors per wp
         

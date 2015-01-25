@@ -3,6 +3,7 @@ function sp_qval = qscale(discretization, quality)
 % discretization = input{1}.discretization;
 % quality = input{1}.quality;
 
+%%
 [r, c] = find(discretization.spo);
 sp_comb = [r c];
 sp_qval = cell(discretization.num_sensors, 1);

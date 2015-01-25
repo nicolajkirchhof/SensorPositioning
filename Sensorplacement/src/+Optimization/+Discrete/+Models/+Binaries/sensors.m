@@ -3,6 +3,7 @@ function sensors(discretization, config)
 import Optimization.Discrete.Models.write
 write_log(' adding sensor binaries...');
 fid = config.filehandles.bin;
+
 write.tag_value_lines(fid, ' s%d', (1:discretization.num_sensors)', config.common.linesize);
 fprintf(fid, '\n');
 write_log('\n...done ');
@@ -24,19 +25,19 @@ config_discretization.sensorspace.poses.additional = 0;
 discretization = Discretization.generate(environment, config_discretization);
 
 config_quality = Configurations.Quality.diss;
-[quality] = Quality.generate(discretization, config_quality); 
+[quality] = Quality.generate(discretization, config_quality);
 
 config = Configurations.Optimization.Discrete.stcm;
 Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 
 
 %%
-% 
+%
 % [] = model.init(, model_type);
-% 
+%
 % %%
 % %% write objective values
-% 
+%
 % fid = .model.(model_type).obj.fid;
 % %%
 
@@ -62,7 +63,7 @@ Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 % end
 % write_log('done ');
 % %% write Binaries
-% 
+%
 % %%
 % % if .model.(model_type).bin.enable
 %     fid = .model.(model_type).bin.fid;
@@ -89,5 +90,5 @@ Optimization.Discrete.Models.Binaries.sensors(discretization, config);
 % start_cplex(.model.lastsave);
 % s = read_solution(.model.lastsave);
 % draw.solution(, s);
-% 
-% 
+%
+%

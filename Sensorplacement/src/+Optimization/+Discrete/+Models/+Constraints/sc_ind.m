@@ -22,6 +22,7 @@ fid = config.filehandles.st;
 loop_display(discretization.num_comb, 10);
 write_log('writing constraints... ');
 for idc = 1:discretization.num_comb
+   
     %%
     sc_row = discretization.sc(idc,:);
 %     fprintf(fid,'IFs%1$ds%2$dTHENs%1$d: s%1$ds%2$d = 1 -> s%1$d + s%2$d = 2\n',  sc_row(1), sc_row(2), idc);

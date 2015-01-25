@@ -7,7 +7,7 @@ import Optimization.Discrete.Models.write
 %%
 write_log(' adding sensorcombinations binaries...');
 fid = config.filehandles.bin;
-write.tag_value_lines(fid, ' s%ds%d', discretization.sc, config.common.linesize);
+    write.tag_value_lines(fid, ' s%ds%d', discretization.sc, config.common.linesize);
 % write.tag_value_lines(fid, ' s%d', (1:discretization.num_sensors)', config.common.linesize);
 write_log('\n...done ');
 

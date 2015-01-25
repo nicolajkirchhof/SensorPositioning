@@ -1,4 +1,4 @@
-function [input] = conference_room(num_sp, num_wpn, draw)
+function [input] = conference_room(num_sp, num_wpn)
 %%
 % clear variables;% functions;
 

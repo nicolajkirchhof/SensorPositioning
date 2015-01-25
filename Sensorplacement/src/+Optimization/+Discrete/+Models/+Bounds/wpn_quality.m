@@ -7,9 +7,12 @@ import Optimization.Discrete.Models.write
 %%
 fid = config.filehandles.bounds;
 write_log(' %s bounds...', mfilename);
-%qmins = repmat(pc.model.(model_type).quality.min/(qvalsbwmax+qvalsummax), size((1:discretization.num_positions)')) ;
-qmins = repmat(config.quality.min, size((1:discretization.num_positions)')) ;
-write.tag_2value_lines(fid, '%e <= w%d\n', qmins, (1:discretization.num_positions)', config.common.linesize);
+
+    qmins = repmat(config.quality.min, size((1:discretization.num_positions)'));
+    write.tag_2value_lines(fid, '%e <= w%d\n', qmins, (1:discretization.num_positions)', config.common.linesize);
+
+
+
 write_log('... done ');
 
 return;

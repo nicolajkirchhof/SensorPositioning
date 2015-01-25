@@ -21,8 +21,8 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-        num_wpn = 250;
-        num_sp = 250;
+%         num_wpn = 250;
+%         num_sp = 250;
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn);% true);
         %%%

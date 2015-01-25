@@ -30,19 +30,19 @@ for idw = 1:discretization.num_positions
     flt_vis = dn1>1|dn2>1;
     vals{idw}(flt_vis) = [];
     
-    valsum(idc, 1) = sum(vals{idw}); 
-    valbw(idc,1) = valbw(idc,1)+max(vals{idw}, 0);
+%     valsum(idc, 1) = sum(vals{idw}); 
+%     valbw(idc,1) = valbw(idc,1)+max(vals{idw}, 0);
     
-    valsensorsum = arrayfun(@(i) valsensorsum(i) + sum(vals{idw}(ismember(s1_idx, i)|ismember(s2_idx, i))), 1:discretization.num_sensors);
+%     valsensorsum = arrayfun(@(i) valsensorsum(i) + sum(vals{idw}(ismember(s1_idx, i)|ismember(s2_idx, i))), 1:discretization.num_sensors);
 
     loop_display(idw);
 end
 %%
 write_log('...done ');
 quality.wss.val = vals;
-quality.wss.valbw = valbw;
-quality.wss.valsum = valsum;
-quality.wss.valsensorsum = valsensorsum;
+% quality.wss.valbw = valbw;
+% quality.wss.valsum = valsum;
+% quality.wss.valsensorsum = valsensorsum;
 %%
 
 return;

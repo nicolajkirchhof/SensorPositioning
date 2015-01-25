@@ -1,47 +1,34 @@
 % function [processing] = room(num_wpn, num_sp)
 %%
-
-%%
 clear variables;
 close all;
 % num_wpns = 60:10:100;
-num_wpns = 0;
-num_sps = 0:10:100;
+num_wpns = 0:10:80;
+num_sps = 0:10:80;
+
+cnt = 0;
+loop_display(numel(num_wpns)*numel(num_sps), 5);
 for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
         
         %%
-%         num_wpn = 0;
-%         num_sp = 0;
+        num_wpn = 0;
+        num_sp = 0;
         
-        input = Experiments.Diss.conference_room(num_sp, num_wpn, true);
+        input = Experiments.Diss.conference_room(num_sp, num_wpn); 
+        bspqm_config = Configurations.Optimization.Discrete.bspqm;
+        bspqm_config.common.workdir = 'tmp/conference_room/bspqm/';
         %%
-        figure;
-        Discretization.draw(input.discretization, input.environment);
-        hold on;
-        Discretization.draw_wpn_max_qualities(input.discretization, input.quality);
-  
-        %%
-        output_filename = sprintf('tmp/conference_room/bspqm__%d_%d_%d.mat', input.discretization.num_sensors, input.discretization.num_positions, input.discretization.num_comb);
-        input.filename = Optimization.Discrete.Models.bspqm(input.discretization, input.quality, Configurations.Optimization.Discrete.bspqm);
-        save(output_filename);
+        input.filename = Optimization.Discrete.Models.bspqm(input.discretization, input.quality, bspqm_config);
+        cnt = cnt+1;
+        loop_display(cnt);
     end
 end
 
 %%
-for mnamecell = modelnames'
-    mname = mnamecell{1};
-    % config = Configurations.Optimization.Discrete.stcm;
-    config_models.(mname).name = name;
-    if strcmp(mname(1), 'g')
-        %         solutions.(mname) = Optimization.Discrete.Greedy.(mname)(discretization, quality, config_models.(mname));
-    else
-        [filenames.(mname)] = Optimization.Discrete.Models.(mname)(discretization, quality, config_models.(mname));
-        %         solutions.(mname) = fun_solve(filenames.(mname));
-    end
-end
+return;
 
 % %% Calculate Poly Decomp solutions
 % input.rpd.environment_collection = Environment.decompose(environment, Configurations.Environment.rpd);
@@ -70,43 +57,3 @@ end
 % filenames.hertel.mspqm = cellfun(fun_mspqm, input.hertel.discretization_collection, input.hertel.quality_collection, 'uni', false);
 % filenames.keil.mspqm = cellfun(fun_mspqm, input.keil.discretization_collection, input.keil.quality_collection, 'uni', false);
 %
-%
-processing.input = input;
-processing.filenames = filenames;
-processing.solutions = solutions;
-%
-return;
-
-%% TEST
-num_wpn = 0;
-num_sp = 0;
-name = 'P1'
-filename = 'res\floorplans\P1-Seminarraum.dxf';
-
-[processing] = Experiments.Diss.create_models(filename, num_wpn, num_sp, name);
-
-
-
-
-
-%     end
-% end
-
-%% Solve models
-
-% modelfiles = fieldnames(processing.filenames);
-% % modelfiles = {'tekdas'};
-% for mfile = modelfiles'
-%     modelfile = mfile{1};
-%     if ischar(processing.filenames.(modelfile))
-%         processing.solutions.(modelfile) = fun_solve(processing.filenames.(modelfile));
-%     elseif isstruct(processing.filenames.(modelfile))
-%         for split_mfile = fieldnames(processing.filenames.(modelfile))'
-%             processing.solutions.(modelfile).(split_mfile{1}) = cellfun(fun_solve,  processing.filenames.(modelfile).(split_mfile{1}), 'uni', false);
-%         end
-%     end
-%     save(output_filename, 'processing');
-% end
-% return;
-%%
-% Experiments.Diss.room

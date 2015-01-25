@@ -9,7 +9,8 @@ write_log(' adding sum continuous obj...');
 fid = config.filehandles.obj;
 
 sp_qval = Optimization.Discrete.Models.Objective.qscale(discretization, quality);
-sp_qval_sum = cellfun(@sum, sp_qval);
+flt_qval = cellfun(@(x) ~isempty(x), sp_qval);
+sp_qval_sum = cellfun(@sum, sp_qval(flt_qval));
 qvalscale = max(sp_qval_sum);
 
 % qvalscale = max(quality.wss.valsensorsum);
