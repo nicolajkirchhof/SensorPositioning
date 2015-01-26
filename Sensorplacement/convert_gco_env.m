@@ -1,4 +1,39 @@
-%%
+clear variables;
+% set(gca, 'CameraUpVector', [0 1 0]);
+
+filename = 'res/floorplans/P1-Seminarraum.dxf';
+
+env = Environment.load(filename);
+env.obstacles = {};
+env_comb = Environment.combine(env);
+bpoly = env_comb.combined;
+% bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
+num_sp = 0;
+num_wpn = 0;
+input = Experiments.Diss.conference_room(num_sp, num_wpn);
+[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
+
+%% Add decomposition parts
+lookupdir = sprintf('tmp/conference_room/discretization/');
+files = dir([lookupdir '*.mat']); 
+loop_display(numel(files), 5);
+%
+for idf = 1:numel(files)
+    file = files(idf);
+    input_all = load([lookupdir file.name]);
+    
+    input = input_all.input;
+    
+    input.parts = Environment.filter(input, P_c);
+    input = rmfield(input, 'environment');
+    
+    save([lookupdir file.name], 'input');
+    
+    loop_display(idf);
+end
+
+
+%% Add additional points
 lookupdir = sprintf('tmp/conference_room/environment/');
 files = dir([lookupdir '*.mat']); 
 base_sensors = 130;

@@ -12,17 +12,20 @@ end
 name = 'ConferenceRoom';
 
 
-lookupdir = sprintf('tmp/conference_room/environment');
+lookupdir = sprintf('tmp/conference_room/discretization');
+
+env = load('tmp\conference_room\environment\environment.mat');
+environment = env.environment;
 
 lookup_filename = [lookupdir filesep sprintf('%d_%d.mat', num_sp, num_wpn)];
 %%
 if ~exist(lookup_filename, 'file')
     
-    workdir = sprintf('tmp/conference_room');
-    filename = 'res\floorplans\P1-Seminarraum.dxf';
-    Configurations.Common.generic(name, workdir);
+%     workdir = sprintf('tmp/conference_room');
+%     filename = 'res\floorplans\P1-Seminarraum.dxf';
+%     Configurations.Common.generic(name, workdir);
     
-    environment = Environment.load(filename);
+%     environment = Environment.load(filename);
     % Environment.draw(environment);
     
     %%
@@ -41,7 +44,6 @@ if ~exist(lookup_filename, 'file')
     [quality] = Quality.generate(discretization, config_quality);
     
     input.discretization = discretization;
-    input.environment = environment;
     input.quality = quality;
     %         input.config.environment = config_environment;
     input.config.discretization = config_discretization;
@@ -50,10 +52,13 @@ if ~exist(lookup_filename, 'file')
     input.name = name;
     
     save(lookup_filename, 'input');
+    
+    input.environment = environment;
 else
     
     input = load(lookup_filename);
     input = input.input;
+    input.environment = environment;
 end
 
 %     %%%

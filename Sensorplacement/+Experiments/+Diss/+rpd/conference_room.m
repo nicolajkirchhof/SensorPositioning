@@ -20,7 +20,7 @@ P_c = cellfun(@(x) mb.visilibity2boost(x), P_c, 'uniformoutput', false);
 
 %%
 bspqm_config = Configurations.Optimization.Discrete.bspqm;
-bspqm_config.common = input.config.discretization.common;
+bspqm_config.common.workdir = 'tmp/conference_room/bspqm_rdp';
 
 for idpt = 1:numel(parts)
     if parts{idpt}.discretization.num_positions > 0

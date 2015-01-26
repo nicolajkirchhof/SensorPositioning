@@ -6,24 +6,33 @@ close all;
 num_wpns = 0:10:80;
 num_sps = 0:10:80;
 
-cnt = 0;
-loop_display(numel(num_wpns)*numel(num_sps), 5);
+iteration = 0;
+update_interval = 5;
+stp = update_interval;
+tme = tic;
+next = update_interval;
+iterations = numel(num_wpns)*numel(num_sps);
+
 for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
         
         %%
-        num_wpn = 0;
-        num_sp = 0;
+%         num_wpn = 0;
+%         num_sp = 0;
         
         input = Experiments.Diss.conference_room(num_sp, num_wpn); 
         bspqm_config = Configurations.Optimization.Discrete.bspqm;
         bspqm_config.common.workdir = 'tmp/conference_room/bspqm/';
         %%
         input.filename = Optimization.Discrete.Models.bspqm(input.discretization, input.quality, bspqm_config);
-        cnt = cnt+1;
-        loop_display(cnt);
+
+        iteration = iteration + 1;
+        if toc(tme)>next
+            fprintf(1, '%g pct %g sec to go\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration));
+            next = toc(tme)+stp;
+        end
     end
 end
 

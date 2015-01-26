@@ -38,7 +38,7 @@ for idw = 1:discretization.num_positions
     loop_display(idw);
 end
 %%
-write_log('...done ');
+% write_log('...done ');
 quality.wss.val = vals;
 % quality.wss.valbw = valbw;
 % quality.wss.valsum = valsum;
