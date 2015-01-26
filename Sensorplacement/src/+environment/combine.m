@@ -21,7 +21,7 @@ if ~isempty(environment.obstacles)
         [in, on] = binpolygon(environment.obstacles{idp}{1}, poly_wo_mountables, 1);
         obstacles_inside(idp) = any(in&~on);
     end
-    %%%
+    %%
     poly_wo_obstacles = bpolyclip_batch([poly_wo_mountables, environment.obstacles], 0, 1:num_obstacles+1, bpolyclip_batch_options);
     
     if numel(poly_wo_obstacles{1}) > 1

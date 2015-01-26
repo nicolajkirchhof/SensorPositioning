@@ -2,50 +2,23 @@ function [ sol ] = cmqm_cmaes( input )
 %START Solves the sensorplacement by approximation of the 
 % total number of sensors and an iterative nonlinear search
 %%
-
-
-%%
-clear variables;
-input = Experiments.Diss.conference_room(50, 50);
-% sol = load('tmp/conference_room/gco/gco__0_0.mat');
-sol = load('tmp/conference_room/gco/gco__50_50.mat');
-input.solution = sol.input.solution;
-env = load('tmp/conference_room/environment/environment.mat');
-ply = env.environment.combined;
-ply_to_cover = bpolyclip(env.environment.combined, env.environment.occupied, 0, 1, 100, 1); 
-
 c = load('tmp/contours/contours.mat');
 contours = c.contours;
 sp = input.discretization.sp(:, input.solution.sensors_selected);
+ply = input.environment.combined;
+wpn = input.discretization.wpn;
 
-% [qval, ply_remaining] = Optimization.Continuous.cmqcm(sp, ply, ply_to_cover, contours);
-% mb.drawPolygon(ply_remaining, 'color', 'g');
+num_sp = size(sp, 2);
 
 
-%%
-pc.sensorspace.min_visible_area  = 0;
-pc.sensorspace.min_visible_positions = 0;
 
-penv = {pc.environment.combined.poly{1}{1} pc.environment.mountable.poly{:}};
-% if ~iscell(penv)
-%    use outer boundary
-%    penv = penv{1};
-% else
-%     penv = {penv};
-% end
-pmax = double(max(penv{1}, [], 2));
-pmin = double(min(penv{1}, [], 2));
-pdiff = pmax-pmin;
-pmxdist = norm(pdiff)/100;
-%%%
-sel_sensors = pc.problem.S(:, pc.model.it_fmin.sol.sensors);
-% sel_sensors = sel_sensors(:);
-env_edges_all = {};
-for idp = 1:numel(penv)
-    env_edges_all{idp} = double([penv{idp}(:,1:end-1)', penv{idp}(:,2:end)']);
-end
-env_edges_all = cell2mat(env_edges_all');
+
 %% remove edges that are on boundaries
+gpoly = mb.boost2visilibity(input.environment.combined);
+edges = cellfun(@(x) [x, circshift(x, -1, 1)], gpoly, 'uniformoutput', false);
+
+intersectEdgePolygon
+%%
 p_center = env_edges_all(:,[1 2])+((-env_edges_all(:,[1 2])+env_edges_all(:,[3 4]))./2);
 in = binpolygon(int64(p_center'), pc.environment.obstacles.poly);
 env_edges = env_edges_all(~in, :);    
@@ -70,6 +43,43 @@ end
 sel_sensors_edge_ids = columns(urowsid);
 sel_sensors_edge_pos = edgePosition(sel_sensors(1:2,:)', env_edges(sel_sensors_edge_ids, :)).*env_edge_normlength(sel_sensors_edge_ids);
 sel_sensors_abs_pos = sel_sensors_edge_pos+env_edge_lookup(sel_sensors_edge_ids);
+%%
+
+
+ub = ones(size(opt_vect));
+lb = zeros(size(opt_vect));
+opt.LBounds = lb;
+opt.UBounds = ub;
+maxtime = 7200;
+
+% write_log('#off');
+% opt.StopIter = 500;
+% tic;
+fun_check_stopflag = @(flags) any(strcmpi(flags, 'stoptoresume')|strcmpi(flags, 'manual'));
+[poses, fmin, counteval, stopflag, out, bestever ]  = cmaes( @opt_fct, opt_vect, [], opt );
+opt.Resume = true;
+while toc < maxtime && fun_check_stopflag(stopflag)
+    [poses, fmin, counteval, stopflag, out, bestever ]  = cmaes( @opt_fct, poses, [], opt );
+end
+pc.common.verbose = true;
+sol.poses = poses;
+sol.fmin = fmin;
+sol.conteval = counteval;
+sol.stopflag = stopflag;
+sol.out = out; 
+sol.bestever = bestever;
+
+%%
+clear variables;
+input = Experiments.Diss.conference_room(50, 50);
+sol = load('tmp/conference_room/gco/gco__50_50.mat');
+input.solution = sol.input.solution;
+
+env_edges_all = {};
+for idp = 1:numel(penv)
+    env_edges_all{idp} = double([penv{idp}(:,1:end-1)', penv{idp}(:,2:end)']);
+end
+env_edges_all = cell2mat(env_edges_all');
 %%
 % sel_sensors(1:2,:) = bsxfun(@rdivide, bsxfun(@minus, sel_sensors(1:2,:), pmin), pdiff);
 sel_sensors_phi = sel_sensors(3,:)/(2*pi);
