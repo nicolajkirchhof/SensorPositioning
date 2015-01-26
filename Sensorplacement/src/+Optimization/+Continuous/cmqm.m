@@ -4,10 +4,10 @@ bpolyclip_options = Configurations.Bpolyclip.vfov;
 bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
 config = Configurations.Discretization.iterative;
 
-input = Experiments.Diss.conference_room(0, 0);
-sp = input.discretization.sp;
-wpn = input.discretization.wpn;
-ply = input.environment.combined;
+% input = Experiments.Diss.conference_room(0, 0);
+% sp = input.discretization.sp;
+% wpn = input.discretization.wpn;
+% ply = input.environment.combined;
 %%%
 vis_polys = visilibity(sp(1:2, :), ply, 10, 10, 0);
 vis_empty_flt = cellfun(@isempty, vis_polys);
