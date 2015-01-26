@@ -1,9 +1,28 @@
-function [ sol ] = cmaes_cont( pc, maxtime )
+function [ sol ] = cmqm_cmaes( input )
 %START Solves the sensorplacement by approximation of the 
 % total number of sensors and an iterative nonlinear search
 %%
-%  sol.pc = pc;
-%%%
+
+
+%%
+clear variables;
+input = Experiments.Diss.conference_room(50, 50);
+% sol = load('tmp/conference_room/gco/gco__0_0.mat');
+sol = load('tmp/conference_room/gco/gco__50_50.mat');
+input.solution = sol.input.solution;
+env = load('tmp/conference_room/environment/environment.mat');
+ply = env.environment.combined;
+ply_to_cover = bpolyclip(env.environment.combined, env.environment.occupied, 0, 1, 100, 1); 
+
+c = load('tmp/contours/contours.mat');
+contours = c.contours;
+sp = input.discretization.sp(:, input.solution.sensors_selected);
+
+% [qval, ply_remaining] = Optimization.Continuous.cmqcm(sp, ply, ply_to_cover, contours);
+% mb.drawPolygon(ply_remaining, 'color', 'g');
+
+
+%%
 pc.sensorspace.min_visible_area  = 0;
 pc.sensorspace.min_visible_positions = 0;
 
@@ -102,7 +121,7 @@ function x = opt_fct(x_in)
 %         pc = quality.wss.dd_dop(pc, 1);
 % x = sum(cellfun(@(x) numel(x)/sum(x), pc.quality.wss_dd_dop.val));
 %%
-end
+
 
 %%
 opt = cmaes;
@@ -172,28 +191,17 @@ sol.variables.names = arrayfun(@(id) sprintf('s%d',id), 1:sol.pc.problem.num_sen
 
 write_log('#on');
 
-%%
 
-
-
-%%%
-
-return;
-%% testing
 %% testing
 close all; fclose all; clear all;
 %
 % clear all;
 upda = [1.5 2.5 8];
 uada = [8 4 1];
-i = 2;
-%% for i = 3:-1:1
-
+for i = 3:-1:1
 fclose all; clear pc;
-% pc = processing_configuration('irf_seminar_cmaes_cont');
-% pc.environment.file = 'res/floorplans/IrfSeminarraumFinca.dxf';
-pc = processing_configuration('rect_cmaes_cont');
-pc.environment.file = 'res/floorplans/SimpleRectangle.dxf';
+pc = processing_configuration('sides4_nr0');
+pc.environment.file = 'res/floorplans/IrfSeminarraumFinca.dxf';
 upd = 100*upda(i);
 pc.sensorspace.uniform_position_distance = upd;
 uad = deg2rad(45/uada(i));
@@ -202,7 +210,7 @@ pc.workspace.grid_position_distance = upd;
 pc.workspace.wall_distance = 200;
 pc.sensors.distance.min = 0;
 pc.sensors.distance.max = 6000;
-pc.model.wss_qclip.quality.param = 3;
+pc.model.wss_qclip.quality.param = 5;
 pc.model.wss_qclip.quality.min = 0.5;
 pc.model.wss_qclip.quality.name = pc.quality.types.wss_dd_dop;
 pc.model.it_fmin.quality.fct = @model.wss.qclip;
@@ -210,7 +218,7 @@ pc.model.it_fmin.quality.name = pc.quality.types.wss_dd_dop;
 pc.model.it_fmin.quality.param = 5;
 % dbstop in src\+model\+it\fmin.m
 pc = model.it.fmin(pc);
-draw.ws_solution_parsed(pc, pc.model.it_fmin.sol);
+draw.ws_solution(pc, pc.model.it_fmin.sol);
 %%
 % profile on;
 sall = pc.model.it_fmin.sol.sensors;
@@ -226,7 +234,7 @@ for ids = 1:round(numel(sall)/2)
 end
 
 % profile viewer;
-% end
+end
 %%
 if ~isempty(cpx.Solution)
     pc.model.sol = cpx.Solution;
@@ -248,4 +256,5 @@ if ~isempty(cpx.Solution)
 %     draw.ws_wp_solstats(pc, cpx.Solution);
     
 end
-end
+
+
