@@ -23,13 +23,14 @@ if ~isempty(environment.obstacles)
     end
     %%
     poly_wo_obstacles = bpolyclip_batch([poly_wo_mountables, environment.obstacles], 0, 1:num_obstacles+1, bpolyclip_batch_options);
-    
-    if numel(poly_wo_obstacles{1}) > 1
+    %%
+    if iscell(poly_wo_obstacles{1}) && numel(poly_wo_obstacles{1}) > 1
         %%
         warning('more than one poygon while combining, using greatest');
         area = cellfun(@mb.polygonArea, poly_wo_obstacles{1});
         [~, id_max] = max(area);
         poly_wo_obstacles = poly_wo_obstacles{1}{id_max};
+        environment.combined = poly_wo_obstacles;
     else
         environment.combined = poly_wo_obstacles{1};
     end

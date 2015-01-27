@@ -40,7 +40,7 @@ if ~isempty(environment.mountable)
     arrayfun(fun_legend_off, h(2:end));
 end
 
-h = mb.drawPolygon( environment.boundary.ring , 'color', 'k');
+h = mb.drawPolygon( environment.boundary.ring , 'color', 'k', 'linewidth', 2);
 legend(h, 'Walls');
 legend off;
 if islegend

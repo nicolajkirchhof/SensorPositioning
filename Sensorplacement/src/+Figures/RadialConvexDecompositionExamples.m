@@ -32,9 +32,9 @@ cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
 mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 % axis on
-ylim([50 5900]);
-xlim([500 8800]);
-
+ylim([50 6100]);
+xlim([400 8600]);
+%%
 filename = 'DecomposedSmallFlat';
 Figures.makeFigure(filename);
 

@@ -19,7 +19,7 @@ end
 write_log(' calculating visibilities:');
 sensor = discretization.sensor;
 sensorspace = discretization.sensorspace;
-environment = Environment.combine(environment);
+% environment = Environment.combine(environment);
 %%% remove sensor positions that are not in polygon
 bpolyclip_options = Configurations.Bpolyclip.vfov;
 bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
