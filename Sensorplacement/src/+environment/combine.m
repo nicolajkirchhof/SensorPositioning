@@ -53,3 +53,60 @@ environment.combined = environment.combined{1};
 if ~(iscell(environment.combined))
     environment.combined = {environment.combined};
 end
+
+    %% Redo environment to add points that are on obstacles
+    %%% Test obstacle point integration
+%     environment.boundary.ring = environment.boundary.ring_orig;
+%     boundary_vpoly = mb.boost2visilibity(environment.boundary.ring);
+%         boundary_edges = [combined_vpoly, circshift(combined_vpoly, -1, 1)];
+
+    combined_vpoly = mb.boost2visilibity(environment.combined);
+    combined_edges = cellfun(@(x) [x, circshift(x, -1, 1)], combined_vpoly, 'uniformoutput', false);
+    obstacle_vpolys = cellfun(@(x)mb.boost2visilibity(x{1}), environment.obstacles, 'uniformoutput', false);
+    obstacle_edges = cellfun(@(x) [x, circshift(x, -1, 1)], obstacle_vpolys,  'uniformoutput', false);
+    %%    
+    boundary_edges = combined_edges{1};
+    for id_poly = 1:numel(obstacle_edges)
+        %%
+        edges = obstacle_edges{id_poly};
+        for id_edge =  1:size(edges, 1)
+            %%
+            xings = intersectEdges(edges(id_edge,:), boundary_edges);
+            flt_xing = ~isnan(xings(:,1)) & ~isinf(xings(:,1));
+            %%
+            if any(flt_xing)
+                % every polygon must have two intersections
+                id_xings = find(flt_xing);
+                %%
+                for idx = 1:numel(id_xings)
+                    id_xing = id_xings(idx);
+                    write_log('id_poly %d  id_edge %d id_xing %d\n', id_poly, id_edge, id_xing);
+                    if edgeLength([ boundary_edges(id_xing, 1:2), xings(id_xing, :) ]) > 10 && ...
+                        edgeLength([ xings(id_xing, :), boundary_edges(id_xing, 3:4) ]) > 10
+                    boundary_edges = [boundary_edges(1:id_xing-1, :);
+                        [ boundary_edges(id_xing, 1:2), xings(id_xing, :) ];
+                        [ xings(id_xing, :), boundary_edges(id_xing, 3:4) ];
+                        boundary_edges(id_xing+1:end, :)];
+                    else 
+                        write_log('Edge NOT added\n');
+                    end
+                end
+                %             fprintf(1, '%d %d\n', id_poly, id_edge);
+            end
+        end
+    end
+    %% CREATE EDGE LOOKUP
+    combined_edges{1} = boundary_edges;
+    combined_pt_mid = cellfun(@(x) int64(bsxfun(@plus, x(:,1:2), (-x(:,1:2)+x(:,3:4))*.5))', combined_edges, 'uniformoutput', false);
+    
+    placeable_edges = cell(size(combined_pt_mid));
+    %%
+    for id_ply = 1:numel(combined_pt_mid)
+       is_in_on_obst = cellfun(@(x) binpolygon(combined_pt_mid{id_ply}, x, 1), environment.obstacles, 'uniformoutput', false);
+       placeable_edges{id_ply} = ~any(cell2mat(is_in_on_obst'), 1);
+       %%
+    end
+    
+    environment.combined_edges = combined_edges;
+    environment.placable_edges = placeable_edges;
+
