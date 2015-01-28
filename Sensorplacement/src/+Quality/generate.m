@@ -6,10 +6,10 @@ function [ quality ] = generate( discretization, config )
 %   config.wss : type of wss quality
 % import Discretization.*
 
-quality_tmp = Quality.WS.(config.ws)(discretization, config);
+% quality_tmp = Quality.WS.(config.ws)(discretization, config);
 
 quality = Quality.WSS.(config.wss)(discretization, config);
-quality.ws = quality_tmp.ws; 
+% quality.ws = quality_tmp.ws; 
 
 
 return;

@@ -1,4 +1,4 @@
-function [input] = small_flat(num_sp, num_wpn)
+function [input] = large_flat(num_sp, num_wpn)
 %%
 % clear variables;% functions;
 
@@ -22,8 +22,8 @@ lookup_filename = [lookupdir filesep sprintf('%d_%d.mat', num_sp, num_wpn)];
 if ~exist(lookup_filename, 'file')
        
     %%
-%             num_sp =  500;
-%             num_wpn = 500;
+%             num_sp =  0;
+%             num_wpn = 0;
     config_discretization = Configurations.Discretization.iterative;
     config_discretization.workspace.wall_distance = 200;
     % config_discretization.workspace.cell.length = [0 1000];

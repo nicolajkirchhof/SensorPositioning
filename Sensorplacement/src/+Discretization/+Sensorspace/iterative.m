@@ -27,7 +27,8 @@ comb_corners_pl_uni = cellfun(@(x) unique(x, 'rows'), comb_corners_placeable, 'u
 
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(comb_corners_pl_uni{1}, sensor.directional(2), sensorspace.resolution.angular, false, true);
 sensor_poses_mountables = cellfun(@(p) Discretization.Sensorspace.place_sensors_on_corners(p, sensor.directional(2), sensorspace.resolution.angular, false, false, true), comb_corners_pl_uni(2:end), 'uniformoutput', false);
-sensor_poses_all = [sensor_poses_boundary, cell2mat(sensor_poses_mountables(:))];
+flt_nonempty = cellfun(@(x) ~isempty(x), sensor_poses_mountables);
+sensor_poses_all = [sensor_poses_boundary, cell2mat(sensor_poses_mountables(flt_nonempty))];
 
 [sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_all, environment, workspace_positions, options, true); % todo: remove spikes as option?
 

@@ -35,7 +35,7 @@
     environment.boundary.ring = mb.visilibity2boost(vsmp);
     Environment.draw(environment, false);
     drawPoint(vsmp);
-    %%
+    %%%
     ring = environment.boundary.ring;
     environment = Environment.combine(environment);
     Environment.draw(environment, false);
@@ -43,7 +43,7 @@
     mb.drawPolygon(environment.combined, 'color', 'g', 'linestyle', ':', 'linewidth', 2);
     ylim([0 9500]);
     xlim([0 13000]);
-    %%
+    %%%
     save('tmp\large_flat\environment\environment.mat', 'environment');
 
     %%
@@ -55,9 +55,9 @@
     hold on;
     drawEdge(environment.combined_edges{1}(environment.placable_edges{1}, :), 'color', 'r', 'linewidth', 4);
     mb.drawPolygon(environment.combined, 'color', 'g', 'linestyle', ':', 'linewidth', 2);
-    %%%
+    %%
     save('tmp\office_floor\environment\environment.mat', 'environment');
-
+ 
     %%
     hold on;
     for ido = 1:numel(environment.obstacles)

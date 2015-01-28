@@ -17,16 +17,23 @@ input = Experiments.Diss.conference_room(num_sp, num_wpn);
 lookupdir = sprintf('tmp/conference_room/discretization/');
 files = dir([lookupdir '*.mat']); 
 loop_display(numel(files), 5);
-%
-for idf = 1:numel(files)
+%%
+for idf = 2299:numel(files)
     file = files(idf);
     input_all = load([lookupdir file.name]);
     
     input = input_all.input;
+    %%
+    input.quality.wss = rmfield(input.quality.wss, {'valbw'; 'valsum'; 'valsensorsum'});
+    input.quality = rmfield(input.quality, 'ws');
+    input.discretization.spo = uint8(input.discretization.spo);
     
-    input.parts = Environment.filter(input, P_c);
-    input = rmfield(input, 'environment');
+    for idp = 1:numel(input.parts)
+        input.parts{idp} = rmfield(input.parts{idp}, {'config'; 'environment';'timestamp';'name'});
+        input.parts{idp}.quality = rmfield(input.parts{idp}.quality, 'ws');
+    end
     
+    %%
     save([lookupdir file.name], 'input');
     
     loop_display(idf);
