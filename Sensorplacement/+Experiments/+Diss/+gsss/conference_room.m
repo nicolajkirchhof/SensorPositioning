@@ -2,9 +2,9 @@
 close all;
 clear variables;
 % num_sp = 0:20:200
-% num_wpns = 0;
+num_wpns = 500;
 % num_sps =  0:10:100;
-num_wpns = 10:10:500;
+% num_wpns = 10:10:500;
 num_sps =  0:10:500;
 % cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
@@ -20,6 +20,11 @@ for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
+        
+        output_filename = sprintf('tmp/conference_room/gsss/gsss__%d_%d.mat', num_sp, num_wpn);
+        if exist(output_filename, 'file')> 0
+            continue
+        end
         
         %%
 %         num_wpn = 250;

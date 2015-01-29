@@ -4,7 +4,8 @@ clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0;
 % num_sps =  0:10:100;
-num_wpns = 0:10:490;
+% num_wpns = 0:10:490;
+num_wpns = 500;
 num_sps =  0:10:500;
 
 iteration = 0;
