@@ -3,9 +3,9 @@ close all;
 clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-% num_wpns = 0:10:490;
-num_wpns = 500;
-num_sps =  250:10:500;
+num_wpns = 0:10:500;
+% num_wpns = 500;
+num_sps =  0:10:500;
 cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 
 iteration = 0;
@@ -23,11 +23,11 @@ for id_wpn = 1:numel(num_wpns)
         num_sp = num_sps(id_sp);
         
         %%
-%         num_wpn = 500;
+%         num_wpn = 0;
 %         num_sp = 0;
         gen = Configurations.Common.generic();
-        gen.workdir = 'tmp/conference_room/stcm';
-        input = Experiments.Diss.conference_room(num_sp, num_wpn);
+        gen.workdir = 'tmp/small_flat/stcm';
+        input = Experiments.Diss.small_flat(num_sp, num_wpn);
         stcm.config.optimization = Configurations.Optimization.Discrete.stcm(gen);
         
         % stcm_ind.config.optimization.type = 'stcm';
@@ -49,7 +49,7 @@ for id_wpn = 1:numel(num_wpns)
         input = stcm;
         input.num_sp = num_sp;
         input.num_wpn = num_wpn;
-        output_filename = sprintf('tmp/conference_room/stcm/stcm__%d_%d.mat', num_sp, num_wpn);
+        output_filename = sprintf('tmp/small_flat/stcm/stcm__%d_%d.mat', num_sp, num_wpn);
         save(output_filename, 'input');
         %%
         iteration = iteration + 1;
@@ -65,7 +65,7 @@ return;
 num_wpn = 250;
 num_sp = 250;
 
-stcm = Experiments.Diss.conference_room(num_sp, num_wpn);
+stcm = Experiments.Diss.small_flat(num_sp, num_wpn);
 stcm.config.optimization = Configurations.Optimization.Discrete.stcm;
 % stcm_ind.config.optimization.type = 'stcm';
 stcm.filename = Optimization.Discrete.Models.stcm(stcm.discretization, stcm.quality, stcm.config.optimization);

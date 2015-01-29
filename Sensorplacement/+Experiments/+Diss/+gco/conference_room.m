@@ -3,9 +3,18 @@ close all;
 clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-num_wpns = 0:10:500;
+% num_wpns = 0:10:500;
 num_sps =  0:10:500;
+num_wpns = 500;
 % gco = cell(numel(num_sps), numel(num_wpns));
+
+iteration = 0;
+update_interval = 5;
+stp = update_interval;
+tme = tic;
+next = update_interval;
+iterations = numel(num_wpns)*numel(num_sps);
+write_log([], '#off');
 for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
