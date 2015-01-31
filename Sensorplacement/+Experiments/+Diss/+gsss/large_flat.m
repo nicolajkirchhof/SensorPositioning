@@ -23,12 +23,14 @@ for id_wpn = 1:numel(num_wpns)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
         
+        
         %%
 %         num_wpn = 0;
 %         num_sp = 500;
         
         
         input = Experiments.Diss.large_flat(num_sp, num_wpn);% true);
+        
         %%%
 %         input.config.optimization = Configurations.Optimization.Discrete.gsss;
         input.config.optimization.name = input.name;

@@ -7,8 +7,8 @@ clear variables;
 % cplex = 'C:\Users\Nick\App\Cplex\cplex\bin\x64_win64\cplex.exe';
 cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
 
-%%%
-num_wpns = 450:10:500;
+%%
+num_wpns = 0:10:500;
 num_sps =  0:10:500;
 iteration = 0;
 update_interval = 5;
@@ -23,29 +23,27 @@ for id_wpn = 1:numel(num_wpns)
         num_wpn = num_wpns(id_wpn);
         num_sp = num_sps(id_sp);
         
-        
-        output_filename = sprintf('tmp/small_flat/gsss/gsss__%d_%d.mat', num_sp, num_wpn);
+        output_filename = sprintf('tmp/office_floor/gsss/gsss__%d_%d.mat', num_sp, num_wpn);
+                
         if exist(output_filename, 'file')> 0
             continue
         end
-        
         %%
-%         num_wpn = 10;
+%         num_wpn = 500;
 %         num_sp = 0;
-        
-        
-        input = Experiments.Diss.small_flat(num_sp, num_wpn);% true);
-        %%%
 
+        
+        
+        input = Experiments.Diss.office_floor(num_sp, num_wpn);% true);
+        %%%
 %         input.config.optimization = Configurations.Optimization.Discrete.gsss;
         input.config.optimization.name = input.name;
         
 %         solution_coverage = Optimization.Discrete.Greedy.gssc(input.discretization);
         %%%
 %         input.solution_coverage = solution_coverage;
-        gen = Configurations.Common.generic();
-        gen.workdir = 'tmp/small_flat/gsss';
-        ssc_config = Configurations.Optimization.Discrete.ssc(gen);
+        ssc_config = Configurations.Optimization.Discrete.ssc;
+        ssc_config.common.workdir = 'tmp\office_floor\gsss';
         ssc.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
         [ssc.solfile, ssc.logfile] = Optimization.Discrete.Solver.cplex.start(ssc.filename, cplex, false);
         ssc.solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(ssc.solfile);
@@ -59,7 +57,7 @@ for id_wpn = 1:numel(num_wpns)
         input = ssc;
         input.num_sp = num_sp;
         input.num_wpn = num_wpn;
-       
+        
         save(output_filename, 'input');
         iteration = iteration + 1;
         if toc(tme)>next
@@ -88,8 +86,8 @@ title(sprintf('Num SP %d, Sel SP %d, Num WPN %d\n MinQ %.4g, MaxQ %.4g,\n Mean/d
     input.discretization.num_sensors, input.solution.discretization.num_sensors, input.discretization.num_positions,...
     min(wpnqval), max(wpnqval), mean(allqval), median(wpnqval), sum(wpnqval)));
 % set(gcf, 'Position', [pos fsize]);
-ylim([0 9500]);
-xlim([0 6500]);
+ylim([0 18000]);
+xlim([500 52000]);
 % pos(1) = pos(1)+325;
 % if pos(1) > 1590
 %     pos = [0 500];
