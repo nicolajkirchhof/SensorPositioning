@@ -21,7 +21,7 @@ lookup_filename = [lookupdir filesep sprintf('%d_%d.mat', num_sp, num_wpn)];
 %%
 if ~exist(lookup_filename, 'file')
 %             num_sp =  0;
-%             num_wpn = 0;
+%             num_wpn = 10;
 %             num_wpn = 650;
     %%%
     config_discretization = Configurations.Discretization.iterative;

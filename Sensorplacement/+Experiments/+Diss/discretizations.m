@@ -16,10 +16,10 @@ for id_wpn = 1:numel(num_wpns)
         %%
 %         num_wpn = 10;
 %         num_sp = 10;
-        Experiments.Diss.conference_room(num_sp, num_wpn);
-        Experiments.Diss.small_flat(num_sp, num_wpn);
-%         Experiments.Diss.large_flat(num_sp, num_wpn);
-%         Experiments.Diss.office_floor(num_sp, num_wpn);
+%         Experiments.Diss.conference_room(num_sp, num_wpn);
+%         Experiments.Diss.small_flat(num_sp, num_wpn);
+        Experiments.Diss.large_flat(num_sp, num_wpn);
+        Experiments.Diss.office_floor(num_sp, num_wpn);
 
         %%
         iteration = iteration + 1;
