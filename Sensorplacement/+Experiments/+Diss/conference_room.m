@@ -29,8 +29,8 @@ if ~exist(lookup_filename, 'file')
     % Environment.draw(environment);
     
     %%
-            num_sp =  500;
-            num_wpn = 500;
+%             num_sp =  500;
+%             num_wpn = 500;
     config_discretization = Configurations.Discretization.iterative;
     config_discretization.workspace.wall_distance = 200;
     % config_discretization.workspace.cell.length = [0 1000];
@@ -51,8 +51,8 @@ if ~exist(lookup_filename, 'file')
     input.timestamp = datestr(now,30);
     input.name = name;
     
-    input.environment = environment;
-    Experiments.Diss.draw_input(input)
+%     input.environment = environment;
+%     Experiments.Diss.draw_input(input)
     %%
     save(lookup_filename, 'input');
     

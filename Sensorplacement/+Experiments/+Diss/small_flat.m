@@ -44,8 +44,8 @@ if ~exist(lookup_filename, 'file')
     input.timestamp = datestr(now,30);
     input.name = name;
     
-    input.environment = environment;
-Experiments.Diss.draw_input(input)
+%     input.environment = environment;
+% Experiments.Diss.draw_input(input)
     %%
     save(lookup_filename, 'input');
    
