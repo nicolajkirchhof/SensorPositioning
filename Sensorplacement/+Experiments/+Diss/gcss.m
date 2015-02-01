@@ -17,7 +17,7 @@ next = update_interval;
 iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 write_log([], '#off');
 for id_n = 1:numel(names)
-    gco = cell(numel(num_sps), numel(num_wpns));
+    gcss = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
     for id_wpn = 1:numel(num_wpns)
         for id_sp = 1:numel(num_sps)
@@ -28,17 +28,17 @@ for id_n = 1:numel(names)
             input = Experiments.Diss.(name)(num_sp, num_wpn);% true);
             %%%
             input.config.optimization.name = input.name;
-            gco_config = Configurations.Optimization.Discrete.gco;
+            gcss_config = Configurations.Optimization.Discrete.gcss;
             
-            config.optimization = Configurations.Optimization.Discrete.gco;
-            solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, config.optimization);
+            config.optimization = Configurations.Optimization.Discrete.gcss;
+            solution = Optimization.Discrete.Greedy.gcss(input.discretization, input.quality, config.optimization);
             [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
             
             %%
-            %         input = gco;
+            %         input = gcss;
             solution.num_sp = num_sp;
             solution.num_wpn = num_wpn;
-            gco{id_sp, id_wpn} = solution;
+            gcss{id_sp, id_wpn} = solution;
             iteration = iteration + 1;
             if toc(tme)>next
                 fprintf(1, '%g pct %g sec to go\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration));
@@ -47,25 +47,25 @@ for id_n = 1:numel(names)
             
         end
     end
-    output_filename = sprintf('tmp/%s/gco.mat', name);
-    save(output_filename, 'gco');
+    output_filename = sprintf('tmp/%s/gcss.mat', name);
+    save(output_filename, 'gcss');
 end
 return
 %%
 close all;
 fsize = [325 420];
 pos = [0 0];
-num_wpn = 500;
+num_wpn = 250;
 names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-name = names{1};
-for   num_sp = 500%0:50:500
+name = names{2};
+for   num_sp = 0:50:500
     input = Experiments.Diss.(name)(num_sp, num_wpn);% true);
     %%%
     input.config.optimization.name = input.name;
-    gco_config = Configurations.Optimization.Discrete.gco;
+    gcss_config = Configurations.Optimization.Discrete.gcss;
     
-    config.optimization = Configurations.Optimization.Discrete.gco;
-    solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, config.optimization);
+    config.optimization = Configurations.Optimization.Discrete.gcss;
+    solution = Optimization.Discrete.Greedy.gcss(input.discretization, input.quality, config.optimization);
     [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
     
     
