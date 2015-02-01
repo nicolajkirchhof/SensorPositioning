@@ -21,20 +21,21 @@ comb_corners = cellfun(@(x) [circshift(x(:,1:2), 1, 1), x, circshift(x(:, 3:4), 
 comb_corners_placeable = cellfun(@(x, fx) [x(fx, 1:6); x(fx, 3:8)], comb_corners, environment.placable_edges, 'uniformoutput', false);
 comb_corners_pl_uni = cellfun(@(x) unique(x, 'rows'), comb_corners_placeable, 'uniformoutput', false);
 
-% comb_corners_all = cell2mat(comb_corners_pl_uni(:));
-
+if ~isfield(sensorspace.poses, 'initial') || isempty(sensorspace.poses.initial)
 %% Add intersections of obstacles with environment
-
 sensor_poses_boundary = Discretization.Sensorspace.place_sensors_on_corners(comb_corners_pl_uni{1}, sensor.directional(2), sensorspace.resolution.angular, false, true);
 sensor_poses_mountables = cellfun(@(p) Discretization.Sensorspace.place_sensors_on_corners(p, sensor.directional(2), sensorspace.resolution.angular, false, false, true), comb_corners_pl_uni(2:end), 'uniformoutput', false);
 flt_nonempty = cellfun(@(x) ~isempty(x), sensor_poses_mountables);
 sensor_poses_all = [sensor_poses_boundary, cell2mat(sensor_poses_mountables(flt_nonempty))];
+else
+    sensor_poses_all = sensorspace.poses.initial;
+end
 
 [sensor_poses, vfovs, vm] = Discretization.Sensorspace.vfov(sensor_poses_all, environment, workspace_positions, options, true); % todo: remove spikes as option?
 
 % Discretization.Sensorspace.draw(sensor_poses_initial_in, 'm');
 %% Add additional positions iterative
-edges_cell = cellfun(@(x) x(:, 3:6), comb_corners_placeable, 'uniformoutput', false);
+edges_cell = cellfun(@(x, fx) x(fx, 3:6), comb_corners, environment.placable_edges, 'uniformoutput', false);
 edges = cell2mat(edges_cell(:));
 
 sensor_poses_add = {};

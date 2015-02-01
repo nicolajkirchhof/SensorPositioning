@@ -18,7 +18,7 @@ else
     corner_edge_angles = [angle2Points(p2, p3), angle2Points(p2, p1)];
 end
 if only_convex 
-flt_convex = corner_angles <= pi;
+flt_convex = corner_angles < pi;
 corner_angles = corner_angles(flt_convex, :);
 corner_edge_angles = corner_edge_angles(flt_convex, :);
 % p1 = p1(flt_convex, :);

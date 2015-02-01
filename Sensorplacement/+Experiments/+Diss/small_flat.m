@@ -22,7 +22,7 @@ lookup_filename = [lookupdir filesep sprintf('%d_%d.mat', num_sp, num_wpn)];
 if ~exist(lookup_filename, 'file')
        
     %%
-%             num_sp =  500;
+%             num_sp =  0;
 %             num_wpn = 0;
     config_discretization = Configurations.Discretization.iterative;
     config_discretization.workspace.wall_distance = 200;
@@ -43,6 +43,9 @@ if ~exist(lookup_filename, 'file')
     input.config.quality = config_quality;
     input.timestamp = datestr(now,30);
     input.name = name;
+    
+    input.environment = environment;
+Experiments.Diss.draw_input(input)
     %%
     save(lookup_filename, 'input');
    
@@ -55,6 +58,9 @@ else
 end
 
 return;
+%%
+input.environment = environment;
+Experiments.Diss.draw_input(input)
 
 %%
 num_wpns = 0:10:500;

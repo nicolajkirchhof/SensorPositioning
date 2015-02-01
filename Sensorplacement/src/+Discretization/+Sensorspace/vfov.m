@@ -23,7 +23,7 @@ sensorspace = discretization.sensorspace;
 %%% remove sensor positions that are not in polygon
 bpolyclip_options = Configurations.Bpolyclip.vfov;
 bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
-visilibity_options = Configurations.Visilibity.combine(Configurations.Visilibity.vfov);
+% visilibity_options = Configurations.Visilibity.combine(Configurations.Visilibity.vfov);
 [unique_positions, ~, u_p_ic] = unique(sensor_poses(1:2,:)', 'rows', 'stable');
 %%%
 %%
@@ -33,7 +33,7 @@ visilibity_options = Configurations.Visilibity.combine(Configurations.Visilibity
 % end
 
 %%
-vis_polys = visilibity(int64(unique_positions'), environment.combined, visilibity_options{:});
+vis_polys = visilibity(int64(unique_positions'), environment.combined, 1, 100, 0);
 vis_empty_flt = cellfun(@isempty, vis_polys);
 vis_flt = any(cell2mat(arrayfun(@(id) u_p_ic==id, find(vis_empty_flt), 'uniformoutput', false)),2);
 % correction if none is filtered
