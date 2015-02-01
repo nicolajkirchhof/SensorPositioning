@@ -55,17 +55,19 @@ if ~exist(lookup_filename, 'file')
     
     input.discretization = discretization;
     input.quality = quality;
-    %         input.config.environment = config_environment;
-    input.config.discretization = config_discretization;
-    input.config.quality = config_quality;
+        input.num_sp = num_sp;
+    input.num_wpn = num_wpn;
+
     input.timestamp = datestr(now,30);
     input.name = name;
   
-input.environment = environment;
-Experiments.Diss.draw_input(input);
+% input.environment = environment;
+% Experiments.Diss.draw_input(input);
     %%
     save(lookup_filename, 'input');
-   
+       %         input.config.environment = config_environment;
+    input.config.discretization = config_discretization;
+    input.config.quality = config_quality;
     input.environment = environment;
 else
     
