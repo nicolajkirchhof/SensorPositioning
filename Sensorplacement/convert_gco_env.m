@@ -1,40 +1,44 @@
-clear variables;
-% set(gca, 'CameraUpVector', [0 1 0]);
-
-filename = 'res/floorplans/P1-Seminarraum.dxf';
-
-env = Environment.load(filename);
-env.obstacles = {};
-env_comb = Environment.combine(env);
-bpoly = env_comb.combined;
-% bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
-num_sp = 0;
-num_wpn = 0;
-input = Experiments.Diss.conference_room(num_sp, num_wpn);
-[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
+% clear variables;
+% % set(gca, 'CameraUpVector', [0 1 0]);
+% 
+% filename = 'res/floorplans/P1-Seminarraum.dxf';
+% 
+% env = Environment.load(filename);
+% env.obstacles = {};
+% env_comb = Environment.combine(env);
+% bpoly = env_comb.combined;
+% % bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
+% num_sp = 0;
+% num_wpn = 0;
+% input = Experiments.Diss.conference_room(num_sp, num_wpn);
+% [P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
 
 %% Add decomposition parts
-lookupdir = sprintf('tmp/conference_room/discretization/');
+names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
+name = names{3};
+lookupdir = sprintf('tmp/%s/discretization/', name);
 files = dir([lookupdir '*.mat']); 
 loop_display(numel(files), 5);
-%%
-for idf = 2299:numel(files)
+%%%
+for idf = 1:numel(files)
     file = files(idf);
-    input_all = load([lookupdir file.name]);
+    filename_full = [lookupdir file.name];
+    input_all = load(filename_full);
     
     input = input_all.input;
-    %%
-    input.quality.wss = rmfield(input.quality.wss, {'valbw'; 'valsum'; 'valsensorsum'});
+    %%%
+    input.quality.wss = rmfield(input.quality.wss, {'valbw'; 'valsum'});
     input.quality = rmfield(input.quality, 'ws');
     input.discretization.spo = uint8(input.discretization.spo);
+    input.discretization.vm = uint8(input.discretization.vm);
     
-    for idp = 1:numel(input.parts)
-        input.parts{idp} = rmfield(input.parts{idp}, {'config'; 'environment';'timestamp';'name'});
-        input.parts{idp}.quality = rmfield(input.parts{idp}.quality, 'ws');
-    end
+%     for idp = 1:numel(input.parts)
+%         input.parts{idp} = rmfield(input.parts{idp}, {'config'; 'environment';'timestamp';'name'});
+%         input.parts{idp}.quality = rmfield(input.parts{idp}.quality, 'ws');
+%     end
     
-    %%
-    save([lookupdir file.name], 'input');
+    %%%
+    save(filename_full, 'input');
     
     loop_display(idf);
 end

@@ -4,8 +4,9 @@ clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
 % num_wpns = 0:10:500;
-names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
+% names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
+names = {'office_floor'};
 
 num_sps =  0:10:500;
 num_wpns = 0:10:500;
@@ -55,10 +56,10 @@ return
 close all;
 fsize = [325 420];
 pos = [0 0];
-num_wpn = 250;
+num_wpn = 0;
 names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-name = names{2};
-for   num_sp = 0:50:500
+name = names{4};
+for   num_sp = 0:100:500
     input = Experiments.Diss.(name)(num_sp, num_wpn);% true);
     %%%
     input.config.optimization.name = input.name;
