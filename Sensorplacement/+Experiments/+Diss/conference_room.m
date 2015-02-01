@@ -6,8 +6,7 @@ if nargin < 3
     draw = false;
 end
 %%
-% num_sp = 0;
-% num_wpn = 0;
+
 
 name = 'ConferenceRoom';
 
@@ -18,6 +17,15 @@ env = load('tmp\conference_room\environment\environment.mat');
 environment = env.environment;
 
 lookup_filename = [lookupdir filesep sprintf('%d_%d.mat', num_sp, num_wpn)];
+
+% num_sp = 0;
+% num_wpn = 0;
+    config_discretization = Configurations.Discretization.iterative;
+    config_discretization.workspace.wall_distance = 200;
+    % config_discretization.workspace.cell.length = [0 1000];
+    config_discretization.workspace.positions.additional = num_wpn;
+    config_discretization.sensorspace.poses.additional = num_sp;
+    config_discretization.common.verbose = 0;
 %%
 if ~exist(lookup_filename, 'file')
     
@@ -27,18 +35,10 @@ if ~exist(lookup_filename, 'file')
     
 %     environment = Environment.load(filename);
     % Environment.draw(environment);
-    
-    %%
-%             num_sp =  500;
-%             num_wpn = 500;
-    config_discretization = Configurations.Discretization.iterative;
-    config_discretization.workspace.wall_distance = 200;
-    % config_discretization.workspace.cell.length = [0 1000];
-    config_discretization.workspace.positions.additional = num_wpn;
-    config_discretization.sensorspace.poses.additional = num_sp;
-    config_discretization.common.verbose = 0;
+%         config_discretization.workspace.positions.additional = 0;
+%     config_discretization.sensorspace.poses.additional = 200;
+
     discretization = Discretization.generate(environment, config_discretization);
-    
     %%%
     config_quality = Configurations.Quality.diss;
     [quality] = Quality.generate(discretization, config_quality);
@@ -51,8 +51,8 @@ if ~exist(lookup_filename, 'file')
     input.timestamp = datestr(now,30);
     input.name = name;
     
-%     input.environment = environment;
-%     Experiments.Diss.draw_input(input)
+    input.environment = environment;
+    Experiments.Diss.draw_input(input)
     %%
     save(lookup_filename, 'input');
     input.config.discretization = config_discretization;
@@ -63,6 +63,7 @@ else
     input = load(lookup_filename);
     input = input.input;
     input.environment = environment;
+    input.config.discretization = config_discretization;
 end
 return;
 %%

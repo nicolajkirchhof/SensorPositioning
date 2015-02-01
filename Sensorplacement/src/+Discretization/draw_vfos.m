@@ -4,7 +4,7 @@ function draw_vfos(discretization, solution)
 cellfun(@(x) mb.fillPolygon(x, 'k', 'facealpha', 0.3), discretization.vfovs(solution.sensors_selected));
 %%
 XY = discretization.sp(1:2, solution.sensors_selected);
-Z = ones(size(XY, 2), 1);
+Z = 10*ones(size(XY, 2), 1);
 %%
 stem3(XY(1,:)',XY(2,:)',Z, 'color', 'w', 'marker', 'o', 'markerfacecolor', 'w');
 %%

@@ -18,7 +18,7 @@ else
     corner_edge_angles = [angle2Points(p2, p3), angle2Points(p2, p1)];
 end
 if only_convex 
-flt_convex = corner_angles < pi;
+flt_convex = corner_angles < pi-1e-10;
 corner_angles = corner_angles(flt_convex, :);
 corner_edge_angles = corner_edge_angles(flt_convex, :);
 % p1 = p1(flt_convex, :);
@@ -26,7 +26,7 @@ p2 = p2(flt_convex, :);
 % p3 = p3(flt_convex, :);
 end
 if only_reflex
-flt_convex = corner_angles > pi;
+flt_convex = corner_angles > pi+1e10;
 corner_angles = corner_angles(flt_convex, :);
 corner_edge_angles = corner_edge_angles(flt_convex, :);
 % p1 = p1(flt_convex, :);

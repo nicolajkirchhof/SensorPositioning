@@ -8,12 +8,20 @@
     environment = Environment.load(filename);
 %     environment.obstacles = {};
 %     environment.mountable = {};
+%     rng = environment.boundary.ring;
+    mb.numberRings(environment.obstacles);
+    %%
+    obst = environment.obstacles{3}{1};
+    obst(:, 3) = obst(:, 3)+1;
+    environment.obstacles{3}{1} = obst;
+    
+    %%
     environment = Environment.combine(environment);
     Environment.draw(environment, false);
     hold on;
     drawEdge(environment.combined_edges{1}(environment.placable_edges{1}, :), 'color', 'r', 'linewidth', 4);
     mb.drawPolygon(environment.combined, 'color', 'g', 'linestyle', ':', 'linewidth', 2);
-    %%%
+    %%
     save('tmp\conference_room\environment\environment.mat', 'environment');
 %%
     filename = 'res\floorplans\SmallFlat.dxf';

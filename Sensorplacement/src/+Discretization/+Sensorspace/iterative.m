@@ -69,6 +69,7 @@ while cnt < sensorspace.poses.additional
     cnt = cnt + size(sensor_poses_tmp, 2);
     edges = [edges(1:idmax-1, :); edges(idmax+1:end, :); corner(1:4); corner(3:6)];
     
+    
     if ~isempty(sensor_poses_tmp)
         sensor_poses_add{end+1} = sensor_poses_tmp;
         vfovs_add = [vfovs_add, vfovs_tmp];
