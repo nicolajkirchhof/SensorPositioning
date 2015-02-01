@@ -13,7 +13,7 @@ tme = tic;
 next = update_interval;
 iterations = numel(num_wpns)*numel(num_sps);
 write_log([], '#off');
-% gco = cell(numel(num_sps), numel(num_wpns));
+gco = cell(numel(num_sps), numel(num_wpns));
 for id_wpn = 1:numel(num_wpns)
     for id_sp = 1:numel(num_sps)
         num_wpn = num_wpns(id_wpn);
@@ -27,15 +27,16 @@ for id_wpn = 1:numel(num_wpns)
         input.config.optimization.name = input.name;
         gco_config = Configurations.Optimization.Discrete.gco;
         
-        gco.config.optimization = Configurations.Optimization.Discrete.gco;
-        gco.solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, gco.config.optimization);
-        [gco.solution.discretization, gco.solution.quality] = Evaluation.filter(gco.solution, input.discretization, input.config.discretization);
+        config.optimization = Configurations.Optimization.Discrete.gco;
+        solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, config.optimization);
+        [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
         %%
-        input = gco;
-        input.num_sp = num_sp;
-        input.num_wpn = num_wpn;
-        output_filename = sprintf('tmp/large_flat/gco/gco__%d_%d.mat', num_sp, num_wpn);
-        save(output_filename, 'input');
+%         input = gco;
+        solution.num_sp = num_sp;
+        solution.num_wpn = num_wpn;
+%         output_filename = sprintf('tmp/large_flat/gco/gco__%d_%d.mat', num_sp, num_wpn);
+%         save(output_filename, 'input');
+        gco{id_sp, id_wpn} = solution;
         iteration = iteration + 1;
         if toc(tme)>next
             fprintf(1, '%g pct %g sec to go\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration));
@@ -48,28 +49,37 @@ end
 %%
 return
 %%
-input.solution = gco.solution;
 fsize = [325 420];
 pos = [0 0];
-% figure;
-cla;
-Discretization.draw(input.discretization, input.environment);
-hold on;
-Discretization.draw_wpn_max_qualities(input.solution.discretization, input.solution.quality);
-Discretization.draw_vfos(input.discretization, input.solution);
-allqval = cell2mat(input.solution.quality.wss.val);
-wpnqval = cellfun(@max, input.solution.quality.wss.val);
-title(sprintf('Num SP %d, Sel SP %d, Num WPN %d\n MinQ %.4g, MaxQ %.4g,\n Mean/dQ %.4g %.4g SumQ %.4g ',...
-    input.discretization.num_sensors, input.solution.discretization.num_sensors, input.discretization.num_positions,...
-    min(wpnqval), max(wpnqval), mean(allqval), median(wpnqval), sum(wpnqval)));
-% set(gcf, 'Position', [pos fsize]);
-
+num_wpn = 0;
+for   num_sp = 0:50:500
+    input = Experiments.Diss.large_flat(num_sp, num_wpn);% true);
+    %%%
+    input.config.optimization.name = input.name;
+    gco_config = Configurations.Optimization.Discrete.gco;
+    
+    config.optimization = Configurations.Optimization.Discrete.gco;
+    solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, config.optimization);
+    [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
+    
+    
+    discretization = input.discretization;
+    figure;
+    Discretization.draw(discretization, input.environment);
+    hold on;
+    Discretization.draw_wpn_max_qualities(solution.discretization, solution.quality);
+    Discretization.draw_vfos(discretization, solution);
+    allqval = cell2mat(solution.quality.wss.val);
+    wpnqval = cellfun(@max, solution.quality.wss.val);
+    title(sprintf('Num SP %d, Sel SP %d, Num WPN %d\n MinQ %.4g, MaxQ %.4g,\n Mean/dQ %.4g %.4g SumQ %.4g ',...
+        discretization.num_sensors, solution.discretization.num_sensors, discretization.num_positions,...
+        min(wpnqval), max(wpnqval), mean(allqval), median(wpnqval), sum(wpnqval)));
+    set(gcf, 'Position', [pos fsize]);
+    axis equal;
 ylim([0 9500]);
 xlim([500 13000]);
-% pos(1) = pos(1)+325;
-% if pos(1) > 1590
-%     pos = [0 500];
-% end
-
-%     end
-% end
+    pos(1) = pos(1)+325;
+    if pos(1) > 1590
+        pos = [0 500];
+    end
+end

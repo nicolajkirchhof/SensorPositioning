@@ -18,18 +18,20 @@ env = load('tmp\office_floor\environment\environment.mat');
 environment = env.environment;
 
 lookup_filename = [lookupdir filesep sprintf('%d_%d.mat', num_sp, num_wpn)];
-%%
-if ~exist(lookup_filename, 'file')
-%             num_sp =  0;
-%             num_wpn = 10;
-%             num_wpn = 650;
-    %%%
+
     config_discretization = Configurations.Discretization.iterative;
     config_discretization.workspace.wall_distance = 200;
     % config_discretization.workspace.cell.length = [0 1000];
     config_discretization.workspace.positions.additional = num_wpn;
     config_discretization.sensorspace.poses.additional = num_sp;
     config_discretization.common.verbose = 0;
+%%
+if ~exist(lookup_filename, 'file')
+%             num_sp =  0;
+%             num_wpn = 10;
+%             num_wpn = 650;
+    %%%
+
     
     %%%  Calculate obstacle and initial poses that are only on convex corners on mountables
     %%% Poses on Boundary vertices
@@ -74,6 +76,7 @@ else
     input = load(lookup_filename);
     input = input.input;
     input.environment = environment;
+    input.config.discretization = config_discretization;
 end
 
 return;
