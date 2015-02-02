@@ -12,13 +12,14 @@ cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
 names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
 % names = {'office_floor'}
+% names = {'conference_room'};
 
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
 tme = tic;
 next = update_interval;
-iterations = numel(num_wpns)*numel(num_sps);
+iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 write_log([], '#off');
 
 for id_n = 1:numel(names)
@@ -28,20 +29,28 @@ for id_n = 1:numel(names)
         for id_sp = 1:numel(num_sps)
             num_wpn = num_wpns(id_wpn);
             num_sp = num_sps(id_sp);
-            
+            %%
+%             num_wpn = 0;
+%             num_sp = 0;
+            %%
             input = Experiments.Diss.(name)(num_sp, num_wpn);
             input.config.optimization.name = input.name;
             
-            gen = Configurations.Common.generic();
-            gen.workdir = sprintf('tmp/%s/gsss', name);
-            ssc_config = Configurations.Optimization.Discrete.ssc(gen);
-            ssc_config.name = name;
-            solution.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
-            
-            [solution.solfile, solution.logfile] = Optimization.Discrete.Solver.cplex.start(solution.filename, cplex, false);
+            solution.solfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.sol', name, name, num_sp, num_wpn);
+            %%
+            if ~exist(solution.solfile, 'file')
+                gen = Configurations.Common.generic();
+                gen.workdir = sprintf('tmp/%s/gsss', name);
+                ssc_config = Configurations.Optimization.Discrete.ssc(gen);
+                ssc_config.name = name;
+                solution.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
+                [solution.solfile, solution.logfile] = Optimization.Discrete.Solver.cplex.start(solution.filename, cplex, false);
+            else
+                solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
+            end
+            %%
             solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(solution.solfile);
-            solution_coverage.log = Optimization.Discrete.Solver.cplex.read_log(solution.logfile);
-            solution_coverage.solution = solution;
+            solution_coverage_log = Optimization.Discrete.Solver.cplex.read_log(solution.logfile);
             
             config.optimization = Configurations.Optimization.Discrete.gsss;
             solution = Optimization.Discrete.Greedy.gsss(input.discretization, input.quality, solution_coverage, config.optimization);
@@ -54,7 +63,9 @@ for id_n = 1:numel(names)
             solution.discretization.spo_ids = cellfun(@(x) uint16(x), solution.discretization.spo_ids, 'uniformoutput', false);
             solution.num_sp = num_sp;
             solution.num_wpn = num_wpn;
-            solution.solution_coverage = solution_coverage;
+            solution.ssc.iterations = solution_coverage.iterations;
+            solution.ssc.sensors_selected = solution_coverage.sensors_selected;
+            solution.ssc.solutiontime = solution_coverage_log.solutiontime;
             %%
             gsss{id_sp, id_wpn} = solution;
             
