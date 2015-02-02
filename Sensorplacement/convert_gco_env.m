@@ -15,7 +15,7 @@
 
 %% Add decomposition parts
 names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-name = names{4};
+name = names{2};
 lookupdir = sprintf('tmp/%s/discretization/', name);
 files = dir([lookupdir '*.mat']); 
 loop_display(numel(files), 5);
@@ -32,6 +32,7 @@ for idf = 1:numel(files)
     input.discretization.spo = uint8(input.discretization.spo);
     input.discretization.vm = uint8(input.discretization.vm);
     input.discretization.spo_ids = cellfun(@(x) uint16(x), input.discretization.spo_ids, 'uniformoutput', false);
+    
 %     for idp = 1:numel(input.parts)
 %         input.parts{idp} = rmfield(input.parts{idp}, {'config'; 'environment';'timestamp';'name'});
 %         input.parts{idp}.quality = rmfield(input.parts{idp}.quality, 'ws');
