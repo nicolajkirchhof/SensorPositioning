@@ -33,9 +33,9 @@ pct = 0;
 while ~all(is_wpn)
     %%
     sc_wpn_sum = sum(sc_wpn, 2);
-    [val_max, id_max] = max(sc_wpn_sum);
-    id_s = discretization.sc(id_max, :);
-    is_wpn = is_wpn | discretization.sc_wpn(id_max,:);
+    [~, id_max] = max(sc_wpn_sum);
+%     id_s = discretization.sc(id_max, :);
+    is_wpn = is_wpn | sc_wpn(id_max,:);
     sc_selected = [id_max sc_selected];
     sc_wpn(:, is_wpn) = 0;
     cnt = cnt + 1;

@@ -8,9 +8,14 @@ function [ qval, ply_remaining ] = cmqcm( x, phi  )
 
 persistent bpolyclip_options bpolyclip_batch_options is_initialized default_annulus ...
     fun_sensorfov fun_transform area_to_cover ply ply_to_cover contours placeable_edges ...
-    placeable_edgelenghts_scale placeable_edgelenghts_lut
+    placeable_edgelenghts_scale placeable_edgelenghts_lut placeable_edges_dir
 
 if isempty(is_initialized) || nargin < 2
+ply = x.ply;
+ply_to_cover = x.ply_to_cover;
+contours = x.contours;
+placeable_edges = x.placeable_edges;
+    
 bpolyclip_options = Configurations.Bpolyclip.vfov;
 bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
 
@@ -22,24 +27,23 @@ fun_transform = @(ply,x,y, theta) int64(bsxfun(@plus, [x;y], [cos(theta) -sin(th
 % config = Configurations.Discretization.iterative;
 area_to_cover = mb.polygonArea(ply_to_cover);
 
-ply = x.ply;
-ply_to_cover = x.ply_to_cover;
-contours = x.contours;
-placeable_edges = x.placeable_edges;
 %%
-placeable_edgelenghts = edgeLength(placeable_edges);
-placeable_edgelenghts_scale = sum(placeable_edgelenghts);
-placeable_edgelenghts_lut = cumsum([0; placeable_edgelenghts])/sum(placeable_edgelenghts);
+placeable_edgelenghts_scale = x.placeable_edgelenghts_scale;
+placeable_edgelenghts_lut = x.placeable_edgelenghts_lut;
+placeable_edges_dir = x.placeable_edges_dir;
 
-
+phi = x.phi;
+x = x.x;
 %%
 is_initialized = true;
 end
 
-ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut<x), x);
-sp = placeable_edges(
+ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut<=x), x);
+dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
+gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
+sp = [gsp'; phi(:)'*(2*pi)];
 
-%%%
+%%
 vis_polys = visilibity(sp(1:2, :), ply, 10, 10, 0);
 vis_empty_flt = cellfun(@isempty, vis_polys);
 % comb_ids = comb_ids(~vis_empty_flt, :);
@@ -106,6 +110,7 @@ covered_ply = bpolyclip_batch(bvfov_qval_intersections, 3, {1:numel(bvfov_qval_i
 covered_ply = [covered_ply{:}];
 covered_ply_merged = cellfun(@(cp) mb.mergePoints(cp, 10), covered_ply, 'uniformoutput', false);
 
+% bpolyclip_batch([ply_to_cover covered_ply_merged{:}], 0, [1,2,3,5],  1, 10, 1)
 [ply_remaining, area_remaining] = bpolyclip(ply_to_cover, covered_ply_merged, 0, 1, 10, 1);
 %%
 qval = area_remaining/area_to_cover;
@@ -159,33 +164,22 @@ end
 %%
 % load tmp\conference_room\gco.mat
 clearvars -except gco;
-sol = gco{6, 6};
+clear functions;
+sol = gco{10, 10};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
-% sol = load('tmp/conference_room/gco/gco__0_0.mat');
-% env = load('tmp/conference_room/environment/environment.mat');
-ply = input.environment.combined;
-ply_to_cover = bpolyclip(input.environment.combined, input.environment.occupied, 0, 1, 100, 1); 
+lut = Optimization.Continuous.prepare_lut(input, sol);
 
-load('tmp/contours/contours.mat');
-
-sp = input.discretization.sp(:, sol.sensors_selected);
-gsp = double(sp(1:2, :)');
-
-placeable_edges_cell = cellfun(@(x,y) x(y, :), input.environment.combined_edges, input.environment.placable_edges, 'uniformoutput', false);
-placeable_edges = cell2mat(placeable_edges_cell(:));
-placeable_edgelenghts = edgeLength(placeable_edges);
-placeable_edgelenghts_scale = sum(placeable_edgelenghts);
-placeable_edgelenghts_lut = cumsum([0; placeable_edgelenghts])/sum(placeable_edgelenghts);
-
+Optimization.Continuous.fitfct.cmqcm(lut)
 %%
-is_poe = isPointOnEdge(gsp, placeable_edges);
-edge_id = arrayfun(@(x) find(is_poe(x, :)), 1:size(is_poe, 1), 'uniformoutput', false);
+x = lut.x+0.01;
+phi = lut.phi+0.5;
+Optimization.Continuous.fitfct.cmqcm(x, phi)
+
 %% TODO: 
 % Assign to edge where edge_id ist first vertex
 % calculate distance to first vertex to get dist on line 
 % use lut + dist_on_line/edgelength_scale to calculate x 
 
-dist
 
 
 %%

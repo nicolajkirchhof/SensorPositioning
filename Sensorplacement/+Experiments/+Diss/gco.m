@@ -29,9 +29,9 @@ for id_n = 1:numel(names)
             %%%
             input.config.optimization.name = input.name;
             gco_config = Configurations.Optimization.Discrete.gco;
-            
-            config.optimization = Configurations.Optimization.Discrete.gco;
-            solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, config.optimization);
+            %%
+%             config.optimization = Configurations.Optimization.Discrete.gco;
+            solution = Optimization.Discrete.Greedy.gco(input.discretization, input.quality, gco_config);
             [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
             
             %%

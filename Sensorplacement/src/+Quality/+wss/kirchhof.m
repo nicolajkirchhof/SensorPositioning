@@ -1,14 +1,14 @@
 function [quality] = kirchhof(discretization, config)
 % Loops through all relevant combinations and calculates the qualities for every workspace
 % point. 
-quality = DataModels.quality;
+% quality = DataModels.quality;
 
 loop_display(discretization.num_positions, 10);
 
 vals = cell(discretization.num_positions, 1);
-valbw = zeros(discretization.num_comb, 1);
-valsum = zeros(discretization.num_comb, 1);
-valsensorsum = zeros(discretization.num_sensors, 1);
+% valbw = zeros(discretization.num_comb, 1);
+% valsum = zeros(discretization.num_comb, 1);
+% valsensorsum = zeros(discretization.num_sensors, 1);
 
 dmax = config.sensor.distance(2);
 %%
