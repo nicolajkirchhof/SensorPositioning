@@ -1,4 +1,4 @@
-function [ qval, ply_remaining ] = cmqcm( x, phi  )
+function [ qval, ply_remaining ] = cmqcm( x  )
 %cmqcm The first call of this function does the initialization, thus it has to 
 % contain an initialization struct x containing:
 % .ply = the combined polygon 
@@ -10,7 +10,7 @@ persistent bpolyclip_options bpolyclip_batch_options is_initialized default_annu
     fun_sensorfov fun_transform area_to_cover ply ply_to_cover contours placeable_edges ...
     placeable_edgelenghts_scale placeable_edgelenghts_lut placeable_edges_dir
 
-if isempty(is_initialized) || nargin < 2
+if isempty(is_initialized) 
 ply = x.ply;
 ply_to_cover = x.ply_to_cover;
 contours = x.contours;
@@ -32,11 +32,17 @@ placeable_edgelenghts_scale = x.placeable_edgelenghts_scale;
 placeable_edgelenghts_lut = x.placeable_edgelenghts_lut;
 placeable_edges_dir = x.placeable_edges_dir;
 
-phi = x.phi;
-x = x.x;
+% phi = x.phi;
+x = [x.x x.phi];
 %%
 is_initialized = true;
 end
+
+id_mid = numel(x)/2;
+phi = x(id_mid+1:end);
+x = x(1:id_mid);
+phi = phi(:);
+x = x(:);
 
 ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut<=x), x);
 dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
@@ -104,14 +110,19 @@ bvfov_qval_intersections = bpolyclip_batch(vfov_qval_polys, 1, poly_combine_jobs
 %%
 flt_nonempty = cellfun(@(x) ~isempty(x), bvfov_qval_intersections);
 bvfov_qval_intersections = bvfov_qval_intersections(flt_nonempty);
-bvfov_qval_intersections = [bvfov_qval_intersections{:}];
+% bvfov_qval_intersections = [bvfov_qval_intersections{:}];
 %%
-covered_ply = bpolyclip_batch(bvfov_qval_intersections, 3, {1:numel(bvfov_qval_intersections)}, bpolyclip_batch_options );
-covered_ply = [covered_ply{:}];
-covered_ply_merged = cellfun(@(cp) mb.mergePoints(cp, 10), covered_ply, 'uniformoutput', false);
+covered_ply = [];
+for idbv = 1:numel(bvfov_qval_intersections)
+    covered_ply = bpolyclip(covered_ply, bvfov_qval_intersections{idbv}{1}, 3, 1, 10, 1 );
+end
+%%
+% covered_ply = bpolyclip_batch(bvfov_qval_intersections, 3, [1:numel(bvfov_qval_intersections)], bpolyclip_batch_options );
+% covered_ply = [covered_ply{:}];
+% covered_ply_merged = cellfun(@(cp) mb.mergePoints(cp, 10), covered_ply, 'uniformoutput', false);
 
 % bpolyclip_batch([ply_to_cover covered_ply_merged{:}], 0, [1,2,3,5],  1, 10, 1)
-[ply_remaining, area_remaining] = bpolyclip(ply_to_cover, covered_ply_merged, 0, 1, 10, 1);
+[ply_remaining, area_remaining] = bpolyclip(ply_to_cover, covered_ply, 0, 1, 10, 1);
 %%
 qval = area_remaining/area_to_cover;
 
@@ -165,20 +176,20 @@ end
 % load tmp\conference_room\gco.mat
 clearvars -except gco;
 clear functions;
+%%%
 sol = gco{10, 10};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
-lut = Optimization.Continuous.prepare_lut(input, sol);
-
-Optimization.Continuous.fitfct.cmqcm(lut)
-%%
-x = lut.x+0.01;
-phi = lut.phi+0.5;
-Optimization.Continuous.fitfct.cmqcm(x, phi)
+opt = Optimization.Continuous.prepare_opt(input, sol.sensors_selected);
+Optimization.Continuous.fitfct.cmqcm(opt)
+%%%
+x = opt.x+0.01;
+phi = opt.phi+0.1;
+Optimization.Continuous.fitfct.cmqcm([x phi])
 
 %% TODO: 
 % Assign to edge where edge_id ist first vertex
 % calculate distance to first vertex to get dist on line 
-% use lut + dist_on_line/edgelength_scale to calculate x 
+% use opt + dist_on_line/edgelength_scale to calculate x 
 
 
 

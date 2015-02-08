@@ -1,4 +1,4 @@
-function [ qval ] = cmqm( x, phi )
+function [ qval ] = cmqm( x )
 %cmqcm The first call of this function does the initialization, thus it has to 
 % contain an initialization struct x containing:
 % .ply = the combined polygon 
@@ -8,9 +8,9 @@ function [ qval ] = cmqm( x, phi )
 
 persistent bpolyclip_options bpolyclip_batch_options is_initialized default_annulus ...
     fun_sensorfov fun_transform area_to_cover ply ply_to_cover contours placeable_edges ...
-    placeable_edgelenghts_scale placeable_edgelenghts_lut placeable_edges_dir config
+    placeable_edgelenghts_scale placeable_edgelenghts_lut placeable_edges_dir config wpn
 
-if isempty(is_initialized) || nargin < 2
+if isempty(is_initialized) 
 ply = x.ply;
 ply_to_cover = x.ply_to_cover;
 contours = x.contours;
@@ -34,11 +34,17 @@ placeable_edgelenghts_lut = x.placeable_edgelenghts_lut;
 placeable_edges_dir = x.placeable_edges_dir;
 
 wpn = x.wpn;
-phi = x.phi;
-x = x.x;
+% phi = x.phi;
+x = [x.x x.phi];
 %%
 is_initialized = true;
 end
+
+id_mid = numel(x)/2;
+phi = x(id_mid+1:end);
+x = x(1:id_mid);
+phi = phi(:);
+x = x(:);
 
 ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut<=x), x);
 dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
@@ -124,18 +130,19 @@ return
 % load tmp\conference_room\gco.mat
 % clearvars -except gco;
 clear functions;
-%%
+%%%
 sol = gco{10, 10};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
-lut = Optimization.Continuous.prepare_lut(input, sol);
-lut.wpn = input.discretization.wpn;
+opt = Optimization.Continuous.prepare_opt(input, sol.sensors_selected);
+opt.wpn = input.discretization.wpn;
 %%%%
-lut.x = lut.x+0.01;
-% lut.phi = lut.phi+0.2;
-Optimization.Continuous.fitfct.cmqm(lut)
-%%
-x = lut.x+0.01;
-phi = lut.phi+0.5;
-Optimization.Continuous.fitfct.cmqm(x, phi)
+opt.x = opt.x+0.01;
+% opt.phi = opt.phi+0.2;
+Optimization.Continuous.fitfct.cmqm(opt)
+%%%
+x = opt.x+0.01;
+phi = opt.phi+0.5;
+
+Optimization.Continuous.fitfct.cmqm([x phi])
 
 
