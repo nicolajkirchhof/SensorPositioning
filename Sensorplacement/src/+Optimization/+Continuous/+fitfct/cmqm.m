@@ -77,7 +77,8 @@ poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(se
 %%%
 [sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options );
 
-svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons, 'uniformoutput', false);
+empty_polys = cellfun(@isempty, sensor_visibility_polygons);
+svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons(~empty_polys), 'uniformoutput', false);
 
 sp_wpn_cell = cellfun(@(x) binpolygon(wpn, x, 1), svp, 'uniformoutput', false);
 sp_wpn = cell2mat(sp_wpn_cell');
@@ -105,25 +106,32 @@ for idw = 1:size(wpn, 2)
     flt_vis = dn1>1|dn2>1;
     v(flt_vis) = [];
     
-    maxvals(idw) = max(v);
+    if isempty(v)
+        maxvals(idw) = 0;
+    else
+        maxvals(idw) = max(v);
+    end
 end
 
 
 is_penalty = maxvals < 0.45;
 penalty = sum(is_penalty)*num_wpn;
-qval = maxvals(~is_penalty)+penalty;
+qval = sum(maxvals(~is_penalty))+penalty;
 
 
 return
 %%
-load tmp\conference_room\gco.mat
-clearvars -except gco;
+% load tmp\conference_room\gco.mat
+% clearvars -except gco;
 clear functions;
+%%
 sol = gco{10, 10};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
 lut = Optimization.Continuous.prepare_lut(input, sol);
 lut.wpn = input.discretization.wpn;
-%%
+%%%%
+lut.x = lut.x+0.01;
+% lut.phi = lut.phi+0.2;
 Optimization.Continuous.fitfct.cmqm(lut)
 %%
 x = lut.x+0.01;
