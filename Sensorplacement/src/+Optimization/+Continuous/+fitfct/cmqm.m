@@ -87,10 +87,13 @@ empty_polys = cellfun(@isempty, sensor_visibility_polygons);
 svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons(~empty_polys), 'uniformoutput', false);
 
 sp_wpn_cell = cellfun(@(x) binpolygon(wpn, x, 1), svp, 'uniformoutput', false);
-sp_wpn = cell2mat(sp_wpn_cell');
+sp_wpn_flt = cell2mat(sp_wpn_cell');
 
-dmax = config.sensor.distance(2);
 num_wpn = size(wpn, 2);
+sp_wpn = false(numel(empty_polys), num_wpn);
+sp_wpn(~empty_polys, :) = sp_wpn_flt;
+dmax = config.sensor.distance(2);
+
 maxvals = zeros(num_wpn, 1);
 %%
 for idw = 1:size(wpn, 2)
@@ -119,10 +122,10 @@ for idw = 1:size(wpn, 2)
     end
 end
 
-
+%%
 is_penalty = maxvals < 0.45;
 penalty = sum(is_penalty)*num_wpn;
-qval = sum(maxvals(~is_penalty))+penalty;
+qval = -sum(maxvals(~is_penalty))+penalty;
 
 
 return
