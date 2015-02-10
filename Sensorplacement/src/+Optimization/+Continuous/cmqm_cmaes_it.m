@@ -41,7 +41,7 @@ cmaes_opt.Resume = true;
 %%
 while toc(timer_id) < maxtime && fun_check_stopflag(stopflag) && fmin > 0
     %%
-    cmaes_opt.StopFunEvals = config.stopfunevals;
+%     cmaes_opt.StopFunEvals = config.stopfunevals;
     [opt_vect, fmin, counteval, stopflag, out, bestever ]  = cmaes( opt_fct, opt_vect, [], cmaes_opt );
 end
 %%
@@ -80,4 +80,4 @@ input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.maxiterations = inf;
 config.timeperiteration = 7200;
-config.stopiter = 1000;
+config.stopiter = 100;
