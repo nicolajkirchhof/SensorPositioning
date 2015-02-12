@@ -8,7 +8,8 @@ function [ qval ] = cmqm( x )
 
 persistent bpolyclip_options bpolyclip_batch_options is_initialized default_annulus ...
     fun_sensorfov fun_transform area_to_cover ply ply_to_cover contours placeable_edges ...
-    placeable_edgelenghts_scale placeable_edgelenghts_lut placeable_edges_dir config wpn
+    placeable_edgelenghts_scale placeable_edgelenghts_lut placeable_edges_dir config wpn wpn_d ...
+    dmax2
 
 if isempty(is_initialized) 
 ply = x.ply;
@@ -26,6 +27,7 @@ fun_sensorfov = @(x,y,theta) int64(bsxfun(@plus, ([cos(theta) -sin(theta); sin(t
 fun_transform = @(ply,x,y, theta) int64(bsxfun(@plus, [x;y], [cos(theta) -sin(theta); sin(theta)  cos(theta)]*double(ply)));
 config = Configurations.Discretization.iterative;
 area_to_cover = mb.polygonArea(ply_to_cover);
+dmax2 = config.sensor.distance(2)^2;
 
 
 %%
@@ -34,6 +36,7 @@ placeable_edgelenghts_lut = x.placeable_edgelenghts_lut;
 placeable_edges_dir = x.placeable_edges_dir;
 
 wpn = x.wpn;
+wpn_d = double(wpn);
 % phi = x.phi;
 x = [x.x x.phi];
 %%
@@ -92,7 +95,6 @@ sp_wpn_flt = cell2mat(sp_wpn_cell');
 num_wpn = size(wpn, 2);
 sp_wpn = false(numel(empty_polys), num_wpn);
 sp_wpn(~empty_polys, :) = sp_wpn_flt;
-dmax = config.sensor.distance(2);
 
 maxvals = zeros(num_wpn, 1);
 %%
@@ -104,15 +106,25 @@ for idw = 1:size(wpn, 2)
     s1_idx = sc(:,1);
     s2_idx = sc(:,2);
     %%
-    q_sin = sin(mb.angle3PointsFast(sp(1:2, s1_idx), double(wpn(:,idw)), sp(1:2, s2_idx)))';    
-    ds1 = mb.distancePoints(wpn(:,idw), sp(1:2, s1_idx));
-    ds2 = mb.distancePoints(wpn(:,idw), sp(1:2, s2_idx));
+    da2 = sum(bsxfun(@minus, sp(1:2, s1_idx), wpn_d(:,idw)).^2);
+    da = sqrt(da2);
+    db2 = sum(bsxfun(@minus, sp(1:2, s2_idx), wpn_d(:,idw)).^2);
+    db = sqrt(db2);
+    dc = sqrt(sum((sp(1:2, s1_idx)-sp(1:2, s2_idx)).^2));
     
-    dn1 = ds1./dmax;
-    dn2 = ds2./dmax;
+    v = 1 - (2 * da2 .* db2 ) ./ ( dmax2 * sqrt( (db-da+dc) .* (da-db+dc) .* (da+db-dc) .* (da+db+dc) ) );
     
-    v = 1-((dn1'.*dn2')./(q_sin));
-    flt_vis = dn1>1|dn2>1;
+%     q_sin = sin(mb.angle3PointsFast(sp(1:2, s1_idx), wpn_d(:,idw), sp(1:2, s2_idx)))';    
+%     ds1 = mb.distancePoints(wpn(:,idw), sp(1:2, s1_idx));
+%     ds2 = mb.distancePoints(wpn(:,idw), sp(1:2, s2_idx));
+%     dn1 = sqrt(sum(bsxfun(@minus, sp(1:2, s1_idx), wpn_d(:,idw)).^2))./dmax;
+%     dn2 = sqrt(sum(bsxfun(@minus, sp(1:2, s2_idx), wpn_d(:,idw)).^2))./dmax;
+    
+%     dn1 = ds1./dmax;
+%     dn2 = ds2./dmax;
+    
+%     v = 1-((dn1.*dn2)'./(q_sin));
+    flt_vis = da2>dmax2|db2>dmax2;
     v(flt_vis) = [];
     
     if isempty(v)

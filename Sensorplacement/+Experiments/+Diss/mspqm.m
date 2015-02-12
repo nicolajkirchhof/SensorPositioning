@@ -6,13 +6,13 @@ close all;
 clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-names = {'conference_room', 'small_flat'} %, 'large_flat', 'office_floor'};
-% names = {'large_flat', 'office_floor'};
+% names = {'conference_room', 'small_flat'} %, 'large_flat', 'office_floor'};
+names = {'large_flat'};
 % names = {'office_floor'}
 
-num_wpns = 0:10:200;
-num_sps =  0:10:200;
-
+num_wpns = 100:10:200;
+num_sps =  100:10:200;
+cnt = 100;
 % gco = cell(numel(num_sps), numel(num_wpns));
 for id_n = 1:numel(names)
     name = names{id_n};
@@ -30,10 +30,10 @@ for id_n = 1:numel(names)
             gen = Configurations.Common.generic();
             gen.workdir = sprintf('tmp/mspqm');
             mspqm_config = Configurations.Optimization.Discrete.mspqm(gen);
-            mspqm_config.name = name;
+            mspqm_config.name = sprintf('%d_%s', cnt, name);
             filename = Optimization.Discrete.Models.mspqm(input.discretization, input.quality, mspqm_config);
             
-            
+            cnt = cnt + 1;
         end
     end
 end
