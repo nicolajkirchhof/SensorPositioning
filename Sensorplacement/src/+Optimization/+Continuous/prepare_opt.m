@@ -1,4 +1,4 @@
-function [ opt ] = prepare_opt( input, sensors_selected )
+function [ opt ] = prepare_opt( input, sp )
 %PREPARE_LUT Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,8 +7,8 @@ opt = load('tmp/contours/contours.mat');
 opt.ply = input.environment.combined;
 opt.ply_to_cover = bpolyclip(input.environment.combined, input.environment.occupied, 0, 1, 100, 1); 
 
-gsp = input.discretization.sp(1:2, sensors_selected)';
-opt.phi = normalizeAngle(input.discretization.sp(3, sensors_selected))' ./ (2*pi);
+gsp = sp(1:2, :)';
+opt.phi = normalizeAngle(sp(3, :))' ./ (2*pi);
 
 opt.placeable_edges_cell = cellfun(@(x,y) x(y, :), input.environment.combined_edges, input.environment.placable_edges, 'uniformoutput', false);
 opt.placeable_edges = cell2mat(opt.placeable_edges_cell(:));
@@ -22,7 +22,7 @@ opt.placeable_edges_dir = bsxfun(@rdivide, placeable_edges_dir, sqrt(sum(placeab
 
 
 %%
-is_poe = isPointOnEdge(gsp, opt.placeable_edges);
+is_poe = isPointOnEdge(gsp, opt.placeable_edges, 10);
 edge_id = arrayfun(@(x) find(is_poe(x, :)), 1:size(is_poe, 1), 'uniformoutput', false);
 flt_gt_one = cellfun(@(x) numel(x)>1, edge_id);
 

@@ -13,7 +13,7 @@ fmin = Optimization.Continuous.fitfct.cmqm(cmcq_opt);
 
 cmaes_opt = cmaes('defaults');
 opt_vect = [cmcq_opt.x; cmcq_opt.phi];
-ub = ones(size(opt_vect))-eps;
+ub = ones(size(opt_vect));
 lb = zeros(size(opt_vect));
 cmaes_opt.LBounds = lb;
 cmaes_opt.UBounds = ub;
@@ -31,11 +31,14 @@ timer_id = tic;
 if ~cmaes_opt.Resume
     write_log('Starting new CMAES run, saving in %s', config.filename);
     [opt_vect, fmin, counteval, stopflag, out, bestever ]  = cmaes( opt_fct, opt_vect, [], cmaes_opt );
+    cmaes_opt.Resume = true;
 else
+    stopflag = 'stoptoresume';
+    fmin = 1;
     write_log('Resuming CMAES run from %s', config.filename);
 end
 %%
-while toc(timer_id) < maxtime && fun_check_stopflag(stopflag) && fmin > 0
+while toc(timer_id) < maxtime && fun_check_stopflag(stopflag) && fmin > config.fmin
     %%
 %     cmaes_opt.StopFunEvals = config.stopfunevals;
     [opt_vect, fmin, counteval, stopflag, out, bestever ]  = cmaes( opt_fct, opt_vect, [], cmaes_opt );
@@ -62,7 +65,7 @@ sol = gco{51, 51};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.maxiterations = inf;
-config.timeperiteration = 1800;
+config.timeperiteration = 600;
 config.stopiter = 500;
 solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 profile viewer

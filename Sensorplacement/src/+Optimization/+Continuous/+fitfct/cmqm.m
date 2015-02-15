@@ -49,7 +49,7 @@ x = x(1:id_mid);
 phi = phi(:);
 x = x(:);
 
-ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut<=x), x);
+ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut(1:end-1)<=x), x);
 dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
 gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
 sp = [gsp'; phi(:)'*(2*pi)];
