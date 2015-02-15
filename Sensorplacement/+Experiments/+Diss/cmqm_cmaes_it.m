@@ -8,10 +8,12 @@ clear variables;
 % num_wpns = 0:10:500;
 % names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
-names = {'small_flat'}; %, 'large_flat', 'office_floor'};
+names = {'large_flat', 'office_floor'};
 
 num_sps =  500;
-num_wpns = 0:10:500;
+% num_wpns = 0:10:500;
+% num_wpns = 0:10:500;
+num_wpns = 500;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -19,24 +21,24 @@ tme = tic;
 next = update_interval;
 iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 write_log([], '#off');
-%%
+%%%
 for id_n = 1:numel(names)
     cmcqm_cmaes_it = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
     load(sprintf('tmp/%s/gco.mat', name));
 %     load(sprintf('tmp/%s/cmcqm_cmaes_it.mat', name));
     %%
-    for id_wpn = 2:numel(num_wpns)
+    for id_wpn = 1:numel(num_wpns)
         for id_sp = 1:numel(num_sps)
             num_wpn = num_wpns(id_wpn);
             num_sp = num_sps(id_sp);
             
             %%
-            if isempty(cmcqm_cmaes_it{id_sp, id_wpn})
-            sol = gco{51, id_wpn};
+%             if isempty(cmcqm_cmaes_it{id_sp, id_wpn})
+            sol = gco{51, num_wpn/10};
             input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
             input.solution = sol;
-            config.timeperiteration = 7200;
+            config.timeperiteration = 28000; %7200;
             config.stopiter = 10000;
             solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 
@@ -47,11 +49,12 @@ for id_n = 1:numel(names)
             solution.num_sp = num_sp;
             solution.num_wpn = num_wpn;
             solution.sol = sol;
-            cmcqm_cmaes_it{id_sp, id_wpn} = solution;
-            end
+            cmcqm_cmaes_it{id_sp, num_wpn/10} = solution;
+%             end
             iteration = iteration + 1;
+            fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
             if toc(tme)>next
-                fprintf(1, '%g pct %g sec to go sp %d wpn %d\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), num_sp, num_wpn);
+                fprintf(1, '\n\n%g pct %g sec to go sp %d wpn %d\n\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), num_sp, num_wpn);
                 next = toc(tme)+stp;
             end
             

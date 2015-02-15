@@ -18,10 +18,13 @@ lb = zeros(size(opt_vect));
 cmaes_opt.LBounds = lb;
 cmaes_opt.UBounds = ub;
 maxtime = config.timeperiteration;
-cmaes_opt.StopFitness = 0;
+cmaes_opt.StopFitness = config.fmin;
 cmaes_opt.StopIter = config.stopiter;
 cmaes_opt.SaveFilename = config.filename;
 cmaes_opt.Resume = config.resume;
+cmaes_opt.TolFun = 1e-6;
+cmaes_opt.TolHistFun = 1e-7;
+cmaes_opt.TolX = 1e-8;
 
 opt_fct = @Optimization.Continuous.fitfct.cmqm;
 fun_check_stopflag = @(flags) any(strcmpi(flags, 'stoptoresume')|strcmpi(flags, 'manual'));

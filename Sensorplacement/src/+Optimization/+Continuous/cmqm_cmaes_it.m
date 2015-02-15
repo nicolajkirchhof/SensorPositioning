@@ -39,7 +39,7 @@ while fmin <= 0 % && cnt <= config.maxiterations
     solutions{end+1} = sol;
 end
 if numel(solutions) < 2
-    return;
+    solutions{end+1} = sol;
 end
 
 %% ADD FINAL RUN WITH LAST VALID
