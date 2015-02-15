@@ -29,7 +29,7 @@ write_log([], '#off');
 
 
 for id_n = 1:numel(names)
-    %     gsss = cell(numel(num_sps), numel(num_wpns));
+    gsss = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
     for id_wpn = 1:numel(num_wpns)
         for id_sp = 1:numel(num_sps)
@@ -44,19 +44,19 @@ for id_n = 1:numel(names)
                 solution.solfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.sol', name, name, num_sp, num_wpn);
                 solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
                 %%
-                %             if ~exist(solution.solfile, 'file') % Remove check!!!
-                                input = Experiments.Diss.(name)(num_sp, num_wpn);
-                                input.config.optimization.name = input.name;
-                %
-                %                 gen = Configurations.Common.generic();
-                %                 gen.workdir = sprintf('tmp/%s/gsss', name);
-                %                 ssc_config = Configurations.Optimization.Discrete.ssc(gen);
-                %                 ssc_config.name = name;
-                %                 solution.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
-                %                 [solution.solfile, solution.logfile] = Optimization.Discrete.Solver.cplex.start(solution.filename, cplex, false);
-                %             else
-                %                 solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
-                %             end
+                if ~exist(solution.solfile, 'file') % Remove check!!!
+                    input = Experiments.Diss.(name)(num_sp, num_wpn);
+                    input.config.optimization.name = input.name;
+                    
+                    gen = Configurations.Common.generic();
+                    gen.workdir = sprintf('tmp/%s/gsss', name);
+                    ssc_config = Configurations.Optimization.Discrete.ssc(gen);
+                    ssc_config.name = name;
+                    solution.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
+                    [solution.solfile, solution.logfile] = Optimization.Discrete.Solver.cplex.start(solution.filename, cplex, false);
+                else
+                    solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
+                end
                 %%
                 solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(solution.solfile);
                 solution_coverage_log = Optimization.Discrete.Solver.cplex.read_log(solution.logfile);
@@ -86,8 +86,8 @@ for id_n = 1:numel(names)
             
         end
     end
-        output_filename = sprintf('tmp/%s/gsss.mat', name);
-        save(output_filename, 'gsss');
+    output_filename = sprintf('tmp/%s/gsss.mat', name);
+    save(output_filename, 'gsss');
 end
 return;
 %%
