@@ -28,12 +28,21 @@ sc_wpn(:, is_wpn) = 0;
 write_log(' Start calculating gco');
 pct = 0;
 cnt = 0;
+ids_sc_wpn = ismember(sc, sp_selected);
+%%
 while ~all(is_wpn)
     %% find next sp to select
-    fun_ids_sc_wpn = @(id_sp) find(ismember(sc(:, 1), [id_sp, sp_selected])&ismember(sc(:,2), [id_sp, sp_selected]));
+    % TOO SLOW!!!
+%     fun_ids_sc_wpn = @(id_sp) find(ismember(sc(:, 1), [id_sp, sp_selected])&ismember(sc(:,2), [id_sp, sp_selected]));
+%     ids_sc_wpn_cell = arrayfun(fun_ids_sc_wpn, ids_sp_left, 'uniformoutput', false);
+    
+    %%
     ids_sp_left = find(~is_sp);
-    ids_sc_wpn_cell = arrayfun(fun_ids_sc_wpn, ids_sp_left, 'uniformoutput', false);
-
+    fun_ids_sp_sc_wpn = @(id_sp) find(all(sc==id_sp|ids_sc_wpn, 2));
+    ids_sc_wpn_cell = arrayfun(fun_ids_sp_sc_wpn, ids_sp_left, 'uniformoutput', false);
+    
+%     all(cellfun(@isempty, cellfun(@(x,y)setdiff(x,y), ids_sc_wpn_cell, ids_sc_wpn_cell2, 'uniformoutput', false)))
+    %%
     num_wpn_cell = cellfun(@(x) sum(sc_wpn(x, :), 2), ids_sc_wpn_cell, 'uniformoutput', false);        
     flt_nonempty_sp = cellfun(@(x) ~isempty(x), num_wpn_cell);
     ids_sp_left = ids_sp_left(flt_nonempty_sp);
@@ -45,6 +54,7 @@ while ~all(is_wpn)
 
     id_sc = ids_sc_wpn_cell{id_all_max}(ids_sc_max_wpn(id_all_max));
     sp_selected = [ids_sp_left(id_all_max) sp_selected];
+    ids_sc_wpn = sc==ids_sp_left(id_all_max)|ids_sc_wpn;
 
     %% update matrices
     flt_selected = ismember(sc(:, 1), sp_selected)&ismember(sc(:,2), sp_selected);
@@ -52,6 +62,7 @@ while ~all(is_wpn)
     is_wpn = is_wpn | any(sc_wpn(sc_selected,:), 1);
     is_sp(sp_selected) = true;
     sc_wpn(:, is_wpn) = 0;
+    
     %%
     cnt = cnt + 1;
     if round(10*sum(is_wpn)/numel(is_wpn)) > pct
