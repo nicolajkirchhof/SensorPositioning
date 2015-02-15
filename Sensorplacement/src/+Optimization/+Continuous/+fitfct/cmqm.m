@@ -38,12 +38,15 @@ placeable_edges_dir = x.placeable_edges_dir;
 wpn = x.wpn;
 wpn_d = double(wpn);
 % phi = x.phi;
-x = [x.x x.phi];
+x = [x.x(:); x.phi(:)];
 %%
 is_initialized = true;
 end
 
 id_mid = numel(x)/2;
+if round(id_mid) ~= id_mid
+    error('investigate');
+end
 phi = x(id_mid+1:end);
 x = x(1:id_mid);
 phi = phi(:);

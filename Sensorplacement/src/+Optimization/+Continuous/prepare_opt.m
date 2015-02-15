@@ -22,8 +22,15 @@ opt.placeable_edges_dir = bsxfun(@rdivide, placeable_edges_dir, sqrt(sum(placeab
 
 
 %%
-is_poe = isPointOnEdge(gsp, opt.placeable_edges, 10);
-edge_id = arrayfun(@(x) find(is_poe(x, :)), 1:size(is_poe, 1), 'uniformoutput', false);
+
+is_poe = arrayfun(@(x,y) isPointOnEdge([x,y], opt.placeable_edges, 1e-10), gsp(:,1), gsp(:,2), 'uniformoutput', false);
+is_poe = cell2mat(is_poe(:)');
+
+if ~all(any(is_poe, 1)) || any(sum(is_poe, 1)>2)
+    error('Coverage is not compleate');
+end
+
+edge_id = arrayfun(@(x) find(is_poe(:, x)), 1:size(is_poe, 2), 'uniformoutput', false);
 flt_gt_one = cellfun(@(x) numel(x)>1, edge_id);
 
 for id = find(flt_gt_one)
@@ -35,6 +42,8 @@ for id = find(flt_gt_one)
     end
 end
 edge_ids = cell2mat(edge_id);
+
+
 dst_to_first = arrayfun(@(idpt, idedge) distancePoints(gsp(idpt,:), opt.placeable_edges(idedge, 1:2)), 1:numel(edge_ids), edge_ids);
 dst_to_first_scaled = dst_to_first/opt.placeable_edgelenghts_scale;
 opt.x = opt.placeable_edgelenghts_lut(edge_ids) + dst_to_first_scaled(:);

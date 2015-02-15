@@ -1,14 +1,14 @@
 %%
 close all;
-clear variables;
+% clear variables;
 %%%
-% clearvars -except gco
+clearvars -except gco
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
 % num_wpns = 0:10:500;
-% names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
+names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
-names = {'large_flat', 'office_floor'};
+% names = {'large_flat', 'office_floor'};
 
 num_sps =  500;
 % num_wpns = 0:10:500;
@@ -25,7 +25,9 @@ write_log([], '#off');
 for id_n = 1:numel(names)
     cmcqm_cmaes_it = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
-    load(sprintf('tmp/%s/gco.mat', name));
+    if id_n > 1
+        load(sprintf('tmp/%s/gco.mat', name));
+    end
 %     load(sprintf('tmp/%s/cmcqm_cmaes_it.mat', name));
     %%
     for id_wpn = 1:numel(num_wpns)
