@@ -72,7 +72,7 @@ sp = [gsp'; phi(:)'*(2*pi)];
 % wpn = input.discretization.wpn;
 % ply = input.environment.combined;
 %%%
-vis_polys = visilibity(sp(1:2, :), ply, 1, 100, 0);
+vis_polys = visilibity(int64(sp(1:2, :)), ply, 1, 100, 0);
 vis_empty_flt = cellfun(@isempty, vis_polys);
 %%%
 vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
@@ -89,11 +89,13 @@ sp = sp(:, ~vis_empty_flt);
 sensor_fovs = arrayfun(fun_sensorfov, sp(1,:), sp(2,:), sp(3,:), 'uniformoutput', false);
 
 %%%
-combined_polys = [vis_polys, sensor_fovs];
+% combined_polys = [vis_polys, sensor_fovs];
 % combine vis_polys and sensor_fovs to use batch processing
-poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
+% poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
 %%%
-[sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, 1, 10, 1, 0 );
+% [sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, 1, 10, 1, 0 );
+
+[sensor_visibility_polygons] = cellfun(@(p1, p2) bpolyclip(p1, p2), vis_polys, sensor_fovs, 'uniformoutput', false);
 
 empty_polys = cellfun(@isempty, sensor_visibility_polygons);
 svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons(~empty_polys), 'uniformoutput', false);
@@ -170,7 +172,10 @@ phi = opt.phi+0.5;
 Optimization.Continuous.fitfct.cmqm([x phi])
 
 %%
+load tmp\large_flat\gco.mat
+%%
 clear cmqm
+
 sol = gco{1, 1};
 input = Experiments.Diss.large_flat(sol.num_sp, sol.num_wpn);
 opt = Optimization.Continuous.prepare_opt(input, sol.discretization.sp);

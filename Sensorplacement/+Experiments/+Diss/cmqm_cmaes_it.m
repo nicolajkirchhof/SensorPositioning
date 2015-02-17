@@ -25,9 +25,9 @@ write_log([], '#off');
 for id_n = 1:numel(names)
     cmcqm_cmaes_it = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
-%     if id_n > 1
+    if id_n > 1 || exist('gco', 'var') == 0
         load(sprintf('tmp/%s/gco.mat', name));
-%     end
+    end
 %     load(sprintf('tmp/%s/cmcqm_cmaes_it.mat', name));
     %%
     for id_wpn = 1:numel(num_wpns)
