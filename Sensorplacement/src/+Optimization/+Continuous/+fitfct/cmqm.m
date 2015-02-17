@@ -53,13 +53,13 @@ x = x(1:id_mid);
 phi = phi(:);
 x = x(:);
 %%
-ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut(1:end-1)<x), x);
-dst_first = x-placeable_edgelenghts_lut(ids_before);
-flt_eps_sub = dst_first > 10/placeable_edgelenghts_scale;
-dst_first(flt_eps_sub) = dst_first(flt_eps_sub) + eps;
-dst_first(~flt_eps_sub) = dst_first(~flt_eps_sub) - eps;
-% dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
-dist_to_first = dst_first*placeable_edgelenghts_scale;
+ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut(1:end-1)<=x), x);
+% dst_first = x-placeable_edgelenghts_lut(ids_before);
+% flt_eps_sub = dst_first > 10/placeable_edgelenghts_scale;
+% dst_first(flt_eps_sub) = dst_first(flt_eps_sub) + eps;
+% dst_first(~flt_eps_sub) = dst_first(~flt_eps_sub) - eps;
+% dist_to_first = dst_first*placeable_edgelenghts_scale;
+dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
 gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
 sp = [gsp'; phi(:)'*(2*pi)];
 %%
@@ -93,7 +93,7 @@ combined_polys = [vis_polys, sensor_fovs];
 % combine vis_polys and sensor_fovs to use batch processing
 poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
 %%%
-[sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options{:} );
+[sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, 1, 10, 1, 0 );
 
 empty_polys = cellfun(@isempty, sensor_visibility_polygons);
 svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons(~empty_polys), 'uniformoutput', false);

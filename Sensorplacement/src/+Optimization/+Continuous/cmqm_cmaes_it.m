@@ -85,10 +85,11 @@ solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 profile viewer
 %%
 profile on;
-sol = gco{51, 51};
-input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
+sol = gco{1, 1};
+input = Experiments.Diss.large_flat(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.timeperiteration = 1800;
 config.stopiter = 500;
+%%
 solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 profile viewer
