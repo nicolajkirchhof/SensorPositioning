@@ -20,8 +20,9 @@ placeable_edges = x.placeable_edges;
 bpolyclip_options = Configurations.Bpolyclip.vfov;
 bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
 
-default_annulus = [0 10000 9928 9715 9362 8876 8262 7531 6691 0;
-                   0 0 1194 2371 3514 4606 5633 6579 7431 0 ];
+% default_annulus = [0 10000 9928 9715 9362 8876 8262 7531 6691 0;
+%                    0 0 1194 2371 3514 4606 5633 6579 7431 0 ];
+               default_annulus = mb.createAnnulusSegment(0,0,0, 10000, 0, 48, 8);
 fun_sensorfov = @(x,y,theta) int64(bsxfun(@plus, ([cos(theta) -sin(theta); sin(theta)  cos(theta)]*default_annulus), [x;y]));
 
 fun_transform = @(ply,x,y, theta) int64(bsxfun(@plus, [x;y], [cos(theta) -sin(theta); sin(theta)  cos(theta)]*double(ply)));
@@ -51,8 +52,13 @@ phi = x(id_mid+1:end);
 x = x(1:id_mid);
 phi = phi(:);
 x = x(:);
-
+%%
 ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut(1:end-1)<=x), x);
+% dst_first = x-placeable_edgelenghts_lut(ids_before);
+% flt_eps_sub = dst_first > 10/placeable_edgelenghts_scale;
+% dst_first(flt_eps_sub) = dst_first(flt_eps_sub) + eps;
+% dst_first(~flt_eps_sub) = dst_first(~flt_eps_sub) - eps;
+% dist_to_first = dst_first*placeable_edgelenghts_scale;
 dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
 gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
 sp = [gsp'; phi(:)'*(2*pi)];
@@ -66,13 +72,13 @@ sp = [gsp'; phi(:)'*(2*pi)];
 % wpn = input.discretization.wpn;
 % ply = input.environment.combined;
 %%%
-vis_polys = visilibity(sp(1:2, :), ply, 10, 10, 0);
+vis_polys = visilibity(int64(sp(1:2, :)), ply, 1, 100, 0);
 vis_empty_flt = cellfun(@isempty, vis_polys);
 %%%
 vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
 sp = sp(:, ~vis_empty_flt);
 
-%%
+%%%
 % calculates the sensor fov, the inner ring is defined by the min distance and the outer ring by
 % the max distance. Since both rings have the same orientation, the inner is flipped to get a
 % polygon
@@ -82,17 +88,19 @@ sp = sp(:, ~vis_empty_flt);
 % fun_sensorfov = @(x,y,theta) int64(bsxfun(@plus, ([cos(theta) -sin(theta); sin(theta)  cos(theta)]*default_annulus), [x;y]));
 sensor_fovs = arrayfun(fun_sensorfov, sp(1,:), sp(2,:), sp(3,:), 'uniformoutput', false);
 
-%%
-combined_polys = [vis_polys, sensor_fovs];
-% combine vis_polys and sensor_fovs to use batch processing
-poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
 %%%
-[sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options );
+% combined_polys = [vis_polys, sensor_fovs];
+% combine vis_polys and sensor_fovs to use batch processing
+% poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
+%%%
+% [sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, 1, 10, 1, 0 );
+
+[sensor_visibility_polygons] = cellfun(@(p1, p2) bpolyclip(p1, p2), vis_polys, sensor_fovs, 'uniformoutput', false);
 
 empty_polys = cellfun(@isempty, sensor_visibility_polygons);
 svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons(~empty_polys), 'uniformoutput', false);
 
-sp_wpn_cell = cellfun(@(x) binpolygon(wpn, x, 1), svp, 'uniformoutput', false);
+sp_wpn_cell = cellfun(@(x) binpolygon(wpn, x, 10), svp, 'uniformoutput', false);
 sp_wpn_flt = cell2mat(sp_wpn_cell');
 
 num_wpn = size(wpn, 2);
@@ -155,6 +163,25 @@ opt = Optimization.Continuous.prepare_opt(input, sol.sensors_selected);
 opt.wpn = input.discretization.wpn;
 %%%%
 opt.x = opt.x+0.01;
+% opt.phi = opt.phi+0.2;
+Optimization.Continuous.fitfct.cmqm(opt)
+%%%
+x = opt.x+0.01;
+phi = opt.phi+0.5;
+
+Optimization.Continuous.fitfct.cmqm([x phi])
+
+%%
+load tmp\large_flat\gco.mat
+%%
+clear cmqm
+
+sol = gco{1, 1};
+input = Experiments.Diss.large_flat(sol.num_sp, sol.num_wpn);
+opt = Optimization.Continuous.prepare_opt(input, sol.discretization.sp);
+opt.wpn = input.discretization.wpn;
+%%
+% opt.x = opt.x+0.01;
 % opt.phi = opt.phi+0.2;
 Optimization.Continuous.fitfct.cmqm(opt)
 %%%

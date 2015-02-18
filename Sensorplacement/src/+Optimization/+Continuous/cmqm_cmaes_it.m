@@ -8,7 +8,7 @@ function [ solutions ] = cmqm_cmaes_it( input, config )
 %   .stopiter = maximum function evaluations before next time check
 %%
 fmin = 0;
-sp = input.discretization.sp(:, input.solution.sensors_selected);
+sp = [[0;0;0], input.discretization.sp(:, input.solution.sensors_selected)];
 solutions = {};
 cnt = 0;
 config.fmin = 0;
@@ -38,9 +38,10 @@ while fmin <= 0 % && cnt <= config.maxiterations
     %%
     solutions{end+1} = sol;
 end
-if numel(solutions) < 2
-    solutions{end+1} = sol;
-end
+% if numel(solutions) < 2
+%     solutions{end+1} = sol;
+%     solutions{1}.sp = 
+% end
 
 %% ADD FINAL RUN WITH LAST VALID
 sol = solutions{end-1};
@@ -80,5 +81,15 @@ input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.timeperiteration = 1800;
 config.stopiter = 500;
+solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
+profile viewer
+%%
+profile on;
+sol = gco{1, 1};
+input = Experiments.Diss.large_flat(sol.num_sp, sol.num_wpn);
+input.solution = sol;
+config.timeperiteration = 1800;
+config.stopiter = 500;
+%%
 solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 profile viewer

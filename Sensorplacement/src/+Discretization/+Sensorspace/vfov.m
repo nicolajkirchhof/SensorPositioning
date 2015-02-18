@@ -57,7 +57,7 @@ combined_polys = [vis_polys, sensor_fovs];
 % combine vis_polys and sensor_fovs to use batch processing
 poly_combine_jobs = mat2cell([numel(vis_polys)+(1:numel(sensor_fovs)); u_p_ic']', ones(numel(sensor_fovs),1), 2);
 %%%
-[sensor_visibility_polygons, sensor_visibility_polygon_areas] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options );
+[sensor_visibility_polygons, sensor_visibility_polygon_areas] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options{:} );
 %%
 small_polys = sensor_visibility_polygon_areas < sensor.area(1);
 write_log('number of polys neglected because of area %d\n',  sum(small_polys));

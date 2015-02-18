@@ -42,12 +42,32 @@ for id = find(flt_gt_one)
     end
 end
 edge_ids = cell2mat(edge_id);
-
+%%
 
 dst_to_first = arrayfun(@(idpt, idedge) distancePoints(gsp(idpt,:), opt.placeable_edges(idedge, 1:2)), 1:numel(edge_ids), edge_ids);
 dst_to_first_scaled = dst_to_first/opt.placeable_edgelenghts_scale;
+flt_eps_sub = dst_to_first_scaled > 10/opt.placeable_edgelenghts_scale;
+dst_to_first_scaled(flt_eps_sub) = dst_to_first_scaled(flt_eps_sub) - eps;
+dst_to_first_scaled(~flt_eps_sub) = dst_to_first_scaled(~flt_eps_sub)+eps;
 opt.x = opt.placeable_edgelenghts_lut(edge_ids) + dst_to_first_scaled(:);
 
+%%
+x = [opt.x(:); opt.phi(:)];
+id_mid = numel(x)/2;
+phi = x(id_mid+1:end);
+x = x(1:id_mid);
+phi = phi(:);
+x = x(:);
+%%
+
+ids_before = arrayfun(@(x) sum(opt.placeable_edgelenghts_lut(1:end-1)<=x), x);
+% dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
+% gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
+% sp = [gsp'; phi(:)'*(2*pi)];
+id_error = find(edge_ids(:)-ids_before(:));
+if ~isempty(id_error)
+    error('SP %d is not correctly translated\n', id_error);
+end
 
 end
 
