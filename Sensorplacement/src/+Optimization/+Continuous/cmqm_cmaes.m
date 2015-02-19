@@ -17,6 +17,7 @@ ub = ones(size(opt_vect));
 lb = zeros(size(opt_vect));
 cmaes_opt.LBounds = lb;
 cmaes_opt.UBounds = ub;
+% cmaes_opt.DiffMaxChange = [ones(size(cmcq_opt.x(:)))*1000/cmcq_opt.placeable_edgelenghts_scale; ones(size(cmcq_opt.phi(:)))*deg2rad(10)/(2*pi)];
 maxtime = config.timeperiteration;
 cmaes_opt.StopFitness = config.fmin;
 cmaes_opt.StopIter = config.stopiter;
