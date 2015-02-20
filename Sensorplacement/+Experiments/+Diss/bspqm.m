@@ -6,12 +6,12 @@ close all;
 clear variables;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-names = {'conference_room', 'small_flat'} %, 'large_flat', 'office_floor'};
+names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 % names = {'large_flat'};
 % names = {'office_floor'}
 
 % num_wpns = 0:10:200;
-num_wpns = 0;
+num_wpns = 0:50:200;
 num_sps =  0:50:200;
 cnt = 100;
 % gco = cell(numel(num_sps), numel(num_wpns));
