@@ -26,6 +26,7 @@ cmaes_opt.Resume = config.resume;
 cmaes_opt.TolFun = 1e-6;
 cmaes_opt.TolHistFun = 1e-7;
 cmaes_opt.TolX = 1e-8;
+cmaes_opt.Restarts = config.restarts;
 
 opt_fct = @Optimization.Continuous.fitfct.cmqm;
 fun_check_stopflag = @(flags) any(strcmpi(flags, 'stoptoresume')|strcmpi(flags, 'manual'));
@@ -35,6 +36,7 @@ timer_id = tic;
 if ~cmaes_opt.Resume
     write_log('Starting new CMAES run, saving in %s', config.filename);
     [opt_vect, fmin, counteval, stopflag, out, bestever ]  = cmaes( opt_fct, opt_vect, [], cmaes_opt );
+    fprintf(1, '\n Fmin was %g, Counteval was %g, Bestever was %g\n', fmin, counteval, bestever.f);
     cmaes_opt.Resume = true;
 else
     stopflag = 'stoptoresume';
@@ -42,19 +44,20 @@ else
     write_log('Resuming CMAES run from %s', config.filename);
 end
 %%
-while toc(timer_id) < maxtime && fun_check_stopflag(stopflag) && fmin > config.fmin
+while toc(timer_id) < maxtime && fun_check_stopflag(stopflag) && bestever.f > config.fmin
     %%
 %     cmaes_opt.StopFunEvals = config.stopfunevals;
     [opt_vect, fmin, counteval, stopflag, out, bestever ]  = cmaes( opt_fct, opt_vect, [], cmaes_opt );
+    fprintf(1, '\n Fmin was %g, Counteval was %g, Bestever was %g\n', fmin, counteval, bestever.f);
 end
 %%
 % sol = input.solution;
-sol.sp = Optimization.Continuous.opt_vect_to_sp(opt_vect, cmcq_opt);
-sol.fmin = fmin;
+sol.sp = Optimization.Continuous.opt_vect_to_sp(bestever.x, cmcq_opt);
+sol.fmin = bestever.f;
 sol.conteval = counteval;
 sol.stopflag = stopflag;
 sol.out = out; 
-sol.bestever = bestever;
+% sol.bestever = bestever;
 fprintf(1, 'Solution with fmin=%g found by %s\n', fmin, stopflag{1});
 
 %%

@@ -1,6 +1,7 @@
 %% init
 p = fileparts(mfilename('fullpath'));
 dbstop if error
+format long
 
 %% load libs
 % run extensions.matlab/lib/ext_all.m
@@ -25,3 +26,4 @@ libs.add_all;
 % end
 
 % clear cplxdir1 cplxdir2 p
+clearvars

@@ -72,11 +72,16 @@ sp = [gsp'; phi(:)'*(2*pi)];
 % wpn = input.discretization.wpn;
 % ply = input.environment.combined;
 %%%
-vis_polys = visilibity(int64(sp(1:2, :)), ply, 1, 100, 0);
-vis_empty_flt = cellfun(@isempty, vis_polys);
+vis_polys = visilibity(sp(1:2, :), ply, 1, 100, 0);
+% vis_empty_flt = cellfun(@isempty, vis_polys); NEEDED?
+% vis_polys = vis_polys(~vis_empty_flt); NEEDED?
+jobs_vispolys = repmat((1:numel(vis_polys))', 1, 2);
 %%%
-vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
-sp = sp(:, ~vis_empty_flt);
+% vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
+% vis_polys = cellfun(@(p) bpolyclip(p, p, 1, 100, 10), vis_polys(~vis_empty_flt), 'uniformoutput', false);
+vis_polys = bpolyclip_batch(vis_polys, 1, jobs_vispolys, 1, 100, 10);
+vis_polys = cellfun(@(p) int64(ceil(p{1}{1})), vis_polys, 'uniformoutput', false);
+% sp = sp(:, ~vis_empty_flt); NEEDED?
 
 %%%
 % calculates the sensor fov, the inner ring is defined by the min distance and the outer ring by
@@ -89,14 +94,14 @@ sp = sp(:, ~vis_empty_flt);
 sensor_fovs = arrayfun(fun_sensorfov, sp(1,:), sp(2,:), sp(3,:), 'uniformoutput', false);
 
 %%%
-combined_polys = [vis_polys, sensor_fovs];
+% combined_polys = [vis_polys, sensor_fovs];
 % combine vis_polys and sensor_fovs to use batch processing
 % poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
-poly_combine_jobs = [1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]';
+% poly_combine_jobs = [1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]';
 %%%
-[sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs);
+% [sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, 1);
 
-% [sensor_visibility_polygons] = cellfun(@(p1, p2) bpolyclip(p1, p2), vis_polys, sensor_fovs, 'uniformoutput', false);
+[sensor_visibility_polygons] = cellfun(@(p1, p2) bpolyclip(p1, p2), vis_polys, sensor_fovs, 'uniformoutput', false);
 
 empty_polys = cellfun(@isempty, sensor_visibility_polygons);
 svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons(~empty_polys), 'uniformoutput', false);
@@ -151,12 +156,13 @@ is_penalty = maxvals < 0.45;
 penalty = sum(is_penalty)*num_wpn;
 qval = -sum(maxvals(~is_penalty))+penalty;
 
-
+%%
 return
 %%
-% load tmp\conference_room\gco.mat
-% clearvars -except gco;
-clear functions;
+load tmp\conference_room\gco.mat
+%%
+clearvars -except gco;
+clear cmqm
 %%%
 sol = gco{10, 10};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);

@@ -13,7 +13,7 @@ names = {'small_flat'};
 num_sps =  500;
 % num_wpns = 0:10:500;
 % num_wpns = 0:10:500;
-num_wpns = 500;
+num_wpns = 0;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -37,11 +37,11 @@ for id_n = 1:numel(names)
             
             %%
 %             if isempty(cmcqm_cmaes_it{id_sp, id_wpn})
-            sol = gco{51, num_wpn/10};
+            sol = gco{51, (num_wpn/10)+1};
             input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
             input.solution = sol;
             config.timeperiteration = 28000; %7200;
-            config.stopiter = 10000;
+            config.stopiter = 1000;
             solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 
             %%
