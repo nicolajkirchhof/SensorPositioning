@@ -39,6 +39,7 @@ if ~cmaes_opt.Resume
     fprintf(1, '\n Fmin was %g, Counteval was %g, Bestever was %g\n', fmin, counteval, bestever.f);
     cmaes_opt.Resume = true;
 else
+    bestever.f = 1;
     stopflag = 'stoptoresume';
     fmin = 1;
     write_log('Resuming CMAES run from %s', config.filename);
