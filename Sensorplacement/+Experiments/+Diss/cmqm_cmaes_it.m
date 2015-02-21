@@ -8,12 +8,12 @@ clearvars -except gco
 % num_wpns = 0:10:500;
 % names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
-names = {'small_flat'}; 
+names = {'conference_room', 'small_flat'}; 
 
 num_sps =  500;
 % num_wpns = 0:10:500;
 % num_wpns = 0:10:500;
-num_wpns = 0;
+num_wpns = 500;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -42,6 +42,7 @@ for id_n = 1:numel(names)
             input.solution = sol;
             config.timeperiteration = 28000; %7200;
             config.stopiter = 1000;
+            config.restarts = 5;
             solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 
             %%

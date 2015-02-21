@@ -29,7 +29,7 @@ while fmin <= 0 % && cnt <= config.maxiterations
         cmcq_opt.wpn = input.discretization.wpn;
         config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
         config.resume = false;
-        config.restarts = 10; 
+        config.restarts = config.restarts; 
         sol = Optimization.Continuous.cmqm_cmaes(cmcq_opt, config);
         fmin = sol.fmin;
 %         num_try = num_try + 1;
