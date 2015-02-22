@@ -7,12 +7,16 @@ fprintf(1, '\nStarting new opt with initial fitness of %g \n', sum(fmin));
 
 % opt_name = 'lsqnonlin';
 opt_name = 'fmincon';
+% opt_name = 'simulannealbnd';
 % opt = optimset(opt_name);
 opt = optimoptions(opt_name);
+
 opt.Display = 'iter';
 % opt.MaxTime = 28800;
 opt.UseParallel = config.UseParallel;
-% opt.ObjectiveLimit = config.fmin;
+opt.ObjectiveLimit = config.fmin;
+% opt.Algorithm ='sqp';
+opt.ScaleProblem = 'none';
 if config.verbose
 opt.PlotFcns = { @optimplotx; % plots the current point.
 @optimplotfunccount; % plots the function count.
@@ -25,14 +29,23 @@ prob.options = opt;
 prob.objective = @Optimization.Continuous.fitfct.cmqm;
 prob.solver = opt_name;
 prob.x0 = opt_vect;
-prob.ub = ones(size(opt_vect));
-prob.lb = zeros(size(opt_vect));
+prob.ub = ones(size(opt_vect))+eps;
+prob.lb = zeros(size(opt_vect))-eps;
 %%
-gs = GlobalSearch;
-gs.MaxTime = config.probingtime;
-[x,fval,exitflag,output,allmins] = gs.run(prob);
+% rs = RandomStartPointSet('NumStartPoints',100*(numel(opt_vect))); % 40 points
+% ptmatrix = [prob.x0'; rs.list(prob)];
+% tpoints = CustomStartPointSet(ptmatrix);
+% gs = GlobalSearch;
+% gs = MultiStart;
+% gs.MaxTime = config.probingtime;
+% gs.NumTrialPoints = 1000*(numel(opt_vect));
+% gs.StartPointsToRun = 'bounds';
+% gs.NumStageOnePoints = 100*(numel(opt_vect));
+% gs.TolX = 1e-8;
+% gs.TolFun = 1e-8;
+% [x,fval,exitflag,output,allmins] = gs.run(prob, tpoints);
 % [xmin,fmin,flag,outpt,allmins]
-% [x,fval,exitflag,output] = fmincon(prob);
+[x,fval,exitflag,output] = fmincon(prob);
 
 %%
 sol.sp = Optimization.Continuous.opt_vect_to_sp(x, cmcq_opt);
@@ -40,7 +53,7 @@ sol.fmin = fval;
 sol.stopflag = output.message;
 sol.exitflag = exitflag;
 sol.output = output;
-sol.allmins = allmins;
+% sol.allmins = allmins;
 
 fprintf(1, 'Solution with fmin=%g found by %s\n', fmin, output.message);
 return;

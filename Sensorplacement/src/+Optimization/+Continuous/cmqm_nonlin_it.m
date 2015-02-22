@@ -16,8 +16,8 @@ config.fmin = 0;
 while fmin <= 0 % && cnt <= config.maxiterations
        
     cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
-    cmcq_opt.wpn = input.discretization.wpn;
-    config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
+%     cmcq_opt.wpn = input.discretization.wpn;
+%     config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
     
     fmin = 1;
     cnt_try = 0;
@@ -33,7 +33,7 @@ while fmin <= 0 % && cnt <= config.maxiterations
     
     sol.solutiontime = toc(timer);
     sp = sol.sp(:, 2:end);
-    sol.filename = config.filename;
+%     sol.filename = config.filename;
     cnt = cnt + 1;
     %%
     solutions{end+1} = sol;

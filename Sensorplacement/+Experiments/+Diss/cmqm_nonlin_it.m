@@ -14,6 +14,7 @@ num_sps =  500;
 % num_wpns = 0:10:500;
 % num_wpns = 0:10:500;
 num_wpns = 0:50:500;
+% num_wpns = 0;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -39,13 +40,13 @@ for id_n = 1:numel(names)
             %             if isempty(cmqm_nonlin_it{id_sp, id_wpn})
             output_filename = sprintf('tmp/%s/cmqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
             
-            if exist(output_filename, 'file') == 0
+%             if exist(output_filename, 'file') == 0
                 sol = gco{(num_sp/10)+1, (num_wpn/10)+1};
                 input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
                 input.solution = sol;
                 config.timeperiteration = 28000; %7200;
                 config.restarts = inf;
-                config.probingtime = 600;
+                config.probingtime = 60*(id_n*5); %0;
                 config.UseParallel = false;
                 config.verbose = false;
                 solutions = Optimization.Continuous.cmqm_nonlin_it(input, config);
@@ -67,7 +68,7 @@ for id_n = 1:numel(names)
                 end
                 
                 save(output_filename, 'solution');
-            end
+%             end
         end
         %         output_filename = sprintf('tmp/%s/cmqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
         
