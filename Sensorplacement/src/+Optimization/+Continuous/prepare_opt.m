@@ -18,7 +18,7 @@ opt.placeable_edgelenghts_lut = cumsum([0; placeable_edgelenghts])/sum(placeable
 placeable_edges_dir = (-opt.placeable_edges(:, 1:2) + opt.placeable_edges(:, 3:4));
 opt.placeable_edges_dir = bsxfun(@rdivide, placeable_edges_dir, sqrt(sum(placeable_edges_dir.^2, 2)));
 
-
+opt.wpn = input.discretization.wpn;
 
 
 %%
