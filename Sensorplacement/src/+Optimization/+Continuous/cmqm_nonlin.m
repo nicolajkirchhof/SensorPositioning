@@ -12,12 +12,14 @@ opt.Display = 'iter';
 opt.MaxTime = 28800;
 opt.UseParallel = config.UseParallel;
 opt.ObjectiveLimit = config.fmin;
+if config.verbose
 opt.PlotFcns = { @optimplotx; % plots the current point.
 @optimplotfunccount; % plots the function count.
 @optimplotfval; % plots the function value.
 @optimplotresnorm; % plots the norm of the residuals.
 @optimplotstepsize; % plots the step size.
 @optimplotfirstorderopt}; % plots the first-order optimality measure.
+end 
 prob.options = opt;
 prob.objective = @Optimization.Continuous.fitfct.cmqm;
 prob.solver = opt_name;

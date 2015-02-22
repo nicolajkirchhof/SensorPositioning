@@ -8,12 +8,12 @@ clearvars -except gco
 % num_wpns = 0:10:500;
 % names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
-names = {'conference_room', 'small_flat'}; 
+names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 
 num_sps =  500;
 % num_wpns = 0:10:500;
 % num_wpns = 0:10:500;
-% num_wpns = 500;
+num_wpns = 0:50:500;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -23,48 +23,54 @@ iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 write_log([], '#off');
 %%%
 for id_n = 1:numel(names)
-    cmcqm_cmaes_it = cell(numel(num_sps), numel(num_wpns));
+    cmqm_nonlin_it = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
     if id_n > 1 || exist('gco', 'var') == 0
         load(sprintf('tmp/%s/gco.mat', name));
     end
-%     load(sprintf('tmp/%s/cmcqm_cmaes_it.mat', name));
+    % %     load(sprintf('tmp/%s/cmqm_nonlin_it.mat', name));
     %%
-%     for id_wpn = 1:numel(num_wpns)
+    for id_wpn = 1:numel(num_wpns)
         for id_sp = 1:numel(num_sps)
             num_wpn = num_wpns(id_wpn);
             num_sp = num_sps(id_sp);
             
             %%
-%             if isempty(cmcqm_cmaes_it{id_sp, id_wpn})
-            sol = gco{51, (num_wpn/10)+1};
-            input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
-            input.solution = sol;
-            config.timeperiteration = 28000; %7200;
-            config.restarts = 10;
-            config.UseParallel = false;
-            solutions = Optimization.Continuous.cmqm_nonlin_it(input, config);
-
-            %%
-            solution = [];
-            %         input = cmcqm_cmaes_it;
-            solution.solutions = solutions;
-            solution.num_sp = num_sp;
-            solution.num_wpn = num_wpn;
-            solution.sol = sol;
-            cmcqm_cmaes_it{id_sp, num_wpn/10} = solution;
-%             end
-            iteration = iteration + 1;
-            fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
-            if toc(tme)>next
-                fprintf(1, '\n\n%g pct %g sec to go sp %d wpn %d\n\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), num_sp, num_wpn);
-                next = toc(tme)+stp;
-            end
+            %             if isempty(cmqm_nonlin_it{id_sp, id_wpn})
+            output_filename = sprintf('tmp/%s/cmqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
             
+            if exist(output_filename, 'file') == 0
+                sol = gco{(num_sp/10)+1, (num_wpn/10)+1};
+                input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
+                input.solution = sol;
+                config.timeperiteration = 28000; %7200;
+                config.restarts = sol.discretization.num_sensors;
+                config.UseParallel = false;
+                config.verbose = false;
+                solutions = Optimization.Continuous.cmqm_nonlin_it(input, config);
+                
+                %%
+                solution = [];
+                %         input = cmqm_nonlin_it;
+                solution.solutions = solutions;
+                solution.num_sp = num_sp;
+                solution.num_wpn = num_wpn;
+                solution.sol = sol;
+%                 cmqm_nonlin_it{id_sp, (num_wpn/10)+1} = solution;
+                %             end
+                iteration = iteration + 1;
+                fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
+                if toc(tme)>next
+                    fprintf(1, '\n\n%g pct %g sec to go sp %d wpn %d\n\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), num_sp, num_wpn);
+                    next = toc(tme)+stp;
+                end
+                
+                save(output_filename, 'solution');
+            end
         end
-        output_filename = sprintf('tmp/%s/cmcqm_cmaes_it.mat', name);
-        save(output_filename, 'cmcqm_cmaes_it');
-%     end
+        %         output_filename = sprintf('tmp/%s/cmqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
+        
+    end
 end
 return
 %%
@@ -78,10 +84,10 @@ for   num_sp = 500%0:50:500
     input = Experiments.Diss.(name)(num_sp, num_wpn);% true);
     %%%
     input.config.optimization.name = input.name;
-    cmcqm_cmaes_it_config = Configurations.Optimization.Discrete.cmcqm_cmaes_it;
+    cmqm_nonlin_it_config = Configurations.Optimization.Discrete.cmqm_nonlin_it;
     
-    config.optimization = Configurations.Optimization.Discrete.cmcqm_cmaes_it;
-    solution = Optimization.Discrete.Greedy.cmcqm_cmaes_it(input.discretization, input.quality, config.optimization);
+    config.optimization = Configurations.Optimization.Discrete.cmqm_nonlin_it;
+    solution = Optimization.Discrete.Greedy.cmqm_nonlin_it(input.discretization, input.quality, config.optimization);
     [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
     
     
@@ -99,8 +105,8 @@ for   num_sp = 500%0:50:500
     set(gcf, 'Position', [pos fsize]);
     axis equal;
     axis auto;
-%     ylim([0 8000]);
-%     xlim([0 5500]);
+    %     ylim([0 8000]);
+    %     xlim([0 5500]);
     pos(1) = pos(1)+325;
     if pos(1) > 1590
         pos = [0 500];
