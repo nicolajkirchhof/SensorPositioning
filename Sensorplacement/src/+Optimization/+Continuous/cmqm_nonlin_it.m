@@ -22,7 +22,7 @@ while fmin <= 0 % && cnt <= config.maxiterations
     fmin = 1;
     cnt_try = 0;
     timer = tic;
-    while fmin > 0 && cnt_try <= config.restarts
+    while fmin > 0 && cnt_try <= config.restarts && toc(timer) < config.probingtime
         sol = Optimization.Continuous.cmqm_nonlin(cmcq_opt, config);
         fmin = sol.fmin;
         cmcq_opt.x = rand(size(cmcq_opt.x));
@@ -48,6 +48,7 @@ cmcq_opt = Optimization.Continuous.prepare_opt(input, sol.sp);
 cmcq_opt.wpn = input.discretization.wpn;
 config.timeperiteration = config.timeperiteration;
 config.fmin = -inf;
+config.probingtime = config.timeperiteration;
 sol = Optimization.Continuous.cmqm_nonlin(cmcq_opt, config);
 
 sol.discretization = input.discretization;

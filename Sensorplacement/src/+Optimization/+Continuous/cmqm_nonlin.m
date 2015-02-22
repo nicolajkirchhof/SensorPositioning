@@ -7,11 +7,12 @@ fprintf(1, '\nStarting new opt with initial fitness of %g \n', sum(fmin));
 
 % opt_name = 'lsqnonlin';
 opt_name = 'fmincon';
-opt = optimset(opt_name);
+% opt = optimset(opt_name);
+opt = optimoptions(opt_name);
 opt.Display = 'iter';
-opt.MaxTime = 28800;
+% opt.MaxTime = 28800;
 opt.UseParallel = config.UseParallel;
-opt.ObjectiveLimit = config.fmin;
+% opt.ObjectiveLimit = config.fmin;
 if config.verbose
 opt.PlotFcns = { @optimplotx; % plots the current point.
 @optimplotfunccount; % plots the function count.
@@ -27,8 +28,11 @@ prob.x0 = opt_vect;
 prob.ub = ones(size(opt_vect));
 prob.lb = zeros(size(opt_vect));
 %%
-
-[x,fval,exitflag,output] = fmincon(prob);
+gs = GlobalSearch;
+gs.MaxTime = config.probingtime;
+[x,fval,exitflag,output,allmins] = gs.run(prob);
+% [xmin,fmin,flag,outpt,allmins]
+% [x,fval,exitflag,output] = fmincon(prob);
 
 %%
 sol.sp = Optimization.Continuous.opt_vect_to_sp(x, cmcq_opt);
@@ -36,6 +40,7 @@ sol.fmin = fval;
 sol.stopflag = output.message;
 sol.exitflag = exitflag;
 sol.output = output;
+sol.allmins = allmins;
 
 fprintf(1, 'Solution with fmin=%g found by %s\n', fmin, output.message);
 return;
