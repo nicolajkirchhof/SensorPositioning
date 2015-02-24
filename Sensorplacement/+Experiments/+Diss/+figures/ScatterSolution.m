@@ -1,30 +1,42 @@
-load tmp\conference_room\gco.mat;
-load tmp\conference_room\gcss.mat
-load tmp\conference_room\gsss.mat
+names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
+idn = 1;
+name = names{idn};
+
+load(sprintf('tmp/%s/gco.mat', name));
+load(sprintf('tmp/%s/gcss.mat', name));
+load(sprintf('tmp/%s/gsss.mat', name));
+load(sprintf('tmp/%s/mspqm.mat', name));
 %%
-opt_names = {'gco', 'gcss', 'gsss'};
+opt_names = {'gco', 'gcss', 'gsss', 'mspqm'};
 opt = [];
 for idn = 1:numel(opt_names)
-    name = opt_names{idn};
-    opt.(name) = eval([name ';']);
+    opt_name = opt_names{idn};
+    opt.(opt_name) = eval([opt_name ';']);
 end
 
 %%
-opt_names = {'gco', 'gcss', 'gsss'};
-
+gray_colorline = linspace(0,0.8,50)';
+gray_colormap = repmat(gray_colorline, 1, 3);
+set(gcf, 'color', [1 1 1]);
+%%
 for idn = 1:numel(opt_names)
-    name = opt_names{idn};
+    %%
+    opt_name = opt_names{idn};
     figure;
-    num_sp_selected = cellfun(@(x) numel(x.sensors_selected), opt.(name));
+    num_sp_selected = cellfun(@(x) numel(x.sensors_selected), opt.(opt_name));
+    mean_sp_qualities = cellfun(@(x) mean(cellfun(@(x) max(x), x.quality.wss.val)), opt.(opt_name)); %, 'uniformoutput', false);
     
-    num_sp = 0:10:500;
-    num_wpn = 0:10:500;
+    num_sp = cellfun(@(x) x.num_sp, opt.(opt_name)(:,1));
+    num_wpn = cellfun(@(x) x.num_wpn, opt.(opt_name)(1,:));
     [X Y] = meshgrid(num_sp, num_wpn);
+    %%
+    scatter(X(:), Y(:), mean_sp_qualities(:)*50, num_sp_selected(:), 'fill');
     
-    scatter(X(:), Y(:), num_sp_selected(:)*10, num_sp_selected(:), 'fill');
+    colormap(gray_colormap);
     title(name);
     colorbar;
 end
+
 %%
 range = 1:5:size(X,1);
 x = X(range, range);
@@ -42,3 +54,7 @@ yrange = [-10 510];
 graph_data = [v1(:), v1(:), v3(:)];
 
 barglyph(xlist, ylist, slist, graph_data, xrange, yrange);
+
+%%
+figure;
+glyphplot([v1(:), v2(:), v3(:)], 'centers',[x(:), y(:)], 'radius', 20);

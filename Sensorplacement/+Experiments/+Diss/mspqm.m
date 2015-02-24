@@ -3,15 +3,15 @@ cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
 
 %%
 close all;
-clear variables;
+clearvars;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
 % names = {'conference_room', 'small_flat'} %, 'large_flat', 'office_floor'};
 names = {'large_flat'};
 % names = {'office_floor'}
 
-num_wpns = 100:10:200;
-num_sps =  100:10:200;
+num_wpns = 110:10:200;
+num_sps =  0:10:90;
 cnt = 100;
 % gco = cell(numel(num_sps), numel(num_wpns));
 for id_n = 1:numel(names)
