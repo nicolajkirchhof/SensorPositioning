@@ -6,7 +6,7 @@ contours = c.contours;
 return;
 %%
 % import Figures.*;
-clear variables;
+clearvars -except gco;
 x1 = 0;
 y1 = 0;
 y2 = 0;

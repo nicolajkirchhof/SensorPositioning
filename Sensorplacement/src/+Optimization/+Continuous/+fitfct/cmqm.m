@@ -54,53 +54,20 @@ phi = phi(:);
 x = x(:);
 %%
 ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut(1:end-1)<=x), x);
-% dst_first = x-placeable_edgelenghts_lut(ids_before);
-% flt_eps_sub = dst_first > 10/placeable_edgelenghts_scale;
-% dst_first(flt_eps_sub) = dst_first(flt_eps_sub) + eps;
-% dst_first(~flt_eps_sub) = dst_first(~flt_eps_sub) - eps;
-% dist_to_first = dst_first*placeable_edgelenghts_scale;
 dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
 gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
 sp = [gsp'; phi(:)'*(2*pi)];
 %%
-% bpolyclip_options = Configurations.Bpolyclip.vfov;
-% bpolyclip_batch_options = Configurations.Bpolyclip.combine(bpolyclip_options, true);
-% config = Configurations.Discretization.iterative;
-
-% input = Experiments.Diss.conference_room(0, 0);
-% sp = input.discretization.sp;
-% wpn = input.discretization.wpn;
-% ply = input.environment.combined;
-%%%
 vis_polys = visilibity(sp(1:2, :), ply, 1, 100, 0);
-% vis_empty_flt = cellfun(@isempty, vis_polys); NEEDED?
-% vis_polys = vis_polys(~vis_empty_flt); NEEDED?
 jobs_vispolys = repmat((1:numel(vis_polys))', 1, 2);
-%%%
-% vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
-% vis_polys = cellfun(@(p) bpolyclip(p, p, 1, 100, 10), vis_polys(~vis_empty_flt), 'uniformoutput', false);
 vis_polys = bpolyclip_batch(vis_polys, 1, jobs_vispolys, 1, 100, 10);
 vis_polys = cellfun(@(p) int64(ceil(p{1}{1})), vis_polys, 'uniformoutput', false);
-% sp = sp(:, ~vis_empty_flt); NEEDED?
 
 %%%
 % calculates the sensor fov, the inner ring is defined by the min distance and the outer ring by
 % the max distance. Since both rings have the same orientation, the inner is flipped to get a
 % polygon
-% default_annulus = [0 10000 9928 9715 9362 8876 8262 7531 6691 0;
-%                    0 0 1194 2371 3514 4606 5633 6579 7431 0 ];
-% default_annulus = mb.createAnnulusSegment(0,0,config.sensor.distance(1), config.sensor.distance(2), 0, config.sensor.fov, config.sensorspace.ringvertices);
-% fun_sensorfov = @(x,y,theta) int64(bsxfun(@plus, ([cos(theta) -sin(theta); sin(theta)  cos(theta)]*default_annulus), [x;y]));
 sensor_fovs = arrayfun(fun_sensorfov, sp(1,:), sp(2,:), sp(3,:), 'uniformoutput', false);
-
-%%%
-% combined_polys = [vis_polys, sensor_fovs];
-% combine vis_polys and sensor_fovs to use batch processing
-% poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
-% poly_combine_jobs = [1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]';
-%%%
-% [sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, 1);
-
 [sensor_visibility_polygons] = cellfun(@(p1, p2) bpolyclip(p1, p2), vis_polys, sensor_fovs, 'uniformoutput', false);
 
 empty_polys = cellfun(@isempty, sensor_visibility_polygons);

@@ -44,18 +44,16 @@ x = x(1:id_mid);
 phi = phi(:);
 x = x(:);
 
-ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut<=x), x);
+ids_before = arrayfun(@(x) sum(placeable_edgelenghts_lut(1:end-1)<=x), x);
 dist_to_first = (x-placeable_edgelenghts_lut(ids_before))*placeable_edgelenghts_scale;
 gsp = placeable_edges(ids_before, 1:2) + bsxfun(@times, placeable_edges_dir(ids_before,:), dist_to_first);
 sp = [gsp'; phi(:)'*(2*pi)];
 
 %%
-vis_polys = visilibity(sp(1:2, :), ply, 10, 10, 0);
-vis_empty_flt = cellfun(@isempty, vis_polys);
-% comb_ids = comb_ids(~vis_empty_flt, :);
-%%%
-vis_polys = cellfun(@int64, vis_polys(~vis_empty_flt), 'uniformoutput', false);
-sp = sp(:, ~vis_empty_flt);
+vis_polys = visilibity(sp(1:2, :), ply, 1, 100, 0);
+jobs_vispolys = repmat((1:numel(vis_polys))', 1, 2);
+vis_polys = bpolyclip_batch(vis_polys, 1, jobs_vispolys, 1, 100, 10);
+vis_polys = cellfun(@(p) int64(ceil(p{1}{1})), vis_polys, 'uniformoutput', false);
 
 comb_ids = comb2unique(1:size(sp, 2));
 
@@ -65,22 +63,20 @@ comb_ids = comb2unique(1:size(sp, 2));
 % polygon
 % default_annulus = mb.createAnnulusSegment(0,0,config.sensor.distance(1), config.sensor.distance(2), 0, config.sensor.fov, config.sensorspace.ringvertices);
 sensor_fovs = arrayfun(fun_sensorfov, sp(1,:), sp(2,:), sp(3,:), 'uniformoutput', false);
+[sensor_visibility_polygons] = cellfun(@(p1, p2) bpolyclip(p1, p2), vis_polys, sensor_fovs, 'uniformoutput', false);
 
-%%%
-combined_polys = [vis_polys, sensor_fovs];
-% combine vis_polys and sensor_fovs to use batch processing
-poly_combine_jobs = mat2cell([1:numel(sensor_fovs); numel(vis_polys)+(1:numel(sensor_fovs))]', ones(numel(sensor_fovs),1), 2);
-%%%
-[sensor_visibility_polygons] = bpolyclip_batch(combined_polys, 1, poly_combine_jobs, bpolyclip_batch_options );
-
-% svp = cellfun(@(x) x{1}{1}, sensor_visibility_polygons, 'uniformoutput', false);
 %%%
 % calculate distances, move contours to positions and mirror them on the direct connection 
 distances = sqrt(sum((sp(1:2, comb_ids(:,1))-sp(1:2, comb_ids(:,2))).^2, 1));
-flt_zero = distances>0;
+flt_zero = distances>50;
 
 comb_ids = comb_ids(flt_zero, :);
 distances = distances(flt_zero);
+
+flt_max = distances<13100;
+
+comb_ids = comb_ids(flt_max, :);
+distances = distances(flt_max);
 
 contour_ids = round(distances/100);
 %%%
@@ -92,37 +88,35 @@ contour_plys = contours.b_chulls(contour_ids);
 contour_plys_chng = arrayfun(@(p,x,y, ang) {fun_transform(p{1}{1}, x, y,ang), fun_transform(p{1}{2}, x, y,ang)},...
     contour_plys(:), sp(1, comb_ids(:,1))', sp(2, comb_ids(:,1))',  sc_angles(:), 'uniformoutput', false);
 
+% [bvfov_qval_intersections_A] = cellfun(@(p1, p2) bpolyclip(p1, p2{1}), sensor_visibility_polygons, contour_plys_chng, 'uniformoutput', false);
+% [bvfov_qval_intersections_B] = cellfun(@(p1, p2) bpolyclip(p1, p2{2}), sensor_visibility_polygons, contour_plys_chng, 'uniformoutput', false);
+% bvfov_qval_intersections = [mb.flattenPolygon(bvfov_qval_intersections_A), mb.flattenPolygon(bvfov_qval_intersections_B)];
 %%%
 sensor_visibility_polygons = [sensor_visibility_polygons{:}];
 vfov_qval_polys = [sensor_visibility_polygons{:}, contour_plys_chng{:}];
 num_vfovs = numel(sensor_visibility_polygons);
 num_comb = size(comb_ids, 1);
 comb_contour_ids = [(0:num_comb-1)'*2, (0:num_comb-1)'*2+1]+1;
-% %%%
+%%%
 % poly_combine_jobs = mat2cell(comb_ids, ones(num_comb,1), 2);
-% 
+
 % vfov_int_ply = bpolyclip_batch(sensor_visibility_polygons, 1, poly_combine_jobs, bpolyclip_batch_options );
 
-%%%
+%%
 poly_combine_jobs = mat2cell([comb_ids, num_vfovs+comb_contour_ids(:,1); comb_ids, num_vfovs+comb_contour_ids(:,2)], ones(2*num_comb,1), 3);
 
-bvfov_qval_intersections = bpolyclip_batch(vfov_qval_polys, 1, poly_combine_jobs, bpolyclip_batch_options );
+bvfov_qval_intersections = bpolyclip_batch(vfov_qval_polys, 1, poly_combine_jobs, 1, 100, 10 );
 %%
 flt_nonempty = cellfun(@(x) ~isempty(x), bvfov_qval_intersections);
 bvfov_qval_intersections = bvfov_qval_intersections(flt_nonempty);
 % bvfov_qval_intersections = [bvfov_qval_intersections{:}];
 %%
-covered_ply = [];
-for idbv = 1:numel(bvfov_qval_intersections)
-    covered_ply = bpolyclip(covered_ply, bvfov_qval_intersections{idbv}{1}, 3, 1, 10, 1 );
-end
+covered_ply = bpolyclip_batch(bvfov_qval_intersections, 3, 1:numel(bvfov_qval_intersections), 1);
+% for idbv = 1:numel(bvfov_qval_intersections)
+%     covered_ply = bpolyclip(covered_ply, bvfov_qval_intersections{idbv}{1}, 3 );
+% end
 %%
-% covered_ply = bpolyclip_batch(bvfov_qval_intersections, 3, [1:numel(bvfov_qval_intersections)], bpolyclip_batch_options );
-% covered_ply = [covered_ply{:}];
-% covered_ply_merged = cellfun(@(cp) mb.mergePoints(cp, 10), covered_ply, 'uniformoutput', false);
-
-% bpolyclip_batch([ply_to_cover covered_ply_merged{:}], 0, [1,2,3,5],  1, 10, 1)
-[ply_remaining, area_remaining] = bpolyclip(ply_to_cover, covered_ply, 0, 1, 10, 1);
+[ply_remaining, area_remaining] = bpolyclip(ply_to_cover, covered_ply{1}, 0);
 %%
 qval = area_remaining/area_to_cover;
 
@@ -173,18 +167,21 @@ disp(idc);pause;
 end
 
 %%
-% load tmp\conference_room\gco.mat
-clearvars -except gco;
-clear functions;
+% name = 'conference_room';
+name = 'large_flat';
+load(sprintf('tmp/%s/gco.mat', name));
+%%
+clearvars -except gco name;
+clear cmcqm
 %%%
 sol = gco{10, 10};
-input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
-opt = Optimization.Continuous.prepare_opt(input, sol.sensors_selected);
-Optimization.Continuous.fitfct.cmqcm(opt)
+input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
+opt = Optimization.Continuous.prepare_opt(input, sol.discretization.sp);
+Optimization.Continuous.fitfct.cmcqm(opt)
 %%%
 x = opt.x+0.01;
 phi = opt.phi+0.1;
-Optimization.Continuous.fitfct.cmqcm([x phi])
+Optimization.Continuous.fitfct.cmcqm([x phi])
 
 %% TODO: 
 % Assign to edge where edge_id ist first vertex
