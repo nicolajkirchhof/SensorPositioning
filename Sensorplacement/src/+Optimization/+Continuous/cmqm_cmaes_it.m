@@ -27,7 +27,7 @@ while fmin <= 0 % && cnt <= config.maxiterations
 %         cmcq_opt = Optimization.Continuous.prepare_opt(input, sp(:, circshift(selected, num_try,2))  );
         cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
         cmcq_opt.wpn = input.discretization.wpn;
-        config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
+        config.filename = sprintf('%s_cmaes_tmp%03d.mat', config.fileprefix, cnt);
         config.resume = false;
         config.restarts = config.restarts; 
         sol = Optimization.Continuous.cmqm_cmaes(cmcq_opt, config);

@@ -27,6 +27,7 @@ cmaes_opt.TolFun = 1e-6;
 cmaes_opt.TolHistFun = 1e-7;
 cmaes_opt.TolX = 1e-8;
 cmaes_opt.Restarts = config.restarts;
+cmaes_opt.LogFilenamePrefix = config.fileprefix;
 
 opt_fct = @Optimization.Continuous.fitfct.cmqm;
 fun_check_stopflag = @(flags) any(strcmpi(flags, 'stoptoresume')|strcmpi(flags, 'manual'));

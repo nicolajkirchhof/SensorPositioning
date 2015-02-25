@@ -7,13 +7,13 @@ clearvars -except gco
 % num_wpns = 0:10:50;
 % num_wpns = 0:10:500;
 % names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
-% names = {'large_flat', 'office_floor'};
-names = {'conference_room', 'small_flat'}; 
+names = {'large_flat'} %, 'office_floor'};
+% names = {'conference_room', 'small_flat'}; 
 
 num_sps =  500;
 % num_wpns = 0:10:500;
 % num_wpns = 0:10:500;
-num_wpns = 500;
+num_wpns = 0:100:400;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -62,7 +62,7 @@ for id_n = 1:numel(names)
             end
             
         end
-        output_filename = sprintf('tmp/%s/cmcqm_cmaes_it.mat', name);
+        output_filename = sprintf('tmp/%s/cmqm/cmaes_it_%d_%d.mat', name, num_sp, num_wpn);
         save(output_filename, 'cmcqm_cmaes_it');
     end
 end
