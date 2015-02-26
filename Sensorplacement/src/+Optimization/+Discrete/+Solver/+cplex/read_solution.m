@@ -134,21 +134,17 @@ for id_var = 1:num_variables
     if sum(num_s>0) == 0
         num_w = strfind(solution.variables.name{id_var}, 'w');
         if ~isempty(num_w)
-%             id_variable = solution.variables.index(id_var);
             id_wpn = sscanf(solution.variables.name{id_var}, 'w%d');
             solution.wpn_qualities(id_wpn) = solution.variables.value(id_var);
         end
     elseif  sum(num_s>0) == 1
-%         id_variable = solution.variables.index(id_var);
         id_sensor = sscanf(solution.variables.name{id_var}, 's%d');
-        if solution.variables.value(id_var) > 0
-%             write_log('%s, %d\n', solution.variables.name{id_var}, id_sensor);
+        if solution.variables.value(id_var) > 0.5 % Beware of float values in mixed integer
             solution.sensors_selected = [solution.sensors_selected, id_sensor];
         end
     elseif sum(num_s>0) == 2
         [id_sensors] = sscanf(solution.variables.name{id_var}, 's%ds%d');
-        if solution.variables.value(id_var) > 0
-%             write_log('%s, [%d %d]\n', solution.variables.name{id_var}, id_sensors);
+        if solution.variables.value(id_var) > 0.5
             solution.sc_selected = [solution.sc_selected; id_sensors(:)'];
         end
     end
