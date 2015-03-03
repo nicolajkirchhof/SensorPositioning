@@ -54,7 +54,7 @@ for idip = 1:numel(flt_inpoly_cell)
     part_tmp.discretization.sc_wpn = part_tmp.discretization.sc_wpn(ids_sc, :);
     part_tmp.discretization.num_comb = numel(ids_sc);
     
-    part_tmp.quality = Quality.WSS.kirchhof(part_tmp.discretization, part_tmp.config.quality);
+    part_tmp.quality = Quality.WSS.kirchhof(part_tmp.discretization, Configurations.Quality.diss);
     
     parts{idip} = part_tmp;
 end
