@@ -2,7 +2,7 @@ function [ parts ] = filter( input, P_c )
 %FILTER Summary of this function goes here
 %   Detailed explanation goes here
 
-P_c = cellfun(@(x) mb.visilibity2boost(x), P_c, 'uniformoutput', false);
+% P_c = cellfun(@(x) mb.visilibity2boost(x), P_c, 'uniformoutput', false);
 
 flt_inpoly_cell = cellfun(@(x) binpolygon(input.discretization.wpn, x), P_c, 'uniformoutput', false);
 
