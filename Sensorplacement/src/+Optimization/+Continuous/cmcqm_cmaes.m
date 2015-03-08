@@ -27,6 +27,7 @@ cmaes_opt.TolFun = 1e-6;
 cmaes_opt.TolHistFun = 1e-7;
 cmaes_opt.TolX = 1e-8;
 cmaes_opt.Restarts = config.restarts;
+cmaes_opt.LogFilenamePrefix = config.fileprefix;
 
 opt_fct = @Optimization.Continuous.fitfct.cmcqm;
 fun_check_stopflag = @(flags) any(strcmpi(flags, 'stoptoresume')|strcmpi(flags, 'manual'));
@@ -73,7 +74,13 @@ sol = gco{51, 51};
 input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.maxiterations = inf;
+config.fmin = 0;
 config.timeperiteration = 600;
 config.stopiter = 500;
-solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
+config.fileprefix = 'cr';
+sp = input.discretization.sp(:, input.solution.sensors_selected);
+cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
+config.filename = sprintf('cmaes_tmp%03d.mat', 0);
+config.resume = false;
+solutions = Optimization.Continuous.cmcqm_cmaes(cmcq_opt, config);
 profile viewer
