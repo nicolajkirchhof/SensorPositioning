@@ -42,7 +42,9 @@ for idn = 1:numel(opt_names)
     mean_sp_qualities = cellfun(@(x) mean(cellfun(@(x) max(x), x.quality.wss.val)), opts.(opt_name)); %, 'uniformoutput', false);
     
 
-    %%
+    %% 
+    % TODO: first put all plots in one figure and then 
+    % make a separate plot for colorbar and size explation
     figure;
     set(gcf, 'color', [1 1 1]);
     scatter(X(:), Y(:), mean_sp_qualities(:)*50, num_sp_selected(:), 'fill');
