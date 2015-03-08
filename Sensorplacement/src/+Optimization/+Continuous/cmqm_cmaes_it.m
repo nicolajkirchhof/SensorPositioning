@@ -16,15 +16,6 @@ config.fmin = 0;
 while fmin <= 0 % && cnt <= config.maxiterations
     
     timer = tic;
-%     max_tries = size(sp, 2);
-%     max_tries = 10; 
-%     num_try = 0;
-%     selected = true(1, max_tries);
-%     selected(1) = false;
-    
-%     fmin = 0;
-%     while toc(timer) < config.timeperiteration && fmin >= 0 && num_try < max_tries
-%         cmcq_opt = Optimization.Continuous.prepare_opt(input, sp(:, circshift(selected, num_try,2))  );
         cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
         cmcq_opt.wpn = input.discretization.wpn;
         config.filename = sprintf('%s_cmaes_tmp%03d.mat', config.fileprefix, cnt);
@@ -32,8 +23,6 @@ while fmin <= 0 % && cnt <= config.maxiterations
         config.restarts = config.restarts; 
         sol = Optimization.Continuous.cmqm_cmaes(cmcq_opt, config);
         fmin = sol.fmin;
-%         num_try = num_try + 1;
-%     end
     
     sp = sol.sp(:, 2:end);
     sol.filename = config.filename;

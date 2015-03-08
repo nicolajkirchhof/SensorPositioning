@@ -1,16 +1,22 @@
 clearvars;
 names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-for idn = 1:numel(names)
-% idn = 1;
+% for idn = 1:numel(names)
+idn = 4;
 name = names{idn};
-lookupdir = sprintf('tmp/%s/cmqm/', name);
-files = dir([lookupdir '*.mat']);
 %%
-cmqm_nonlin_it = {};
+lookupdir = sprintf('tmp/%s/cmqm/', name);
+files = dir([lookupdir 'cmaes*.mat']);
+%%
+cmqm_nonlin_it = cell(51, 51);
 for idf = 1:numel(files)
+    %%
+    idf = 6;
     file = files(idf);
+     
     filename = [lookupdir file.name];
-    load(filename);
+    newsol = load(filename);
+    
+    %%
     id_sp = solution.num_sp/10 + 1;
     id_wpn = solution.num_wpn/10 + 1;
 
@@ -18,14 +24,20 @@ for idf = 1:numel(files)
 end
 %%
 save(sprintf('tmp/%s/cmqm_nonlin_it.mat', name), 'cmqm_nonlin_it');
+% end
+%%
+for idc = 1:10:numel(cmcqm_cmaes_it_tmp)
+    solution = cmcqm_cmaes_it_tmp{idc};
+        id_sp = solution.num_sp/10 + 1;
+    id_wpn = solution.num_wpn/10 + 1;
+   cmqm_cmaes_it{id_sp, id_wpn} = solution;
+
 end
-
-
 %%
 clearvars;
 names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 % for idn = 1:numel(names)
-idn = 2;
+idn = 3;
 name = names{idn};
 %%
 load(sprintf('tmp/%s/gco.mat', name));
@@ -43,6 +55,7 @@ for idn = 1:numel(opt_names)
     load(sprintf('tmp/%s/%s.mat', name, opt_name));
     opt.(opt_name) = eval([opt_name ';']);
 end
+%%
 eval(sprintf('%s = opt;', name));
 %%
 save(sprintf('tmp/%s.mat', name), name);

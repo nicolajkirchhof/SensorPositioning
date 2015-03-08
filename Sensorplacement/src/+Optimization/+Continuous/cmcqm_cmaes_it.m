@@ -15,25 +15,13 @@ config.fmin = 0;
 %%
 while fmin <= 0 % && cnt <= config.maxiterations
     
-    timer = tic;
-%     max_tries = size(sp, 2);
-%     max_tries = 10; 
-%     num_try = 0;
-%     selected = true(1, max_tries);
-%     selected(1) = false;
-    
-%     fmin = 0;
-%     while toc(timer) < config.timeperiteration && fmin >= 0 && num_try < max_tries
-%         cmcq_opt = Optimization.Continuous.prepare_opt(input, sp(:, circshift(selected, num_try,2))  );
+%     timer = tic;
         cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
-        cmcq_opt.wpn = input.discretization.wpn;
         config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
         config.resume = false;
         config.restarts = config.restarts; 
         sol = Optimization.Continuous.cmcqm_cmaes(cmcq_opt, config);
         fmin = sol.fmin;
-%         num_try = num_try + 1;
-%     end
     
     sp = sol.sp(:, 2:end);
     sol.filename = config.filename;
@@ -54,7 +42,7 @@ config.timeperiteration = config.timeperiteration;
 config.stopiter = 2*config.stopiter;
 config.filename = sol.filename;
 config.resume = true;
-config.fmin = -inf;
+config.fmin = 0;
 sol = Optimization.Continuous.cmcqm_cmaes(cmcq_opt, config);
 
 sol.discretization = input.discretization;
@@ -94,13 +82,19 @@ profile viewer
 %%
 load tmp\conference_room\gco.mat
 %%
+clearvars -except gco name;
+% clear cmcqm;
+%%%
 profile on;
-sol = gco{51, 51};
-input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
+sol = gco{10, 10};
+input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.timeperiteration = 1800;
 config.stopiter = 500;
-solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
+config.restarts = inf;
+config.fileprefix = 'cr';
+config.fmin = 0;
+solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
 profile viewer
 %%
 profile on;
