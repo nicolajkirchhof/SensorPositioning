@@ -1,18 +1,19 @@
 %%
 clear variables;
-% set(gca, 'CameraUpVector', [0 1 0]);
-
-filename = 'res/floorplans/P1-Seminarraum.dxf';
-
-env = Environment.load(filename);
-env.obstacles = {};
-env_comb = Environment.combine(env);
-bpoly = env_comb.combined;
+% % set(gca, 'CameraUpVector', [0 1 0]);
+% 
+% filename = 'res/floorplans/SmallFlat.dxf';
+% 
+% env = Environment.load(filename);
+% env.obstacles = {};
+% env_comb = Environment.combine(env);
+% bpoly = env_comb.combined;
 % bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
 num_sp = 0;
 num_wpn = 0;
-input = Experiments.Diss.conference_room(num_sp, num_wpn);
-[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
+input = Experiments.Diss.small_flat(num_sp, num_wpn);
+%%
+[P_c, E_r] = mb.polygonConvexDecomposition(input.environment.combined);
 
 parts = Environment.filter(input, P_c);
 %%
