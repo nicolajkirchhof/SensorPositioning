@@ -1,4 +1,4 @@
-function [ solutions ] = cmcqm_cmaes_it( input, config )
+function [ solutions ] = cmcqm_nonlin_it( input, config )
 %START Solves the sensorplacement by approximation of the
 % total number of sensors and an iterative nonlinear search
 % input
@@ -12,49 +12,62 @@ sp = input.discretization.sp(:, input.solution.sensors_selected);
 solutions = {};
 cnt = 0;
 config.fmin = 0;
+fmin_best = 1;
+sol_best = {};
 %%
 while fmin <= 0 % && cnt <= config.maxiterations
+       
+    cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
+%     cmcq_opt.wpn = input.discretization.wpn;
+%     config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
     
-%     timer = tic;
-        cmcq_opt = Optimization.Continuous.prepare_opt(input, sp);
-        config.filename = sprintf('cmaes_tmp%03d.mat', cnt);
-        config.resume = false;
-        config.restarts = config.restarts; 
-        sol = Optimization.Continuous.cmcqm_cmaes(cmcq_opt, config);
+    fmin = 1;
+    cnt_try = 0;
+    timer = tic;
+    while fmin > 0 && cnt_try <= config.restarts && toc(timer) < config.probingtime
+        sol = Optimization.Continuous.cmcqm_nonlin(cmcq_opt, config);
         fmin = sol.fmin;
+        cmcq_opt.x = rand(size(cmcq_opt.x));
+        cmcq_opt.phi = rand(size(cmcq_opt.phi));
+        fprintf(1, '\n Did not find solution in try %d restarting. \n', cnt_try);
+        cnt_try = cnt_try + 1;
+        if fmin < fmin_best
+            sol_best = sol;
+            fmin_best = fmin;
+        end
+    end
     
-    sp = sol.sp(:, 2:end);
-    sol.filename = config.filename;
+    sol_best.solutiontime = toc(timer);
+    sp = sol_best.sp(:, 2:end);
+%     sol.filename = config.filename;
     cnt = cnt + 1;
     %%
-    solutions{end+1} = sol;
+    solutions{end+1} = sol_best;
 end
-% if numel(solutions) < 2
-%     solutions{end+1} = sol;
-%     solutions{1}.sp = 
-% end
+
 
 %% ADD FINAL RUN WITH LAST VALID
+timer = tic;
 if numel(solutions) > 1
     sol = solutions{end-1};
 else
-    sol = solution{1};
+    sol = solutions{1};
 end
+timeelapsed = sol.solutiontime;
 cmcq_opt = Optimization.Continuous.prepare_opt(input, sol.sp);
 cmcq_opt.wpn = input.discretization.wpn;
 config.timeperiteration = config.timeperiteration;
-config.stopiter = 2*config.stopiter;
-config.filename = sol.filename;
-config.resume = true;
-config.restarts = 1;
-config.fmin = 0;
+config.fmin = -inf;
+config.probingtime = config.timeperiteration;
 if numel(solutions) > 1
-    sol = Optimization.Continuous.cmcqm_cmaes(cmcq_opt, config);
+    sol = Optimization.Continuous.cmcqm_nonlin(cmcq_opt, config);
 end
 
 sol.discretization = input.discretization;
 sol.discretization.num_sensors = size(sol.sp, 2);
+
 sol.sensors_selected = 1:numel(sol.discretization.num_sensors);
+
 
 %% ONLY CONVERT LAST VALID!!!
 [sol.discretization.sp, sol.discretization.vfovs, sol.discretization.vm] = ...
@@ -62,54 +75,29 @@ sol.sensors_selected = 1:numel(sol.discretization.num_sensors);
 [sol.discretization.spo, sol.discretization.spo_ids] = Discretization.Sensorspace.sameplace(sol.discretization.sp, input.config.discretization.sensor.fov);
 [sol.discretization.sc, sol.discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(sol.discretization.vm, sol.discretization.spo, input.config.discretization);
 sol.quality = Quality.generate(sol.discretization, Configurations.Quality.diss);
-
-solutions{end-1} = sol;
+sol.solutiontime = timeelapsed + toc(timer);
+if numel(solutions) > 1
+    solutions{end-1} = sol;
+else
+    solutions{1} = sol;
+end
 %%
 % Discretization.draw(sol.discretization, input.environment);
 % Discretization.draw_wpn_max_qualities(sol.discretization, sol.quality);
 % axis auto;
 return
-%%
-% name = 'conference_room';
-name = 'large_flat';
-load(sprintf('tmp/%s/gco.mat', name));
-%%
-clearvars -except gco name;
-clear cmcqm;
-%%%
-profile on;
-sol = gco{10, 10};
-input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
-input.solution = sol;
-config.timeperiteration = 1800;
-config.stopiter = 500;
-config.restarts = inf;
-solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
-profile viewer
+
 %%
 load tmp\conference_room\gco.mat
 %%
-clearvars -except gco name;
-% clear cmcqm;
-%%%
 profile on;
-sol = gco{10, 10};
-input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
+sol = gco{51, 11};
+input = Experiments.Diss.conference_room(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.timeperiteration = 1800;
-config.stopiter = 500;
-config.restarts = inf;
-config.fileprefix = 'cr';
-config.fmin = 0;
-solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
-profile viewer
-%%
-profile on;
-sol = gco{1, 1};
-input = Experiments.Diss.large_flat(sol.num_sp, sol.num_wpn);
-input.solution = sol;
-config.timeperiteration = 1800;
-config.stopiter = 500;
-%%
-solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
+config.restarts = 50;
+config.UseParallel = false;
+config.verbose = false;
+config.probingtime = 60*(11*5);
+solutions = Optimization.Continuous.cmcqm_nonlin_it(input, config);
 profile viewer

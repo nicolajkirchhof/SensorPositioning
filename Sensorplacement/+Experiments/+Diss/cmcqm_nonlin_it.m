@@ -24,12 +24,12 @@ iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 write_log([], '#off');
 %%%
 for id_n = 1:numel(names)
-    cmqm_nonlin_it = cell(numel(num_sps), numel(num_wpns));
+    cmcqm_nonlin_it = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};
     if id_n > 1 || exist('gco', 'var') == 0
         load(sprintf('tmp/%s/gco.mat', name));
     end
-    % %     load(sprintf('tmp/%s/cmqm_nonlin_it.mat', name));
+    % %     load(sprintf('tmp/%s/cmcqm_nonlin_it.mat', name));
     %%
     for id_wpn = 1:numel(num_wpns)
         for id_sp = 1:numel(num_sps)
@@ -37,28 +37,28 @@ for id_n = 1:numel(names)
             num_sp = num_sps(id_sp);
             
             %%
-            %             if isempty(cmqm_nonlin_it{id_sp, id_wpn})
-            output_filename = sprintf('tmp/%s/cmqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
+            %             if isempty(cmcqm_nonlin_it{id_sp, id_wpn})
+            output_filename = sprintf('tmp/%s/cmcqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
             
 %             if exist(output_filename, 'file') == 0
                 sol = gco{(num_sp/10)+1, (num_wpn/10)+1};
                 input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
                 input.solution = sol;
-                config.timeperiteration = 28000; %7200;
-                config.restarts = inf;
+                config.timeperiteration = 14400; %7200;
+                config.restarts = 1000*id_n;
                 config.probingtime = 60*(id_n*5); %0;
                 config.UseParallel = false;
                 config.verbose = false;
-                solutions = Optimization.Continuous.cmqm_nonlin_it(input, config);
+                solutions = Optimization.Continuous.cmcqm_nonlin_it(input, config);
                 
                 %%
                 solution = [];
-                %         input = cmqm_nonlin_it;
+                %         input = cmcqm_nonlin_it;
                 solution.solutions = solutions;
                 solution.num_sp = num_sp;
                 solution.num_wpn = num_wpn;
                 solution.sol = sol;
-%                 cmqm_nonlin_it{id_sp, (num_wpn/10)+1} = solution;
+%                 cmcqm_nonlin_it{id_sp, (num_wpn/10)+1} = solution;
                 %             end
                 iteration = iteration + 1;
                 fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
@@ -70,7 +70,7 @@ for id_n = 1:numel(names)
                 save(output_filename, 'solution');
 %             end
         end
-        %         output_filename = sprintf('tmp/%s/cmqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
+        %         output_filename = sprintf('tmp/%s/cmcqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
         
     end
 end
@@ -86,10 +86,10 @@ for   num_sp = 500%0:50:500
     input = Experiments.Diss.(name)(num_sp, num_wpn);% true);
     %%%
     input.config.optimization.name = input.name;
-    cmqm_nonlin_it_config = Configurations.Optimization.Discrete.cmqm_nonlin_it;
+    cmcqm_nonlin_it_config = Configurations.Optimization.Discrete.cmcqm_nonlin_it;
     
-    config.optimization = Configurations.Optimization.Discrete.cmqm_nonlin_it;
-    solution = Optimization.Discrete.Greedy.cmqm_nonlin_it(input.discretization, input.quality, config.optimization);
+    config.optimization = Configurations.Optimization.Discrete.cmcqm_nonlin_it;
+    solution = Optimization.Discrete.Greedy.cmcqm_nonlin_it(input.discretization, input.quality, config.optimization);
     [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
     
     
