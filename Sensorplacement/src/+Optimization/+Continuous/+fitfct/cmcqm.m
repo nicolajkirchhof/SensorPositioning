@@ -1,4 +1,4 @@
-function [ qval, ply_remaining ] = cmqcm( x  )
+function [ qval, ply_remaining ] = cmcqm( x  )
 %cmqcm The first call of this function does the initialization, thus it has to
 % contain an initialization struct x containing:
 % .ply = the combined polygon
@@ -112,14 +112,19 @@ vfov_qval_polys = [mb.flattenPolygon(sensor_visibility_polygons(flt_svp)), conto
 num_vfovs = sum(flt_svp);
 num_comb = size(comb_ids, 1);
 comb_contour_ids = [(0:num_comb-1)'*2, (0:num_comb-1)'*2+1]+1;
+
 %%%
 % poly_combine_jobs = mat2cell(comb_ids, ones(num_comb,1), 2);
 
 % vfov_int_ply = bpolyclip_batch(sensor_visibility_polygons, 1, poly_combine_jobs, bpolyclip_batch_options );
 
 %%
-
 poly_combine_jobs = mat2cell([comb_ids, num_vfovs+comb_contour_ids(:,1); comb_ids, num_vfovs+comb_contour_ids(:,2)], ones(2*num_comb,1), 3);
+id_vmax = numel(vfov_qval_polys);
+if ~all(cellfun(@(ids) all(ids<=id_vmax), poly_combine_jobs))
+    error('Mismatch in jobs');
+end
+
 ismerged = false;
 issuccess = false;
 while ~issuccess

@@ -68,16 +68,16 @@ if ~exist(lookup_filename, 'file')
     %%
     save(lookup_filename, 'input');
        %         input.config.environment = config_environment;
-    input.config.discretization = config_discretization;
     input.config.quality = config_quality;
-    input.environment = environment;
 else
     
     input = load(lookup_filename);
     input = input.input;
-    input.environment = environment;
-    input.config.discretization = config_discretization;
+    
 end
+input.environment = environment;
+    input.config.discretization = config_discretization;
+input.parts = Environment.filter(input, input.environment.P_c);
 
 return;
 %%

@@ -62,6 +62,8 @@ if ~exist(lookup_filename, 'file')
 
     input.timestamp = datestr(now,30);
     input.name = name;
+    
+    
   
 % input.environment = environment;
 % Experiments.Diss.draw_input(input);
@@ -69,15 +71,15 @@ if ~exist(lookup_filename, 'file')
     save(lookup_filename, 'input');
        %         input.config.environment = config_environment;
     input.config.discretization = config_discretization;
-    input.config.quality = config_quality;
-    input.environment = environment;
+    
 else
     
     input = load(lookup_filename);
-    input = input.input;
-    input.environment = environment;
-    input.config.discretization = config_discretization;
+    input = input.input;   
 end
+input.config.discretization = config_discretization;
+input.environment = environment;
+input.parts = Environment.filter(input, input.environment.P_c);
 
 return;
 %%

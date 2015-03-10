@@ -52,12 +52,14 @@ if ~exist(lookup_filename, 'file')
    input.config.discretization = config_discretization;
    input.config.quality = config_quality;
     input.environment = environment;
+    input.parts = Environment.filter(input, input.environment.P_c);
 else
     
     input = load(lookup_filename);
     input = input.input;
     input.environment = environment;
     input.config.discretization = config_discretization;
+    input.parts = Environment.filter(input, input.environment.P_c);
 end
 
 return;

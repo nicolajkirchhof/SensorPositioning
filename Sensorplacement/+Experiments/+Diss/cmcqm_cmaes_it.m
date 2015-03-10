@@ -6,7 +6,7 @@ clearvars -except gco
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
 % num_wpns = 0:10:500;
-names = {'conference_room', 'small_flat'} %, 'large_flat', 'office_floor'};
+names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
 % names = {'large_flat', 'office_floor'};
 % names = {'small_flat'}; 
 
@@ -44,7 +44,7 @@ for id_n = 1:numel(names)
             input.solution = sol;
             config.timeperiteration = 14400; %7200;
             config.stopiter = 1000;
-            config.restarts = 30;
+            config.restarts = 10;
             config.fileprefix = 'crsf';
             solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
 
