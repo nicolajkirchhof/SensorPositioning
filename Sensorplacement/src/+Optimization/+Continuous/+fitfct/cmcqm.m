@@ -215,7 +215,8 @@ end
 
 %%
 % name = 'conference_room';
-name = 'large_flat';
+% name = 'large_flat';
+name = 'office_floor';
 load(sprintf('tmp/%s/gco.mat', name));
 %%
 clearvars -except gco name;
