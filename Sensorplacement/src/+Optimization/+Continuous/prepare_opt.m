@@ -5,7 +5,8 @@ function [ opt ] = prepare_opt( input, sp )
 opt = load('tmp/contours/contours.mat');
 
 opt.ply = input.environment.combined;
-opt.ply_to_cover = input.environment.combined;
+opt.ply_to_cover = bpolyclip(input.environment.combined, [input.environment.occupied{:}],0);
+opt.ply_to_cover = opt.ply_to_cover{1};
 
 gsp = sp(1:2, :)';
 opt.phi = normalizeAngle(sp(3, :))' ./ (2*pi);
