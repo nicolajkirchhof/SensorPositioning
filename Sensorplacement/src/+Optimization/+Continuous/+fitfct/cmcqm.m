@@ -123,6 +123,7 @@ bvfov_qval_areas = bvfov_qval_areas(1:cnt-1);
 %%
 ptmp = ply_to_cover;
 idi = 1;
+area_remaining = area_to_cover;
 
 while idi <= numel(bvfov_qval_intersections) && ~isempty(ptmp)
         [ptmp, area_remaining] = bclipper(ptmp, bvfov_qval_intersections(idi), 0);
