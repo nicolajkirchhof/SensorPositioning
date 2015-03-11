@@ -36,10 +36,11 @@ end
 
 %% ADD FINAL RUN WITH LAST VALID
 if numel(solutions) > 1
-    sol = solutions{end-1};
+    id_best = numel(solutions)-1;
 else
-    sol = solution{1};
+    id_best = 1;
 end
+sol = solutions{id_best};
 cmcq_opt = Optimization.Continuous.prepare_opt(input, sol.sp);
 cmcq_opt.wpn = input.discretization.wpn;
 config.timeperiteration = config.timeperiteration;
@@ -63,7 +64,7 @@ sol.sensors_selected = 1:numel(sol.discretization.num_sensors);
 [sol.discretization.sc, sol.discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(sol.discretization.vm, sol.discretization.spo, input.config.discretization);
 sol.quality = Quality.generate(sol.discretization, Configurations.Quality.diss);
 
-solutions{end-1} = sol;
+solutions{id_best} = sol;
 %%
 % Discretization.draw(sol.discretization, input.environment);
 % Discretization.draw_wpn_max_qualities(sol.discretization, sol.quality);
@@ -83,7 +84,8 @@ input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
 input.solution = sol;
 config.timeperiteration = 1800;
 config.stopiter = 500;
-config.restarts = inf;
+config.restarts = 10;
+config.fileprefix = 'lf';
 solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
 profile viewer
 %%

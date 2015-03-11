@@ -6,8 +6,8 @@ clearvars -except gco
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
 % num_wpns = 0:10:500;
-names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
-% names = {'large_flat', 'office_floor'};
+% names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
+names = {'large_flat', 'office_floor'};
 % names = {'small_flat'}; 
 
 num_sps =  500;
