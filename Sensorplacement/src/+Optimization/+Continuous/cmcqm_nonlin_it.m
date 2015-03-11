@@ -74,7 +74,9 @@ sol.sensors_selected = 1:numel(sol.discretization.num_sensors);
     Discretization.Sensorspace.vfov(sol.sp, input.environment, sol.discretization.wpn, input.config.discretization, true);
 [sol.discretization.spo, sol.discretization.spo_ids] = Discretization.Sensorspace.sameplace(sol.discretization.sp, input.config.discretization.sensor.fov);
 [sol.discretization.sc, sol.discretization.sc_wpn] = Discretization.Sensorspace.sensorcomb(sol.discretization.vm, sol.discretization.spo, input.config.discretization);
-sol.quality = Quality.generate(sol.discretization, Configurations.Quality.diss);
+if ~isempty(sol.discretization.sc_wpn)
+    sol.quality = Quality.generate(sol.discretization, Configurations.Quality.diss);
+end
 sol.solutiontime = timeelapsed + toc(timer);
 if numel(solutions) > 1
     solutions{end-1} = sol;

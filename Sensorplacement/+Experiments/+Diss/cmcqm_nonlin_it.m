@@ -40,7 +40,7 @@ for id_n = 1:numel(names)
             %             if isempty(cmcqm_nonlin_it{id_sp, id_wpn})
             output_filename = sprintf('tmp/%s/cmcqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
             
-%             if exist(output_filename, 'file') == 0
+            if exist(output_filename, 'file') == 0
                 sol = gco{(num_sp/10)+1, (num_wpn/10)+1};
                 input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
                 input.solution = sol;
@@ -53,7 +53,7 @@ for id_n = 1:numel(names)
                 
                 %%
                 solution = [];
-                %         input = cmcqm_nonlin_it;
+                %         input = cmcqm_nonlin_it;ls
                 solution.solutions = solutions;
                 solution.num_sp = num_sp;
                 solution.num_wpn = num_wpn;
@@ -68,7 +68,7 @@ for id_n = 1:numel(names)
                 end
                 
                 save(output_filename, 'solution');
-%             end
+            end
         end
         %         output_filename = sprintf('tmp/%s/cmcqm/nonlin_it_%d_%d.mat', name, num_sp, num_wpn);
         

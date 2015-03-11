@@ -1,4 +1,4 @@
-function [ sol ] = cmqm_cmaes( cmcq_opt, config )
+function [ sol ] = cmcqm_cmaes( cmcq_opt, config )
 %START Solves the sensorplacement by approximation of the 
 % total number of sensors and an iterative nonlinear search
 % input

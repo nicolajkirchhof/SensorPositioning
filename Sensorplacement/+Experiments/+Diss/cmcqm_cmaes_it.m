@@ -6,9 +6,9 @@ clearvars -except gco
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
 % num_wpns = 0:10:500;
-% names = {'conference_room', 'small_flat'}; %, 'large_flat', 'office_floor'};
-names = {'large_flat', 'office_floor'};
-% names = {'small_flat'}; 
+names = {'conference_room'}; %, 'small_flat'}; %, 'large_flat', 'office_floor'};
+% names = {'large_flat', 'office_floor'};
+% names = {'small_flat'};
 
 num_sps =  500;
 % num_wpns = 0:10:500;
@@ -28,7 +28,7 @@ for id_n = 1:numel(names)
     if id_n > 1 || exist('gco', 'var') == 0
         load(sprintf('tmp/%s/gco.mat', name));
     end
-%     load(sprintf('tmp/%s/cmcqm_cmaes_it.mat', name));
+    %     load(sprintf('tmp/%s/cmcqm_cmaes_it.mat', name));
     %%
     for id_wpn = 1:numel(num_wpns)
         for id_sp = 1:numel(num_sps)
@@ -38,36 +38,36 @@ for id_n = 1:numel(names)
             %%
             output_filename = sprintf('tmp/%s/cmcqm/cmaes_it_%d_%d.mat', name, num_sp, num_wpn);
             if exist(output_filename, 'file') == 0
-%             if isempty(cmcqm_cmaes_it{id_sp, id_wpn})
-            sol = gco{(num_sp/10)+1, (num_wpn/10)+1};
-            input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
-            input.solution = sol;
-            config.timeperiteration = 14400; %7200;
-            config.stopiter = 1000;
-            config.restarts = 10;
-            config.fileprefix = 'crsf';
-            solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
-
-            %%
-            solution = [];
-            %         input = cmcqm_cmaes_it;
-            solution.solutions = solutions;
-            solution.num_sp = num_sp;
-            solution.num_wpn = num_wpn;
-            solution.sol = sol;
-%             cmcqm_cmaes_it{id_sp, num_wpn/10} = solution;
-%             end
-            iteration = iteration + 1;
-            fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
-            if toc(tme)>next
-                fprintf(1, '\n\n%g pct %g sec to go sp %d wpn %d\n\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), num_sp, num_wpn);
-                next = toc(tme)+stp;
-            end
-        
-            save(output_filename, 'solution');  
+                %             if isempty(cmcqm_cmaes_it{id_sp, id_wpn})
+                sol = gco{(num_sp/10)+1, (num_wpn/10)+1};
+                input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
+                input.solution = sol;
+                config.timeperiteration = 14400; %7200;
+                config.stopiter = 1000;
+                config.restarts = 10;
+                config.fileprefix = 'crsf';
+                solutions = Optimization.Continuous.cmcqm_cmaes_it(input, config);
+                
+                %%
+                solution = [];
+                %         input = cmcqm_cmaes_it;
+                solution.solutions = solutions;
+                solution.num_sp = num_sp;
+                solution.num_wpn = num_wpn;
+                solution.sol = sol;
+                %             cmcqm_cmaes_it{id_sp, num_wpn/10} = solution;
+                %             end
+                iteration = iteration + 1;
+                fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
+                if toc(tme)>next
+                    fprintf(1, '\n\n%g pct %g sec to go sp %d wpn %d\n\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), num_sp, num_wpn);
+                    next = toc(tme)+stp;
+                end
+                
+                save(output_filename, 'solution');
             end
         end
-
+        
     end
 end
 return
@@ -103,8 +103,8 @@ for   num_sp = 500%0:50:500
     set(gcf, 'Position', [pos fsize]);
     axis equal;
     axis auto;
-%     ylim([0 8000]);
-%     xlim([0 5500]);
+    %     ylim([0 8000]);
+    %     xlim([0 5500]);
     pos(1) = pos(1)+325;
     if pos(1) > 1590
         pos = [0 500];
