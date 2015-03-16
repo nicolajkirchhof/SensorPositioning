@@ -8,35 +8,42 @@ hold on;
 axis off
 % set(gca, 'CameraUpVector', [1 0 0]);
 
-filename = 'res/floorplans/SmallFlat.dxf';
+% filename = 'res/floorplans/SmallFlat.dxf';
 % [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
 
 % polys = c_Poly(:,1);
 % edges = c_Line(:,1);
 % circles = c_Cir(:,1);
-env = Environment.load(filename);
-env.obstacles = {};
-env_comb = Environment.combine(env);
-bpoly = env_comb.combined;
+% env = Environment.load(filename);
+% env.obstacles = {};
+% env_comb = Environment.combine(env);
+% bpoly = env_comb.combined;
 % [(1:39)', vpoly{1}']
 % vpoly{1}(2,23) = 5815;
 % vpoly{1}(2,24) = 5915;
-bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
+% bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
 
 % mb.drawPolygon(bpoly);
 
-[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
+% [P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
+load tmp\small_flat\environment\environment.mat
+input = Experiments.Diss.small_flat(500, 500);
+P_c = environment.P_c;
+E_r = environment.E_r;
+bpoly = environment.combined;
 
+mb.drawPoint(input.discretization.wpn, 'marker', '.', 'color', [0.6, 0.6, 0.6], 'markersize', 4);
+mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
+% mb.drawPolygon(environment.mountable, 'color', [0.6, 0.6, 0.6]);
 fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
-% drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
 mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 % axis on
-ylim([50 6100]);
-xlim([400 8600]);
+ylim([50 8600]);
+xlim([400 6100]);
 %%
 filename = 'DecomposedSmallFlat';
-Figures.makeFigure(filename);
+Figures.makeFigure(filename, '5cm');
 
 %%
 clear variables;
@@ -45,32 +52,23 @@ axis equal
 hold on;
 axis off
 % set(gca, 'CameraUpVector', [0 1 0]);
+load tmp\conference_room\environment\environment.mat
+input = Experiments.Diss.conference_room(500, 500);
+bpoly = environment.combined;
 
-filename = 'res/floorplans/P1-Seminarraum.dxf';
-% [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
-
-% polys = c_Poly(:,1);
-% edges = c_Line(:,1);
-% circles = c_Cir(:,1);
-env = Environment.load(filename);
-env.obstacles = {};
-env_comb = Environment.combine(env);
-% mb.drawPolygon(env_comb.combined);
-bpoly = env_comb.combined;
-bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
-
-[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
-
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
-cellfun(@(x) fun_draw_edge(x.edge), E_r);
-% drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
+mb.drawPoint(input.discretization.wpn, 'marker', '.', 'color', [0.6, 0.6, 0.6], 'markersize', 4);
+mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
+% mb.drawPolygon(environment.mountable, 'color', [0.6, 0.6, 0.6]);
+% fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
+% cellfun(@(x) fun_draw_edge(x.edge), E_r);
 mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 
-% axis on
-ylim([250 3900]);
-xlim([1150 8400]);
-%%%
-Figures.makeFigure('DecomposedP1-Seminarraum');
+%%
+axis on
+ylim([300 7500]);
+xlim([300 5250]);
+%%
+Figures.makeFigure('DecomposedP1-Seminarraum', '5cm');
 
 %%
 clear variables;
@@ -78,30 +76,19 @@ cla;
 axis equal
 hold on;
 axis off
-% axis on
-% set(gca, 'CameraUpVector', [0 1 0]);
 
-filename = 'res/floorplans/LargeFlat.dxf';
-% [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
+load tmp\large_flat\environment\environment.mat
+input = Experiments.Diss.large_flat(500, 500);
+P_c = environment.P_c;
+E_r = environment.E_r;
+bpoly = environment.combined;
 
-% polys = c_Poly(:,1);
-% edges = c_Line(:,1);
-% circles = c_Cir(:,1);
-env = Environment.load(filename);
-env.obstacles = {};
-env_comb = Environment.combine(env);
-% mb.drawPolygon(env_comb.combined);
-%%%
-vpoly_full = mb.boost2visilibity(env_comb.combined);
-vpoly = cellfun(@(x) simplifyPolyline(x, 75), vpoly_full, 'uniformoutput', false);
-% vpoly{2}(:,1) = vpoly{2}(:,1)+3;
-% drawPolygon(vpoly);
-%%%
-bpoly = mb.visilibity2boost(vpoly);
+mb.drawPoint(input.discretization.wpn, 'marker', '.', 'color', [0.6, 0.6, 0.6], 'markersize', 4);
+mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
+% mb.drawPolygon(environment.mountable, 'color', [0.6, 0.6, 0.6]);
+
+
 mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
-
-[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
-
 fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
@@ -109,8 +96,9 @@ cellfun(@(x) fun_draw_edge(x.edge), E_r);
 
 xlim([750 13100]);
 ylim([300 9200]);
-Figures.makeFigure('DecomposedLargeFlat');
-fprintf(1, 'LargeFlat is decomposed into %d convex polygons.\n', numel(P_c));
+%%
+Figures.makeFigure('DecomposedLargeFlat', '8cm');
+% fprintf(1, 'LargeFlat is decomposed into %d convex polygons.\n', numel(P_c));
 
 %%
 clear variables;

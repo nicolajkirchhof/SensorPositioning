@@ -3,7 +3,7 @@ function [quality] = kirchhof(discretization, config)
 % point. 
 % quality = DataModels.quality;
 
-loop_display(discretization.num_positions, 10);
+% loop_display(discretization.num_positions, 10);
 
 vals = cell(discretization.num_positions, 1);
 % valbw = zeros(discretization.num_comb, 1);
@@ -35,7 +35,7 @@ for idw = 1:discretization.num_positions
     
 %     valsensorsum = arrayfun(@(i) valsensorsum(i) + sum(vals{idw}(ismember(s1_idx, i)|ismember(s2_idx, i))), 1:discretization.num_sensors);
 
-    loop_display(idw);
+%     loop_display(idw);
 end
 %%
 % write_log('...done ');

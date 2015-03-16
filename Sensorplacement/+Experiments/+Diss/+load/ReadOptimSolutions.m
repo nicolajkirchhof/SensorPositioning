@@ -4,12 +4,12 @@ clearvars;
 % for idn = 1:numel(names)
 idn = 1;
 % name = names{idn};
-opt_name = 'bspqm'; 
+opt_name = 'mspqm_rpd'; 
 lookupdir = sprintf('tmp/%s/', opt_name);
 files = dir([lookupdir '*.sol']);
 loop_display(numel(files), 5);
-bspqm = cell(51, 51);
-%%%
+% bspqm = cell(51, 51);
+%%
 for idf = 1:numel(files)
     %%
     file = files(idf);
@@ -21,14 +21,15 @@ for idf = 1:numel(files)
         %%
         solution = Optimization.Discrete.Solver.cplex.read_solution(solfile);
         solution.log = Optimization.Discrete.Solver.cplex.read_log(logfile);
-        [A, cnt] = textscan(file.name, 'bspqm_%d_%[^_]_%[^_]_%d_%d.sol');
+        [A, cnt] = textscan(file.name, 'mspqm_%d_%[^_]_%[^_]_%d_%d_%d.sol');
         solution.name = [A{2}{1} '_' A{3}{1}];
-        solution.num_sp = A{4};
-        solution.num_wpn = A{5};
+        solution.part = A{4};
+        solution.num_sp = A{5};
+        solution.num_wpn = A{6};
         solution.opt_quality = solution.quality;
         %%
-        input = Experiments.Diss.(solution.name)(solution.num_sp, solution.num_wpn);
-        [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, Configurations.Quality.diss);
+%         input = Experiments.Diss.(solution.name)(solution.num_sp, solution.num_wpn);
+%         [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, Configurations.Quality.diss);
         
         %%
 %         id_sp = solution.num_sensors_additonal/10 + 1;

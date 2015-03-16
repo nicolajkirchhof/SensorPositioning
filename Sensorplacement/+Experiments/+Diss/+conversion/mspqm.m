@@ -1,6 +1,6 @@
 %% Add decomposition parts
 clearvars;
-names = {'conference_room', 'small_flat', 'large_flat'}; %, 'office_floor'};
+names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 
 % for idn = 1:numel(names)
     name = names{idn};
