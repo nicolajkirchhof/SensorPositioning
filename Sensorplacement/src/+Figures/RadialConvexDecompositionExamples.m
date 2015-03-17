@@ -63,8 +63,7 @@ mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
 % cellfun(@(x) fun_draw_edge(x.edge), E_r);
 mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
 
-%%
-axis on
+% axis on
 ylim([300 7500]);
 xlim([300 5250]);
 %%
@@ -108,49 +107,25 @@ hold on;
 axis off
 % xlim 'auto'
 
-filename = 'res/floorplans/P1-01-EtPart.dxf';
-% [c_Line,c_Poly,c_Cir,c_Arc,c_Poi] = f_LectDxf(filename);
+load tmp\office_floor\environment\environment.mat
+input = Experiments.Diss.office_floor(500, 500);
+P_c = environment.P_c;
+E_r = environment.E_r;
+bpoly = environment.combined;
 
-% polys = c_Poly(:,1);
-% edges = c_Line(:,1);
-% circles = c_Cir(:,1);
-env = Environment.load(filename);
-env.obstacles = {};
-env_comb = Environment.combine(env);
-% mb.drawPolygon(env_comb.combined);
-%%%
-vpoly_full = mb.boost2visilibity(env_comb.combined);
-vpoly = cellfun(@(x) simplifyPolyline(x, 70), vpoly_full, 'uniformoutput', false);
-% drawPolygon(vpoly);
-% vpoly{1}(69:72, 1) = vpoly{1}(69:72, 1) + 2;
-vpoly{1}(21:23, 1) = vpoly{1}(21:23, 1) - 2;
-vpoly{1}(59, 1) = 15605;
-
-
-%           70       23805        7044
-%           71       23955        7044
-%           21       23957        8011
-%           22       23807        8011
-%           59       15620        4112
-%           60       16105        4112
-%           61       16105        6252
-%           62       15605        6252
-%%%
-bpoly = mb.visilibity2boost(vpoly);
-
-bpoly = cellfun(@(x) circshift(x, -1, 1), bpoly, 'uniformoutput', false);
-
-[P_c, E_r] = mb.polygonConvexDecomposition(bpoly);
+mb.drawPoint(input.discretization.wpn, 'marker', '.', 'color', [0.6, 0.6, 0.6], 'markersize', 4);
+mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
+% mb.drawPolygon(environment.mountable, 'color', [0.6, 0.6, 0.6]);
 
 fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
 cellfun(@(x) fun_draw_edge(x.edge), E_r);
 % drawPolygon(P_c, 'linewidth', 2, 'linestyle', '--', 'color', [0 0 0]);
 mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
-%%%
-% axis on
-ylim([300 49800]);
-xlim([300 15500]);
-Figures.makeFigure('DecomposedP1-01-EtPart');
-fprintf(1, 'P1-01-EtPart is decomposed into %d convex polygons.\n', numel(P_c));
-
 %%
+% axis on
+ylim([300 14500]);
+xlim([300 29000]);
+%%
+Figures.makeFigure('DecomposedOfficeFloor', '10cm');
+% fprintf(1, 'P1-01-EtPart is decomposed into %d convex polygons.\n', numel(P_c));
+

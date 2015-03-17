@@ -1,4 +1,4 @@
-function barglyph(xlist,ylist,slist,graph_data, xrange, yrange)
+function barglyph(xlist,ylist,hlist, wlist,graph_data, xrange, yrange)
 %%
 % range = 1:5:size(X,1);
 % x = X(range, range);
@@ -21,24 +21,33 @@ canvas_length = diff(canvas_range);
 xlength = diff(xrange);
 ylength = diff(yrange);
 
+data_max = max(graph_data(:));
+
 %%
 clf;
 h0 = axes('position',[canvas_range(1), canvas_range(1), canvas_length, canvas_length], ...
     'xlim',xrange,'ylim',yrange);
 for i = 1:size(graph_data,1)
-s = slist(i)/(xlength);
-x = (xlist(i)-xrange(1))/(xlength)*canvas_length+canvas_range(1)-s/2;
-y = (ylist(i)-yrange(1))/(ylength)*canvas_length+canvas_range(1)-s/2;
+h = hlist(i)/(xlength);
+w = wlist(i)/(ylength);
+x = (xlist(i)-xrange(1))/(xlength)*canvas_length+canvas_range(1)-h/2;
+y = (ylist(i)-yrange(1))/(ylength)*canvas_length+canvas_range(1)-w/2;
 
-h1= axes('position',[x y s s], 'Visible', 'off');
+h1= axes('position',[x y w h], 'Visible', 'off');
 hold on;
 d = graph_data(i, :);
 % d = d-min(d);
+clne = linspace(0, 0.8, numel(d));
+cbar = [clne', clne', clne'];
 for idb = 1:numel(d)
-    bar(h1, idb, d(idb), 'linestyle', 'none', 'facecolor', [0 0 0]+(1.5*idb/10) );
+    bar(h1, idb, d(idb) , 'linestyle', 'none', 'facecolor', cbar(idb, :) );
 end
 axis off
+xlim([0.5 numel(d)+0.5]);
+ylim([0 data_max]);
 end
 
+xlim(h0, xrange);
+ylim(h0, yrange);
 return;
 %%
