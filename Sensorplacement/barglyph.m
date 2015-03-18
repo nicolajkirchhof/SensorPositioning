@@ -26,14 +26,16 @@ data_max = max(graph_data(:));
 %%
 clf;
 h0 = axes('position',[canvas_range(1), canvas_range(1), canvas_length, canvas_length], ...
-    'xlim',xrange,'ylim',yrange);
+    'xlim',xrange,'ylim',yrange, 'Visible', 'off');
 for i = 1:size(graph_data,1)
 h = hlist(i)/(xlength);
 w = wlist(i)/(ylength);
 x = (xlist(i)-xrange(1))/(xlength)*canvas_length+canvas_range(1)-h/2;
 y = (ylist(i)-yrange(1))/(ylength)*canvas_length+canvas_range(1)-w/2;
 
-h1= axes('position',[x y w h], 'Visible', 'off');
+%%
+% h1= axes('position',[x y w h], 'Visible', 'off', 'ycolor',get(gcf,'color'),'ytick',[]);
+h1= axes('position',[x y w h], 'ycolor',get(gcf,'color'),'ytick',[]);
 hold on;
 d = graph_data(i, :);
 % d = d-min(d);
@@ -42,7 +44,12 @@ cbar = [clne', clne', clne'];
 for idb = 1:numel(d)
     bar(h1, idb, d(idb) , 'linestyle', 'none', 'facecolor', cbar(idb, :) );
 end
-axis off
+title(sprintf('(%d, %d)', xlist(i), ylist(i)));  
+set(h1, 'XTick', 1:numel(d));
+strlabel = arrayfun(@(x) num2str(x), d, 'uniformoutput', false);
+set(h1, 'XTickLabel', strlabel);
+% axis on
+% axis off
 xlim([0.5 numel(d)+0.5]);
 ylim([0 data_max]);
 end

@@ -41,22 +41,22 @@ end
 range = 1:5:51;
 [idx, idy] = meshgrid(range, range);
 ind = sub2ind([51 51], idx(:), idy(:));
-%%
+%%%
 % x = X(range, range);
 % y = Y(range, range);
 
 xlist = X(ind);
 ylist = Y(ind);
 hlist = 10*ones(size(xlist));
-wlist = 20*ones(size(xlist));
-xrange = [-30 530];
+wlist = 30*ones(size(xlist));
+xrange = [-20 540];
 yrange = [-30 530];
 
 % graph_data = cellfun(@(x) x(range, range), all_mean_wpn_qualities, 'uniformoutput', false);
 
 barglyph(xlist, ylist, hlist, wlist, all_mean_wpn_qualities(ind, 1:5), xrange, yrange);
-legend(opt_names{1:5});
-
+% legend(opt_names{1:5});
+%%%
+matlab2tikz('export\SmallFlatWpnCoverageNumSp.tikz', 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'extraAxisOptions',{'y post scale=1'});
 %%
-figure;
-glyphplot([v1(:), v2(:), v3(:)], 'centers',[x(:), y(:)], 'radius', 20);

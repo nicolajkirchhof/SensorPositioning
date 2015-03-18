@@ -1,6 +1,6 @@
 function makeFigure(figurename, width, height, heightonly)
 
-if nargin < 2 || isempty(width)
+if nargin == 2 && isempty(width)
     %%
     width = '11cm';
 end
@@ -27,6 +27,12 @@ elseif nargin > 1
     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'width', width,...
 ...    'height', '5cm', 
     'extraAxisOptions',{'y post scale=1'});
+else
+    matlab2tikz(filename, 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: TestingFigures.tex -*-')%, %'width', width,...
+...    'height', '5cm', 
+    %'extraAxisOptions',{'y post scale=1'});
+    
 end
 
 fid = fopen([output_folder tex_fullname], 'w');
