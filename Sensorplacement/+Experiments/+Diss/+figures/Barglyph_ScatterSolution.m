@@ -13,12 +13,13 @@ all_sp_wpn = zeros(51, 51);
 % all_num_wpn = {}; %cell(numel(opt_names), 1);/
 %%%
 cnt = 1;
+flt_opt = false(1, numel(opt_names));
 for idn = 1:numel(opt_names)
     opt_name = opt_names{idn};
     if ~any(strcmp(opt_name, {'cmcqm_cmaes_it', 'cmcqm_nonlin_it'}))
         %%
-        mean_wpn_qualities = zeros(2601,1);
-        sp_selected_mat = zeros(2601,1);
+        mean_wpn_qualities = nan(2601,1);
+        sp_selected_mat = nan(2601,1);
         opt = opts.(opt_name);
         flt_eval = ~cellfun(@isempty, opt);
         
@@ -33,14 +34,34 @@ for idn = 1:numel(opt_names)
         sp_selected_mat(ids) = sp_selected;
         all_mean_wpn_qualities(:, cnt)  = mean_wpn_qualities(:);
         all_num_sp_selected(:, cnt) = sp_selected_mat(:);
+        flt_opt(idn) = true; 
         cnt = cnt+1;
     end
 end
+%%
+% Preevaluation of all data
+% valid_flt = all_num_sp_selected >0;
+figure, boxplot(all_mean_wpn_qualities, 'labels', opt_names(flt_opt), 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
+h = findobj(gcf,'Tag','Outliers');
+% make median lines black and big
+set(findobj(gcf,'Tag','Median'),'Color',[0 0 0],'LineWidth',2);
 
+% make outlier dots gray and big
+set(findobj(gcf,'Tag','Outliers'),'MarkerEdgeColor',[0.6 0.6 0.6]);
+
+% figure, boxplot(all_num_sp_selected, 'labels', opt_names(flt_opt), 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
+% h = findobj(gcf,'Tag','Outliers');
+% make median lines black and big
+% set(findobj(gcf,'Tag','Median'),'Color',[0 0 0],'LineWidth',2);
+
+% make outlier dots gray and big
+% set(findobj(gcf,'Tag','Outliers'),'MarkerEdgeColor',[0.6 0.6 0.6]);
 
 %%
+close all;
+
 [X, Y] = meshgrid(0:10:500, 0:10:500);
-range = 1:5:51;
+range = 1:1:51;
 [idx, idy] = meshgrid(range, range);
 ind = sub2ind([51 51], idx(:), idy(:));
 
@@ -54,22 +75,60 @@ yrange = [-30 530];
 all_x = unique(xlist);
 all_y = unique(ylist);
 
-%%
-close all;
-% h0 = barglyph(xlist, ylist, height, width, all_mean_wpn_qualities(ind, 1:5), xrange, yrange);
-% figure;
-% h0 = barglyph(xlist, ylist, height, width, all_mean_wpn_qualities(ind, [1:3, 5]), xrange, yrange);
-
 all_mean_wpn_qualities_rounded = round(all_mean_wpn_qualities*100);
 
 figure;
 h0 = barglyph(xlist, ylist, height, width, all_mean_wpn_qualities_rounded(ind, [1:3, 5]), xrange, yrange);
 
+strlabelsx = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_x, real_num_sp, 'uniformoutput', false);
+strlabelsy = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_y, real_num_wpn, 'uniformoutput', false);
+set(h0,  'xticklabel', strlabelsx, 'yticklabel', strlabelsy, 'Ticklength', [0 0], 'box', 'on');
+xlabel(h0,'\#$WPN$', 'interpreter', 'none');
+ylabel(h0, '\#$SP$', 'interpreter', 'none');
+title(h0, 'Mean of max Qualities [%]');
+%%
+
+figure;
+gray_colormap = repmat(linspace(0.5, 1, 1000)', 1, 3);
+colormap(gray_colormap);
+imagesc(reshape(all_mean_wpn_qualities(:, 1), 51, 51))
+
+
+h0 = imagesc_quality(xlist, ylist, all_mean_wpn_qualities(ind, [1:3, 5]));
+
+
+
+%%
+
 figure;
 h0 = barglyph(xlist, ylist, height, width, all_mean_wpn_qualities_rounded(ind, [4,8:10]), xrange, yrange);
 
+strlabelsx = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_x, real_num_sp, 'uniformoutput', false);
+strlabelsy = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_y, real_num_wpn, 'uniformoutput', false);
+set(h0,  'xticklabel', strlabelsx, 'yticklabel', strlabelsy, 'Ticklength', [0 0], 'box', 'on');
+xlabel(h0,'\#$WPN$', 'interpreter', 'none');
+ylabel(h0, '\#$SP$', 'interpreter', 'none');
+title(h0, 'Mean of max Qualities [%]');
+%%
+range = 1:5:21;
+[idx, idy] = meshgrid(range, range);
+ind = sub2ind([51 51], idx(:), idy(:));
+xrange = [-30 230];
+yrange = [-30 220];
+
+xlist = X(ind);
+ylist = Y(ind);
+
+
 figure;
 h0 = barglyph(xlist, ylist, height, width, all_num_sp_selected(ind, [1:3, 5]), xrange, yrange);
+
+strlabelsx = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_x, real_num_sp, 'uniformoutput', false);
+strlabelsy = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_y, real_num_wpn, 'uniformoutput', false);
+set(h0,  'xticklabel', strlabelsx, 'yticklabel', strlabelsy, 'Ticklength', [0 0], 'box', 'on');
+xlabel(h0,'\#$WPN$', 'interpreter', 'none');
+ylabel(h0, '\#$SP$', 'interpreter', 'none');
+%%
 
 figure;
 h0 = barglyph(xlist, ylist, height, width, all_num_sp_selected(ind, [4,8:10]), xrange, yrange);
