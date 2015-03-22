@@ -3,6 +3,7 @@
 clearvars -except all_eval;
 % clearvars -except small_flat conference_room large_flat office_floor
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
+%%
 figure;
 for ideval = 1:numel(eval_names)
     % ideval = 4;

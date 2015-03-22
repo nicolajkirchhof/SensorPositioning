@@ -29,11 +29,11 @@ for idic = 1:numel(input_nonlin);
         end
     end
 end
-save tmp\conference_room\cmqm_nonlin_it.mat cmqm_nonlin_it
+% save tmp\conference_room\cmqm_nonlin_it.mat cmqm_nonlin_it
 %%
 clearvars -except all_eval;
 %%
-load tmp\conference_room\cmqm_nonlin_it.mat
+% load tmp\conference_room\cmqm_nonlin_it.mat
 %%
 for ids = 1:numel(cmqm_nonlin_it)
         if ~isempty(cmqm_nonlin_it{ids})
@@ -41,8 +41,9 @@ for ids = 1:numel(cmqm_nonlin_it)
             cmqm_nonlin_it{ids}.sol = cmqm_nonlin_it{ids}.solutions{end-1};
             
     %%
-            cmqm_nonlin_it{ids}.quality.sum_max = sum(cellfun(@(x) max(x), cmqm_nonlin_it{ids}.sol.quality.wss.val));
-             cmqm_nonlin_it{ids}.sensors_selected =  cmqm_nonlin_it{ids}.sol.sensors_selected;
+%             cmqm_nonlin_it{ids}.quality.sum_max = sum(cellfun(@(x) max(x), cmqm_nonlin_it{ids}.sol.quality.wss.val));
+            cmqm_nonlin_it{ids}.quality.sum_max = -cmqm_nonlin_it{ids}.sol.fmin;
+            cmqm_nonlin_it{ids}.sensors_selected =  1:size(cmqm_nonlin_it{ids}.sol.sensors_selected, 2);
             cmqm_nonlin_it{ids}.all_wpn = cmqm_nonlin_it{ids}.sol.discretization.num_positions;
             cmqm_nonlin_it{ids}.all_sp = cmqm_nonlin_it{ids}.sol.discretization.num_sensors;
             

@@ -3,7 +3,7 @@ clearvars -except all_eval;
 % clearvars -except small_flat conference_room large_flat office_floor
 %%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-ideval = 1;
+ideval = 4;
 eval_name = eval_names{ideval};
 opts = all_eval.(eval_name);
 % opts.eval_name = eval_name;
@@ -18,7 +18,7 @@ all_eval.office_floor = office_floor;
 % set(gcf, 'color', [1 1 1]);
 %%
 opt_names = {'cmqm_nonlin_it', 'cmqm_cmaes_it' 'gco', 'gcss', 'gsss', 'stcm', 'mspqm'};
-opt_names = [opt_names {'bspqm'}];
+% opt_names = [opt_names {'bspqm'}];
 % opt_names = [opt_names {'mspqm_rpd', 'bspqm_rpd'}];
 
 num_opts = numel(opt_names);
