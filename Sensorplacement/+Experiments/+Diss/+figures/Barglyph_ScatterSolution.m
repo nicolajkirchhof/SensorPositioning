@@ -1,22 +1,35 @@
 %%
-opts = small_flat;
-opt_names = fieldnames(opts);
-gray_colorline = linspace(0,0.8,50)';
-gray_colormap = repmat(gray_colorline, 1, 3);
-set(gcf, 'color', [1 1 1]);
+clearvars -except all_eval;
+% clearvars -except small_flat conference_room large_flat office_floor
 %%
-all_num_sp_selected= zeros(2601, 10); %cell(numel(opt_names), 1);
-all_mean_wpn_qualities = zeros(2601, 10); %zeros(51, 51); %cell(numel(opt_names), 1);
-all_sp_wpn = zeros(51, 51);
+eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
+ideval = 1;
+eval_name = eval_names{ideval};
+opts = all_eval.(eval_name);
+% opts.eval_name = eval_name;
+%%
+all_eval.small_flat = small_flat;
+all_eval.conference_room = conference_room;
+all_eval.large_flat = large_flat;
+all_eval.office_floor = office_floor;
+% opt_names = fieldnames(opts);
+% gray_colorline = linspace(0,0.8,50)';
+% gray_colormap = repmat(gray_colorline, 1, 3);
+% set(gcf, 'color', [1 1 1]);
+%%
+opt_names = {'cmqm_nonlin_it', 'cmqm_cmaes_it' 'gco', 'gcss', 'gsss', 'stcm', 'mspqm'};
+opt_names = [opt_names {'bspqm'}];
+% opt_names = [opt_names {'mspqm_rpd', 'bspqm_rpd'}];
 
-% all_num_sp = {}; %cell(numel(opt_names), 1);
-% all_num_wpn = {}; %cell(numel(opt_names), 1);/
+num_opts = numel(opt_names);
+all_num_sp_selected= nan(2601, num_opts); %cell(numel(opt_names), 1);
+all_mean_wpn_qualities = nan(2601, num_opts); %zeros(51, 51); %cell(numel(opt_names), 1);
 %%%
 cnt = 1;
-flt_opt = false(1, numel(opt_names));
-for idn = 1:numel(opt_names)
+% flt_opt = false(1, numel(opt_names));
+for idn = 1:num_opts
     opt_name = opt_names{idn};
-    if ~any(strcmp(opt_name, {'cmcqm_cmaes_it', 'cmcqm_nonlin_it'}))
+%     if ~any(strcmp(opt_name, {'cmcqm_cmaes_it', 'cmcqm_nonlin_it'}))
         %%
         mean_wpn_qualities = nan(2601,1);
         sp_selected_mat = nan(2601,1);
@@ -27,6 +40,7 @@ for idn = 1:numel(opt_names)
         num_wpn = cellfun(@(x) x.num_wpn, opt(flt_eval));
         
         sp_selected = cellfun(@(x) numel(x.sensors_selected), opt(flt_eval));
+        %%
         wpn_qualities = cellfun(@(x) x.quality.sum_max/x.all_wpn, opt(flt_eval));
     
         ids = sub2ind([51, 51], num_sp/10+1, num_wpn/10+1);
@@ -34,14 +48,17 @@ for idn = 1:numel(opt_names)
         sp_selected_mat(ids) = sp_selected;
         all_mean_wpn_qualities(:, cnt)  = mean_wpn_qualities(:);
         all_num_sp_selected(:, cnt) = sp_selected_mat(:);
-        flt_opt(idn) = true; 
+%         flt_opt(idn) = true; 
         cnt = cnt+1;
-    end
+%     end
 end
+opts.all_mean_wpn_qualities = all_mean_wpn_qualities;
+opts.all_num_sp_selected = all_num_sp_selected;
+opts.opt_names = opt_names;
 %%
 % Preevaluation of all data
 % valid_flt = all_num_sp_selected >0;
-figure, boxplot(all_mean_wpn_qualities, 'labels', opt_names(flt_opt), 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
+figure, boxplot(opts.all_mean_wpn_qualities, 'labels', opts.opt_names, 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
 h = findobj(gcf,'Tag','Outliers');
 % make median lines black and big
 set(findobj(gcf,'Tag','Median'),'Color',[0 0 0],'LineWidth',2);
@@ -49,13 +66,17 @@ set(findobj(gcf,'Tag','Median'),'Color',[0 0 0],'LineWidth',2);
 % make outlier dots gray and big
 set(findobj(gcf,'Tag','Outliers'),'MarkerEdgeColor',[0.6 0.6 0.6]);
 
-% figure, boxplot(all_num_sp_selected, 'labels', opt_names(flt_opt), 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
-% h = findobj(gcf,'Tag','Outliers');
+title(sprintf('%s qualities', opts.eval_name), 'interpreter', 'none');
+
+figure, boxplot(opts.all_num_sp_selected, 'labels', opts.opt_names, 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
+h = findobj(gcf,'Tag','Outliers');
 % make median lines black and big
-% set(findobj(gcf,'Tag','Median'),'Color',[0 0 0],'LineWidth',2);
+set(findobj(gcf,'Tag','Median'),'Color',[0 0 0],'LineWidth',2);
 
 % make outlier dots gray and big
-% set(findobj(gcf,'Tag','Outliers'),'MarkerEdgeColor',[0.6 0.6 0.6]);
+set(findobj(gcf,'Tag','Outliers'),'MarkerEdgeColor',[0.6 0.6 0.6]);
+
+title(sprintf('%s sensors', opts.eval_name), 'interpreter', 'none');
 
 %%
 close all;
