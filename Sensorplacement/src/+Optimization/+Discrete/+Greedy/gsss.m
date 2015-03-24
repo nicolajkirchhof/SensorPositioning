@@ -9,7 +9,6 @@ sp_selected = solution_coverage.sensors_selected;
 flt_selected = ismember(sc(:, 1), sp_selected)&ismember(sc(:,2), sp_selected);
 sc_selected = find(flt_selected);
 
-cnt = 1;
 ids_qvmin = cellfun(@(x) find(x > config.quality.min), quality.wss.val, 'uniformoutput', false);
 sc_wpn = false(size(discretization.sc_wpn));
 
@@ -25,7 +24,7 @@ sc_wpn(:, is_wpn) = 0;
 
 % is_wpn = false(1, discretization.num_positions);
 %%
-write_log(' Start calculating gco');
+write_log(' Start calculating gcsss ');
 pct = 0;
 cnt = 0;
 ids_sc_wpn = ismember(sc, sp_selected);
@@ -33,30 +32,22 @@ ids_sc_wpn = ismember(sc, sp_selected);
 while ~all(is_wpn)
     %% find next sp to select
     % TOO SLOW!!!
-%     fun_ids_sc_wpn = @(id_sp) find(ismember(sc(:, 1), [id_sp, sp_selected])&ismember(sc(:,2), [id_sp, sp_selected]));
-%     ids_sc_wpn_cell = arrayfun(fun_ids_sc_wpn, ids_sp_left, 'uniformoutput', false);
-    
+
     %%
-    ids_sp_left = find(~is_sp);
-    fun_ids_sp_sc_wpn = @(id_sp) find(all(sc==id_sp|ids_sc_wpn, 2));
-    ids_sc_wpn_cell = arrayfun(fun_ids_sp_sc_wpn, ids_sp_left, 'uniformoutput', false);
-    
-%     all(cellfun(@isempty, cellfun(@(x,y)setdiff(x,y), ids_sc_wpn_cell, ids_sc_wpn_cell2, 'uniformoutput', false)))
-    %%
-    num_wpn_cell = cellfun(@(x) sum(sc_wpn(x, :), 2), ids_sc_wpn_cell, 'uniformoutput', false);        
-    flt_nonempty_sp = cellfun(@(x) ~isempty(x), num_wpn_cell);
-    ids_sp_left = ids_sp_left(flt_nonempty_sp);
-    num_wpn_cell = num_wpn_cell(flt_nonempty_sp);
+    flt_gt_one_sp_sel = sum(ids_sc_wpn, 2)>0;
+    nw = sum(sc_wpn(flt_gt_one_sp_sel, :), 2);
+    ids_gt_one_sp_sel = find(flt_gt_one_sp_sel);
+    [nwm, nwm_id ] = max(nw);
+    sc_nwm_id = ids_gt_one_sp_sel(nwm_id); 
+    id_sp_selected = sc(sc_nwm_id, ~ids_sc_wpn(sc_nwm_id, :));
+if numel(id_sp_selected) > 1
+    error('MUST BE ONE OR ZERO');
+end
+%%
+    sp_selected = [id_sp_selected sp_selected];
+    ids_sc_wpn = sc==id_sp_selected|ids_sc_wpn;
 
-    [max_wpn, ids_sc_max_wpn] = cellfun(@(x) max(x), num_wpn_cell );
-
-    [all_max, id_all_max] = max(max_wpn);
-
-    id_sc = ids_sc_wpn_cell{id_all_max}(ids_sc_max_wpn(id_all_max));
-    sp_selected = [ids_sp_left(id_all_max) sp_selected];
-    ids_sc_wpn = sc==ids_sp_left(id_all_max)|ids_sc_wpn;
-
-    %% update matrices
+    %%% update matrices
     flt_selected = ismember(sc(:, 1), sp_selected)&ismember(sc(:,2), sp_selected);
     sc_selected = find(flt_selected);
     is_wpn = is_wpn | any(sc_wpn(sc_selected,:), 1);
@@ -83,6 +74,30 @@ solution.solvingtime = time;
 solution.iterations = cnt;
 
 
-
+%%
+%  Way too slow reference code
+%     fun_ids_sc_wpn = @(id_sp) find(ismember(sc(:, 1), [id_sp, sp_selected])&ismember(sc(:,2), [id_sp, sp_selected]));
+%     ids_sc_wpn_cell = arrayfun(fun_ids_sc_wpn, ids_sp_left, 'uniformoutput', false);
+    
+%     %%
+%     ids_sp_left = find(~is_sp);
+%     fun_ids_sp_sc_wpn = @(id_sp) sum(sc_wpn(all(sc==id_sp|ids_sc_wpn, 2), :), 2);
+% %         ids_sc_wpn_cell = arrayfun(fun_ids_sp_sc_wpn, ids_sp_left, 'uniformoutput', false);
+%     num_wpn_cell = arrayfun(fun_ids_sp_sc_wpn, ids_sp_left, 'uniformoutput', false);
+%     
+% %     all(cellfun(@isempty, cellfun(@(x,y)setdiff(x,y), ids_sc_wpn_cell, ids_sc_wpn_cell2, 'uniformoutput', false)))
+% 
+%     %%
+% %     num_wpn_cell = cellfun(@(x) sum(sc_wpn(x, :), 2), ids_sc_wpn_cell, 'uniformoutput', false);        
+%     flt_nonempty_sp = cellfun(@(x) ~isempty(x), num_wpn_cell);
+%     ids_sp_left = ids_sp_left(flt_nonempty_sp);
+%     num_wpn_cell = num_wpn_cell(flt_nonempty_sp);
+% 
+%     [max_wpn, ids_sc_max_wpn] = cellfun(@(x) max(x), num_wpn_cell );
+% 
+%     [max_val_wpn, id_all_max] = max(max_wpn);
+% 
+%     fun_ids_sp_sc_wpn = @(id_sp) find(all(sc==id_sp|ids_sc_wpn, 2));
+%     id_sp_selected = ids_sp_left(id_all_max);
 
 

@@ -16,7 +16,7 @@ names = {'office_floor'};
 % names = {'conference_room'};
 
 output_filename = sprintf('tmp/%s/gsss.mat', names{1});
-load(output_filename);
+% load(output_filename);
 
 %%
 iteration = 0;
@@ -25,70 +25,77 @@ stp = update_interval;
 tme = tic;
 next = update_interval;
 iterations = numel(num_wpns)*numel(num_sps)*numel(names);
-write_log([], '#off');
+% write_log([], '#off');
 
 
-for id_n = 1:numel(names)
+% for id_n = 1:numel(names)
     gsss = cell(numel(num_sps), numel(num_wpns));
-    name = names{id_n};
-    for id_wpn = 1:numel(num_wpns)
-        for id_sp = 1:numel(num_sps)
-            num_wpn = num_wpns(id_wpn);
-            num_sp = num_sps(id_sp);
-            
+%     name = names{id_n};
+name = names{1};
+for id_wpn = 1:numel(num_wpns)
+    for id_sp = 1:numel(num_sps)
+        num_wpn = num_wpns(id_wpn);
+        num_sp = num_sps(id_sp);
+        
+        %%
+        %             num_wpn = 0;
+        %             num_sp = 0;
+        %%
+        was_calculated = false;
+        if isempty(gsss{id_sp, id_wpn})
+            was_calculated = true;
+            solution.solfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.sol', name, name, num_sp, num_wpn);
+            solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
             %%
-            %             num_wpn = 0;
-            %             num_sp = 0;
-            %%
-            if isempty(gsss{id_sp, id_wpn})
-                solution.solfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.sol', name, name, num_sp, num_wpn);
+            input = Experiments.Diss.(name)(num_sp, num_wpn);
+            input.config.optimization.name = input.name;
+            if ~exist(solution.solfile, 'file') % Remove check!!!
+                
+                gen = Configurations.Common.generic();
+                gen.workdir = sprintf('tmp/%s/gsss', name);
+                ssc_config = Configurations.Optimization.Discrete.ssc(gen);
+                ssc_config.name = name;
+                solution.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
+                [solution.solfile, solution.logfile] = Optimization.Discrete.Solver.cplex.start(solution.filename, cplex, false);
+            else
                 solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
-                %%
-                if ~exist(solution.solfile, 'file') % Remove check!!!
-                    input = Experiments.Diss.(name)(num_sp, num_wpn);
-                    input.config.optimization.name = input.name;
-                    
-                    gen = Configurations.Common.generic();
-                    gen.workdir = sprintf('tmp/%s/gsss', name);
-                    ssc_config = Configurations.Optimization.Discrete.ssc(gen);
-                    ssc_config.name = name;
-                    solution.filename = Optimization.Discrete.Models.ssc(input.discretization, [], ssc_config);
-                    [solution.solfile, solution.logfile] = Optimization.Discrete.Solver.cplex.start(solution.filename, cplex, false);
-                else
-                    solution.logfile = sprintf('tmp/%s/gsss/ssc_%s_%d_%d_.log', name, name, num_sp, num_wpn);
-                end
-                %%
-                solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(solution.solfile);
-                solution_coverage_log = Optimization.Discrete.Solver.cplex.read_log(solution.logfile);
-                
-                config.optimization = Configurations.Optimization.Discrete.gsss;
-                solution = Optimization.Discrete.Greedy.gsss(input.discretization, input.quality, solution_coverage, config.optimization);
-                [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
-                
-                %             solution.quality.wss = rmfield(solution.quality.wss, {'valbw'; 'valsum'});
-                %             solution.quality = rmfield(solution.quality, 'ws');
-                solution.discretization.spo = uint8(solution.discretization.spo);
-                solution.discretization.vm = uint8(solution.discretization.vm);
-                solution.discretization.spo_ids = cellfun(@(x) uint16(x), solution.discretization.spo_ids, 'uniformoutput', false);
-                solution.num_sp = num_sp;
-                solution.num_wpn = num_wpn;
-                solution.ssc.iterations = solution_coverage.iterations;
-                solution.ssc.sensors_selected = solution_coverage.sensors_selected;
-                solution.ssc.solutiontime = solution_coverage_log.solutiontime;
-                %%
-                gsss{id_sp, id_wpn} = solution;
             end
-            iteration = iteration + 1;
-            if toc(tme)>next
-                fprintf(1, '%g pct %g sec to go\n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration));
-                next = toc(tme)+stp;
-            end
+            %%
+            solution_coverage = Optimization.Discrete.Solver.cplex.read_solution(solution.solfile);
+            solution_coverage_log = Optimization.Discrete.Solver.cplex.read_log(solution.logfile);
             
+            config.optimization = Configurations.Optimization.Discrete.gsss;
+            solution = Optimization.Discrete.Greedy.gsss(input.discretization, input.quality, solution_coverage, config.optimization);
+            [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, input.config.discretization);
+            
+            %             solution.quality.wss = rmfield(solution.quality.wss, {'valbw'; 'valsum'});
+            %             solution.quality = rmfield(solution.quality, 'ws');
+            solution.discretization.spo = uint8(solution.discretization.spo);
+            solution.discretization.vm = uint8(solution.discretization.vm);
+            solution.discretization.spo_ids = cellfun(@(x) uint16(x), solution.discretization.spo_ids, 'uniformoutput', false);
+            solution.num_sp = num_sp;
+            solution.num_wpn = num_wpn;
+            solution.ssc.iterations = solution_coverage.iterations;
+            solution.ssc.sensors_selected = solution_coverage.sensors_selected;
+            solution.ssc.solutiontime = solution_coverage_log.solutiontime;
+            %%
+            gsss{id_sp, id_wpn} = solution;
         end
+        iteration = iteration + 1;
+        if toc(tme)>next
+            fprintf(1, '%g pct %g sec to go\n id_sp = %d, id_wpn = %d \n', iteration*100/iterations, (toc(tme)/iteration)*(iterations-iteration), id_sp, id_wpn);
+            next = toc(tme)+stp;
+        end
+        
     end
-    output_filename = sprintf('tmp/%s/gsss.mat', name);
-    save(output_filename, 'gsss');
+        
 end
+%         if was_calculated
+%             output_filename = sprintf('tmp/%s/gsss.mat', name);
+%             save(output_filename, 'gsss');
+%             pause
+%         end
+% end
 return;
 %%
 

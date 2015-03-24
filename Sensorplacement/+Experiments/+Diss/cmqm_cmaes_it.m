@@ -13,7 +13,7 @@ names = {'small_flat'};
 num_sps =  500;
 % num_wpns = 0:10:500;
 % num_wpns = 0:10:500;
-num_wpns = 0:50:450;
+num_wpns = 350:50:500;
 iteration = 0;
 update_interval = 5;
 stp = update_interval;
@@ -42,10 +42,10 @@ for id_n = 1:numel(names)
             sol = gco{51, (num_wpn/10)+1};
             input = Experiments.Diss.(name)(sol.num_sp, sol.num_wpn);
             input.solution = sol;
-            config.timeperiteration = 28000; %7200;
+            config.timeperiteration = 14000; %7200;
             config.stopiter = 1000;
             config.restarts = 5;
-            config.fileprefix = 'sf';
+            config.fileprefix = 'sf2';
             solutions = Optimization.Continuous.cmqm_cmaes_it(input, config);
 
             %%
@@ -54,8 +54,8 @@ for id_n = 1:numel(names)
             solution.solutions = solutions;
             solution.num_sp = num_sp;
             solution.num_wpn = num_wpn;
-            solution.sol = sol;
-            cmcqm_cmaes_it{id_sp, num_wpn/10} = solution;
+%             solution. = sol;
+%             cmqm_cmaes_it{id_sp, num_wpn/10+1} = solution;
 %             end
             iteration = iteration + 1;
             fprintf(1, '\n\n sp %d wpn %d\n\n', num_sp, num_wpn);
@@ -64,7 +64,7 @@ for id_n = 1:numel(names)
                 next = toc(tme)+stp;
             end
         
-            save(output_filename, 'cmcqm_cmaes_it');  
+            save(output_filename, 'solution');  
             end
         end
 
