@@ -6,12 +6,12 @@ clearvars -except all_eval;
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
 
-for ideval = 1:numel(eval_names)
-    %%
-    %     ideval = 1;
+% for ideval = 1:numel(eval_names)
+    %%%
+        ideval = 1;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
-    %%
+    %%%
     % Preevaluation of all data
     % valid_flt = all_num_sp_selected >0;
     %'medianstyle', 'target',  'boxstyle', 'filled'
@@ -23,7 +23,7 @@ for ideval = 1:numel(eval_names)
     % make outlier dots gray and big
     set(findobj(gcf,'Tag','Outliers'),'MarkerEdgeColor',[0.6 0.6 0.6]);
     ylim([0 1]);
-    %%
+    %%%
     %     line(get(gca, 'xlim'), [0.95 0.95], 'color', 'k');
     %     line(get(gca, 'xlim'), [0.75 0.75], 'color', 'k');
     
@@ -31,7 +31,7 @@ for ideval = 1:numel(eval_names)
     outfile = sprintf('%s%s_quality_statistics.png', outdir, opts.eval_name);
     saveas(gcf, outfile);
 %     open(outfile);
-    %%
+    %%%
     % Figures.makeFigure(sprintf('%s_quality_statistics', opts.eval_name), '5cm');
     % matlab2tikz(sprintf('export/%s_quality_statistics.tikz', opts.eval_name));
     %%%
@@ -56,4 +56,4 @@ for ideval = 1:numel(eval_names)
     outfile = sprintf('%s%s_sensors_statistics.png', outdir, opts.eval_name);
     saveas(gcf, outfile);
 %     open(outfile);
-end
+% end

@@ -27,7 +27,7 @@ for i = 1:size(graph_data,1)
         
     %%
     d = graph_data(i, :);
-    strlabel = arrayfun(@(x) num2str(x), d, 'uniformoutput', false);
+    strlabel = arrayfun(@(x) strrep(num2str(x), 'NaN', ''), d, 'uniformoutput', false);
     h1= axes('position',[x y w h], 'ycolor',[0 0 0], 'xcolor',[0 0 0], 'ytick',[], 'Ticklength', [0 0],...
         'xlim', [0.5 numel(d)+0.5], 'ylim', [data_min data_max], 'Box', 'on',...
         'XTick', 1:numel(d), 'XTickLabel', strlabel);
@@ -36,7 +36,9 @@ for i = 1:size(graph_data,1)
     clne = linspace(0, 0.8, numel(d));
     cbar = [clne', clne', clne'];
     for idb = 1:numel(d)
-        bar(h1, idb, d(idb) , 'linestyle', 'none', 'facecolor', cbar(idb, :), 'BarWidth', 0.8 );
+%         if ~isnan(d(idb))
+            bar(h1, idb, d(idb) , 'linestyle', 'none', 'facecolor', cbar(idb, :), 'BarWidth', 0.8 );
+%         end
     end
 end
 

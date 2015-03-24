@@ -7,11 +7,11 @@ outdir = '..\..\Dissertation\thesis\figures\';
 
 % for ideval = 1:numel(eval_names)
     % close all;
-    ideval = 4;
+    ideval = 1;
     eval_name = eval_names{ideval};
     
     [X, Y] = meshgrid(0:10:500, 0:10:500);
-    range = 1:5:51;
+    range = 1:5:21;
     [idx, idy] = meshgrid(range, range);
     ind = sub2ind([51 51], idx(:), idy(:));
     
@@ -19,8 +19,8 @@ outdir = '..\..\Dissertation\thesis\figures\';
     ylist = Y(ind);
     height = 20;
     width = 30;
-    xrange = [-30 540];
-    yrange = [-30 530];
+    xrange = [-30 230];
+    yrange = [-30 230];
     
     all_x = unique(xlist);
     all_y = unique(ylist);
@@ -34,8 +34,7 @@ outdir = '..\..\Dissertation\thesis\figures\';
         real_num_wpn(idxy) = input.discretization.num_positions;
     end
     
-    %% change all evaluations to contain all data and set remaining to nan!
-    
+   
     figure;
     h0 = barglyph(xlist, ylist, height, width, all_mean_wpn_qualities_rounded(ind, 7:10), xrange, yrange);
     
@@ -45,12 +44,29 @@ outdir = '..\..\Dissertation\thesis\figures\';
     xlabel(h0,'\#$WPN$', 'interpreter', 'none');
     ylabel(h0, '\#$SP$', 'interpreter', 'none');
     title(h0, 'Mean of max Qualities [%]');
-    h = legend({'MSPQM', 'BSPQM', 'RPD\n(MSPQM)', 'RPD\n(BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
+    h = legend({'MSPQM', 'BSPQM', 'RPD\newline(MSPQM)', 'RPD\newline(BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
     set(h, 'position', [0.25 0 0.5 0.05])
     
-    outfile = sprintf('%s%s_greedy_comparison.png', outdir, opts.eval_name);
+    outfile = sprintf('%s%s_optimization_comparison_quality.png', outdir, opts.eval_name);
     saveas(gcf, outfile);
+    
+    figure;
+    h0 = barglyph(xlist, ylist, height, width, all_eval.(eval_name).all_num_sp_selected(ind, 7:10), xrange, yrange);
+    
+    strlabelsx = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_x, real_num_sp, 'uniformoutput', false);
+    strlabelsy = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_y, real_num_wpn, 'uniformoutput', false);
+    set(h0,  'xticklabel', strlabelsx, 'yticklabel', strlabelsy, 'Ticklength', [0 0], 'box', 'on');
+    xlabel(h0,'\#$WPN$', 'interpreter', 'none');
+    ylabel(h0, '\#$SP$', 'interpreter', 'none');
+    title(h0, 'Mean of max Qualities [%]');
+    h = legend({'MSPQM', 'BSPQM', 'RPD\newline(MSPQM)', 'RPD\newline(BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
+    pos = get(h, 'position');
+    set(h, 'position', [0.25 0 0.5 0.05])
+    
+    outfile = sprintf('%s%s_optimization_comparison_quality.png', outdir, opts.eval_name);
+    saveas(gcf, outfile);
+    
     
     
 % end
