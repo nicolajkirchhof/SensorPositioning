@@ -6,12 +6,12 @@ close all;
 clearvars;
 % num_sp = 0:20:200
 % num_wpns = 0:10:50;
-% names = {'conference_room', 'small_flat'} %, 'large_flat', 'office_floor'};
-names = {'large_flat'};
+names =  {'small_flat'}; %, 'large_flat', 'office_floor'};
+% names = {'large_flat'};
 % names = {'office_floor'}
 
-num_wpns = 110:10:200;
-num_sps =  0:10:90;
+num_wpns = 0:50:250;
+num_sps =  250:50:500;
 cnt = 100;
 % gco = cell(numel(num_sps), numel(num_wpns));
 for id_n = 1:numel(names)
@@ -37,6 +37,35 @@ for id_n = 1:numel(names)
         end
     end
 end
+
+num_wpns = 250:50:500;
+num_sps =  0:50:500;
+cnt = 200;
+% gco = cell(numel(num_sps), numel(num_wpns));
+for id_n = 1:numel(names)
+    name = names{id_n};
+    for id_wpn = 1:numel(num_wpns)
+        for id_sp = 1:numel(num_sps)
+            num_wpn = num_wpns(id_wpn);
+            num_sp = num_sps(id_sp);
+            
+            %%
+            %         num_wpn = 0;
+            %         num_sp = 50;
+            
+            input = Experiments.Diss.(name)(num_sp, num_wpn);% true);
+            
+            gen = Configurations.Common.generic();
+            gen.workdir = sprintf('tmp/mspqm');
+            mspqm_config = Configurations.Optimization.Discrete.mspqm(gen);
+            mspqm_config.name = sprintf('%d_%s', cnt, name);
+            filename = Optimization.Discrete.Models.mspqm(input.discretization, input.quality, mspqm_config);
+            
+            cnt = cnt + 1;
+        end
+    end
+end
+
 
 %%
 num_wpn = 200;
