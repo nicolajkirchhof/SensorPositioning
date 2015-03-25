@@ -43,7 +43,11 @@ while ~all(is_wpn)
 if numel(id_sp_selected) > 1
     error('MUST BE ONE OR ZERO');
 end
-%%
+%%%
+    if isempty(id_sp_selected)
+        [~, id_sc_max] = max(sum(sc_wpn, 2));
+        id_sp_selected = sc(id_sc_max, 1);
+    end
     sp_selected = [id_sp_selected sp_selected];
     ids_sc_wpn = sc==id_sp_selected|ids_sc_wpn;
 
