@@ -20,10 +20,14 @@ for ido = 1:numel(opt_names_include)
     end
 end
 %%
-opt_names_include = {'gco', 'gcss', 'gsss', 'mspqm', 'bspqm', 'stcm'}; % , 'cmqm_nonlin_it', 'cmqm_cmaes_it'};
+% opt_names_include = {'gco', 'gcss', 'gsss', 'mspqm', 'bspqm', 'stcm'}; % , 'cmqm_nonlin_it', 'cmqm_cmaes_it'};
 % opt_names = {'mspqm_rpd', 'bspqm_rpd'};
+% eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
+for ide = 1:numel(eval_names)
+    eval_name = eval_names{ide};
+opt_names_include = {'gsss'};
 loop_display(numel(opt_names_include)*51*51, 5);
-% opt = opts.(opt_name);
+opts = all_eval.(eval_name);
 cnt = 0;
 for ido = 1:numel(opt_names_include)
     name = opt_names_include{ido};
@@ -37,6 +41,8 @@ for ido = 1:numel(opt_names_include)
         cnt = cnt + 1;
         loop_display(cnt);
     end
+end
+all_eval.(eval_name) = opts;
 end
 %%
 opt_names_include = {'mspqm'}; % , 'cmqm_nonlin_it', 'cmqm_cmaes_it'};
@@ -82,3 +88,9 @@ for ido = 1:numel(opt_names_include)
         loop_display(cnt);
     end
 end
+
+
+%%
+solution.quality.sum_max = sum(cellfun(@(x) max(x), solution.quality.wss.val));
+            solution.all_wpn = solution.discretization.num_positions;
+            solution.all_sp = solution.discretization.num_sensors;

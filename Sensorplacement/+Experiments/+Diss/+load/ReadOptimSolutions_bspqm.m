@@ -29,8 +29,8 @@ for idf = 1:numel(files)
         solution.num_wpn = A{6};
         solution.opt_quality = solution.quality;
         %%
-%         input = Experiments.Diss.(solution.name)(solution.num_sp, solution.num_wpn);
-%         [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, Configurations.Quality.diss);
+        input = Experiments.Diss.(solution.name)(solution.num_sp, solution.num_wpn);
+        [solution.discretization, solution.quality] = Evaluation.filter(solution, input.discretization, Configurations.Quality.diss);
         
         %%
 %         id_sp = solution.num_sensors_additonal/10 + 1;

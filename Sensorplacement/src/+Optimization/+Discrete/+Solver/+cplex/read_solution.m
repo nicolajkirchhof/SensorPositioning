@@ -54,8 +54,8 @@ solution.variables.value = [];
 % end
 tic;
 uuid = java.util.UUID.randomUUID;
-fname1 = sprintf('..\\tmp\\fcache0%s.cache', char(uuid));
-fname2 = sprintf('..\\tmp\\fcache1%s.cache', char(uuid));
+fname1 = sprintf('tmp\\fcache0%s.cache', char(uuid));
+fname2 = sprintf('tmp\\fcache1%s.cache', char(uuid));
 if exist(fname1, 'file')>0
     error('cannot write cache ');
 end
