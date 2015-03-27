@@ -5,7 +5,7 @@ clearvars -except all_eval;
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
 
-% for ideval = 1:numel(eval_names)
+for ideval = 1:numel(eval_names)
     % close all;
     ideval = 1;
     eval_name = eval_names{ideval};
@@ -69,7 +69,7 @@ outdir = '..\..\Dissertation\thesis\figures\';
     
     
     
-% end
+end
 
 %%
 

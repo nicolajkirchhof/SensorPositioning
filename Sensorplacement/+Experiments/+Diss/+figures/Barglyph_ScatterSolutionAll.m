@@ -46,7 +46,8 @@ for ideval = 1:numel(eval_names)
     title(h0, sprintf('%s\\newline Mean of max Qualities [%%]', all_eval.(eval_name).name));
     h = legend({'GCO', 'GCSS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD\newline(MSPQM)', 'RPD\newline(BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
-    set(h, 'position', [0.25 0 0.5 0.05])
+    set(h, 'position', [0.25 0 0.5 0.05]); 
+    set(gcf, 'position', [0 0 1920 1080]);
     
     outfile = sprintf('%s%s_optimization_comparison_quality.png', outdir, eval_name);
     saveas(gcf, outfile);
@@ -62,7 +63,8 @@ for ideval = 1:numel(eval_names)
     title(h0, sprintf('%s\\newline Number of Sensors', all_eval.(eval_name).name));
     h = legend({'GCO', 'GCSS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD\newline(MSPQM)', 'RPD\newline(BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
-    set(h, 'position', [0.25 0 0.5 0.05])
+    set(h, 'position', [0.25 0 0.5 0.05]);
+    set(gcf, 'position', [0 0 1920 1080]);
     
     outfile = sprintf('%s%s_optimization_comparison_quality.png', outdir, eval_name);
     saveas(gcf, outfile);
@@ -71,7 +73,7 @@ for ideval = 1:numel(eval_names)
     %% Make sum of qualities plot with right scale
     
     figure;
-    h0 = barglyph(xlist, ylist, height, width, all_eval.(eval_name).all_num_sp_selected(ind, [3:5 7:10]), xrange, yrange);
+    h0 = barglyph(xlist, ylist, height, width, round(all_eval.(eval_name).all_sum_wpn_qualities(ind, [3:5 7:10])), xrange, yrange);
     
     strlabelsx = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_x, real_num_sp, 'uniformoutput', false);
     strlabelsy = arrayfun(@(x, y) sprintf('%d (%d)', x, y), all_y, real_num_wpn, 'uniformoutput', false);
@@ -82,6 +84,7 @@ for ideval = 1:numel(eval_names)
     h = legend({'GCO', 'GCSS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD\newline(MSPQM)', 'RPD\newline(BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
     set(h, 'position', [0.25 0 0.5 0.05])
+    set(gcf, 'position', [0 0 1920 1080]);
     
     outfile = sprintf('%s%s_optimization_comparison_quality.png', outdir, eval_name);
     saveas(gcf, outfile);

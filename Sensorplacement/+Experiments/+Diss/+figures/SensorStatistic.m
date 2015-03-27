@@ -3,17 +3,23 @@ clearvars -except all_eval;
 % clearvars -except small_flat conference_room large_flat office_floor
 %%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-for ideval = 1:4
-    %     ideval = 1;
+outdir = '..\..\Dissertation\thesis\figures\';
+
+for ideval = 1:numel(eval_names)
+    % close all;
+%     ideval = 2;
+%% DRAW PLOT where sensor positions are valued by number and draw environment accordingly to show
+% prefered positions that are choosen. This will be the last of the plots!!!
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
     %%
     opt_names = {'cmqm_nonlin_it', 'cmqm_cmaes_it' 'gco', 'gcss', 'gsss', 'stcm', 'mspqm', 'bspqm', 'mspqm_rpd', 'bspqm_rpd'};
     
     num_opts = numel(opt_names);
-    all_num_sp_selected= nan(2601, num_opts); %cell(numel(opt_names), 1);
-    all_mean_wpn_qualities = nan(2601, num_opts); %zeros(51, 51); %cell(numel(opt_names), 1);
-    all_sum_wpn_qualities = nan(2601, num_opts); %zeros(51, 51); %cell(numel(opt_names), 1);
+    
+    input = Experiments.Diss.(eval_name)(500, 500);
+    
+%     all_sp_eval = 
     %%
     for idn = 1:num_opts
         opt_name = opt_names{idn};
@@ -45,14 +51,31 @@ for ideval = 1:4
             all_num_sp_selected(:, idn) = sp_selected_mat(:);
         end
     end
-    if ideval == 1
-        all_mean_wpn_qualities(:, 9:10) = all_mean_wpn_qualities(:, 7:8);
-        all_sum_wpn_qualities(:, 9:10) = all_sum_wpn_qualities(:, 7:8);
-        all_num_sp_selected(:, 9:10) = all_num_sp_selected(:, 7:8);
-    end
-    opts.all_mean_wpn_qualities = all_mean_wpn_qualities;
-    opts.all_sum_wpn_qualities = all_sum_wpn_qualities;
-    opts.all_num_sp_selected = all_num_sp_selected;
-    opts.opt_names = opt_names;
-    all_eval.(opts.eval_name) = opts;
+  
+    
+    
 end
+
+%%
+% matlab2tikz('export\SmallFlatWpnCoverageNumSp.tikz', 'parseStrings', false,...
+%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'extraAxisOptions',{'y post scale=1'});
+
+matlab2tikz('export\SmallFlatWpnCoverageNumSp.tikz', 'parseStrings', false,...
+    'tikzFileComment', '% -*- root: SmallFlatWpnCoverageNumSp.tex -*-',...
+    'extraAxisOptions',{'y post scale=1',...
+    'every x tick label/.append style={tickwidth=0cm,major tick length=0cm}'});
+%     'standalone', true);
+%     'every outer x axis line/.append style={black}'});
+
+
+find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar width=0.025453in,', '');
+find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=-0.063633in,', '');
+find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=-0.031817in,', '');
+find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=0.031817in,', '');
+find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=0.063633in,', '');
+% find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','area legend,', 'major x tick style = transparent,');
+
+Figures.writeTexFile('SmallFlatWpnCoverageNumSp.tikz', 'export\');
+
+
+%%
