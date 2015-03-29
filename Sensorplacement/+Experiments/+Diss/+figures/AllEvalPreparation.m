@@ -1,12 +1,12 @@
-%%
-clearvars -except all_eval;
+%
+clearvars -except all_eval*;
 % clearvars -except small_flat conference_room large_flat office_floor
 %%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 for ideval = 1:4
     %     ideval = 1;
     eval_name = eval_names{ideval};
-    opts = all_eval.(eval_name);
+    opts = all_eval_cleaned.(eval_name);
     %%
     opt_names = {'cmqm_nonlin_it', 'cmqm_cmaes_it' 'gco', 'gcss', 'gsss', 'stcm', 'mspqm', 'bspqm', 'mspqm_rpd', 'bspqm_rpd'};
     
@@ -54,5 +54,18 @@ for ideval = 1:4
     opts.all_sum_wpn_qualities = all_sum_wpn_qualities;
     opts.all_num_sp_selected = all_num_sp_selected;
     opts.opt_names = opt_names;
-    all_eval.(opts.eval_name) = opts;
+    all_eval_cleaned.(opts.eval_name) = opts;
+end
+
+%%
+eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
+for ideval = 1:4
+    eval_name = eval_names{ideval};
+%     opts_cleaned = all_eval_cleaned.(eval_name);
+    opts = all_eval.(eval_name);
+    opts.all_mean_wpn_qualities = [];
+    opts.all_sum_wpn_qualities = [];
+    opts.all_num_sp_selected = [];
+    opts.all_area_covered_pct = [];
+all_eval.(eval_name) = opts;   
 end
