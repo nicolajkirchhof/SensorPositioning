@@ -7,7 +7,7 @@ outdir = '..\..\Dissertation\thesis\figures\';
 
 for ideval = 1:numel(eval_names)
     % close all;
-    ideval = 1;
+%     ideval = 1;
     eval_name = eval_names{ideval};
     
     [X, Y] = meshgrid(0:10:500, 0:10:500);

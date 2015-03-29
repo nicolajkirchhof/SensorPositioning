@@ -11,7 +11,7 @@ close all;
     eval_name = eval_names{ideval};
     
     [X, Y] = meshgrid(0:10:500, 0:10:500);
-    range = 1:5:51;
+    range = 1:1:51;
     [idx, idy] = meshgrid(range, range);
     ind = sub2ind([51 51], idx(:), idy(:));
     
@@ -48,9 +48,33 @@ close all;
     set(h, 'position', [0.25 0 0.5 0.05])
     set(gcf, 'position', [0 0 1920 1080]);
     
-    outfile = sprintf('%s%s_greedy_comparison_quality.png', outdir, opts.eval_name);
-    saveas(gcf, outfile);
+%     outfile = sprintf('%s%s_greedy_comparison_quality.png', outdir, opts.eval_name);
+%     saveas(gcf, outfile);
+
     
+        filename = sprintf('BarglyphGreedy%s.tex', eval_name);
+    full_filename = sprintf('export/%s', filename);
+        matlab2tikz(full_filename, 'parseStrings', false,...
+        'height', '10cm',...
+        'width', '10cm',...
+        'extraCode', '\standaloneconfig{border=0.1cm}',...
+        'standalone', true);
+    
+    find_and_replace(full_filename,'bar\ width=\d.\d*cm,', 'bar width=0.8,');
+    find_and_replace(full_filename,'bar\ shift=.\d.\d*cm,', '');
+    find_and_replace(full_filename,'bar\ shift=\d.\d*cm,', ''); 
+    find_and_replace(full_filename,'inner\ sep=0mm', 'inner sep=2pt');
+    find_and_replace(full_filename,'\ tick\ label\/\.append\ style=\{font=\\color\{black\}\},', ' tick label/.append style={font=\\color{black}, align=center},');
+%     find_and_replace(full_filename,'xlabel={\[\\\#\$WPN\$\]},', 'xlabel={[\\#$WPN$]},\nevery axis x label/.style={at={(current axis.south west)},anchor=north },');
+%     find_and_replace(full_filename, 'ylabel={\[\\#\$SP\$\]}', 'ylabel={[\\#$SP$]},\nevery axis y label/.style={at={(current axis.north west)},anchor=north east}');
+    % xlabel={\#$WPN$},
+    %every axis x label/.style={at={(current axis.south east)},anchor=north east },
+    % every axis y label/.style={at={(current axis.above origin)},anchor=north east}
+    
+%     find_and_replace(full_filename,'legend\ style=\{at=\{\(\d.\d*,\d.\d*\)\}', 'legend style={at={(-0.148,7.2)}');
+    
+    Figures.compilePdflatex(filename, true);   
+    %%
         
     figure;
     h0 = barglyph(xlist, ylist, height, width, all_eval.(eval_name).all_num_sp_selected(ind, 3:5), xrange, yrange);
@@ -72,29 +96,5 @@ close all;
     
     
 % end
-
-%%
-
-%%
-% matlab2tikz('export\SmallFlatWpnCoverageNumSp.tikz', 'parseStrings', false,...
-%     'tikzFileComment', '% -*- root: TestingFigures.tex -*-', 'extraAxisOptions',{'y post scale=1'});
-
-matlab2tikz('export\SmallFlatWpnCoverageNumSp.tikz', 'parseStrings', false,...
-    'tikzFileComment', '% -*- root: SmallFlatWpnCoverageNumSp.tex -*-',...
-    'extraAxisOptions',{'y post scale=1',...
-    'every x tick label/.append style={tickwidth=0cm,major tick length=0cm}'});
-%     'standalone', true);
-%     'every outer x axis line/.append style={black}'});
-
-
-find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar width=0.025453in,', '');
-find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=-0.063633in,', '');
-find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=-0.031817in,', '');
-find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=0.031817in,', '');
-find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','bar shift=0.063633in,', '');
-% find_and_replace('export\SmallFlatWpnCoverageNumSp.tikz','area legend,', 'major x tick style = transparent,');
-
-Figures.writeTexFile('SmallFlatWpnCoverageNumSp.tikz', 'export\');
-
 
 %%

@@ -72,6 +72,7 @@ fun_fpf('\\PreviewEnvironment{tikzpicture}');
   cd ..
   
   diss_folder = '../../Dissertation/Thesis/Figures/';
+  
   copyfile([output_folder figure_fullname], [diss_folder figure_fullname]);
   copyfile([output_folder pdf_fullname], [diss_folder pdf_fullname]);
-  system(['start ' output_folder pdf_fullname]);
+  system(['SumatraPDF.bat '  output_folder pdf_fullname]);
