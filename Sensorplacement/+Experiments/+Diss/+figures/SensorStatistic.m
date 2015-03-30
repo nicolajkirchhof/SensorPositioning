@@ -1,9 +1,9 @@
-%%
+%% ONLY WORK With full
 % load tmp\all_eval
 % load tmp\all_eval_ceaned
 clearvars -except all_eval*;
 % clearvars -except small_flat conference_room large_flat office_floor
-%%
+%%%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
 %%
@@ -82,7 +82,7 @@ end
         'width', '5cm',...
 ...        'extraCode', '\standaloneconfig{border=0.1cm}',...
         'standalone', true);
-    Figures.compilePdflatex(filename, true);
+    Figures.compilePdflatex(filename, true, false);
     %%
     figure;
     Environment.draw(input.environment, false);
@@ -100,7 +100,11 @@ end
         'width', '5cm',...
 ...        'extraCode', '\standaloneconfig{border=0.1cm}',...
         'standalone', true);
-    Figures.compilePdflatex(filename, true);
+    if ideval < 4
+    Figures.compilePdflatex(filename, true, false);
+    else
+        Figures.compilePdflatex(filename, true, true);
+    end
   end
 
 %%
