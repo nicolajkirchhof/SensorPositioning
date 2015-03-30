@@ -19,9 +19,6 @@ for ideval = 1:numel(eval_names)
     
     num_opts = numel(opt_names);
     
-    
-    %%%
-    
     fun_round_ang = @(x)floor(x*1e4)/1e4;
     
     fun_unique_id = @(x) fun_round_ang(x(:,3))*1e6+x(:, 1)*1e2+x(:, 2);

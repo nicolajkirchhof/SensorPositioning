@@ -1,14 +1,14 @@
 %%
 clearvars -except all_eval*;
 % clearvars -except small_flat conference_room large_flat office_floor
-%%
+%%%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
 %%
-% for ideval = 2:numel(eval_names)
+for ideval = 1:3
     %%
     close all;
-    ideval = 2;
+%     ideval = 1;
     eval_name = eval_names{ideval};
     
     [X, Y] = meshgrid(0:10:500, 0:10:500);
@@ -79,8 +79,8 @@ outdir = '..\..\Dissertation\thesis\figures\';
     
     find_and_replace(full_filename,'legend\ style=\{at=\{\(\d.\d*,\d.\d*\)\}', 'legend style={at={(-0.135,6.5)}');
     
-    Figures.compilePdflatex(filename, false);
-
+    Figures.compilePdflatex(filename, true);
+end
        %%
     close all;
     ideval = 4;
@@ -103,6 +103,7 @@ outdir = '..\..\Dissertation\thesis\figures\';
     
     all_mean_wpn_qualities_rounded = round(all_eval.(eval_name).all_mean_wpn_qualities*100);
      all_sum_qualities = all_eval.(eval_name).all_sum_wpn_qualities;
+     all_area_covered_pct =  all_eval.(eval_name).all_area_covered_pct;
     real_num_sp = zeros(size(all_x));
     real_num_wpn = zeros(size(all_x));
     for idxy = 1:numel(all_x)
@@ -113,7 +114,7 @@ outdir = '..\..\Dissertation\thesis\figures\';
     
     figure;
     [h0 h1out] = barglyph3values(xlist, ylist, height, width, all_eval.(eval_name).all_num_sp_selected(ind, 3:5),... 
-        all_mean_wpn_qualities_rounded(ind, 3:5), xrange, yrange, all_sum_qualities(ind, 3:5));
+        all_mean_wpn_qualities_rounded(ind, 3:5), xrange, yrange, all_sum_qualities(ind, 3:5), all_area_covered_pct(ind, 3:5));
 
     
     strlabelsx = arrayfun(@(x, y) sprintf('%d\\\\(%d)', x, y), all_x, real_num_sp, 'uniformoutput', false);
@@ -126,7 +127,7 @@ outdir = '..\..\Dissertation\thesis\figures\';
     pos = get(h, 'position');
     set(h, 'position', [0.25 0 0.5 0.05]);
     set(gcf, 'position', [0 0 1920 1080]);
-    %%
+    %%%
         filename = sprintf('BarglyphAll%s.tex', eval_name);
     full_filename = sprintf('export/%s', filename);
         matlab2tikz(full_filename, 'parseStrings', false,...
@@ -178,17 +179,17 @@ outdir = '..\..\Dissertation\thesis\figures\';
         real_num_sp(idxy) = input.discretization.num_sensors;
         real_num_wpn(idxy) = input.discretization.num_positions;
     end
-    %%
+    %%%
     figure;
     [h0 h1out] = barglyph3values(xlist, ylist, height, width, all_eval.(eval_name).all_num_sp_selected(ind, [3:5 7 9:10]),...
-        all_mean_wpn_qualities_rounded(ind, [3:5 7 9:10]), xrange, yrange, all_sum_qualities(ind, [3:5 7 9:10]));
+        all_mean_wpn_qualities_rounded(ind, [3:5 7 9:10]), xrange, yrange, all_sum_qualities(ind, [3:5 7 9:10]), all_eval.(eval_name).all_area_covered_pct(ind, [3:5 7 9:10]));
     delete(h0);
     set(h1out, 'position', [0.1 0.1 0.8 0.8]);    
     h = legend(h1out, {'GCO', 'GCSS', 'GSSS', 'MSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'}, 'Location', 'NorthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
 %     set(h, 'position', [0 0.95 0.5 0.05]);
 %     set(gcf, 'position', [0 0 1920 1080]);
-    %%
+    %%%
         filename = sprintf('BarglyphFirst%s.tex', eval_name);
     full_filename = sprintf('export/%s', filename);
         matlab2tikz(full_filename, 'parseStrings', false,...

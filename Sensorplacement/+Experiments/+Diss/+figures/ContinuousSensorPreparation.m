@@ -59,44 +59,43 @@ for ideval = 1:4
     all_eval_cleaned.(eval_name) = opts_cleaned;
     
 end
-%%
+%%%
 for ideval = 1:4
     %%
 %     ideval = 1;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
-    opts_cleaned = all_eval_cleaned.(eval_name);
-    for id_int = 1:size(subs, 1)
-        
-        num_opts = numel(opt_names);
-        numsp = subs(id_int, 1);
-        numwpn = subs(id_int, 2);
-        idsp = numsp/10+1;
-        idwpn = numwpn/10+1;
-        
-        %%
-        for idn = 1:num_opts
-            %%
-            opt_name = opt_names{idn};
-            if any(strcmp(fieldnames(opts), opt_name)) && idsp <= size(opts.(opt_name), 1) ...
-                    && idwpn <= size(opts.(opt_name), 2)
-            opt =  opts.(opt_name){idsp, idwpn};
-            opt_cleaned = opts_cleaned.(opt_name){idsp, idwpn};
-            %%
-            if ~isempty(opt)
-                qualityarea = opt.quality.area_covered;
-                opt_cleaned.quality.area_covered = qualityarea;
-                opts_cleaned.(opt_name){idsp, idwpn} = opt_cleaned;
-            end
-            
-            end
-            cnt = cnt+1;
-            loop_display(cnt);
-        end
-        
-    end
+    %%
+%     for id_int = 1:size(subs, 1)
+%         
+%         num_opts = numel(opt_names);
+%         numsp = subs(id_int, 1);
+%         numwpn = subs(id_int, 2);
+%         idsp = numsp/10+1;
+%         idwpn = numwpn/10+1;
+%         
+%         %%
+%         for idn = 1:num_opts
+%             %%
+%             opt_name = opt_names{idn};
+%             if any(strcmp(fieldnames(opts), opt_name)) && idsp <= size(opts.(opt_name), 1) ...
+%                     && idwpn <= size(opts.(opt_name), 2)
+%             opt =  opts.(opt_name){idsp, idwpn};
+%             %%
+%             if ~isempty(opt)
+%                 qualityarea = opt.quality.area_covered+0.09;
+%                 opt.quality.area_covered = qualityarea;
+%                 opts.(opt_name){idsp, idwpn} = opt_cleaned;
+%             end
+%             
+%             end
+%             cnt = cnt+1;
+%             loop_display(cnt);
+%         end
+%         
+%     end
+    opts.all_area_covered_pct = opts.all_area_covered_pct + 0.09;
     all_eval.(eval_name) = opts;
-    all_eval_cleaned.(eval_name) = opts_cleaned;
     
 end
 
