@@ -27,6 +27,9 @@ end
 flt_discretization.num_comb = size(flt_discretization.sc_wpn, 1);
 flt_discretization.num_sensors = numel(sensors_selected);
 %%
+if nargin < 3
+    config = Configurations.Quality.diss;
+end
 flt_quality = Quality.WSS.kirchhof(flt_discretization, config);
 %%
 return;

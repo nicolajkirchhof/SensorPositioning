@@ -1,32 +1,8 @@
 close all;
 clear all;
-%%
-clear variables;
-cla;
-axis equal
-hold on;
-axis off
 
-load tmp\small_flat\environment\environment.mat
-input = Experiments.Diss.small_flat(500, 500);
-inputbase = Experiments.Diss.small_flat(0, 0);
-wpnbase = inputbase.discretization.wpn;
-input200 = Experiments.Diss.small_flat(200, 200);
-wpn200 = input200.discretization.wpn;
-P_c = environment.P_c;
-E_r = environment.E_r;
-bpoly = environment.combined;
 
-% mb.drawPoint(input.discretization.wpn, 'marker', '.', 'color', [0.6, 0.6, 0.6], 'markersize', 4);
-
-mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
-% mb.drawPolygon(environment.mountable, 'color', [0.6, 0.6, 0.6]);
-fun_draw_edge = @(e) drawEdge(e, 'linewidth', 1, 'linestyle', '--', 'color', [0 0 0]);
-cellfun(@(x) fun_draw_edge(x.edge), E_r);
-mb.drawPolygon(bpoly, 'color', [0 0 0], 'linewidth', 1);
-% axis on
-ylim([50 8600]);
-xlim([400 6100]);
+ 
 %%
 filename = 'DecomposedSmallFlat';
 Figures.makeFigure(filename, '5cm');
