@@ -1,12 +1,12 @@
 close all;
-clear all;
-%%
+clearvars -except all_eval*
+%%%
 cla;
-axis equal
+% axis equal
 hold on;
 axis off
-xlim([0 5000]);
-ylim([0 4000]);
+% xlim([0 5000]);
+% ylim([0 4000]);
 
 x = 250;
 y = 1000;
@@ -50,7 +50,16 @@ text(x, 3750, 'Right');
 text(x, 3500, 'oriented');
 
 
-%%
-Figures.makeFigure('TypesOfSpikes');
+%%%
+% Figures.makeFigure('TypesOfSpikes');
 % matlab2tikz('export/TypesOfSpikes.tikz', 'parseStrings', false);
+filename = 'TypesOfSpikes.tex';
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+   'height', '6cm',...
+    'width', '11cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
 
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);

@@ -3,7 +3,7 @@ clear all;
 %%
 clear variables;
 cla;
-axis equal
+% axis equal
 hold on;
 axis off
 
@@ -75,7 +75,17 @@ ylim([90 410]);
 xlim([-10 1010]);
 
 %%%
-Figures.makeFigure('RadialMovePolygonIntersection');
+% Figures.makeFigure('RadialMovePolygonIntersection');
+filename = 'RadialMovePolygonIntersection.tex';
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '2.5cm',...
+    'width', '11cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
+
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);
 % matlab2tikz('export/RadialMovePolygonIntersection.tikz', 'parseStrings', false,...
 %     'tikzFileComment', 'width', '10cm', '% -*- root: TestingFigures.tex -*-',...
 %     'extraAxisOptions',{'y post scale=1', 'unit vector ratio=1 1 1'});

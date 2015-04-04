@@ -23,7 +23,7 @@ h = mb.fillPolygon( environment.boundary.ring , 'w' );
 legend(h, 'Workspace');
 
 if ~isempty(environment.occupied)
-    h = mb.fillPolygon( environment.occupied , [0.8 0.8 0.8]);
+    h = mb.fillPolygon( environment.occupied , [0.95 0.95 0.95]);
     legend(h(1), 'Occupied');
     arrayfun(fun_legend_off, h(2:end));
 end
@@ -35,7 +35,7 @@ if ~isempty(environment.obstacles)
 end
 
 if ~isempty(environment.mountable)
-    h = mb.fillPolygon( environment.mountable , [0.5 0.5 0.5]);
+    h = mb.fillPolygon( environment.mountable , [0.55 0.55 0.55]);
     legend(h(1), 'Mountable');
     arrayfun(fun_legend_off, h(2:end));
 end
