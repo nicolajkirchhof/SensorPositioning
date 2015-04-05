@@ -28,7 +28,7 @@ drawPolygon(rect_env, 'color', 'k', 'linewidth', 2);
 drawPolygon(obst_env, 'color', 'k', 'linewidth', 2);
 fillPolygon(obst_env, 0.2*ones(1,3));
 
-text(1000, 1000, '$P_1$', txt_props{:}, 'horizontalalignment', 'center', 'verticalalignment', 'top');
+text(800, 700, '$P_1$', txt_props{:}, 'horizontalalignment', 'center', 'verticalalignment', 'top');
 % text(2250, 2000, '$\Lambda_1$', txt_props{:});
 
 drawPoint([1000 1000], 'marker', 'o','MarkerEdgeColor', col(2,:), 'markersize', 8, 'linewidth', 2);

@@ -1,6 +1,6 @@
 close all;
-clear all;
-%%
+clearvars -except all_eval*
+%%%
 cla;
 axis equal
 hold on;

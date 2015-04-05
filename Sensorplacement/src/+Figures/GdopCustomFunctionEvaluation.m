@@ -1,7 +1,7 @@
 function two_sensor_triangulation_const_dist_gdop%(fov, max_dist, s1x, s2x,distance_factor)
 % only function in order to keep workspace clean;
 close all;
-clear all;
+clearvars -except all_eval*
 import Experiments.gdop.*
 %%% Evaluation of distances for different angles
 uc_fov = 6;
@@ -64,15 +64,15 @@ for dist = distances
     cnti = 1;
     cntj = cntj+1;
 end
-%%
-% title('Polygon evaluation szenario');
-xlabel('$[m]$');
-ylabel('$[m]$');
-ylim([-500, 18500]/1000);
-xlim([-7500, 10000]/1000);
-% filename = 'PolygonEvaluationSzenario';
-Figures.makeFigure('PolygonEvaluationSzenario', '9cm');
-%%
+%%%
+% % title('Polygon evaluation szenario');
+% xlabel('$[m]$');
+% ylabel('$[m]$');
+% ylim([-500, 18500]/1000);
+% xlim([-7500, 10000]/1000);
+% % filename = 'PolygonEvaluationSzenario';
+% Figures.makeFigure('PolygonEvaluationSzenario', '9cm');
+%%%
 psize = arrayfun(@mb.polygonArea, pcuts)./(1000^2);
 %%% code for figureing the crossings with the functions
 % pszline = 0.92;
@@ -132,9 +132,18 @@ xlim([0 180]);
 % title('d) Custom gdop function');
 xlabel('Inner bearing angle $[^{\circ}]$');
 ylabel('Quality');
+%%%
+filename = 'ScQKellyVsQualityFunction.tex';
+% Figures.makeFigure(filename, [], '5cm');
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '5cm',...
+    'width', '10cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
 
-filename = 'ScQKellyVsQualityFunction';
-Figures.makeFigure(filename, [], '5cm');
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);
 
 %%
 cla;
@@ -151,8 +160,16 @@ for idh = 1:numel(handles)
     set(handles2(idh), 'color', colors(idh, :));
 end
 xlabel('Inner bearing angle $[^{\circ}]$');
-filename = 'ScQKellyVsPolygonArea';
-Figures.makeFigure(filename, [], '5cm');
+filename = 'ScQKellyVsPolygonArea.tex';
+% Figures.makeFigure(filename, [], '5cm');
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '5cm',...
+    'width', '10cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);
 %%
 cla;
 hold on;
@@ -169,8 +186,16 @@ for idh = 1:numel(handles)
 %     set(handles2(idh), 'color', colors(idh, :));
 end
 xlabel('Inner bearing angle $[^{\circ}]$');
-filename = 'ScQKellyVsPolygonAreaDiff';
-Figures.makeFigure(filename, [], '5cm');
+filename = 'ScQKellyVsPolygonAreaDiff.tex';
+% Figures.makeFigure(filename, [], '5cm');
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '5cm',...
+    'width', '10cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);
 %%
 cla;
 hold on;
@@ -187,8 +212,16 @@ for idh = 1:numel(handles)
     set(handles2(idh), 'color', colors(idh, :));
 end
 xlabel('Inner bearing angle $[^{\circ}]$');
-filename = 'ScQKellyVsInterpointDistance';
-Figures.makeFigure(filename, [], '5cm');
+filename = 'ScQKellyVsInterpointDistance.tex';
+% Figures.makeFigure(filename, [], '5cm');
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '5cm',...
+    'width', '10cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);
 %%
 cla;
 hold on;
@@ -205,8 +238,16 @@ for idh = 1:numel(handles)
 %     set(handles2(idh), 'color', colors(idh, :));
 end
 xlabel('Inner bearing angle $[^{\circ}]$');
-filename = 'ScQKellyVsInterpointDistanceDiff';
-Figures.makeFigure(filename, [], '5cm');
+filename = 'ScQKellyVsInterpointDistanceDiff.tex';
+% Figures.makeFigure(filename, [], '5cm');
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '5cm',...
+    'width', '10cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
+Figures.compilePdflatex(filename, true, true);
+% Figures.compilePdflatex(filename, false);
 %%
 figure;
 % sz = {2,2};

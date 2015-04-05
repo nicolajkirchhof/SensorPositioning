@@ -76,7 +76,7 @@ Experiments.Diss.figures.ReplaceOptsToPrintable
 
 txt    = findall(gcf,'type','text'); % get x-tick-label handles
 delete(txt)                          % erase handles
-ylabel('[\#$SP$]', 'interpreter', 'none');
+ylabel('[\#]', 'interpreter', 'none');
 if ideval == 1 
     ylim([3 13]);
 elseif ideval==3
@@ -100,7 +100,7 @@ matlab2tikz(full_filename, 'parseStrings', false,...
     'width', '3cm',...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
-find_and_replace(full_filename, 'ylabel={\[\\#\$SP\$\]}', 'ylabel={[\\#$SP$]},\nevery axis y label/.style={at={(current axis.north west)},anchor=east}');
+find_and_replace(full_filename, 'ylabel={\[\\#\]}', 'ylabel={[\\#]},\nevery axis y label/.style={at={(current axis.north west)},anchor=east}');
 
 
 Figures.compilePdflatex(filename, export, false);

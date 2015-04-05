@@ -7,7 +7,7 @@ outdir_tables = '..\..\Dissertation\thesis\tables\';
 %%%
 % for ideval = 1:4
 %%%
-for ideval = 4:4 %:numel(eval_names)
+for ideval = 3:4 %:numel(eval_names)
     %%
     close all;
 %     ideval = 3;
@@ -39,6 +39,7 @@ for ideval = 4:4 %:numel(eval_names)
         include_strings = {};
         include_values = {};
         for idopt = 1:numel(xlist);
+            %%
             opts = all_eval.(eval_name).(opt_name);
             if ~(size(opts,1) >= idx(idopt) && size(opts, 2) >= idy(idopt))
                 continue;
@@ -69,7 +70,13 @@ for ideval = 4:4 %:numel(eval_names)
             cla
             hold on
             set(gcf, 'color', 'w')
-            sm = 4;
+            if ideval == 4
+                sm = 2;
+            elseif ideval == 3
+                sm = 3;
+            else
+                sm = 4;
+            end
             Environment.draw(input.environment, false);
             mb.drawPolygon(environment.occupied, 'color', [0.6, 0.6, 0.6]);
             fun_draw_edge = @(e) drawEdge(e, 'linewidth', 0.7, 'linestyle', ':', 'color', [0 0 0]);
@@ -79,11 +86,20 @@ for ideval = 4:4 %:numel(eval_names)
             
             base_sp_mid = solution.sp;
             base_sp_mid(3, :) = base_sp_mid(3, :) + deg2rad(input.config.discretization.sensor.fov/2);
-            mb.drawPose(base_sp_mid, 600, 'color', 0*ones(1,3), 'linewidth', 1.5, 'markersize', sm, 'markerfacecolor', 'w');
+            if ideval == 4
+                mb.drawPose(base_sp_mid, 1000, 'color', 0*ones(1,3), 'linewidth', 0.5, 'markersize', sm, 'markerfacecolor', 'w');
+                mb.drawPoint(input.discretization.sp(1:2,:), 'marker', 'o', 'color', 0.8*ones(1,3), 'markersize', sm/2, 'linewidth', 0.5);
+            elseif ideval == 3
+                mb.drawPose(base_sp_mid, 800, 'color', 0*ones(1,3), 'linewidth', 0.75, 'markersize', sm, 'markerfacecolor', 'w');
+                mb.drawPoint(input.discretization.sp(1:2,:), 'marker', 'o', 'color', 0.8*ones(1,3), 'markersize', sm/2, 'linewidth', 0.75);
+            else
+                mb.drawPose(base_sp_mid, 600, 'color', 0*ones(1,3), 'linewidth', 1.5, 'markersize', sm, 'markerfacecolor', 'w');
+                mb.drawPoint(input.discretization.sp(1:2,:), 'marker', 'o', 'color', 0.8*ones(1,3), 'markersize', sm/2, 'linewidth', 1.5);
+            end
             for idv = 1:numel(solution.vfovs)
                 mb.fillPolygon(solution.vfovs{idv}, 'k', 'facealpha', 0.1);
             end
-            mb.drawPoint(input.discretization.sp(1:2,:), 'marker', 'o', 'color', 0.8*ones(1,3), 'markersize', sm/2, 'linewidth', 1.5);
+            
             % title(sprintf('SP = %d, WPN = %d', num_sp, num_wpn));
             axis off;
             %%%
@@ -98,7 +114,7 @@ for ideval = 4:4 %:numel(eval_names)
             
             % Figures.compilePdflatex(filename, true, true);
             Figures.compilePdflatex(filename, true, false, 'Appendix/');
-            %                     Figures.compilePdflatex(filename, false);
+%                                 Figures.compilePdflatex(filename, false);
             % pause;
             if any(ideval == [3 4])
                 include_strings{end+1} = sprintf('\\includegraphics{Figures/Appendix/%s_%s_%d_%d.pdf}', eval_name, opt_name, num_sp, num_wpn);
