@@ -64,13 +64,13 @@ fprintf('Area: %g cmqm, %g cmcqm, %g mspqm\n', cmqm_sol.quality.area_covered, cm
 filename = 'DecomposedLargeFlat.tex';
 full_filename = sprintf('export/%s', filename);
 matlab2tikz(full_filename, 'parseStrings', false,...
-    ...         'height', '8cm',...
+    'height', '8cm',...
     'width', '11cm',...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
 
-% Figures.compilePdflatex(filename, true, true);
-Figures.compilePdflatex(filename, false);
+% Figures.compileLualatex(filename, true, true);
+Figures.compileLualatex(filename, false);
 
 fprintf('Number of rpd parts %d\n', numel(input.parts));
 fprintf('Number of wpn %d base %d 200 \n', size(wpnbase, 2), size(wpn200, 2));

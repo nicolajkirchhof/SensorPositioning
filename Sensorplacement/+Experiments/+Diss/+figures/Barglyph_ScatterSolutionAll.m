@@ -4,9 +4,9 @@ clearvars -except all_eval*;
 %%%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
-%%
+%%%
 for ideval = 1:3
-    %%
+    %%%
     close all;
 %     ideval = 1;
     eval_name = eval_names{ideval};
@@ -53,7 +53,7 @@ for ideval = 1:3
     xlabel(h0,'[\#$WPN$]', 'interpreter', 'none');
     ylabel(h0, '[\#$SP$]', 'interpreter', 'none');
 %     title(h0, sprintf('%s\\newline Number of Sensors', all_eval.(eval_name).name));
-    h = legend(h1out, {'GCO', 'GCSS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD (MSPQM)', 'RPD (BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
+    h = legend(h1out, {'GSCS', 'GCS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD (MSPQM)', 'RPD (BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
     set(h, 'position', [0.25 0 0.5 0.05]);
     set(gcf, 'position', [0 0 1920 1080]);
@@ -79,9 +79,9 @@ for ideval = 1:3
     
     find_and_replace(full_filename,'legend\ style=\{at=\{\(\d.\d*,\d.\d*\)\}', 'legend style={at={(-0.135,6.5)}');
     
-    Figures.compilePdflatex(filename, true);
+    Figures.compilePdflatex(filename, true, false);
 end
-       %%
+       %%%
     close all;
     ideval = 4;
     eval_name = eval_names{ideval};
@@ -123,7 +123,7 @@ end
     xlabel(h0,'[\#$WPN$]', 'interpreter', 'none');
     ylabel(h0, '[\#$SP$]', 'interpreter', 'none');
 %     title(h0, sprintf('%s\\newline Number of Sensors', all_eval.(eval_name).name));
-    h = legend(h1out, {'GCO', 'GCSS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD (MSPQM)', 'RPD (BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
+    h = legend(h1out, {'GSCS', 'GCS', 'GSSS', 'MSPQM', 'BSPQM', 'RPD (MSPQM)', 'RPD (BSPQM)'},'Location', 'SouthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
     set(h, 'position', [0.25 0 0.5 0.05]);
     set(gcf, 'position', [0 0 1920 1080]);
@@ -149,8 +149,8 @@ end
     
     find_and_replace(full_filename,'legend\ style=\{at=\{\(\d.\d*,\d.\d*\)\}', 'legend style={at={(-0.148,7.2)}');
     
-    Figures.compilePdflatex(filename, true);    
-%%
+    Figures.compilePdflatex(filename, true, false);    
+%%%
     close all;
     ideval = 4;
     eval_name = eval_names{ideval};
@@ -185,7 +185,7 @@ end
         all_mean_wpn_qualities_rounded(ind, [3:5 7 9:10]), xrange, yrange, all_sum_qualities(ind, [3:5 7 9:10]), all_eval.(eval_name).all_area_covered_pct(ind, [3:5 7 9:10]));
     delete(h0);
     set(h1out, 'position', [0.1 0.1 0.8 0.8]);    
-    h = legend(h1out, {'GCO', 'GCSS', 'GSSS', 'MSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'}, 'Location', 'NorthOutside', 'Orientation','horizontal' );
+    h = legend(h1out, {'GSCS', 'GCS', 'GSSS', 'MSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'}, 'Location', 'NorthOutside', 'Orientation','horizontal' );
     pos = get(h, 'position');
 %     set(h, 'position', [0 0.95 0.5 0.05]);
 %     set(gcf, 'position', [0 0 1920 1080]);
@@ -211,6 +211,6 @@ end
     
 %     find_and_replace(full_filename,'legend\ style=\{at=\{\(\d.\d*,\d.\d*\)\}', 'legend style={at={(-0.148,7.2)}');
     
-    Figures.compilePdflatex(filename, true);   
+    Figures.compilePdflatex(filename, true, true);   
 
 %%

@@ -5,7 +5,7 @@ clearvars -except all_eval*;
 %%%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
-% opt_names = {'CMQM\\(NL)', 'CMQM\\(CMAES)', 'GCO', 'GCSS', 'GSSS', 'STCM', 'MSPQM', 'BSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'};
+% opt_names = {'CMQM\\(NL)',           'CMQM\\(CMAES)',     'GSCS', '         GCS' , 'GSSS', 'STCM', 'MSPQM', 'BSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'};
 opt_names_print = {'{\scriptsize A}', '{\scriptsize B}', '{\scriptsize C}', '{\scriptsize D}', '{\scriptsize E}', '{\scriptsize F}', '{\scriptsize G}', '{\scriptsize H}', '{\scriptsize I}'};%, '{\scriptsize J}'};
 %%
 for ideval = 1:numel(eval_names)

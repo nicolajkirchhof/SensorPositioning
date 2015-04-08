@@ -11,7 +11,7 @@ for ideval = 1:numel(eval_names)
     opts = all_eval.(eval_name);
     
     %%
-    opt_names = {'CMQM\\(NL)', 'CMQM\\(CMAES)', 'GCO', 'GCSS', 'GSSS', 'STCM', 'MSPQM', 'BSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'};
+    opt_names = {'CMQM\\(NL)', 'CMQM\\(CMAES)', 'GCS', 'GCSS', 'GSSS', 'STCM', 'MSPQM', 'BSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'};
     %                  1                 2            3      4       5       6        7        8         9            10           11                 12
     subplot(2, 2, ideval);
     boxplot(opts.all_mean_wpn_qualities, 'labels', opt_names, 'colors', [0.4 0.4 0.4], 'symbol', 'k+');
@@ -26,7 +26,7 @@ for ideval = 1:numel(eval_names)
     
     
 end
-%%
+%%%
         filename = sprintf('BarglyphFirst%s.tex', eval_name);
     full_filename = sprintf('export/%s', filename);
         matlab2tikz(full_filename, 'parseStrings', false,...
@@ -48,7 +48,7 @@ end
     
 %     find_and_replace(full_filename,'legend\ style=\{at=\{\(\d.\d*,\d.\d*\)\}', 'legend style={at={(-0.148,7.2)}');
     
-    Figures.compilePdflatex(filename, true);  
+    Figures.compilePdflatex(filename, true, false);  
 
 
 %%
