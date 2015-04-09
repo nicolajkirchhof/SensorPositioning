@@ -27,6 +27,8 @@ if nargin > 1 && exportToDiss
     if nargin > 2 && compile
         system(['latexmk -cd -pdflatex="pdflatex.exe -interaction=nonstopmode -file-line-error -synctex=1" -pdf ' diss_folder 'Diss_Kirchhof.tex']);
         system(['SumatraPDF.bat '  diss_folder 'Diss_Kirchhof.pdf']);
+    else
+        system(['SumatraPDF.bat '  output_folder pdf_fullname]);
     end
 else
     system(['SumatraPDF.bat '  output_folder pdf_fullname]);
