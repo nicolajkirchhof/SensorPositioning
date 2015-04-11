@@ -49,3 +49,16 @@ cellfun(@(x) fprintf('%d %d %s\n', x.num_sp, x.num_wpn, x.header.solutionStatusS
 fprintf('==================\n');
 flt_sol = ~cellfun(@isempty, all_eval.small_flat.bspqm);
 cellfun(@(x) fprintf('%d %d %s\n', x.num_sp, x.num_wpn, x.header.solutionStatusString), all_eval.small_flat.bspqm(flt_sol));
+
+%%
+gscsltgcs = sum(diff(all_eval.conference_room.all_num_sp_selected(:, 3:4), 1, 2)<0)
+gscsgtgcs = sum(diff(all_eval.conference_room.all_num_sp_selected(:, 3:4), 1, 2)>0)
+%%
+sum(diff(all_eval.conference_room.all_num_sp_selected(:, [3,5]), 1, 2)<0)
+sum(diff(all_eval.conference_room.all_num_sp_selected(:, 4:5), 1, 2)<0)
+%%
+bs = find(diff(all_eval.conference_room.all_num_sp_selected(:, [3,5]), 1, 2)>0)
+bs = find(diff(all_eval.conference_room.all_num_sp_selected(:, 4:5), 1, 2)>0)
+%%
+figure;
+plot(all_eval.conference_room.all_num_sp_selected(:, 3:5), '.')
