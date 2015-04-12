@@ -11,7 +11,7 @@ cplex = [getenv('home') 'App\Cplex\cplex\bin\x64_win64\cplex.exe'];
 
 names = {'conference_room', 'small_flat', 'large_flat'};
 % names = {'large_flat', 'office_floor'};
-% names = {'office_floor'};
+names = {'office_floor'};
 % names = {'conference_room'};
 
 %%
@@ -25,7 +25,9 @@ iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 
 
 for id_n = 1:numel(names)
-    gsss = cell(numel(num_sps), numel(num_wpns));
+    if exist('gsss', 'var') == 0
+        gsss = cell(numel(num_sps), numel(num_wpns));
+    end
     name = names{id_n};
 %     output_filename = sprintf('tmp/%s/gsss.mat', name);
     % name = names{1};
