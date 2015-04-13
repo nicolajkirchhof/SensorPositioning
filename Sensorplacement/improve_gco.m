@@ -1,4 +1,4 @@
-load tmp\all_eval_cleaned.mat
+% load tmp\all_eval_cleaned.mat
 clearvars -except all_eval*
 
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
@@ -8,7 +8,7 @@ idsp_range = 1:1:51;
 idwpn_range = 1:1:51;
 loop_display(numel(idsp_range)*numel(idwpn_range)*3*4, 5);
 cnt = 0;
-for ideval = 2
+for ideval = 4
     %     ideval = 1;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
