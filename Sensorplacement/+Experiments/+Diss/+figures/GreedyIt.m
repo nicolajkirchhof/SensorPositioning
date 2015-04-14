@@ -48,7 +48,7 @@ for ideval = 1:numel(eval_names)
     find_and_replace(full_filename,'bar\ shift=.\d.\d*cm,', '');
     find_and_replace(full_filename,'bar\ shift=\d.\d*cm,', '');
     find_and_replace(full_filename,'inner\ sep=0mm', 'inner sep=1pt');
-%     Figures.compilePdflatex(filename, false, false);
+    Figures.compilePdflatex(filename, true, false);
 end
 %%
 clc
