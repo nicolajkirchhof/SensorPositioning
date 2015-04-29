@@ -9,6 +9,15 @@ for ideval = 1:numel(eval_names)
     eval_name = eval_names{ideval};
     %     opts = all_eval.(eval_name);
     diffsp = all_eval.(eval_name).all_num_sp_selected(:, 3:5)-all_eval.(eval_name).greedy_it_num_sp_selected;
+    fprintf('%s mean gco = %g, gcss = %g, gsss = %g\n', eval_name,  mean(diffsp));
+end
+%%
+for ideval = 1:numel(eval_names)
+    %%
+    %     ideval = 1;
+    eval_name = eval_names{ideval};
+    %     opts = all_eval.(eval_name);
+    diffsp = all_eval.(eval_name).all_num_sp_selected(:, 3:5)-all_eval.(eval_name).greedy_it_num_sp_selected;
     [diffsortsp, idsort] = sort(diffsp, 1);
     figure
     
@@ -63,16 +72,16 @@ for ideval = 1:numel(eval_names)
         'width', '10cm',...
         'extraCode', '\standaloneconfig{border=0.1cm}',...
         'standalone', true);
-    if ideval == 4
-        
-    filename = sprintf('GreedyIt%s.tex', eval_name);
-    full_filename = sprintf('export/%s', filename);
-    matlab2tikz(full_filename, 'parseStrings', false,...
-        'height', '3cm',...
-        'width', '10cm',...
-        'extraCode', '\standaloneconfig{border=0.1cm}',...
-        'standalone', true);
-    end
+%     if ideval == 4
+%         
+%     filename = sprintf('GreedyIt%s.tex', eval_name);
+%     full_filename = sprintf('export/%s', filename);
+%     matlab2tikz(full_filename, 'parseStrings', false,...
+%         'height', '3cm',...
+%         'width', '10cm',...
+%         'extraCode', '\standaloneconfig{border=0.1cm}',...
+%         'standalone', true);
+%     end
 %     end
 %     find_and_replace(full_filename, 'ylabel={\[\\#\]}', 'ylabel={[\\#SP]},\nevery axis y label/.style={at={(current axis.north west)},anchor=east}');
 %     find_and_replace(full_filename,'bar\ width=\d.\d*cm,', 'bar width=0.8,');
