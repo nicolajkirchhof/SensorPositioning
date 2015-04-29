@@ -6,6 +6,7 @@ opt_names = {'gco_i', 'gcss', 'gsss'};
 close all;
 hao =@(x,y) x/ceil(sqrt(2*y+1/4)+1/2);
 hoa =@(x,y) 2*y/x;
+ccs = cell(1, 4);
 for ideval = 1:numel(eval_names)
     %%
     %     ideval = 1;
@@ -18,19 +19,36 @@ for ideval = 1:numel(eval_names)
     hgco = cellfun(@(x) numel(x.sensors_selected), all_eval.(eval_name).gco(flt_mspqm));
     hgcosc = cellfun(@(x) numel(x.sc_selected), all_eval.(eval_name).gco(flt_mspqm));
     hmspqm = cellfun(@(x) numel(x.sensors_selected), all_eval.(eval_name).mspqm(flt_mspqm));
-    % hgsss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.conference_room.gsss(flt_mspqm), all_eval.conference_room.mspqm(flt_mspqm));
-    % hgcss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.conference_room.gcss(flt_mspqm), all_eval.conference_room.mspqm(flt_mspqm));
+    hgsss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gsss(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
+    hgcss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gcss(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
     
+    cc = corrcoef([haos, hreal]);
+    fprintf('%s corrcoef = %g, mean gco = %g, gcss = %g, gsss = %g\n',eval_name, cc(1, 2), mean(hreal), mean(hgcss), mean(hgsss));
+    ccs{ideval} = cc;
     
+end
+%%
+for ideval = 1:numel(eval_names)
+    %%
+    %     ideval = 1;
+    eval_name = eval_names{ideval};
+    flt_mspqm = ~cellfun(@isempty, all_eval.(eval_name).mspqm);
+    
+    haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).gco(flt_mspqm));
+    % hoas = cellfun(@(x) hoa(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).mspqm(flt_mspqm));
+    hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gco(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
+ 
     % plot([haos, hoas, hreal])
     % legend('haos', 'hoas', 'hreal');
     % cbar = linspace(0,0.6,3);
     figure;
 %     h = plot([haos,  hreal, hgco, hgcosc, hmspqm], 'k');
     h = plot([haos, hreal], 'k');
+    legend({'WCAR', 'Real'}, 'Location', 'Eastoutside')
     set(h(2), 'color', 0.6*ones(1,3));
+    ylabel('$\#SP$', 'interpreter', 'none')
     % set(h(2), 'linestyle', '-')
-    set(h(2), 'linestyle', ':')
+    set(h(2), 'linestyle', '--')
 %     set(h(4), 'linestyle', ':', 'color', 0.8*ones(1,3));
     % set(h(4), 'linestyle', ':')
     % legend('haos', 'hoa', 'hgsss', 'hgcss');
@@ -48,7 +66,7 @@ for ideval = 1:numel(eval_names)
     %     find_and_replace(full_filename,'bar\ shift=.\d.\d*cm,', '');
     %     find_and_replace(full_filename,'bar\ shift=\d.\d*cm,', '');
     %     find_and_replace(full_filename,'inner\ sep=0mm', 'inner sep=1pt');
-    Figures.compilePdflatex(filename, false, false);
+    Figures.compilePdflatex(filename, true, false);
 end
 %%
 flt_mspqm = ~cellfun(@isempty, all_eval.small_flat.mspqm);
