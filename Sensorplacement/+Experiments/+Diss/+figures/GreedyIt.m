@@ -13,14 +13,20 @@ for ideval = 1:numel(eval_names)
     figure
     
     hist(diffsp);
-    if ideval == 1
-    legend({'GSSS', 'GCS', 'GCSC'},'Orientation','horizontal', 'Location', 'Northoutside')
-    end
+%     if ideval == 1
+%     legend({'GSSS', 'GCS', 'GCSC'},'Orientation','horizontal', 'Location', 'Northoutside')
+%     end
     h = findobj(gca,'Type','patch');
     % legend('mspqm','bspqm')
     set(h(1), 'facecolor', 0.9*ones(1,3))
     set(h(2), 'facecolor', 0.5*ones(1,3))
     set(h(3), 'facecolor', 0.2*ones(1,3))
+    
+    ylabel('$\#$Solutions', 'interpreter', 'none');
+    
+    if ideval == 4
+        xlabel('$\Delta \# SP$', 'interpreter', 'none');
+    end
     
     % clf
     % cla
@@ -50,16 +56,6 @@ for ideval = 1:numel(eval_names)
 %     end
 %     set(gca, 'XTick', []);
 
-    %%
-    if ideval == 1
-    filename = sprintf('GreedyIt%s.tex', eval_name);
-    full_filename = sprintf('export/%s', filename);
-    matlab2tikz(full_filename, 'parseStrings', false,...
-        'height', '3cm',...
-        'width', '10cm',...
-        'extraCode', '\standaloneconfig{border=0.1cm}',...
-        'standalone', true);
-    else
     filename = sprintf('GreedyIt%s.tex', eval_name);
     full_filename = sprintf('export/%s', filename);
     matlab2tikz(full_filename, 'parseStrings', false,...
@@ -67,7 +63,17 @@ for ideval = 1:numel(eval_names)
         'width', '10cm',...
         'extraCode', '\standaloneconfig{border=0.1cm}',...
         'standalone', true);
+    if ideval == 4
+        
+    filename = sprintf('GreedyIt%s.tex', eval_name);
+    full_filename = sprintf('export/%s', filename);
+    matlab2tikz(full_filename, 'parseStrings', false,...
+        'height', '3cm',...
+        'width', '10cm',...
+        'extraCode', '\standaloneconfig{border=0.1cm}',...
+        'standalone', true);
     end
+%     end
 %     find_and_replace(full_filename, 'ylabel={\[\\#\]}', 'ylabel={[\\#SP]},\nevery axis y label/.style={at={(current axis.north west)},anchor=east}');
 %     find_and_replace(full_filename,'bar\ width=\d.\d*cm,', 'bar width=0.8,');
 %     find_and_replace(full_filename,'bar\ shift=.\d.\d*cm,', '');
