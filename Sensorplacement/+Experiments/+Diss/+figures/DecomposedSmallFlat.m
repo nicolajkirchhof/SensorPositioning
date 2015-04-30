@@ -1,23 +1,24 @@
 %%
 clearvars -except all_eval*
-cla;
-axis equal
-hold on;
-axis off
 
 load tmp\small_flat\environment\environment.mat
 input = Experiments.Diss.small_flat(500, 500);
 sol200 = all_eval.small_flat.mspqm{21, 21};
-basesolution = Evaluation.filter(sol200, input.discretization);
-inputbase = Experiments.Diss.small_flat(0, 0);
-wpnbase = inputbase.discretization.wpn;
 input200 = Experiments.Diss.small_flat(200, 200);
 wpn200 = input200.discretization.wpn;
+
+basesolution = Evaluation.filter(sol200, input200.discretization);
+inputbase = Experiments.Diss.small_flat(0, 0);
+wpnbase = inputbase.discretization.wpn;
+
 P_c = environment.P_c;
 E_r = environment.E_r;
 bpoly = environment.combined;
 %%%
-cla
+cla;
+axis equal
+hold on;
+axis off
 set(gcf, 'color', 'w')
 
 sm = 5;
@@ -60,7 +61,7 @@ filename = 'DecomposedSmallFlat.tex';
 full_filename = sprintf('export/%s', filename);
 matlab2tikz(full_filename, 'parseStrings', false,...
     ...         'height', '8cm',...
-    'width', '14cm',...
+    'width', '9cm',...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
     Figures.compilePdflatex(filename, true, true);
