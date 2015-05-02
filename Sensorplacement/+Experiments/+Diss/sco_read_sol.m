@@ -8,9 +8,9 @@ num_wpns = 0:10:500;
 num_sps =  0:10:500;
 
 % names = {'conference_room', 'small_flat'} % 'large_flat', 'office_floor'};
-names = {'office_floor'};
+% names = {'office_floor'};
 % names = {'office_floor'}
-% names = {'conference_room'};
+names = {'conference_room'};
 
 iteration = 0;
 update_interval = 5;
@@ -20,7 +20,7 @@ next = update_interval;
 iterations = numel(num_wpns)*numel(num_sps)*numel(names);
 
 % write_log([], '#off');
-%%
+%%%
 for id_n = 1:numel(names)
     sco = cell(numel(num_sps), numel(num_wpns));
     name = names{id_n};

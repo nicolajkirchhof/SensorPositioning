@@ -1,0 +1,1 @@
+﻿ls *.sol | %{select-string -Path $_ -Pattern '<variable name="s[\d]*s[\d]*" index="[\d]*" value="1\.[\d]*"/>' -AllMatches | % { $_.Matches } | % { $_.Value } | Out-Host}

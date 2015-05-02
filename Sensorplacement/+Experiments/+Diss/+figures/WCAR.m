@@ -8,7 +8,7 @@ hao =@(x,y) x/ceil(sqrt(2*y+1/4)+1/2);
 hoa =@(x,y) 2*y/x;
 ccs = cell(1, 4);
 %%
-for ideval = 1:numel(eval_names)
+for ideval = 2:numel(eval_names)-1
     %%
     %     ideval = 1;
     eval_name = eval_names{ideval};

@@ -1,15 +1,15 @@
-load tmp\all_eval_cleaned.mat
+% load tmp\all_eval_cleaned.mat
 clearvars -except all_eval*
 
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 opt_names = {'sco', 'gcss', 'gsss', 'gco'};
 % opt_names = {'sco'};
 %%
-while exist('tmp\office_floor\sco.mat', 'file') == 0
+while exist('tmp\conference_room\sco.mat', 'file') == 0
     pause(60)
 end
-load tmp\office_floor\sco.mat
-all_eval.office_floor.sco = sco;
+load tmp\conference_room\sco.mat
+all_eval.conference_room.sco = sco;
 
 idsp_range = 1:1:51;
 idwpn_range = 1:1:51;
