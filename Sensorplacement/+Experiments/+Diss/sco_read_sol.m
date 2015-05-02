@@ -7,8 +7,8 @@ clear variables;
 num_wpns = 0:10:500;
 num_sps =  0:10:500;
 
-names = {'conference_room', 'small_flat'} % 'large_flat', 'office_floor'};
-% names = {'large_flat', 'office_floor'};
+% names = {'conference_room', 'small_flat'} % 'large_flat', 'office_floor'};
+names = {'large_flat'}%, 'office_floor'};
 % names = {'office_floor'}
 % names = {'conference_room'};
 
@@ -40,7 +40,7 @@ for id_n = 1:numel(names)
             sc_selected = [];
             sensors_selected = [];
             while ischar(tline)
-                disp(tline)
+%                 disp(tline)
                 vars = textscan(tline, '<variable name="s%ds%d" index="%d" value="1"/>');
                 sc_selected = [sc_selected vars{3}+1];
                 sensors_selected = [sensors_selected vars{1:2}];
