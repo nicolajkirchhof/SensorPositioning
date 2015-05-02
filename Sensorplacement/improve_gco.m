@@ -2,17 +2,18 @@ load tmp\all_eval_cleaned.mat
 clearvars -except all_eval*
 
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-opt_names = {'gco', 'gcss', 'gsss'};
+opt_names = {'sco', 'gcss', 'gsss'};
+% opt_names = {'sco'};
 
 idsp_range = 1:1:51;
 idwpn_range = 1:1:51;
 loop_display(numel(idsp_range)*numel(idwpn_range)*3, 5);
 cnt = 0;
-for ideval = 3
+for ideval = 2
     %     ideval = 1;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
-    for ido = 1:numel(opt_names)
+    for ido = 1 %:numel(opt_names)
         opt_name = opt_names{ido};
         opt_name_it = [opt_name '_it'];
         opts.(opt_name_it) = cell(51, 51);
@@ -24,7 +25,7 @@ for ideval = 3
             %%
             input = Experiments.Diss.(eval_name)((idsp-1)*10, (idwpn-1)*10);
             
-            for ido = 1:numel(opt_names)
+            for ido = 1 %:numel(opt_names)
                 opt_name = opt_names{ido};
                 opt_name_it = [opt_name '_it'];
                 if isempty(opts.(opt_name_it){idsp, idwpn})
@@ -73,7 +74,7 @@ for ideval = 3
     end
     %%
     all_eval.(eval_name) = opts;
-    save(sprintf('tmp/%s/greedy_it.mat', eval_name), 'opts');
+%     save(sprintf('tmp/%s/greedy_it.mat', eval_name), 'opts');
 end
 %%
 clf

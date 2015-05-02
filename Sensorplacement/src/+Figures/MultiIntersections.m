@@ -97,14 +97,20 @@ drawPoint([2 2], 'marker', 'x','MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', '
 drawPoint([4 2], 'marker', 'x','MarkerEdgeColor', 'k', 'MarkerFaceColor', 'k', 'markersize', 10, 'LineWidth', 3, 'color', col(2,:));
 
 text('position', [1.9 1.5], 'string', '$C_{1,3}$');
-text('position', [3.8 1.5], 'string', '$C_{1, 2}$');
+text('position', [3.8 1.5], 'string', '$C_{2, 3}$');
 text('position', [2.85 2.4], 'string', '$C_{1, 2}$');
+
 
 %%%
 p_ad = mb.createAnnulusSegment(5, 3, 0, dist, 175, fov, num_pts)';
 p_ad2 = mb.createAnnulusSegment(2, 5, 0, dist, 265, fov, num_pts)';
 p_ad3 = mb.createAnnulusSegment(3, 1, 0, dist, 40, fov, num_pts)';
 p_ads = {p_ad, p_ad2, p_ad3};
+
+text('position', [5 3]+[.3 0.2], 'string', '$S_4$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
+text('position', [2 5]+[-0.2 .2], 'string', '$S_6$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
+text('position', [3 1]+[-0.2 -0.2], 'string', '$S_5$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
+
 
 % p_ad = mb.createAnnulusSegment(5, 3, 0, dist, 190, fov, num_pts)';
 %%%
@@ -136,5 +142,18 @@ drawPolygon(p_ads_bnd, 'k', 'linestyle', '--');
 % hseg_ang = drawPolyline(seg_ang);
 % set(hseg_ang, 'color', 'k')
 %%
-Figures.makeFigure('MultiIntersections');
+    filename = sprintf('MultiIntersections.tex');
+    full_filename = sprintf('export/%s', filename);
+    matlab2tikz(full_filename, 'parseStrings', false,...
+        'height', '7cm',...
+        'width', '10cm',...
+        'extraCode', '\standaloneconfig{border=0.1cm}',...
+        'standalone', true);
+    %     find_and_replace(full_filename, 'ylabel={\[\\#\]}', 'ylabel={[\\#SP]},\nevery axis y label/.style={at={(current axis.north west)},anchor=east}');
+    %     find_and_replace(full_filename,'bar\ width=\d.\d*cm,', 'bar width=0.8,');
+    %     find_and_replace(full_filename,'bar\ shift=.\d.\d*cm,', '');
+    %     find_and_replace(full_filename,'bar\ shift=\d.\d*cm,', '');
+    %     find_and_replace(full_filename,'inner\ sep=0mm', 'inner sep=1pt');
+    Figures.compilePdflatex(filename, false, false);
+% Figures.makeFigure('MultiIntersections');
 % matlab2tikz('fig/multi_intersections.tex');
