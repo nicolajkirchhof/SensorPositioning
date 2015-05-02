@@ -8,7 +8,7 @@ num_wpns = 0:10:500;
 num_sps =  0:10:500;
 
 % names = {'conference_room', 'small_flat'} % 'large_flat', 'office_floor'};
-names = {'large_flat'}%, 'office_floor'};
+names = {'office_floor'};
 % names = {'office_floor'}
 % names = {'conference_room'};
 

@@ -1,2 +1,2 @@
 ﻿
-ls *.sol | %{if (-not( Test-Path "$($_.FullName).ex" )) {select-string -Path $_ -Pattern '<variable name="s[\d]*s[\d]*" index="[\d]*" value="1"/>|<variable name="s[\d]*s[\d]*" index="[\d]*" value="0\.999[\d]*"/>' -AllMatches | % { $_.Matches } | % { $_.Value } | Out-File "$($_.FullName).ex" -Encoding ascii}}
+ls *.sol | %{if (-not( Test-Path "$($_.FullName).ex" )) {select-string -Path $_ -Pattern '<variable name="s[\d]*s[\d]*" index="[\d]*" value="1"/>|<variable name="s[\d]*s[\d]*" index="[\d]*" value="0\.999[\d]*"/>' 7-AllMatches | % { $_.Matches } | % { $_.Value } | Out-File "$($_.FullName).ex" -Encoding ascii}}
