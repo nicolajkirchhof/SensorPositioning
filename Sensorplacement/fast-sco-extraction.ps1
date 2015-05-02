@@ -1,0 +1,2 @@
+﻿
+ls *.sol | %{if (-not( Test-Path "$fn.ex" )) {select-string -Path $_ -Pattern '<variable name="s[\d]*s[\d]*" index="[\d]*" value="1"/>' -AllMatches | % { $_.Matches } | % { $_.Value } | Out-File "$($_.FullName).ex" -Encoding ascii}}
