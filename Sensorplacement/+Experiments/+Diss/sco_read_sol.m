@@ -32,6 +32,9 @@ for id_n = 1:numel(names)
 
             filename = sprintf('tmp/%s/sco/sco_%s_%d_%d_.sol.ex', name, name, num_sp, num_wpn);
             %%
+%             fn_full = sprintf('tmp/%s/sco/sco_%s_%d_%d_.sol', name, name, num_sp, num_wpn);
+%             sol = Optimization.Discrete.Solver.cplex.read_solution(fn_full);
+            %%
             if exist(filename, 'file') > 0
             input = Experiments.Diss.(name)(num_sp, num_wpn);
             fid = fopen(filename);
