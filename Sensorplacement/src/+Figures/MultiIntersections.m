@@ -108,7 +108,7 @@ p_ad3 = mb.createAnnulusSegment(3, 1, 0, dist, 40, fov, num_pts)';
 p_ads = {p_ad, p_ad2, p_ad3};
 
 text('position', [5 3]+[.3 0.2], 'string', '$S_4$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
-text('position', [2 5]+[-0.2 .2], 'string', '$S_6$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
+text('position', [2 5]+[-0.2 .25], 'string', '$S_6$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
 text('position', [3 1]+[-0.2 -0.2], 'string', '$S_5$', 'Horizontalalignment', 'center', 'Verticalalignment', 'middle')
 
 
@@ -141,7 +141,7 @@ drawPolygon(p_ads_bnd, 'k', 'linestyle', '--');
 % seg_ang = circleArcToPolyline([p1xy, 0.5, rad2deg(ang1), rad2deg(anginner)], num_pts);
 % hseg_ang = drawPolyline(seg_ang);
 % set(hseg_ang, 'color', 'k')
-%%
+%%%
     filename = sprintf('MultiIntersections.tex');
     full_filename = sprintf('export/%s', filename);
     matlab2tikz(full_filename, 'parseStrings', false,...
@@ -154,6 +154,6 @@ drawPolygon(p_ads_bnd, 'k', 'linestyle', '--');
     %     find_and_replace(full_filename,'bar\ shift=.\d.\d*cm,', '');
     %     find_and_replace(full_filename,'bar\ shift=\d.\d*cm,', '');
     %     find_and_replace(full_filename,'inner\ sep=0mm', 'inner sep=1pt');
-    Figures.compilePdflatex(filename, false, false);
+    Figures.compilePdflatex(filename, true, false);
 % Figures.makeFigure('MultiIntersections');
 % matlab2tikz('fig/multi_intersections.tex');

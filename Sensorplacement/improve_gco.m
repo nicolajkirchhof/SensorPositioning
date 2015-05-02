@@ -2,13 +2,14 @@ load tmp\all_eval_cleaned.mat
 clearvars -except all_eval*
 
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-opt_names = {'sco', 'gcss', 'gsss'};
+opt_names = {'sco', 'gcss', 'gsss', 'gco'};
 % opt_names = {'sco'};
 
 idsp_range = 1:1:51;
 idwpn_range = 1:1:51;
-loop_display(numel(idsp_range)*numel(idwpn_range)*3, 5);
+loop_display(numel(idsp_range)*numel(idwpn_range), 5);
 cnt = 0;
+%%
 for ideval = 2
     %     ideval = 1;
     eval_name = eval_names{ideval};
@@ -26,6 +27,7 @@ for ideval = 2
             input = Experiments.Diss.(eval_name)((idsp-1)*10, (idwpn-1)*10);
             
             for ido = 1 %:numel(opt_names)
+                %%
                 opt_name = opt_names{ido};
                 opt_name_it = [opt_name '_it'];
                 if isempty(opts.(opt_name_it){idsp, idwpn})
@@ -41,9 +43,10 @@ for ideval = 2
     end
     
     %%
-    opts.greedy_it_num_sp_selected = nan(2601, 3);
-    opts.greedy_it_quality = nan(2601, 3);
-    opts.greedy_it_gdiff = nan(2601, 3);
+    n_opt = numel(opt_names);
+    opts.greedy_it_num_sp_selected = nan(2601, n_opt);
+    opts.greedy_it_quality = nan(2601, n_opt);
+    opts.greedy_it_gdiff = nan(2601, n_opt);
     
     for ido = 1:numel(opt_names)
         opt_name = opt_names{ido};
