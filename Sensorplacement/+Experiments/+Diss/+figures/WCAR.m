@@ -2,28 +2,29 @@
 %%
 
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
-opt_names = {'gco_i', 'gcss', 'gsss'};
 close all;
+
 hao =@(x,y) x/ceil(sqrt(2*y+1/4)+1/2);
 hoa =@(x,y) 2*y/x;
 ccs = cell(1, 4);
+%%
 for ideval = 1:numel(eval_names)
     %%
     %     ideval = 1;
     eval_name = eval_names{ideval};
     flt_mspqm = ~cellfun(@isempty, all_eval.(eval_name).mspqm);
     
-    haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).gco(flt_mspqm));
+    haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).sco(flt_mspqm));
     % hoas = cellfun(@(x) hoa(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).mspqm(flt_mspqm));
-    hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gco(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
-    hgco = cellfun(@(x) numel(x.sensors_selected), all_eval.(eval_name).gco(flt_mspqm));
-    hgcosc = cellfun(@(x) numel(x.sc_selected), all_eval.(eval_name).gco(flt_mspqm));
+    hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).sco(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
+    hgco = cellfun(@(x) numel(x.sensors_selected), all_eval.(eval_name).sco(flt_mspqm));
+    hgcosc = cellfun(@(x) numel(x.sc_selected), all_eval.(eval_name).sco(flt_mspqm));
     hmspqm = cellfun(@(x) numel(x.sensors_selected), all_eval.(eval_name).mspqm(flt_mspqm));
     hgsss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gsss(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
     hgcss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gcss(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
     
     cc = corrcoef([haos, hreal]);
-    fprintf('%s corrcoef = %g, mean gco = %g, gcss = %g, gsss = %g\n',eval_name, cc(1, 2), mean(hreal), mean(hgcss), mean(hgsss));
+    fprintf('%s corrcoef = %g, mean sco = %g, gcss = %g, gsss = %g\n',eval_name, cc(1, 2), mean(hreal), mean(hgcss), mean(hgsss));
     ccs{ideval} = cc;
     
 end
@@ -34,9 +35,9 @@ for ideval = 1:numel(eval_names)
     eval_name = eval_names{ideval};
     flt_mspqm = ~cellfun(@isempty, all_eval.(eval_name).mspqm);
     
-    haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).gco(flt_mspqm));
+    haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).sco(flt_mspqm));
     % hoas = cellfun(@(x) hoa(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.(eval_name).mspqm(flt_mspqm));
-    hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gco(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
+    hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).sco(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
  
     % plot([haos, hoas, hreal])
     % legend('haos', 'hoas', 'hreal');
@@ -48,12 +49,12 @@ for ideval = 1:numel(eval_names)
     set(h(2), 'color', 0.6*ones(1,3));
     ylabel('$\#SP$', 'interpreter', 'none')
     % set(h(2), 'linestyle', '-')
-    set(h(2), 'linestyle', '--')
+    set(h(2), 'linestyle', '-')
 %     set(h(4), 'linestyle', ':', 'color', 0.8*ones(1,3));
     % set(h(4), 'linestyle', ':')
     % legend('haos', 'hoa', 'hgsss', 'hgcss');
     
-    %%
+    %%%
     filename = sprintf('WCAR%s.tex', eval_name);
     full_filename = sprintf('export/%s', filename);
     matlab2tikz(full_filename, 'parseStrings', false,...
@@ -71,9 +72,9 @@ end
 %%
 flt_mspqm = ~cellfun(@isempty, all_eval.small_flat.mspqm);
 
-haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.small_flat.gco(flt_mspqm));
+haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.small_flat.sco(flt_mspqm));
 hoas = cellfun(@(x) hoa(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.small_flat.mspqm(flt_mspqm));
-hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.small_flat.gco(flt_mspqm), all_eval.small_flat.mspqm(flt_mspqm));
+hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.small_flat.sco(flt_mspqm), all_eval.small_flat.mspqm(flt_mspqm));
 hgsss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.small_flat.gsss(flt_mspqm), all_eval.small_flat.mspqm(flt_mspqm));
 hgcss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.small_flat.gcss(flt_mspqm), all_eval.small_flat.mspqm(flt_mspqm));
 figure
@@ -91,9 +92,9 @@ set(h(4), 'linestyle', ':')
 %%
 flt_mspqm = ~cellfun(@isempty, all_eval.large_flat.mspqm);
 
-haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.large_flat.gco(flt_mspqm));
+haos = cellfun(@(x) hao(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.large_flat.sco(flt_mspqm));
 hoas = cellfun(@(x) hoa(numel(x.sensors_selected),numel(x.sc_selected)), all_eval.large_flat.mspqm(flt_mspqm));
-hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.large_flat.gco(flt_mspqm), all_eval.large_flat.mspqm(flt_mspqm));
+hreal = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.large_flat.sco(flt_mspqm), all_eval.large_flat.mspqm(flt_mspqm));
 hgsss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.large_flat.gsss(flt_mspqm), all_eval.large_flat.mspqm(flt_mspqm));
 hgcss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.large_flat.gcss(flt_mspqm), all_eval.large_flat.mspqm(flt_mspqm));
 figure

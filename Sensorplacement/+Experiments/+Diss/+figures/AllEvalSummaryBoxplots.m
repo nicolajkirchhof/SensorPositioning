@@ -2,7 +2,7 @@
 %%
 clearvars -except all_eval*;
 % clearvars -except small_flat conference_room large_flat office_floor
-%%%
+%%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 outdir = '..\..\Dissertation\thesis\figures\';
 % opt_names = {'CMQM\\(NL)',           'CMQM\\(CMAES)',     'GSCS', '         GCS' ,              'GSSS',        'STCM', 'MSPQM', 'BSPQM', 'RPD\\(MSPQM)', 'RPD\\(BSPQM)'};

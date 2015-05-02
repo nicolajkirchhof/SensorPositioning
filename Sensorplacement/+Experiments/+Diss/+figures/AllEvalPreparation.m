@@ -4,11 +4,11 @@ clearvars -except all_eval*;
 %%
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 for ideval = 1:4
-    %     ideval = 1;
+    %     ideval = 2;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
-    %%
-    opt_names = {'cmqm_nonlin_it', 'cmqm_cmaes_it' 'gco', 'gcss', 'gsss', 'stcm', 'mspqm', 'bspqm', 'mspqm_rpd', 'bspqm_rpd'};
+    %%%
+    opt_names = {'cmqm_nonlin_it', 'cmqm_cmaes_it' 'sco', 'gcss', 'gsss', 'stcm', 'mspqm', 'bspqm', 'mspqm_rpd', 'bspqm_rpd', 'gco'};
     
     num_opts = numel(opt_names);
     all_num_sp_selected= nan(2601, num_opts); %cell(numel(opt_names), 1);
@@ -46,14 +46,15 @@ for ideval = 1:4
         end
     end
     if ideval == 1
-        all_mean_wpn_qualities(:, 9:10) = all_mean_wpn_qualities(:, 7:8);
-        all_sum_wpn_qualities(:, 9:10) = all_sum_wpn_qualities(:, 7:8);
-        all_num_sp_selected(:, 9:10) = all_num_sp_selected(:, 7:8);
+        all_mean_wpn_qualities = all_mean_wpn_qualities(:, 1:8);
+        all_sum_wpn_qualities = all_sum_wpn_qualities(:, 1:8);
+        all_num_sp_selected = all_num_sp_selected(:, 1:8);
     end
     opts.all_mean_wpn_qualities = all_mean_wpn_qualities;
     opts.all_sum_wpn_qualities = all_sum_wpn_qualities;
     opts.all_num_sp_selected = all_num_sp_selected;
     opts.opt_names = opt_names;
+    %%
     all_eval.(opts.eval_name) = opts;
 end
 
