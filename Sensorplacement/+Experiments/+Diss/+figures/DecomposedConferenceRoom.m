@@ -7,11 +7,13 @@ axis off
 
 input = Experiments.Diss.conference_room(500, 500);
 sol200 = all_eval.conference_room.mspqm{21, 21};
-basesolution = Evaluation.filter(sol200, input.discretization);
-inputbase = Experiments.Diss.conference_room(0, 0);
-wpnbase = inputbase.discretization.wpn;
+
 input200 = Experiments.Diss.conference_room(200, 200);
 wpn200 = input200.discretization.wpn;
+basesolution = Evaluation.filter(sol200, input200.discretization);
+inputbase = Experiments.Diss.conference_room(0, 0);
+wpnbase = inputbase.discretization.wpn;
+
 bpoly = input.environment.combined;
 
 %%%
@@ -57,7 +59,7 @@ filename = 'DecomposedConferenceRoom.tex';
     full_filename = sprintf('export/%s', filename);
         matlab2tikz(full_filename, 'parseStrings', false,...
 ...         'height', '8cm',...
-        'width', '14cm',...
+        'width', '9cm',...
         'extraCode', '\standaloneconfig{border=0.1cm}',...
         'standalone', true);
     

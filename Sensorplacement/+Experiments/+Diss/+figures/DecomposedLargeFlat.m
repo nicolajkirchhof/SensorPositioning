@@ -1,23 +1,24 @@
 %%
 clearvars -except all_eval*
-cla;
-axis equal
-hold on;
-axis off
-
 load tmp\large_flat\environment\environment.mat
 input = Experiments.Diss.large_flat(500, 500);
-basesolution = Evaluation.filter(all_eval.large_flat.mspqm{21, 21}, input.discretization);
-sol200 = all_eval.large_flat.mspqm{21, 21};
-inputbase = Experiments.Diss.large_flat(0, 0);
-wpnbase = inputbase.discretization.wpn;
+
 input200 = Experiments.Diss.large_flat(200, 200);
 wpn200 = input200.discretization.wpn;
+sol200 = all_eval.large_flat.mspqm{21, 21};
+basesolution = Evaluation.filter(sol200, input200.discretization);
+
+inputbase = Experiments.Diss.large_flat(0, 0);
+wpnbase = inputbase.discretization.wpn;
+
 P_c = environment.P_c;
 E_r = environment.E_r;
 bpoly = environment.combined;
 %%%
-cla
+cla;
+axis equal
+hold on;
+axis off
 set(gcf, 'color', 'w')
 
 sm = 5;
@@ -52,25 +53,20 @@ end
 
 mb.drawPoint(input200.discretization.sp(1:2,:), 'marker', 'o', 'color', 0.8*ones(1,3), 'markersize', sm/2, 'linewidth', 1.5);
 mb.drawPoint(inputbase.discretization.sp(1:2, :), 'marker', 'o', 'color', 1*ones(1,3), 'markersize', sm/4, 'linewidth', 1.5);
-%%%
 axis equal
+%%%
 
-fprintf('Number of rpd parts %d\n', numel(input.parts));
-fprintf('Number of wpn %d base %d 200 \n', size(wpnbase, 2), size(wpn200, 2));
-fprintf('Sp: %d cmqm, %d cmcqm, %d mspqm\n', cmqm_sol.all_wpn, cmcqm_sol.solutions{end}.discretization.num_sensors, basesolution.num_sensors);
-fprintf('MeanMaxQ: %g cmqm,  %g mspqm\n', cmqm_sol.quality.sum_max/cmqm_sol.all_wpn, sol200.quality.sum_max/sol200.all_wpn);
-fprintf('Area: %g cmqm, %g cmcqm, %g mspqm\n', cmqm_sol.quality.area_covered, cmcqm_sol.solutions{end}.fmin, sol200.quality.area_covered);
 
 filename = 'DecomposedLargeFlat.tex';
 full_filename = sprintf('export/%s', filename);
 matlab2tikz(full_filename, 'parseStrings', false,...
-    'height', '8cm',...
-    'width', '11cm',...
+    'height', '9cm',...
+    ...'width', '11cm',...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
 
 % Figures.compileLualatex(filename, true, true);
-Figures.compileLualatex(filename, false);
+Figures.compilePdflatex(filename, true, true);
 
 fprintf('Number of rpd parts %d\n', numel(input.parts));
 fprintf('Number of wpn %d base %d 200 \n', size(wpnbase, 2), size(wpn200, 2));

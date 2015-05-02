@@ -23,7 +23,8 @@ num_pts = 1000;
 fov = 45;
 fov_2 = fov/2;
 
-drawPolygon(vpl{1}','color', col(7,:), 'linestyle', '-', 'linewidth', 6);
+% drawPolygon(vpl{1}','color', col(7,:), 'linestyle', '-', 'linewidth', 6);
+fillPolygon(vpl{1}', col(7,:));
 drawPolygon(rect_env, 'color', 'k', 'linewidth', 2);
 drawPolygon(obst_env, 'color', 'k', 'linewidth', 2);
 fillPolygon(obst_env, 0.2*ones(1,3));
@@ -44,5 +45,5 @@ matlab2tikz(full_filename, 'parseStrings', false,...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
 
-    Figures.compilePdflatex(filename, true, true);
+    Figures.compilePdflatex(filename, true, false);
 % Figures.compilePdflatex(filename, false);

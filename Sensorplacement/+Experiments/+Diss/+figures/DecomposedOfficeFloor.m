@@ -7,9 +7,11 @@ axis off
 
 load tmp\office_floor\environment\environment.mat
 input = Experiments.Diss.office_floor(500, 500);
-sol200 = all_eval.office_floor.mspqm{1};
-basesolution = Evaluation.filter(sol200, input.discretization);
+
 inputbase = Experiments.Diss.office_floor(0, 0);
+sol_mspqm = all_eval.office_floor.mspqm{1};
+basesolution = Evaluation.filter(sol_mspqm, inputbase.discretization);
+
 wpnbase = inputbase.discretization.wpn;
 input200 = Experiments.Diss.office_floor(200, 200);
 wpn200 = input200.discretization.wpn;
@@ -59,21 +61,21 @@ axis equal
 filename = 'DecomposedOfficeFloor.tex';
 full_filename = sprintf('export/%s', filename);
 matlab2tikz(full_filename, 'parseStrings', false,...
-    ...          'height', '14cm',...
+    ...'height', '9cm',...
     'width', '12cm',...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
 
 %     Figures.compilePdflatex(filename, true, true);
-Figures.compilePdflatex(filename, false);
+Figures.compilePdflatex(filename, true, true);
 
 fprintf('Number of rpd parts %d\n', numel(input.parts));
 fprintf('Number of wpn %d base %d 200 \n', size(wpnbase, 2), size(wpn200, 2));
 fprintf('Initial number of cmqm sensors %d sp\n', cmqm_sol.all_sp+numel(cmqm_sol.solutions)-1);
 fprintf('Sp: %d cmqm, %d cmcqm, %d mspqm\n', cmqm_sol.all_sp, cmcqm_sol.solutions{end}.discretization.num_sensors, basesolution.num_sensors);
 fprintf('AllSp: %d base, %d 200\n', inputbase.discretization.num_sensors, input200.discretization.num_sensors);
-fprintf('MeanMaxQ: %g cmqm,  %g mspqm\n', cmqm_sol.quality.sum_max/cmqm_sol.all_wpn, sol200.quality.sum_max/sol200.all_wpn);
-fprintf('Area: %g cmqm, %g cmcqm, %g mspqm\n', cmqm_sol.quality.area_covered, 100*(1-cmcqm_sol.solutions{end}.fmin), sol200.quality.area_covered);
+fprintf('MeanMaxQ: %g cmqm,  %g mspqm\n', cmqm_sol.quality.sum_max/cmqm_sol.all_wpn, sol_mspqm.quality.sum_max/sol_mspqm.all_wpn);
+fprintf('Area: %g cmqm, %g cmcqm, %g mspqm\n', cmqm_sol.quality.area_covered, 100*(1-cmcqm_sol.solutions{end}.fmin), sol_mspqm.quality.area_covered);
 
 
 %     find_and_replace(full_filename,'bar\ width=\d.\d*cm,', 'bar width=0.8,');
