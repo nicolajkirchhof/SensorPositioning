@@ -6,9 +6,9 @@ opt_names = {'gco', 'gcss', 'gsss'};
 
 idsp_range = 1:1:51;
 idwpn_range = 1:1:51;
-loop_display(numel(idsp_range)*numel(idwpn_range)*3*4, 5);
+loop_display(numel(idsp_range)*numel(idwpn_range)*3, 5);
 cnt = 0;
-for ideval = 2
+for ideval = 3
     %     ideval = 1;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
