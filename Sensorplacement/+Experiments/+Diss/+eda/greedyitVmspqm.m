@@ -1,6 +1,6 @@
 eval_names = {'conference_room', 'small_flat', 'large_flat', 'office_floor'};
 close all;
-for ideval = 2:numel(eval_names)-1
+for ideval = 1:numel(eval_names)
     %%
     %     ideval = 1;
     eval_name = eval_names{ideval};

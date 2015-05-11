@@ -22,6 +22,7 @@ for ideval = 1:numel(eval_names)
     figure
     
     hist(diffsp);
+    ylim([0 2200]);
 %     if ideval == 1
 %     legend({'GSSS', 'GCS', 'GCSC'},'Orientation','horizontal', 'Location', 'Northoutside')
 %     end
@@ -44,7 +45,7 @@ for ideval = 1:numel(eval_names)
 %     %         bar(diffsortsp, 'facecolor', );
 %     gnumsp= all_eval.(eval_name).all_num_sp_selected(:, 3:5);
 %     cmap = [0 0.3 0.6]';
-%     h = plot(gnumsp(idsort), '.', 'markersize', 5);
+%     h = plot(gnumsp(idsort), '.s', 'markersize', 5);
 %     if ideval == 1
 %         legend({'GCSC', 'GCS', 'GSSS'},'Orientation','horizontal', 'Location', 'Northoutside')
 %     end
@@ -89,6 +90,40 @@ for ideval = 1:numel(eval_names)
 %     find_and_replace(full_filename,'bar\ shift=\d.\d*cm,', '');
 %     find_and_replace(full_filename,'inner\ sep=0mm', 'inner sep=1pt');
     Figures.compilePdflatex(filename, true, false);
+end
+%%
+clc
+for ideval = 1:numel(eval_names)
+    %%
+    %     ideval = 1;
+    eval_name = eval_names{ideval};
+    gcsVsco = diff(all_eval.(eval_name).all_num_sp_selected(:, (3:4)), 1, 2);
+    gsssVgcs = diff(all_eval.(eval_name).all_num_sp_selected(:, (4:5)), 1, 2);
+    gsssVsco = diff(all_eval.(eval_name).all_num_sp_selected(:, ([3,5])), 1, 2);
+
+    fprintf('====== %s before =======\n', all_eval.(eval_name).name)
+    fprintf('Mean gcsVsco = %g, gsssVgcs = %g, gsssVsco = %g\n', mean(gcsVsco), mean(gsssVgcs), mean(gsssVsco) );
+    fprintf('Max gcsVsco = %d, gsssVgcs = %d, gsssVsco = %d\n', max(gcsVsco), max(gsssVgcs), max(gsssVsco) );
+    fprintf('NumWin gcsVsco = %g, gsssVgcs = %g, gsssVsco = %g\n', sum(gcsVsco<0), sum(gsssVgcs<0), sum(gsssVsco<0) );
+    fprintf('NumLoose gcsVsco = %d, gsssVgcs = %d, gsssVsco = %d\n', sum(gcsVsco>0), sum(gsssVgcs>0), sum(gsssVsco>0) );
+    fprintf('NumEqual gcsVsco = %d, gsssVgcs = %d, gsssVsco = %d\n', sum(gcsVsco==0), sum(gsssVgcs==0), sum(gsssVsco==0) );
+
+    
+    
+    gcsVITsco = diff(all_eval.(eval_name).greedy_it_num_sp_selected(:, (1:2)), 1, 2);
+    gsssVITgcs = diff(all_eval.(eval_name).greedy_it_num_sp_selected(:, (2:3)), 1, 2);
+    gsssVITsco = diff(all_eval.(eval_name).greedy_it_num_sp_selected(:, ([1,3])), 1, 2);
+
+    fprintf('====== %s before =======\n', all_eval.(eval_name).name)
+    fprintf('Mean gcsVsco = %g, gsssVgcs = %g, gsssVsco = %g\n', mean(gcsVITsco), mean(gsssVITgcs), mean(gsssVITsco) );
+    fprintf('Max gcsVsco = %d, gsssVgcs = %d, gsssVsco = %d\n', max(gcsVITsco), max(gsssVITgcs), max(gsssVITsco) );
+    fprintf('NumWin gcsVsco = %g, gsssVgcs = %g, gsssVsco = %g\n', sum(gcsVITsco<0), sum(gsssVITgcs<0), sum(gsssVITsco<0) );
+    fprintf('NumLoose gcsVsco = %d, gsssVgcs = %d, gsssVsco = %d\n', sum(gcsVITsco>0), sum(gsssVITgcs>0), sum(gsssVITsco>0) );
+    fprintf('NumEqual gcsVsco = %d, gsssVgcs = %d, gsssVsco = %d\n', sum(gcsVITsco==0), sum(gsssVITgcs==0), sum(gsssVITsco==0) );
+
+    fprintf('\n\n\n');
+    
+   
 end
 %%
 clc

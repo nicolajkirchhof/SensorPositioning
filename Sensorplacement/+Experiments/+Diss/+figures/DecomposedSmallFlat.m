@@ -38,7 +38,7 @@ cmcqm_sp = cmcqm_sol.solutions{end}.sp;
 cmcqm_sp(3, :) = cmcqm_sp(3, :) + deg2rad(input.config.discretization.sensor.fov/2);
 mb.drawPose(cmcqm_sp, 900, 'color', 0.75*ones(1,3), 'linewidth', 1, 'markersize', sm/2, 'marker', 'x', 'markerfacecolor', 0.5*ones(1,3));
 
-cmqm_sol = all_eval.small_flat.cmqm_cmaes_it{561};
+cmqm_sol = all_eval.small_flat.cmqm_cmaes_it{306};
 cmqm_sp = cmqm_sol.solutions{end-1}.sp;
 cmqm_sp(3, :) = cmqm_sp(3, :) + deg2rad(input.config.discretization.sensor.fov/2);
 mb.drawPose(cmqm_sp, 900, 'color', 0.5*ones(1,3), 'linewidth', 1, 'markersize', sm/2, 'marker', 'd', 'markerfacecolor', 0.5*ones(1,3));
@@ -61,7 +61,7 @@ filename = 'DecomposedSmallFlat.tex';
 full_filename = sprintf('export/%s', filename);
 matlab2tikz(full_filename, 'parseStrings', false,...
     ...         'height', '8cm',...
-    'width', '9cm',...
+    'width', '11cm',...
     'extraCode', '\standaloneconfig{border=0.1cm}',...
     'standalone', true);
     Figures.compilePdflatex(filename, true, true);

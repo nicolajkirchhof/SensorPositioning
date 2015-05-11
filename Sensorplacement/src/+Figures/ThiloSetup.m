@@ -79,14 +79,24 @@ e3 = pixfov;
        
 plot(4100,3200, 'marker', 'o', 'markersize', 8, 'markerfacecolor', 'k',  'markeredgecolor', 'k');
 
-text(-600, -300, '$S_1$');
-text(8000, -300, '$S_2$');
-text(8000, 7300, '$S_3$');
-text(-600, 7300, '$S_4$');
+% text(-600, -300, '$S_1$');
+% text(8000, -300, '$S_2$');
+% text(8000, 7300, '$S_3$');
+% text(-600, 7300, '$S_4$');
 
 room = [0 0; 8000 0; 8000 7000; 0 7000; 0, 0];
 drawPolyline(room, 'color', 'k', 'linewidth', 2);
-Figures.makeFigure('ThiloSetup');
+
+
+filename = 'ThiloSetup.tex';
+full_filename = sprintf('export/%s', filename);
+matlab2tikz(full_filename, 'parseStrings', false,...
+    'height', '9cm',...
+    ...'width', '11cm',...
+    'extraCode', '\standaloneconfig{border=0.1cm}',...
+    'standalone', true);
+Figures.compilePdflatex(filename, true, true);
+% Figures.makeFigure('ThiloSetup');
 %%
 % filename = '../../Dissertation/Thesis/Figures/ThiloSetup.tikz';
 % matlab2tikz(filename, 'parseStrings', false,...

@@ -20,6 +20,8 @@ clf
 hold on
 hist([qvalmspqm, qvalbspqm], 20)% '.', 'color', 0.5*ones(1,3), 'linewidth', 2)
 h = findobj(gca,'Type','patch');
+xlabel('$\sum_{v, j} \mathbf{Q^\text{scw}}$', 'interpreter', 'none')
+ylabel('$\#WPN$', 'interpreter', 'none')
 % legend('mspqm','bspqm')
 set(h(1), 'facecolor', 0.6*ones(1,3))
 set(h(2), 'facecolor', 0.2*ones(1,3))

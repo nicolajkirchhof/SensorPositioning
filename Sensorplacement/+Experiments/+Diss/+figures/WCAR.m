@@ -8,7 +8,7 @@ hao =@(x,y) x/ceil(sqrt(2*y+1/4)+1/2);
 hoa =@(x,y) 2*y/x;
 ccs = cell(1, 4);
 %%
-for ideval = 2:numel(eval_names)-1
+for ideval = 1:numel(eval_names)
     %%
     %     ideval = 1;
     eval_name = eval_names{ideval};
@@ -23,7 +23,7 @@ for ideval = 2:numel(eval_names)-1
     hgsss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gsss(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
     hgcss = cellfun(@(x,y) numel(x.sensors_selected)/numel(y.sensors_selected), all_eval.(eval_name).gcss(flt_mspqm), all_eval.(eval_name).mspqm(flt_mspqm));
     
-    cc = corrcoef([haos, hreal]);
+    cc = corrcoef(haos, hreal);
     fprintf('%s corrcoef = %g, mean sco = %g, gcss = %g, gsss = %g\n',eval_name, cc(1, 2), mean(hreal), mean(hgcss), mean(hgsss));
     ccs{ideval} = cc;
     

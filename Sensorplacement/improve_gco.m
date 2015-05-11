@@ -9,6 +9,7 @@ while exist('tmp\conference_room\sco.mat', 'file') == 0
     pause(60)
 end
 load tmp\conference_room\sco.mat
+%%
 all_eval.conference_room.sco = sco;
 
 idsp_range = 1:1:51;
@@ -16,7 +17,7 @@ idwpn_range = 1:1:51;
 loop_display(numel(idsp_range)*numel(idwpn_range), 5);
 cnt = 0;
 %%%
-for ideval = 4
+for ideval = 1
     %     ideval = 1;
     eval_name = eval_names{ideval};
     opts = all_eval.(eval_name);
